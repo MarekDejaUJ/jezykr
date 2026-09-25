@@ -9,28 +9,24 @@ navbar:
       href: organizacyjne.html
     - text: "Spotkania"
       menu:
-        - text: "1. Projekt i konsola"
+        - text: "1. Import i czyszczenie"
           href: spotkanie-1.html
-        - text: "2. Obiekty i struktury"
+        - text: "2. Operacje i funkcje"
           href: spotkanie-2.html
-        - text: "3. Import i jakość danych"
+        - text: "3. Wizualizacja"
           href: spotkanie-3.html
-        - text: "4. Transformacje dplyr i tidyr"
+        - text: "4. Eksploracja danych"
           href: spotkanie-4.html
-        - text: "5. Funkcje, warunki i pętle"
+        - text: "5. Testy i modele"
           href: spotkanie-5.html
-        - text: "6. Wykresy i ggplot2"
+        - text: "6. R i Copilot CLI"
           href: spotkanie-6.html
-        - text: "7. Wizualizacja zależności"
-          href: spotkanie-7.html
-        - text: "8. Eksploracja pakietowa"
-          href: spotkanie-8.html
-        - text: "9. Testy i modele"
-          href: spotkanie-9.html
-        - text: "10. Raport i projekt"
-          href: spotkanie-10.html
+    - text: "Konsultacje"
+      href: konsultacje.html
     - text: "Ocena"
       href: ocenianie.html
+    - text: "Prompty"
+      href: prompty.html
     - text: "Materiały"
       href: materialy.html
   right:

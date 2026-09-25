@@ -1,56 +1,88 @@
 ---
-title: "Spotkanie 1: projekt, konsola i pierwszy raport"
+title: "Spotkanie 1: import, pliki i czyszczenie danych"
 ---
 
-<div class="hero"><h2>Spotkanie 1 z 10</h2><p>Zakładasz projekt, rozpoznajesz konsolę i zapisujesz pierwszy dokument R Markdown.</p></div>
+<div class="hero"><h2>Spotkanie 1 z 6 · treść programowa 2</h2><p>Odczytujesz CSV i Excel, rozpoznajesz braki oraz zapisujesz uporządkowany plik bez zmiany surowych danych.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 10 min cele i sylabus, 25 min projekt i pliki, 25 min konsola i pakiety, 20 min raport, 10 min kontrola.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min powtórka projektu i plików, 25 min import, 25 min kontrola i czyszczenie, 25 min własny eksport, 5 min kontrola raportu.</div>
 
-Pobierz [szablon 01](materialy/szablon-01.Rmd) do folderu projektu. Instrukcję instalacji i oddawania pracy znajdziesz w [Organizacji](organizacyjne.html). Wykonuj ćwiczenia w podanej kolejności.
+Pobierz [szablon 01](materialy/szablon-01.Rmd) do projektu. Jego pierwszy blok pobiera skrypt startowy i tworzy fikcyjne pliki w `dane/`. Nie wpisuj do raportu pełnej ścieżki z własnego komputera.
 
 ## Learn — z prowadzącym
 
-### Ćwiczenie 1. Projekt i pliki
+### Ćwiczenie 1. Dwa formaty, te same rekordy
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Ustawisz folder roboczy, tak aby kod działał na innym komputerze.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz projekt RStudio albo otwórz folder w Positronie. Pobierz szablon do jego katalogu. Sprawdź położenie i zawartość.</p></div>
-
-1. W konsoli wpisz `getwd()`. Porównaj wynik z folderem, w którym zapisano plik `szablon-01.Rmd`.
-2. Wpisz `list.files()`. Powinien pojawić się szablon. Jeśli nie, popraw folder projektu w IDE.
-3. Utwórz folder wynikowy: `dir.create("wyniki", showWarnings = FALSE)`; sprawdź `list.dirs(recursive = FALSE)`.
-4. Otwórz szablon. Uruchom jego blok **start**. Obejrzyj obiekty przez `ls()` i pliki przez `list.files("dane")`.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p><code>getwd()</code> wskazuje projekt, istnieje folder <code>dane/</code> z plikami CSV i XLSX, a obiekt <code>zgloszenia</code> ma 240 wierszy.</p></div>
-
-### Ćwiczenie 2. Konsola, obiekty i pomoc
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Odróżnisz polecenie wykonane w konsoli od kodu zapisanego w raporcie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Sprawdź arytmetykę, przypisanie, podgląd danych i pomoc R. Zapisz użyteczne polecenia w szablonie.</p></div>
-
-W konsoli wykonaj po kolei:
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zaimportujesz CSV i XLSX oraz sprawdzisz strukturę danych.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Odczytaj dwa pliki z folderu projektu. Porównaj rozmiar ramek i typ kolumny data.</p></div>
 
 ~~~r
-2 + 2
-liczba_zgloszen <- nrow(zgloszenia)
-liczba_zgloszen
-names(zgloszenia)
-head(zgloszenia, 3)
-?nrow
+list.files("dane")
+csv <- read.csv("dane/zgloszenia.csv", na.strings = "",
+                fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+xlsx <- readxl::read_excel("dane/zgloszenia.xlsx")
+dim(csv)
+dim(xlsx)
+class(csv$data)
+class(xlsx$data)
+csv$data <- as.Date(csv$data)
+head(csv[, c("id", "data", "dzial")], 3)
 ~~~
 
-Zauważ, że wynik `2 + 2` znika po zamknięciu sesji, a kod zapisany w pliku pozostaje. Usuń tylko próbny obiekt `liczba_zgloszen` przez `rm(liczba_zgloszen)`. Wyświetl `ls()`. Komendę `rm(list = ls())` poznaj jako sposób wyczyszczenia **konsoli** przed testem; nie umieszczaj jej w raporcie. W szablonie dopisz dwie linie tekstu: po co używa się projektu i co robi `source()`.
+Wyjaśnij, dlaczego przy imporcie CSV trzeba sprawdzić datę i braki. Obejrzyj pomoc `?read.csv` oraz nazwy kolumn przez `names(csv)`. Zapisz, co oznacza jeden wiersz danych.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Potrafisz utworzyć i usunąć obiekt, znaleźć pomoc funkcji oraz rozróżnić plik źródłowy, dane i wynik HTML.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Oba pliki mają 240 wierszy i 10 kolumn. Kolumna data w CSV została jawnie zamieniona na datę, a raport podaje jednostkę obserwacji.</p></div>
+
+### Ćwiczenie 2. Brak, błąd i wartość skrajna
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozdzielisz diagnozę braków od decyzji o wartości podejrzanej.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Policz braki w każdej kolumnie, znajdź czas ujemny i czas powyżej 120 minut. Surowego obiektu csv nie zmieniaj.</p></div>
+
+~~~r
+colSums(is.na(csv))
+summary(csv$czas_min)
+csv[csv$czas_min < 0 | csv$czas_min > 120,
+    c("id", "czas_min", "kanal")]
+table(csv$dzial, useNA = "ifany")
+~~~
+
+W tekście rozróżnij niemożliwy czas -5 minut od nietypowych 190 minut. Ustal z prowadzącym regułę ćwiczeniową: oba czasy oznacz jako brak w **nowej** ramce i pokaż, ile rekordów to dotyczy. W rzeczywistej instytucji wartość 190 minut wymagałaby sprawdzenia w źródle.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Widzisz trzy braki oceny, jeden brak działu i jeden brak kosztu oraz dwa podejrzane czasy. Uzasadniasz regułę zamiast bez wyjaśnienia usuwać wiersze.</p></div>
+
+### Ćwiczenie 3. Nowa ramka po czyszczeniu
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zapiszesz reguły porządkowania w kodzie, zachowując wersję surową.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Ujednolić nazwy działów i oznaczyć podejrzane czasy. Porównaj obiekt przed zmianą i po niej.</p></div>
+
+~~~r
+dane_czyste <- csv |>
+  dplyr::mutate(
+    dzial = trimws(dzial),
+    dzial = dplyr::case_when(
+      tolower(dzial) == "katalog" ~ "Katalog",
+      tolower(dzial) == "repozytorium" ~ "Repozytorium",
+      TRUE ~ dzial
+    ),
+    czas_min = ifelse(czas_min < 0 | czas_min > 120, NA, czas_min)
+  )
+table(dane_czyste$dzial, useNA = "ifany")
+sum(is.na(dane_czyste$czas_min))
+nrow(dane_czyste)
+~~~
+
+Sprawdź `csv[c(11, 79), "czas_min"]`: surowe wartości nadal muszą być dostępne. Wyjaśnij, dlaczego brak czasu nie musi oznaczać usunięcia całego zgłoszenia.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Nowa ramka ma 240 wierszy, trzy spójne nazwy działów i dwa braki czasu; surowe dane pozostają bez zmian.</p></div>
 
 ## Challenge — samodzielnie
 
-### Ćwiczenie 3. Pierwszy odtwarzalny raport
+### Ćwiczenie 4. Eksport i ponowna kontrola
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz tekst, kod i wynik w jednym dokumencie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>W szablonie dodaj blok R, który wyświetli liczbę wierszy i kolumn, nazwy trzech pierwszych kolumn oraz liczbę różnych kanałów kontaktu. Pod wynikiem napisz dwa zdania interpretacji.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie zapiszesz CSV, odczytasz je ponownie i sprawdzisz jakość wyniku.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder wyniki/, zapisz dane_czyste do wyniki/zgloszenia_czyste.csv z row.names = FALSE i na = "". Ponownie wczytaj ten plik. Sprawdź liczbę wierszy, kolumn, braków czasu i brak niepotrzebnej kolumny numerującej wiersze.</p></div>
 
-Wskazówki: użyj `nrow()`, `ncol()`, `names()`, `unique()` i `length()`. W RStudio wybierz **Knit**, w Positronie użyj polecenia renderowania R Markdown. Jeśli raport działa tylko po ręcznym uruchomieniu bloków, zrestartuj R i ponów renderowanie.
+Dodaj własną regułę kontroli, np. porównanie liczby rekordów przed eksportem i po nim. Wyjaśnij, kiedy przy ponownym odczycie CSV trzeba znowu ustawić typ daty. Raport musi działać po usunięciu folderu `wyniki/`.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport renderuje się od początku; zawiera 240 wierszy, 10 kolumn i 3 kanały. Tekst wyjaśnia, że dane są fikcyjne i opisuje jednostkę obserwacji.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Plik wynikowy ma 240 wierszy i 10 kolumn, dwa braki czasu i spójne działy. Kod odtwarza folder i eksport bez ręcznych kroków.</p></div>
 
-Zapisz `nazwisko_imie_01.Rmd` i prześlij go w zadaniu spotkania 1 na MS Teams. Nie dołączaj folderu projektu.
+Oddaj `nazwisko_imie_01.Rmd` do zadania spotkania 1 w MS Teams. Prześlij tylko plik źródłowy.

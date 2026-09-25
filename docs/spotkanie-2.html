@@ -11,7 +11,7 @@
 
 
 
-<title>Spotkanie 2: typy danych i struktury R</title>
+<title>Spotkanie 2: operacje, funkcje i przekształcenia</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -388,36 +382,41 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 2: typy danych i struktury R</h1>
+<h1 class="title toc-ignore">Spotkanie 2: operacje, funkcje i
+przekształcenia</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 2 z 10
+Spotkanie 2 z 6 · treść programowa 3
 </h2>
 <p>
-Wektory, macierze, listy i ramki danych jako podstawowe narzędzia pracy.
+Operujesz na wektorach i próbach losowych, przekształcasz ramki oraz
+piszesz własną funkcję R.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min powtórka, 30 min wektory i typy,
-25 min struktury, 20 min zadanie własne, 5 min kontrola.
+<strong>Plan 90 minut:</strong> 10 min operatory, 20 min próba losowa,
+25 min dplyr i tidyr, 15 min funkcja z prowadzącym, 15 min samodzielny
+program, 5 min kontrola.
 </div>
-<p>Pobierz <a href="materialy/szablon-02.Rmd">szablon 02</a>. Przed
-każdym nowym obiektem zapisz krótką informację, co oznacza.</p>
+<p>Pobierz <a href="materialy/szablon-02.Rmd">szablon 02</a>. Blok
+startowy udostępnia obiekty <code>zgloszenia</code> i
+<code>zgloszenia_analiza</code>. Skrypt startowy zawiera jawne reguły
+czyszczenia; nie nadpisuj surowego obiektu.</p>
 <div id="learn-z-prowadzącym" class="section level2">
 <h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-4.-wektor-typ-i-brak-danych" class="section level3">
-<h3>Ćwiczenie 4. Wektor, typ i brak danych</h3>
+<div id="ćwiczenie-5.-wektor-warunek-i-próbka" class="section level3">
+<h3>Ćwiczenie 5. Wektor, warunek i próbka</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Rozpoznasz typy <code>numeric</code>, <code>character</code> i
-<code>logical</code> oraz wartości <code>NA</code>.
+Rozpoznasz operację na całym wektorze, wartości brakujące i powtarzalne
+losowanie.
 </p>
 </div>
 <div class="tilt-card task">
@@ -425,44 +424,41 @@ Rozpoznasz typy <code>numeric</code>, <code>character</code> i
 Zadanie
 </h3>
 <p>
-Utwórz wektory i sprawdź, jak R przelicza elementy oraz traktuje brak.
+Utwórz wektor, policz średnią z pominięciem braku i wylosuj 12
+identyfikatorów zgłoszeń.
 </p>
 </div>
 <pre class="r"><code>czasy &lt;- c(12, 18, NA, 30)
-kanaly &lt;- c(&quot;Online&quot;, &quot;Telefon&quot;, &quot;Online&quot;, &quot;Na miejscu&quot;)
 czasy &gt; 15
-typeof(czasy)
-typeof(kanaly)
 mean(czasy)
 mean(czasy, na.rm = TRUE)
-is.na(czasy)</code></pre>
-<ol style="list-style-type: decimal">
-<li>Wyjaśnij, dlaczego pierwsza średnia jest <code>NA</code>, a druga
-liczbą.</li>
-<li>Zbuduj własny wektor logiczny <code>dlugie</code> dla czasów powyżej
-15 minut.</li>
-<li>Sprawdź <code>length(czasy)</code> i <code>sum(is.na(czasy))</code>.
-Przeczytaj pomoc <code>?mean</code>.</li>
-</ol>
+sum(is.na(czasy))
+set.seed(17358)
+proba_id &lt;- sample(zgloszenia$id, size = 12, replace = FALSE)
+proba_id</code></pre>
+<p>Sprawdź <code>typeof(czasy)</code> i <code>length(proba_id)</code>.
+Ponownie uruchom blok po <code>set.seed()</code> i wyjaśnij, dlaczego
+próba się nie zmienia. W pomocy <code>?sample</code> odszukaj znaczenie
+<code>replace</code>.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Wskazujesz typ każdego wektora i jeden brak; średnia z pominięciem braku
-wynosi 20.
+Średnia z trzech dostępnych czasów wynosi 20; próba ma 12 unikalnych ID
+i jest powtarzalna.
 </p>
 </div>
 </div>
-<div id="ćwiczenie-5.-macierz-lista-i-ramka-danych"
+<div id="ćwiczenie-6.-filtrowanie-agregacja-i-układ-tabeli"
 class="section level3">
-<h3>Ćwiczenie 5. Macierz, lista i ramka danych</h3>
+<h3>Ćwiczenie 6. Filtrowanie, agregacja i układ tabeli</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Dobierzesz strukturę do jednorodnych i mieszanych danych.
+Zmienisz dane jednostkowe w zestawienie według kanału i grupy.
 </p>
 </div>
 <div class="tilt-card task">
@@ -470,43 +466,93 @@ Dobierzesz strukturę do jednorodnych i mieszanych danych.
 Zadanie
 </h3>
 <p>
-Utwórz trzy struktury i odczytaj z nich wskazane elementy.
+Użyj select(), filter(), arrange(), group_by(), summarise() oraz
+pivot_wider().
 </p>
 </div>
-<pre class="r"><code>macierz &lt;- matrix(1:6, nrow = 2, byrow = TRUE)
-raport &lt;- list(tytul = &quot;Obsługa&quot;, liczba = 240, gotowy = FALSE)
-proba &lt;- data.frame(id = c(&quot;Z1&quot;, &quot;Z2&quot;),
-                    czas_min = c(12, 18),
-                    kanal = c(&quot;Online&quot;, &quot;Telefon&quot;))
-macierz[2, 3]
-raport$liczba
-proba[proba$czas_min &gt; 15, c(&quot;id&quot;, &quot;kanal&quot;)]</code></pre>
-<p>Sprawdź <code>str()</code> i <code>dim()</code> każdego obiektu.
-Wyjaśnij, dlaczego w ramce danych kolumny mogą mieć różne typy, a
-macierz ma jeden typ. Obejrzyj pierwsze trzy wiersze
-<code>zgloszenia</code> i wyświetl tylko <code>id</code>,
-<code>dzial</code>, <code>ocena</code>.</p>
+<pre class="r"><code>online &lt;- zgloszenia_analiza |&gt;
+  dplyr::select(id, kanal, grupa, czas_min) |&gt;
+  dplyr::filter(kanal == &quot;Online&quot;) |&gt;
+  dplyr::arrange(dplyr::desc(czas_min))
+head(online)
+podsumowanie &lt;- zgloszenia_analiza |&gt;
+  dplyr::group_by(kanal, grupa) |&gt;
+  dplyr::summarise(
+    liczba = dplyr::n(),
+    sredni_czas = mean(czas_min, na.rm = TRUE),
+    .groups = &quot;drop&quot;
+  )
+podsumowanie
+sum(podsumowanie$liczba)
+tidyr::pivot_wider(podsumowanie, names_from = grupa,
+                   values_from = sredni_czas)</code></pre>
+<p>Zbuduj również wersję długą przez <code>tidyr::pivot_longer()</code>
+dla dwóch kolumn tabeli szerokiej. Opisz, czym różni się liczba
+obserwacji od średniej. Sprawdź pomoc
+<code>?dplyr::summarise</code>.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Umiesz wskazać element [2,3] macierzy, pole listy i podzbiór ramki.
-Potrafisz uzasadnić dobór struktury.
+Zestawienie ma sześć kombinacji, liczności sumują się do 240, a tabela
+szeroka ma osobne kolumny A i B.
+</p>
+</div>
+</div>
+<div id="ćwiczenie-7.-własna-funkcja-i-diagnoza-błędu"
+class="section level3">
+<h3>Ćwiczenie 7. Własna funkcja i diagnoza błędu</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Napiszesz funkcję wielokrotnego użytku i sprawdzisz jej zachowanie w
+typowym i skrajnym przypadku.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Policz odsetek braków dla dowolnego wektora. Przetestuj także pusty
+wektor i celowo błędną nazwę kolumny.
+</p>
+</div>
+<pre class="r"><code>odsetek_brakow &lt;- function(x) {
+  if (length(x) == 0L) stop(&quot;Wektor nie może być pusty.&quot;)
+  100 * sum(is.na(x)) / length(x)
+}
+odsetek_brakow(zgloszenia$ocena)
+odsetek_brakow(c(1, NA, 3, NA))</code></pre>
+<p>W konsoli uruchom <code>odsetek_brakow(numeric(0))</code> i odczytaj
+komunikat, potem popraw wywołanie. Sprawdź <code>?is.na</code>,
+<code>str(zgloszenia)</code> i <code>traceback()</code> po błędzie. W
+oddawanym raporcie pokaż kod błędnego wywołania w bloku z
+<code>eval=FALSE</code>, aby dokument nadal się renderował.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Funkcja zwraca 50 dla przykładu z dwoma brakami, odrzuca pusty wektor i
+działa zarówno dla liczb, jak i tekstu.
 </p>
 </div>
 </div>
 </div>
 <div id="challenge-samodzielnie" class="section level2">
 <h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-6.-mały-opis-usług" class="section level3">
-<h3>Ćwiczenie 6. Mały opis usług</h3>
+<div id="ćwiczenie-8.-program-kontroli-jakości" class="section level3">
+<h3>Ćwiczenie 8. Program kontroli jakości</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Samodzielnie połączysz typy danych i indeksowanie.
+Połączysz funkcję, warunek, pętlę i wynikową ramkę danych.
 </p>
 </div>
 <div class="tilt-card task">
@@ -514,23 +560,22 @@ Samodzielnie połączysz typy danych i indeksowanie.
 Zadanie
 </h3>
 <p>
-Zbuduj ramkę pięciu fikcyjnych zapytań z kolumnami <code>id</code>,
-<code>kanal</code>, <code>czas_min</code> i <code>ocena</code>. Jeden
-wynik oceny ma być <code>NA</code>. Utwórz listę zawierającą tę ramkę,
-liczbę zapytań i datę opracowania. Oblicz średni czas oraz liczbę braków
-oceny; wybierz wiersze o czasie powyżej własnego progu.
+Napisz funkcję ocen_kolumne(x, prog_brakow), która zwraca „sprawdź”, gdy
+procent braków przekracza próg, a „OK” w przeciwnym razie. Odrzuć próg
+spoza 0–100. Pętlą for oceń co najmniej cztery kolumny zbioru i zapisz
+wynik w ramce z nazwą, procentem braków i oceną.
 </p>
 </div>
-<p>Zapisz w tekście, dlaczego <code>ocena</code> jest liczbą, a
-<code>kanal</code> tekstem. Nie używaj <code>attach()</code>; odwołuj
-się jawnie do kolumn.</p>
+<p>Sprawdź funkcję na wektorze bez braków, z połową braków i na błędnym
+progu. Błędne wywołanie pokaż jako kod nieuruchamiany przy renderowaniu.
+Własnymi słowami wyjaśnij, dlaczego próg jest decyzją analityczną.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Ramka ma 5 wierszy i 4 kolumny, lista zawiera trzy elementy, brak oceny
-nie psuje obliczeń, a wybrany próg i wynik są opisane.
+Funkcja i pętla działają na różnych kolumnach, walidacja progu daje
+czytelny błąd, a trzy testy potwierdzają zachowanie programu.
 </p>
 </div>
 <p>Oddaj <code>nazwisko_imie_02.Rmd</code> do zadania spotkania 2 w MS

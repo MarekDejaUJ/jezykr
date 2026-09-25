@@ -1,0 +1,31 @@
+---
+title: "Konsultacje projektu — 45 minut"
+---
+
+<div class="hero"><h2>Spotkanie końcowe · 45 minut</h2><p>Sprawdź projekt z zespołem, omów trudności i przygotuj jeden plik do zadania w MS Teams.</p></div>
+
+<div class="timebox"><strong>Plan 45 minut:</strong> 5 min stan prac, 20 min konsultacje analiz, 15 min kontrola raportu, 5 min przekazanie lub ustalenie ostatnich poprawek.</div>
+
+Przynieś aktualny [szablon projektu](materialy/szablon-projekt.Rmd) wypełniony przez zespół. Możesz wtedy przesłać gotowy plik; **ostateczny termin** zostanie podany w zadaniu MS Teams po komunikacie rektora o harmonogramie sesji.
+
+## Learn — z prowadzącym
+
+### Ćwiczenie K1. Pytanie, dane i analiza
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Upewnisz się, że metoda i wniosek odpowiadają temu samemu pytaniu.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>W zespole pokaż pytanie, tabelę, dwa wykresy oraz test lub model. Wyjaśnij, co oznacza jednostka obserwacji, jak obsłużono braki i którą miarę efektu interpretujesz.</p></div>
+
+Zaznacz miejsca, w których potrzebujesz pomocy prowadzącego. Porównaj wymagania z [rubryką](ocenianie.html); oddziel wynik liczbowy od własnej interpretacji. Jeżeli użyto SI, pokaż wynik niezależnej kontroli w R.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Każda osoba w zespole potrafi wyjaśnić pytanie, dane, najważniejszą liczbę i ograniczenie wniosku.</p></div>
+
+## Challenge — samodzielnie
+
+### Ćwiczenie K2. Próba oddania
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Przekażesz raport, który można odtworzyć z jednego pliku.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom ponownie R, wyrenderuj projekt od początku, sprawdź zgodność liczb z opisem i popraw wskazane błędy.</p></div>
+
+Sprawdź nazwiska i wkład członków zespołu. Do zadania projektu w MS Teams wgraj **jeden plik `.Rmd` na zespół** przed terminem widocznym w Teams. Nie dołączaj projektu RStudio, danych generowanych skryptem ani HTML. Zachowaj własną kopię pliku.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport renderuje się w czystej sesji, spełnia rubrykę i jest gotowy do oceny w MS Teams.</p></div>

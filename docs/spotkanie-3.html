@@ -11,7 +11,7 @@
 
 
 
-<title>Spotkanie 3: import danych i kontrola jakości</title>
+<title>Spotkanie 3: wizualizacja danych</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -388,38 +382,40 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 3: import danych i kontrola
-jakości</h1>
+<h1 class="title toc-ignore">Spotkanie 3: wizualizacja danych</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 3 z 10
+Spotkanie 3 z 6 · treść programowa 4
 </h2>
 <p>
-Odczyt CSV i Excela, braki, błędne wartości i bezpieczny eksport.
+Tworzysz histogram, wykres punktowy, wykres liniowy i mapę cieplną w
+ggplot2.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min typy plików, 30 min import, 25
-min diagnoza, 20 min eksport i porównanie, 5 min kontrola.
+<strong>Plan 90 minut:</strong> 10 min dobór wykresu, 20 min histogram,
+20 min punkty, 20 min linia i mapa, 15 min własny wykres, 5 min
+kontrola.
 </div>
-<p>Pobierz <a href="materialy/szablon-03.Rmd">szablon 03</a>. Skrypt
-startowy tworzy <code>dane/zgloszenia.csv</code> i
-<code>dane/zgloszenia.xlsx</code>; są to dwa formaty tego samego
-zbioru.</p>
+<p>Pobierz <a href="materialy/szablon-03.Rmd">szablon 03</a>. Do
+wykresów czasu używaj <code>zgloszenia_analiza</code>; dwa podejrzane
+czasy są w nim oznaczone jako brak. Każdy wykres opatrz pytaniem,
+jednostką i krótkim komentarzem.</p>
 <div id="learn-z-prowadzącym" class="section level2">
 <h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-7.-odczyt-csv-i-excel" class="section level3">
-<h3>Ćwiczenie 7. Odczyt CSV i Excel</h3>
+<div id="ćwiczenie-9.-rozkład-czasu" class="section level3">
+<h3>Ćwiczenie 9. Rozkład czasu</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Zaimportujesz dane z dwóch formatów, kontrolując typy i kodowanie.
+Dobierzesz histogram do zmiennej liczbowej i sprawdzisz wpływ szerokości
+przedziału.
 </p>
 </div>
 <div class="tilt-card task">
@@ -427,42 +423,85 @@ Zaimportujesz dane z dwóch formatów, kontrolując typy i kodowanie.
 Zadanie
 </h3>
 <p>
-Odczytaj oba pliki i porównaj liczby wierszy, kolumn oraz typ pola z
-datą.
+Porównaj szybki wykres bazowy z histogramem ggplot2. Zmień binwidth i
+opisz różnicę.
 </p>
 </div>
-<pre class="r"><code>csv &lt;- read.csv(&quot;dane/zgloszenia.csv&quot;, na.strings = &quot;&quot;,
-                fileEncoding = &quot;UTF-8&quot;, stringsAsFactors = FALSE)
-xlsx &lt;- readxl::read_excel(&quot;dane/zgloszenia.xlsx&quot;)
-dim(csv)
-dim(xlsx)
-str(csv$data)
-str(xlsx$data)
-head(csv[, c(&quot;id&quot;, &quot;data&quot;, &quot;dzial&quot;)], 3)</code></pre>
-<p>Plik CSV nie przechowuje typów kolumn tak jak arkusz Excel. Zamień
-datę w <code>csv</code> na typ <code>Date</code> za pomocą
-<code>as.Date()</code>. Sprawdź <code>class()</code> przed zmianą i po
-niej. Obejrzyj nagłówki przez <code>names()</code> i pomoc
-<code>?read.csv</code>.</p>
+<pre class="r"><code>hist(zgloszenia_analiza$czas_min,
+     main = &quot;Czas obsługi&quot;, xlab = &quot;Minuty&quot;, col = &quot;grey80&quot;)
+ggplot2::ggplot(zgloszenia_analiza,
+                ggplot2::aes(x = czas_min)) +
+  ggplot2::geom_histogram(binwidth = 10, fill = &quot;#2b6d73&quot;,
+                          color = &quot;white&quot;, na.rm = TRUE) +
+  ggplot2::labs(title = &quot;Rozkład czasu obsługi&quot;,
+                x = &quot;Czas [min]&quot;, y = &quot;Liczba zgłoszeń&quot;) +
+  ggplot2::theme_minimal()
+summary(zgloszenia_analiza$czas_min)</code></pre>
+<p>Sprawdź <code>binwidth = 5</code> i <code>binwidth = 20</code>. Dane
+pozostają te same; zmienia się sposób grupowania wartości. Wskaż medianę
+w wynikach <code>summary()</code>.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Obie ramki mają 240 wierszy i 10 kolumn; wyjaśniasz różnicę typów daty i
-umiesz ją poprawić.
+Histogram ma tytuł, osie i jednostkę; opis uwzględnia wpływ szerokości
+koszyków oraz braków.
 </p>
 </div>
 </div>
-<div id="ćwiczenie-8.-braki-i-wartości-podejrzane"
+<div id="ćwiczenie-10.-czas-i-koszt" class="section level3">
+<h3>Ćwiczenie 10. Czas i koszt</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Rozpoznasz współzmienność dwóch zmiennych liczbowych bez przypisywania
+jej przyczyny.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Utwórz wykres punktowy z kolorem kanału i oblicz korelację dla pełnych
+par.
+</p>
+</div>
+<pre class="r"><code>ggplot2::ggplot(zgloszenia_analiza,
+                ggplot2::aes(x = czas_min, y = koszt, color = kanal)) +
+  ggplot2::geom_point(alpha = 0.6, na.rm = TRUE) +
+  ggplot2::geom_smooth(method = &quot;lm&quot;, se = FALSE, na.rm = TRUE) +
+  ggplot2::labs(title = &quot;Czas a koszt obsługi&quot;,
+                x = &quot;Czas [min]&quot;, y = &quot;Koszt [zł]&quot;, color = &quot;Kanał&quot;) +
+  ggplot2::theme_minimal()
+sum(complete.cases(zgloszenia_analiza[, c(&quot;czas_min&quot;, &quot;koszt&quot;)]))
+cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
+    use = &quot;complete.obs&quot;)</code></pre>
+<p>Wyjaśnij, co oznacza dodatnia korelacja i dlaczego nie dowodzi
+przyczynowości. Sprawdź liczbę pełnych par przed opisem
+współczynnika.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Wykres ma obie jednostki, korelacja korzysta z pełnych par, a komentarz
+nie myli zależności z wpływem.
+</p>
+</div>
+</div>
+<div id="ćwiczenie-11.-czas-i-kombinacje-kategorii"
 class="section level3">
-<h3>Ćwiczenie 8. Braki i wartości podejrzane</h3>
+<h3>Ćwiczenie 11. Czas i kombinacje kategorii</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Odróżnisz brak od wartości błędnej i zachowasz surowe dane.
+Przygotujesz dane zagregowane do wykresu liniowego i mapy cieplnej.
 </p>
 </div>
 <div class="tilt-card task">
@@ -470,40 +509,51 @@ Odróżnisz brak od wartości błędnej i zachowasz surowe dane.
 Zadanie
 </h3>
 <p>
-Policz braki w każdej kolumnie oraz znajdź niemożliwe i skrajne czasy
-obsługi.
+Policz zgłoszenia według miesiąca oraz kanału i działu; narysuj dwa
+różne wykresy.
 </p>
 </div>
-<pre class="r"><code>colSums(is.na(csv))
-summary(csv$czas_min)
-csv[csv$czas_min &lt; 0 | csv$czas_min &gt; 120,
-    c(&quot;id&quot;, &quot;czas_min&quot;, &quot;kanal&quot;)]
-table(csv$dzial, useNA = &quot;ifany&quot;)</code></pre>
-<p>Zapisz w tekście, czy rekord z czasem 190 minut należy usunąć
-automatycznie. Zaproponuj regułę: co zrobić z czasem ujemnym, brakami
-ocen i niespójnymi nazwami działów. Surowy obiekt <code>csv</code>
-pozostaw bez zmian.</p>
+<pre class="r"><code>miesiace &lt;- zgloszenia_analiza |&gt;
+  dplyr::mutate(miesiac = format(data, &quot;%Y-%m&quot;)) |&gt;
+  dplyr::count(miesiac)
+ggplot2::ggplot(miesiace, ggplot2::aes(miesiac, n, group = 1)) +
+  ggplot2::geom_line(color = &quot;#2b6d73&quot;) +
+  ggplot2::geom_point() +
+  ggplot2::labs(title = &quot;Zgłoszenia w czasie&quot;,
+                x = &quot;Miesiąc&quot;, y = &quot;Liczba zgłoszeń&quot;) +
+  ggplot2::theme_minimal()
+komorki &lt;- zgloszenia_analiza |&gt;
+  dplyr::count(kanal, dzial)
+ggplot2::ggplot(komorki, ggplot2::aes(kanal, dzial, fill = n)) +
+  ggplot2::geom_tile(color = &quot;white&quot;) +
+  ggplot2::labs(title = &quot;Natężenie zgłoszeń&quot;,
+                x = &quot;Kanał&quot;, y = &quot;Dział&quot;, fill = &quot;Liczba&quot;) +
+  ggplot2::theme_minimal()
+sum(komorki$n)</code></pre>
+<p>Wskaż, czy linia łączy rekordy czy agregaty. Sprawdź kolejność
+miesięcy oraz to, jak mapa przedstawia brak działu.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Raport podaje liczbę braków w kolumnach, wykazuje czas -5 i 190 oraz
-oddziela obserwację nietypową od ewidentnego błędu.
+Linia pokazuje kolejne miesiące, mapa pokazuje liczności, a suma komórek
+daje 240.
 </p>
 </div>
 </div>
 </div>
 <div id="challenge-samodzielnie" class="section level2">
 <h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-9.-własny-plik-wynikowy" class="section level3">
-<h3>Ćwiczenie 9. Własny plik wynikowy</h3>
+<div id="ćwiczenie-12.-własna-mapa-rozwiązanych-spraw"
+class="section level3">
+<h3>Ćwiczenie 12. Własna mapa rozwiązanych spraw</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Samodzielnie zapiszesz i ponownie odczytasz uporządkowane dane.
+Samodzielnie dobierzesz miarę, skalę i kontrolę małych grup.
 </p>
 </div>
 <div class="tilt-card task">
@@ -511,27 +561,26 @@ Samodzielnie zapiszesz i ponownie odczytasz uporządkowane dane.
 Zadanie
 </h3>
 <p>
-Utwórz <code>dane_robocze</code> jako kopię <code>csv</code>. Oznacz
-ujemny czas jako <code>NA</code>, zachowując 190 do dalszej kontroli.
-Utwórz folder <code>wyniki/</code> i zapisz <code>dane_robocze</code>
-przez <code>write.csv(…, row.names = FALSE)</code>. Odczytaj plik
-ponownie i porównaj liczbę wierszy oraz braków.
+Policz procent spraw rozwiązanych w każdej kombinacji kanału i działu.
+Pokaż wynik na mapie cieplnej z czytelną legendą procentową. Podaj obok
+liczność każdej komórki. Ustal, jak potraktujesz brak działu, i zapisz
+tę decyzję.
 </p>
 </div>
-<p>Używaj ścieżek względnych. Opisz, dlaczego przed eksportem tworzysz
-nowy obiekt, zamiast zmieniać plik źródłowy.</p>
+<p>Wskazówka: użyj <code>group_by(kanal, dzial)</code> i
+<code>100 * mean(rozwiazano == "Tak")</code>. Skala ma obejmować 0–100%.
+Dodaj jedno zdanie o ograniczeniu porównania małych grup.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Wyeksportowany CSV ma 240 wierszy, nie ma kolumny z numerami wierszy, a
-rekord z ujemnym czasem ma brak. Raport działa od początku po usunięciu
-lokalnego folderu <code>wyniki/</code>.
+Kolor oznacza procent, a nie liczbę zgłoszeń; tabela liczności pozwala
+ocenić wiarygodność komórek i kod tworzy wykres od początku.
 </p>
 </div>
-<p>Oddaj wyłącznie <code>nazwisko_imie_03.Rmd</code> do zadania
-spotkania 3 w MS Teams.</p>
+<p>Oddaj <code>nazwisko_imie_03.Rmd</code> do zadania spotkania 3 w MS
+Teams.</p>
 </div>
 </div>
 

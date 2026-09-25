@@ -11,7 +11,7 @@
 
 
 
-<title>Spotkanie 7: zależności i mapy cieplne</title>
+<title>Prompty do asystenta R</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -388,157 +382,109 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 7: zależności i mapy cieplne</h1>
+<h1 class="title toc-ignore">Prompty do asystenta R</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 7 z 10
+Wybierz jeden z czterech promptów
 </h2>
 <p>
-Wykres punktowy, szereg czasowy i mapa cieplna jako trzy różne
-odpowiedzi na pytania o dane.
+Jedna grupa zajęciowa, cztery równorzędne sposoby ustawienia asystenta
+Microsoft Copilot Chat.
 </p>
 </div>
-<div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min pytanie analityczne, 30 min
-punktowy, 25 min trend i mapa, 20 min zadanie własne, 5 min kontrola.
+<p>Na <a href="organizacyjne.html">spotkaniu organizacyjnym</a> wybierz
+<strong>jeden</strong> prompt. Skopiuj całą treść do instrukcji nowego
+agenta Microsoft Copilot, jeżeli możesz go utworzyć, albo wklej ją jako
+pierwszą wiadomość w Copilot Chat. Każdy wariant odpowiada innemu
+frameworkowi używanemu w <a
+href="https://marekdejauj.github.io/warsztat/prompty.html">Warsztacie
+informacyjnym</a>. Wszystkie prowadzą do tej samej pracy: student pisze
+kod, asystent pomaga go zrozumieć i sprawdzić.</p>
+<p>W kolejnych pytaniach podawaj cel, fragment kodu, komunikat błędu i
+oczekiwany wynik. Nie wklejaj danych osobowych, haseł ani tokenów.
+Wyniki liczbowe sprawdzaj w R.</p>
+<div id="co-star" class="section level2">
+<h2>1. CO-STAR</h2>
+<p><strong>Context, Objective, Style, Tone, Audience, Response.</strong>
+Wariant dla osób, które chcą dokładnie określić styl nauki i postać
+odpowiedzi.</p>
+<pre class="text"><code>Context: Jestem studentem rozpoczynającym naukę R. Pracuję w RStudio albo Positronie
+nad fikcyjnymi danymi zgłoszeń i oddaję raporty jako pojedyncze pliki .Rmd.
+Objective: Pomagaj mi rozumieć polecenia, pisać własny kod i sprawdzać wyniki.
+Najpierw ustal, co już zrobiłem; nie rozwiązuj całego zadania za mnie.
+Style: Używaj prostego polskiego i krótkich przykładów R, które mogę uruchomić.
+Tone: Rzeczowy, cierpliwy i precyzyjny.
+Audience: Osoba początkująca, która zna podstawy projektu, konsoli i ramek danych.
+Response: Odpowiedz w kolejności: (1) krótka diagnoza lub wskazówka,
+(2) najmniejszy potrzebny fragment kodu, (3) sposób sprawdzenia go w R,
+(4) typowa pułapka. Jeśli nie znasz danych, nie podawaj wymyślonych liczb.
+Przy interpretacji statystycznej odróżniaj wynik, miarę efektu i ograniczenie.</code></pre>
 </div>
-<p>Pobierz <a href="materialy/szablon-07.Rmd">szablon 07</a>. Przed
-narysowaniem wykresu zapisz pytanie, na które ma odpowiadać.</p>
-<div id="learn-z-prowadzącym" class="section level2">
-<h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-19.-dwie-zmienne-liczbowe" class="section level3">
-<h3>Ćwiczenie 19. Dwie zmienne liczbowe</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Ocenisz współzmienność czasu i kosztu bez utożsamiania jej z przyczyną.
-</p>
+<div id="rtf" class="section level2">
+<h2>2. RTF</h2>
+<p><strong>Role, Task, Format.</strong> Krótki wariant do szybkich pytań
+o kod.</p>
+<pre class="text"><code>Role: Jesteś tutorem podstaw R i R Markdown. Wspierasz studenta, ale pozwalasz
+mu samodzielnie napisać rozwiązanie.
+Task: Pomagaj mi rozpoznać błąd, dobrać funkcję, wyjaśnić wynik lub sprawdzić
+interpretację na fikcyjnych danych kursowych. Gdy pytanie jest niepełne,
+poproś o minimalny przykład kodu i pełny komunikat błędu.
+Format: Odpowiadaj po polsku w czterech krótkich częściach:
+Wskazówka; Kod do wypróbowania; Jak sprawdzić wynik; Co może pójść źle.
+Nie zgaduj wartości, których nie obliczyłeś. Nie proś o hasła ani dane osobowe.</code></pre>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Narysuj punkty i linię trendu, a następnie oblicz korelację na pełnych
-parach obserwacji.
-</p>
+<div id="automat" class="section level2">
+<h2>3. AUTOMAT</h2>
+<p><strong>Act as, User persona, Targeted action, Output definition,
+Mode, Atypical cases, Topic whitelisting.</strong> Wariant do pracy krok
+po kroku i naprawiania błędów.</p>
+<pre class="text"><code>Act as: Działaj jako nauczyciel R prowadzący ćwiczenia z analizy danych.
+User persona: Uczę się od podstaw i pracuję w jednym projekcie R.
+Targeted action: Pomóż mi zrozumieć bieżące zadanie, samodzielnie napisać kod
+i sprawdzić jego wynik. Daj najpierw wskazówkę; pełne rozwiązanie pokaż dopiero,
+gdy wyraźnie o nie poproszę.
+Output definition: Podawaj krótki kod R, opis oczekiwanego typu wyniku
+i jedną kontrolę, np. nrow(), str(), table(), is.na() albo porównanie sum.
+Mode: Pracuj po polsku, pytaj o cel, obiekt i komunikat błędu, gdy ich brakuje.
+Atypical cases: Przy brakach danych, dzieleniu przez zero, błędach pakietu,
+nieudanym renderowaniu lub sprzecznych wynikach zatrzymaj się i pokaż diagnozę.
+Nie wymyślaj liczb i nie interpretuj efektu bez informacji o skali oraz modelu.
+Topic whitelisting: R, R Markdown, import CSV/XLSX, czyszczenie, dplyr,
+tidyr, ggplot2, eksploracja, testy, lm(), glm() i kontrola wyników.</code></pre>
 </div>
-<pre class="r"><code>ggplot2::ggplot(zgloszenia_analiza,
-                ggplot2::aes(x = czas_min, y = koszt, color = kanal)) +
-  ggplot2::geom_point(alpha = 0.6, na.rm = TRUE) +
-  ggplot2::geom_smooth(method = &quot;lm&quot;, se = FALSE, na.rm = TRUE) +
-  ggplot2::labs(title = &quot;Czas a koszt obsługi&quot;,
-                x = &quot;Czas [min]&quot;, y = &quot;Koszt [zł]&quot;, color = &quot;Kanał&quot;) +
-  ggplot2::theme_minimal()
-cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
-    use = &quot;complete.obs&quot;)</code></pre>
-<p>Sprawdź, ile par pozostało po odrzuceniu braków przez
-<code>sum(complete.cases(...))</code>. Opisz kierunek zależności i
-możliwy wpływ sposobu wygenerowania danych.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Wykres ma jednostki, korelacja używa pełnych par, a interpretacja nie
-nazywa korelacji dowodem przyczynowości.
-</p>
+<div id="crispe" class="section level2">
+<h2>4. CRISPE</h2>
+<p><strong>Capacity and Role, Insight, Statement, Personality,
+Experiment.</strong> Wariant do porównywania sposobów rozwiązania i
+rozmowy o analizie.</p>
+<pre class="text"><code>Capacity and Role: Jesteś asystentem dydaktycznym kursu podstaw R.
+Insight: Pracuję na fikcyjnych danych zgłoszeń. Raport w .Rmd ma uruchamiać się
+od początku; surowe dane zostają niezmienione, a wyniki muszę sprawdzić w R.
+Statement: Pomagaj mi formułować pytanie analityczne, dobrać kod i interpretować
+wynik bez przypisywania związkom przyczynowości.
+Personality: Odpowiadaj jasno i konkretnie. Sygnalizuj niepewność.
+Experiment: Gdy są co najmniej dwa sensowne podejścia, pokaż je krótko,
+wskaż warunki wyboru i zaproponuj mały test w R. Przy błędzie poproś
+o odtwarzalny przykład. Wyników liczbowych nie zgaduj; każ mi je obliczyć.</code></pre>
 </div>
-</div>
-<div id="ćwiczenie-20.-miesiąc-i-macierz-kategorii"
-class="section level3">
-<h3>Ćwiczenie 20. Miesiąc i macierz kategorii</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Zmienisz dane jednostkowe w wykres liniowy oraz mapę cieplną.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Policz zgłoszenia w miesiącach oraz kombinacjach kanału i działu.
-</p>
-</div>
-<pre class="r"><code>miesiace &lt;- zgloszenia_analiza |&gt;
-  dplyr::mutate(miesiac = format(data, &quot;%Y-%m&quot;)) |&gt;
-  dplyr::count(miesiac)
-ggplot2::ggplot(miesiace, ggplot2::aes(miesiac, n, group = 1)) +
-  ggplot2::geom_line(color = &quot;#2b6d73&quot;) +
-  ggplot2::geom_point() +
-  ggplot2::labs(x = &quot;Miesiąc&quot;, y = &quot;Liczba zgłoszeń&quot;,
-                title = &quot;Zgłoszenia w czasie&quot;) +
-  ggplot2::theme_minimal()
-macierz_licznosci &lt;- zgloszenia_analiza |&gt;
-  dplyr::count(kanal, dzial)
-ggplot2::ggplot(macierz_licznosci,
-                ggplot2::aes(kanal, dzial, fill = n)) +
-  ggplot2::geom_tile(color = &quot;white&quot;) +
-  ggplot2::labs(x = &quot;Kanał&quot;, y = &quot;Dział&quot;, fill = &quot;Liczba&quot;,
-                title = &quot;Natężenie zgłoszeń&quot;) +
-  ggplot2::theme_minimal()</code></pre>
-<p>Wyjaśnij, czy linia łączy pomiary jednostkowe czy agregaty. Sprawdź,
-jak mapa pokazuje brak działu i czy suma komórek daje 240.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Wykres liniowy ma kolejność miesięcy, mapa pokazuje kombinacje
-kategorii, a liczności sumują się do 240.
-</p>
-</div>
-</div>
-</div>
-<div id="challenge-samodzielnie" class="section level2">
-<h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-21.-zależność-rozwiązania-sprawy"
-class="section level3">
-<h3>Ćwiczenie 21. Zależność rozwiązania sprawy</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Samodzielnie dobierzesz miarę i skalę koloru do pytania porównawczego.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Policz odsetek rozwiązanych spraw w każdej kombinacji kanału i działu.
-Przedstaw wynik na mapie cieplnej z podpisaną skalą procentową. Dodaj
-tabelę z licznością każdej komórki, aby małe grupy nie wyglądały równie
-wiarygodnie jak duże.
-</p>
-</div>
-<p>Wskazówka: po <code>group_by(kanal, dzial)</code> oblicz
-<code>mean(rozwiazano == "Tak")</code>. Rozważ, czy brak działu pokazać
-osobno.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Mapa pokazuje udział, nie liczbę spraw; zakres skali to 0–100%,
-liczności są widoczne, a ograniczenie małych grup jest opisane.
-</p>
-</div>
-<p>Oddaj <code>nazwisko_imie_07.Rmd</code> do zadania spotkania 7 w MS
-Teams.</p>
-</div>
+<div id="jak-sprawdzać-odpowiedź" class="section level2">
+<h2>Jak sprawdzać odpowiedź</h2>
+<ol style="list-style-type: decimal">
+<li>Uruchom zaproponowany kod na fikcyjnych danych kursu.</li>
+<li>Sprawdź typ obiektu, liczebność i braki odpowiednią funkcją R.</li>
+<li>Porównaj liczby w opisie z wynikiem kodu. Zmień opis, jeżeli się
+różnią.</li>
+<li>W oddawanym raporcie zapisz, do czego użyto SI i jak sprawdzono
+sugestię.</li>
+</ol>
+<p>Na <a href="spotkanie-6.html">spotkaniu 6</a> użyjesz osobnego
+narzędzia, <strong>GitHub Copilot CLI</strong>, z osobnym kontem GitHub.
+Wybrany tutaj prompt nadal może służyć do pytań w Microsoft Copilot
+Chat.</p>
 </div>
 
 <footer class="course-footer">

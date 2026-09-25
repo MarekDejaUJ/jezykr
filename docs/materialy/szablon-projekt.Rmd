@@ -1,7 +1,6 @@
 ---
 title: "Projekt grupowy — Język R"
 author: "Imiona i nazwiska członków grupy"
-date: "2027/2028"
 output:
   html_document:
     toc: true
@@ -68,7 +67,7 @@ Napisz krótki wniosek oparty na liczbach i jedną praktyczną rekomendację. Wy
 
 ## Korzystanie z narzędzi SI
 
-Jeżeli grupa użyła narzędzia SI, podaj do czego, jaką sugestię otrzymała i jak sprawdziła wynik w R. Nie wklejaj danych osobowych ani haseł.
+Jeżeli grupa użyła Microsoft Copilot Chat albo GitHub Copilot CLI, podaj do czego, jaką sugestię otrzymała i jak sprawdziła wynik w R. Nie wklejaj danych osobowych, haseł ani tokenów.
 
 ## Kontrola końcowa
 
@@ -78,3 +77,5 @@ Jeżeli grupa użyła narzędzia SI, podaj do czego, jaką sugestię otrzymała 
 - [ ] Podano ograniczenia danych i metod.
 - [ ] Podział pracy grupy jest jawny.
 - [ ] Do zadania w MS Teams przekazujemy jeden plik `.Rmd`.
+
+Termin przekazania projektu podaje prowadzący w zadaniu MS Teams po komunikacie rektora o harmonogramie sesji.

@@ -11,7 +11,7 @@
 
 
 
-<title>Organizacja pracy</title>
+<title>Spotkanie organizacyjne: R i asystent Copilot</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -388,30 +382,43 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Organizacja pracy</h1>
+<h1 class="title toc-ignore">Spotkanie organizacyjne: R i asystent
+Copilot</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Jedno spotkanie, jeden raport
+Spotkanie organizacyjne · 90 minut
 </h2>
 <p>
-Instrukcje czytasz na stronie. Kod i odpowiedzi zapisujesz w pobranym
-szablonie R Markdown. Uzupełniony plik <code>.Rmd</code> przekazujesz
-przez zadanie w MS Teams.
+Poznasz zasady kursu, utworzysz projekt R i pierwszy dokument R
+Markdown, a następnie skonfigurujesz asystenta w Microsoft Copilot Chat.
 </p>
 </div>
-<div id="wymagania-i-sylabus" class="section level2">
-<h2>1. Wymagania i sylabus</h2>
-<div class="tilt-grid">
+<div class="timebox">
+<strong>Plan 90 minut:</strong> 10 min sylabus, 25 min projekt i
+konsola, 20 min typy i pliki, 25 min asystent Copilot, 10 min test.
+</div>
+<p>Przed spotkaniem zainstaluj R oraz RStudio Desktop albo Positron. W
+RStudio wybierz <strong>File → New Project → New Directory → New
+Project</strong>; w Positronie utwórz folder kursu i otwórz go przez
+<strong>File → Open Folder</strong>. Pobierz <a
+href="materialy/szablon-00.Rmd">szablon organizacyjny</a> do tego
+folderu. Na dalszych spotkaniach będziesz pobierać tylko plik
+<code>.Rmd</code> przypisany do danego zadania.</p>
+<div id="learn-z-prowadzącym" class="section level2">
+<h2>Learn — z prowadzącym</h2>
+<div id="ćwiczenie-o1.-sylabus-i-sposób-pracy" class="section level3">
+<h3>Ćwiczenie O1. Sylabus i sposób pracy</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Rozpoznasz zakres przedmiotu i sposób zaliczenia.
+Rozpoznasz efekty uczenia się, warunki zaliczenia i sposób przekazywania
+plików.
 </p>
 </div>
 <div class="tilt-card task">
@@ -419,165 +426,203 @@ Rozpoznasz zakres przedmiotu i sposób zaliczenia.
 Zadanie
 </h3>
 <p>
-Otwórz kartę przedmiotu i znajdź treści programowe, efekty U4–U5 oraz
-warunki zaliczenia.
+Otwórz sylabus i znajdź siedem treści programowych, warunek obecności
+oraz formę projektu zaliczeniowego.
 </p>
 </div>
+<p><a class="btn-course" href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">Otwórz
+sylabus PDF</a></p>
+<p>Zajęcia obejmują <strong>15 godzin lekcyjnych: 7 spotkań po 90 minut
+oraz 45 minut konsultacji</strong>. Sylabus dopuszcza jedną nieobecność
+i wymaga pozytywnej oceny projektu grupowego. Każde spotkanie robocze
+kończy się plikiem <code>.Rmd</code> przekazywanym w zadaniu MS Teams;
+projekt grupowy ma osobne zadanie i <a
+href="ocenianie.html">rubrykę</a>. Termin projektu zostanie ogłoszony w
+Teams po komunikacie rektora o harmonogramie sesji.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Potrafisz wskazać liczbę godzin ćwiczeń, dopuszczalną liczbę
-nieobecności i rodzaj projektu.
+Umiesz wskazać liczbę godzin, dopuszczalną nieobecność, sześć zadań
+roboczych i projekt grupowy.
 </p>
 </div>
 </div>
-<p><a class="btn-course" href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">Otwórz
-sylabus PDF</a></p>
-<p>Sylabus przewiduje <strong>15 godzin ćwiczeń</strong>, <strong>jedną
-dopuszczalną nieobecność</strong> i <strong>pozytywnie oceniony projekt
-grupowy</strong>. W razie nadmiarowych usprawiedliwionych nieobecności
-skonsultuj z prowadzącym alternatywną formę osiągnięcia efektów uczenia
-się. Zasady projektu i rubryka znajdują się w <a
-href="ocenianie.html">Ocenie</a>.</p>
+<div id="ćwiczenie-o2.-projekt-konsola-i-pierwszy-dokument"
+class="section level3">
+<h3>Ćwiczenie O2. Projekt, konsola i pierwszy dokument</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Ustawisz folder roboczy i rozpoznasz podstawowe typy oraz struktury R.
+</p>
 </div>
-<div id="przygotowanie-środowiska" class="section level2">
-<h2>2. Przygotowanie środowiska</h2>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Uruchom R w projekcie, otwórz szablon, wykonaj blok startowy i sprawdź
+obiekty oraz pliki.
+</p>
+</div>
 <ol style="list-style-type: decimal">
-<li>Zainstaluj aktualną wersję R oraz RStudio Desktop albo Positron. W
-RStudio wybierz <strong>File → New Project → New Directory → New
-Project</strong>. W Positronie utwórz folder kursu i otwórz go przez
-<strong>File → Open Folder</strong>. Nazwij go np.
-<code>jezyk-r</code>.</li>
-<li>W konsoli wykonaj <code>getwd()</code>. Wynik powinien wskazywać
-folder projektu. Jeśli pracujesz bez projektu, ustaw folder przez
-<strong>Session → Set Working Directory → Choose Directory</strong>
-(RStudio) albo otwórz właściwy folder w Positronie. Nie wpisuj do
-raportu bezwzględnej ścieżki do swojego komputera.</li>
-<li>Pobierz <a href="materialy/szablon-01.Rmd">szablon spotkania 1</a>
-do folderu projektu. W następnych tygodniach pobieraj kolejne szablony
-do tego samego folderu.</li>
-<li>Otwórz plik <code>.Rmd</code>. Uruchom pierwszy blok kodu. Skrypt
-startowy pobierze pakiety, przygotuje dane i zapisze pliki w folderze
-<code>dane/</code>. Przy pierwszym uruchomieniu potrzebny jest
-internet.</li>
-<li>W RStudio użyj <strong>Knit</strong>; w Positronie otwórz paletę
-poleceń i wybierz <strong>R: Render Document With R Markdown</strong>
-albo w konsoli wpisz <code>rmarkdown::render("szablon-01.Rmd")</code>.
-Obejrzyj HTML na swoim komputerze.</li>
+<li>W konsoli wykonaj <code>getwd()</code> i <code>list.files()</code>.
+Pierwsze polecenie powinno wskazywać folder projektu, a drugie pokazać
+<code>szablon-00.Rmd</code>.</li>
+<li>Uruchom pierwszy blok szablonu. <code>source()</code> pobierze <a
+href="materialy/init-v1.R">skrypt startowy</a>; skrypt instaluje
+brakujące pakiety, ładuje je i tworzy fikcyjne dane
+<code>zgloszenia</code> oraz folder <code>dane/</code>. Pierwsze
+uruchomienie wymaga internetu.</li>
+<li>Wykonaj przykłady poniżej w konsoli, a użyteczne polecenia zapisz
+również w szablonie.</li>
 </ol>
-<p>W Visual Studio Code możesz również otworzyć ten sam folder projektu,
-uruchomić R w terminalu i wykonać
-<code>rmarkdown::render("szablon-01.Rmd")</code>. Kurs pokazuje te same
-pliki źródłowe i polecenia R niezależnie od edytora; w RStudio przycisk
-<strong>Knit</strong> upraszcza pierwsze ćwiczenia.</p>
-<p>Nie przekazujesz projektu, folderu <code>dane/</code> ani HTML. Do
-zadania w MS Teams dołączasz uzupełniony plik <code>.Rmd</code>, nazwany
-np. <code>nazwisko_imie_01.Rmd</code>. Raport powinien renderować się od
-początku w czystej sesji R.</p>
+<pre class="r"><code>liczby &lt;- c(12, 18, NA, 30)                   # wektor liczbowy
+macierz &lt;- matrix(1:6, nrow = 2)              # macierz
+opis &lt;- list(liczba = 240, gotowe = TRUE)     # lista
+proba &lt;- data.frame(id = c(&quot;Z1&quot;, &quot;Z2&quot;),
+                    kanal = c(&quot;Online&quot;, &quot;Telefon&quot;)) # ramka danych
+typeof(liczby)
+str(proba)
+dim(zgloszenia)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Sprawdź <code>ls()</code>, <code>names(zgloszenia)</code>,
+<code>head(zgloszenia)</code> i <code>?mean</code>. Usuń tylko próbny
+obiekt <code>liczby</code> przez <code>rm(liczby)</code>. Polecenie
+<code>rm(list = ls())</code> usuwa wszystkie obiekty z sesji; stosuj je
+tylko świadomie w konsoli, nigdy w oddawanym raporcie.</li>
+<li>Porównaj <code>install.packages("dplyr")</code> (instalacja na
+komputerze) z <code>library(dplyr)</code> (załadowanie w sesji). Skrypt
+startowy wykonuje oba kroki tylko wtedy, gdy trzeba.</li>
+<li>Wyrenderuj szablon przez <strong>Knit</strong> w RStudio albo
+polecenie <strong>R: Render Document With R Markdown</strong> w
+Positronie. W obu IDE możesz użyć
+<code>rmarkdown::render("szablon-00.Rmd")</code>. W Visual Studio Code
+otwórz ten sam folder i wykonaj to polecenie w konsoli R.</li>
+</ol>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Wiesz, czym różnią się wektor, macierz, lista i ramka;
+<code>zgloszenia</code> ma 240 wierszy; szablon tworzy lokalny HTML bez
+ręcznego ustawiania bezwzględnej ścieżki.
+</p>
 </div>
-<div id="konsola-pliki-i-środowisko" class="section level2">
-<h2>3. Konsola, pliki i środowisko</h2>
-<table>
-<colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Polecenie</th>
-<th>Co robi</th>
-<th>Kiedy używać</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>2 + 2</code></td>
-<td>Oblicza wyrażenie w konsoli</td>
-<td>Krótki test składni</td>
-</tr>
-<tr class="even">
-<td><code>x &lt;- 5</code></td>
-<td>Tworzy obiekt <code>x</code></td>
-<td>Przechowanie wyniku</td>
-</tr>
-<tr class="odd">
-<td><code>ls()</code></td>
-<td>Wyświetla obiekty sesji</td>
-<td>Kontrola środowiska</td>
-</tr>
-<tr class="even">
-<td><code>rm(x)</code></td>
-<td>Usuwa wskazany obiekt</td>
-<td>Porządkowanie sesji</td>
-</tr>
-<tr class="odd">
-<td><code>rm(list = ls())</code></td>
-<td>Usuwa wszystkie obiekty</td>
-<td>Test odtwarzalności <strong>w konsoli</strong>, przed
-renderowaniem</td>
-</tr>
-<tr class="even">
-<td><code>getwd()</code></td>
-<td>Pokazuje folder roboczy</td>
-<td>Kontrola ścieżek</td>
-</tr>
-<tr class="odd">
-<td><code>list.files()</code></td>
-<td>Pokazuje pliki w folderze</td>
-<td>Szukanie plików CSV i raportu</td>
-</tr>
-<tr class="even">
-<td><code>dir.create("wyniki", showWarnings = FALSE)</code></td>
-<td>Tworzy folder</td>
-<td>Organizacja eksportu</td>
-</tr>
-<tr class="odd">
-<td><code>?mean</code></td>
-<td>Otwiera pomoc funkcji</td>
-<td>Sprawdzenie argumentów</td>
-</tr>
-</tbody>
-</table>
-<p>Plik <code>.Rmd</code> jest źródłem raportu: zwykły tekst opisuje
-decyzje, a bloki R uruchamiają kod. Plik <code>.R</code> zawiera sam
-kod, <code>.csv</code> przechowuje dane, a <code>.html</code> jest
-wynikiem renderowania. <code>setwd()</code> może pomóc doraźnie w
-konsoli, ale nie zapisuj go w oddawanym raporcie — projekt i ścieżki
-względne działają na innych komputerach.</p>
 </div>
-<div id="praca-z-danymi-i-kodem" class="section level2">
-<h2>4. Praca z danymi i kodem</h2>
-<ul>
-<li>Dane ćwiczeniowe są fikcyjne. Skrypt <code>init-v1.R</code> jest
-publiczny i ma stałą nazwę wersji; możesz <a
-href="materialy/init-v1.R">przejrzeć go przed uruchomieniem</a>.</li>
-<li>Pierwszy blok szablonu wywołuje
-<code>source(url(...), local = TRUE)</code>. Kod tworzy obiekt
-<code>zgloszenia</code> i pliki <code>dane/zgloszenia.csv</code>,
-<code>dane/zgloszenia.xlsx</code>. Skrypt nie nadpisuje istniejących
-plików.</li>
-<li>Zmieniaj dane w nowych obiektach
-(<code>dane_czyste &lt;- ...</code>), zachowując <code>zgloszenia</code>
-jako punkt odniesienia. Nazwy obiektów zapisuj czytelnie, a kolejne
-kroki komentuj.</li>
-<li>Gdy kod zwróci błąd, przeczytaj komunikat, uruchom tylko odpowiedni
-blok, sprawdź <code>str()</code> i <code>names()</code>. Następnie
-wyrenderuj cały dokument od początku.</li>
-<li>Nie umieszczaj w repozytorium ani w narzędziach generatywnych danych
-osobowych, haseł i tokenów. Wyniki opisuj z ograniczeniami danych.</li>
-</ul>
+<div id="ćwiczenie-o3.-własny-asystent-w-microsoft-copilot"
+class="section level3">
+<h3>Ćwiczenie O3. Własny asystent w Microsoft Copilot</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Skonfigurujesz chatbota pomagającego uczyć się R i sprawdzać wyniki, bez
+oddawania mu decyzji analitycznych.
+</p>
 </div>
-<div id="oddawanie-pracy" class="section level2">
-<h2>5. Oddawanie pracy</h2>
-<p>W MS Teams otwórz zadanie przypisane do spotkania i prześlij jeden
-plik <code>.Rmd</code>. Termin i ewentualne wymagania szczególne są
-podane w zadaniu Teams. Zapisz kopię na własnym dysku lub w chmurze,
-ponieważ komputery w pracowni mogą nie zachować plików po wyłączeniu.
-Zadania tygodniowe służą ćwiczeniu i informacji zwrotnej; zaliczenie
-przedmiotu wymaga projektu grupowego zgodnie z sylabusem.</p>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Wybierz jeden z czterech frameworków promptu i utwórz asystenta w
+Microsoft Copilot albo rozpocznij czat z tym promptem.
+</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Otwórz <a href="https://www.office.com/">Microsoft 365</a> i zaloguj
+się kontem studenckim UJ (<code>@student.uj.edu.pl</code>).</li>
+<li>Otwórz aplikację Microsoft Copilot. W panelu <strong>Agenci</strong>
+wybierz <strong>Nowy agent</strong>, jeśli ta funkcja jest dostępna na
+Twoim koncie. Instrukcję producenta znajdziesz w <a
+href="https://support.microsoft.com/pl-PL/Microsoft-365-Copilot/build-your-own-agent-with-microsoft-365-copilot">pomocy
+Microsoft</a>.</li>
+<li>Otwórz <a href="prompty.html">Prompty</a>. Wybierz <strong>jeden z
+czterech</strong>: CO-STAR, RTF, AUTOMAT albo CRISPE. Skopiuj cały blok
+i wklej go jako instrukcję tworzonego agenta. Nadaj nazwę „Asystent
+języka R”.</li>
+<li>Jeżeli przycisk <strong>Nowy agent</strong> nie jest dostępny,
+otwórz <strong>Copilot Chat</strong>, wklej wybrany prompt jako pierwszą
+wiadomość i kontynuuj w tej rozmowie. Możliwość zapisania agenta zależy
+od ustawień i licencji konta UJ.</li>
+</ol>
+<p>Microsoft Copilot w tym spotkaniu korzysta z konta uczelnianego.
+GitHub Copilot CLI na <a href="spotkanie-6.html">spotkaniu 6</a>
+korzysta z <strong>osobnego konta GitHub</strong>.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Masz zapisany agent albo aktywny czat z wybranym promptem i potrafisz
+wskazać framework, którego używasz.
+</p>
+</div>
+</div>
+</div>
+<div id="challenge-samodzielnie" class="section level2">
+<h2>Challenge — samodzielnie</h2>
+<div id="ćwiczenie-o4.-test-odpowiedzi-asystenta"
+class="section level3">
+<h3>Ćwiczenie O4. Test odpowiedzi asystenta</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Zweryfikujesz odpowiedź SI własnym kodem w R.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Zapytaj asystenta, jak policzyć braki w kolumnie ocena zbioru
+zgloszenia. Poproś o kod R, wyjaśnienie i test. Wykonaj kod samodzielnie
+i zapisz, co potwierdziłeś.
+</p>
+</div>
+<p>Przykładowe pytanie: „Mam ramkę danych <code>zgloszenia</code>. Jak
+sprawdzić liczbę braków w kolumnie <code>ocena</code>? Podaj kod R,
+opisz działanie <code>is.na()</code> i zaproponuj kontrolę. Nie zgaduj
+liczby braków bez danych”. Poprawna kontrola w R to
+<code>sum(is.na(zgloszenia$ocena))</code>; w danych kursowych wynik
+wynosi <strong>3</strong>.</p>
+<p>Nie podawaj asystentowi danych osobowych, haseł ani tokenów. Zapisz w
+szablonie, co asystent zaproponował i jak sprawdziłeś wynik.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Potrafisz wykazać trzy braki w R i wyjaśnić, że asystent nie jest
+źródłem prawdy o liczbach bez dostępu do danych.
+</p>
+</div>
+</div>
+</div>
+<div id="pliki-i-dalsza-praca" class="section level2">
+<h2>Pliki i dalsza praca</h2>
+<p><code>.Rmd</code> to plik źródłowy zawierający tekst i kod,
+<code>.R</code> zawiera sam kod, <code>.csv</code> oraz
+<code>.xlsx</code> przechowują dane, a <code>.html</code> jest
+wyrenderowanym wynikiem. Nie zapisuj <code>setwd("C:/...")</code> w
+raportach — używaj projektu i ścieżek względnych. Kopię pliku zachowaj
+na własnym dysku lub w chmurze; komputery pracowni mogą usuwać dane po
+wyłączeniu.</p>
+<p>Na spotkaniach 1–6 prześlij do zadania MS Teams wyłącznie uzupełniony
+plik <code>nazwisko_imie_NN.Rmd</code>. Termin każdego zadania
+znajdziesz w Teams. W przypadku nadmiarowych usprawiedliwionych
+nieobecności skonsultuj z prowadzącym alternatywną formę osiągnięcia
+efektów sylabusa.</p>
 </div>
 
 <footer class="course-footer">

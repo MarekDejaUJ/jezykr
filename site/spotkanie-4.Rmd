@@ -1,70 +1,59 @@
 ---
-title: "Spotkanie 4: czyszczenie i transformacja danych"
+title: "Spotkanie 4: automatyczna eksploracja danych"
 ---
 
-<div class="hero"><h2>Spotkanie 4 z 10</h2><p>Filtrowanie, sortowanie, wybór kolumn, agregacja oraz zmiana układu danych z dplyr i tidyr.</p></div>
+<div class="hero"><h2>Spotkanie 4 z 6 · treść programowa 5</h2><p>Porównujesz ręczną kontrolę z raportami pakietów dlookr, explore i ggstatsplot.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 10 min diagnoza, 30 min czyszczenie, 25 min agregacja i układ, 20 min zadanie własne, 5 min kontrola.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 15 min pakiety i pomoc, 20 min diagnoza, 20 min opis i wykres, 25 min raport automatyczny, 10 min audyt.</div>
 
-Pobierz [szablon 04](materialy/szablon-04.Rmd). Obiekt `zgloszenia` pozostaw bez zmian. Skrypt startowy udostępnia także `zgloszenia_analiza` jako punkt odniesienia do późniejszych spotkań.
+Pobierz [szablon 04](materialy/szablon-04.Rmd). Jego blok startowy instaluje dodatkowo `dlookr`, `explore` i `ggstatsplot`. Przy pierwszym uruchomieniu instalacja może potrwać kilka minut; otwórz szablon przed zajęciami, jeżeli masz taką możliwość.
 
 ## Learn — z prowadzącym
 
-### Ćwiczenie 10. Wybór i czyszczenie
+### Ćwiczenie 13. Diagnoza jakości z dlookr
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Utworzysz nowy zbiór, w którym reguły poprawy są zapisane w kodzie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Ujednolić nazwy działów oraz oznaczyć niemożliwy i skrajny czas do dalszej analizy.</p></div>
-
-~~~r
-dane_czyste <- zgloszenia |>
-  dplyr::mutate(
-    dzial = trimws(dzial),
-    dzial = dplyr::case_when(
-      tolower(dzial) == "katalog" ~ "Katalog",
-      tolower(dzial) == "repozytorium" ~ "Repozytorium",
-      TRUE ~ dzial
-    ),
-    czas_min = ifelse(czas_min < 0 | czas_min > 120, NA, czas_min)
-  )
-table(dane_czyste$dzial, useNA = "ifany")
-sum(is.na(dane_czyste$czas_min))
-~~~
-
-Porównaj `nrow(dane_czyste)` z `nrow(zgloszenia)` oraz oryginalne wartości w wierszach 11 i 79. Wyjaśnij, dlaczego filtracja braków powinna nastąpić dopiero w analizie, która tego wymaga. Użyj `filter()` do wyświetlenia zgłoszeń kanału Online i `arrange(desc(czas_min))` do sortowania.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Nowa ramka ma 240 wierszy; <code>dzial</code> ma trzy spójne kategorie i jeden brak; <code>czas_min</code> ma dwa braki. Surowa ramka pozostała dostępna.</p></div>
-
-### Ćwiczenie 11. Agregacja i szeroki układ
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Przekształcisz dane jednostkowe w zestawienie dla decyzji instytucjonalnej.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz liczbę spraw oraz średni czas według kanału i grupy; zamień tabelę na układ szeroki.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Porównasz automatyczną diagnozę braków z własną regułą jakości.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom diagnose() dla surowych i oczyszczonych danych. Znajdź różnicę w czas_min.</p></div>
 
 ~~~r
-podsumowanie <- dane_czyste |>
-  dplyr::group_by(kanal, grupa) |>
-  dplyr::summarise(
-    liczba = dplyr::n(),
-    sredni_czas = mean(czas_min, na.rm = TRUE),
-    .groups = "drop"
-  )
-podsumowanie
-tidyr::pivot_wider(podsumowanie, names_from = grupa,
-                   values_from = sredni_czas)
+pakiety_kursu(c("dlookr", "explore", "ggstatsplot"))
+diag_surowe <- dlookr::diagnose(zgloszenia)
+diag_czyste <- dlookr::diagnose(zgloszenia_analiza)
+diag_surowe
+diag_czyste
 ~~~
 
-Sprawdź, czy suma `liczba` daje 240. Wyjaśnij, dlaczego wynik średniej może być obciążony selekcją, jeśli usunięto część wartości. Zapisz jedną różnicę między danymi „długimi” i „szerokimi”.
+Porównaj liczbę braków `czas_min`. Czy sama diagnoza wykryła, że -5 i 190 minut są problemem? Wyjaśnij, skąd pochodzi reguła jakości i kiedy należałoby sprawdzić źródło.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Powstaje sześć kombinacji kanału i grupy; liczności sumują się do 240, a tabela szeroka ma osobne kolumny A i B.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>W oczyszczonym obiekcie są dwa dodatkowe braki czasu; wiesz, że profil statystyczny nie zastępuje oceny sensu wartości.</p></div>
+
+### Ćwiczenie 14. Opis i wykres z dwóch pakietów
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Odczytasz wyniki automatyczne bez oddawania narzędziu interpretacji pytania.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom describe_all() i ggbetweenstats() dla czasu w grupach A i B.</p></div>
+
+~~~r
+explore::describe_all(zgloszenia_analiza)
+dane_test <- zgloszenia_analiza |>
+  dplyr::filter(!is.na(czas_min))
+ggstatsplot::ggbetweenstats(data = dane_test,
+                            x = grupa, y = czas_min,
+                            type = "parametric")
+~~~
+
+Odczytaj liczebności, kierunek różnicy i informację o teście. Porównaj liczebności z `table(dane_test$grupa)`. Zapisz, jakie założenie lub ograniczenie trzeba uwzględnić przed interpretacją.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport zawiera opis zmiennych, wykres grup i niezależną kontrolę liczebności; komentarz oddziela wynik automatyczny od własnego wniosku.</p></div>
 
 ## Challenge — samodzielnie
 
-### Ćwiczenie 12. Raport działów
+### Ćwiczenie 15. Raport EDA i jego audyt
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie zastosujesz <code>select()</code>, <code>filter()</code>, <code>mutate()</code>, <code>group_by()</code> i <code>summarise()</code>.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Z nowego obiektu wybierz tylko rekordy rozwiązane, utwórz zmienną <code>koszt_na_minute</code> bez dzielenia przez zero, a następnie policz dla każdego działu liczbę spraw, medianę kosztu i odsetek braków oceny. Posortuj działy według liczby spraw. Pokaż także wersję długą tabeli z co najmniej dwiema miarami za pomocą <code>pivot_longer()</code>.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Wygenerujesz lokalny raport HTML i wskażesz, co potwierdza oraz czego nie wyjaśnia.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder wyniki/ i wygeneruj raport przez dlookr::eda_web_report(zgloszenia_analiza, output_file = "eda.html", output_dir = normalizePath("wyniki", winslash = "/"), browse = FALSE). W oddawanym .Rmd pokaż ten kod w bloku z eval=FALSE. Podaj dwa ustalenia zgodne z własną kontrolą i jedną rzecz, której raport nie wyjaśnia.</p></div>
 
-Opisz, jakie rekordy zostały wyłączone i czy brak działu ma pozostać w zestawieniu. Nie wpisuj wyniku ręcznie do tabeli.
+Raport EDA utwórz jednorazowo w konsoli. Dokument `.Rmd` ma renderować się bez ponownego tworzenia drugiego HTML. W jego treści podaj nazwę pliku, jedną sprawdzoną liczbę, wynik niezależnego sprawdzenia i ograniczenie raportu. Nie dołączaj `wyniki/eda.html` do MS Teams.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Kod działa od surowych danych, nie dzieli przez zero, podaje liczniki i miary dla działów oraz wyjaśnia obsługę braków.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Lokalny plik wyniki/eda.html powstaje; oddany raport zawiera kod generowania, sprawdzoną liczbę i krytyczny komentarz.</p></div>
 
 Oddaj `nazwisko_imie_04.Rmd` do zadania spotkania 4 w MS Teams.

@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -398,25 +392,27 @@ div.tocify {
 Od pierwszego polecenia do raportu badawczego
 </h2>
 <p>
-Dziesięć spotkań po 90 minut: programowanie w R, przygotowanie danych,
-wizualizacja, eksploracja, modele i odpowiedzialne przedstawianie
-wyników.
+Siedem spotkań po 90 minut oraz 45 minut konsultacji projektu. Łącznie
+15 godzin lekcyjnych: środowisko R, dane, wizualizacja, modele i
+odpowiedzialna praca z SI.
 </p>
 </div>
-<div id="cel-zajęć" class="section level2">
-<h2>Cel zajęć</h2>
-<p>Po ukończeniu kursu potrafisz przygotować dane do analizy, napisać i
-poprawić prosty skrypt R, stworzyć wykres oraz raport R Markdown łączący
-kod, wyniki i interpretację. Pracujemy na fikcyjnych danych o obsłudze
-zapytań w instytucji informacyjnej.</p>
+<div id="jak-pracujemy" class="section level2">
+<h2>Jak pracujemy</h2>
+<p>Zaczynamy od spotkania organizacyjnego: projekt RStudio lub folder
+Positrona, pierwszy dokument R Markdown oraz własny asystent w Microsoft
+Copilot Chat. Na sześciu spotkaniach roboczych rozwiązujemy zadania w
+kolejności <strong>Learn</strong> (z prowadzącym) i
+<strong>Challenge</strong> (samodzielnie). Każde ćwiczenie zawiera cel,
+kroki i kryteria sukcesu TILT. Ostatnie 45 minut przeznaczamy na
+konsultacje projektu grupowego.</p>
 <div class="quick-grid">
 <div class="quick-card">
 <h3>
 Podstawy R
 </h3>
 <p>
-Konsola, projekt, obiekty, wektory, macierze, listy, ramki danych,
-funkcje i pętle.
+Konsola, projekt, pakiety, typy, struktury, funkcje i pętle.
 </p>
 </div>
 <div class="quick-card">
@@ -424,7 +420,7 @@ funkcje i pętle.
 Dane
 </h3>
 <p>
-CSV i Excel, braki, czyszczenie, filtrowanie, agregacja, dplyr i tidyr.
+CSV, Excel, braki, filtrowanie, agregacja, dplyr i tidyr.
 </p>
 </div>
 <div class="quick-card">
@@ -440,139 +436,90 @@ ggplot2, eksploracja pakietowa, testy, modele lm() i glm().
 Raport
 </h3>
 <p>
-R Markdown, sprawdzanie kodu, etyczna interpretacja i projekt grupowy.
+R Markdown, interpretacja, kontrola kodu i projekt grupowy.
 </p>
 </div>
 </div>
 </div>
-<div id="program" class="section level2">
-<h2>Program</h2>
-<table>
+<div id="plan-15-godzin-lekcyjnych" class="section level2">
+<h2>Plan 15 godzin lekcyjnych</h2>
+<table style="width:100%;">
 <colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
+<col width="23%" />
+<col width="30%" />
+<col width="23%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Spotkanie</th>
-<th>Temat</th>
+<th align="right">Czas</th>
+<th>Treść sylabusa</th>
 <th>Rezultat</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td>Organizacyjne</td>
+<td align="right">90 min</td>
+<td>1. Środowisko R, typy i pakiety; wprowadzenie do SI z treści 7</td>
+<td>Projekt, pierwszy <code>.Rmd</code> i asystent Microsoft
+Copilot</td>
+</tr>
+<tr class="even">
 <td>1</td>
-<td>Projekt, konsola, pakiety, pliki</td>
-<td>Działający projekt i pierwszy raport <code>.Rmd</code></td>
+<td align="right">90 min</td>
+<td>2. Organizowanie i czyszczenie danych</td>
+<td>Import CSV/XLSX i kontrolowany zbiór roboczy</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>2</td>
-<td>Typy i struktury danych</td>
-<td>Własne obiekty i kontrola typów</td>
+<td align="right">90 min</td>
+<td>3. Operacje na danych</td>
+<td>Transformacja z dplyr i tidyr, własna funkcja</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>3</td>
-<td>CSV, Excel i jakość danych</td>
-<td>Raport z importu, braków i błędów</td>
+<td align="right">90 min</td>
+<td>4. Wizualizacja danych</td>
+<td>Wykresy ggplot2 i ich interpretacja</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>4</td>
-<td><code>dplyr</code> i <code>tidyr</code></td>
-<td>Zbiór oczyszczony i tabela podsumowująca</td>
+<td align="right">90 min</td>
+<td>5. Eksploracyjna analiza danych</td>
+<td>Diagnoza dlookr, explore i ggstatsplot</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>5</td>
-<td>Funkcje, warunki, pętle</td>
-<td>Skrypt rozwiązujący powtarzalny problem</td>
+<td align="right">90 min</td>
+<td>6. Dane jakościowe i modele liniowe</td>
+<td>Testy, lm() i glm()</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>6</td>
-<td>Wykresy i <code>ggplot2</code></td>
-<td>Trzy czytelne wykresy z opisem</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Wizualizacja zależności</td>
-<td>Wykres punktowy, liniowy i mapa cieplna</td>
+<td align="right">90 min</td>
+<td>7. Biblioteki R i generatywna SI</td>
+<td>Podsumowanie, wielkość efektu, korekta kodu z Copilot CLI</td>
 </tr>
 <tr class="even">
-<td>8</td>
-<td><code>dlookr</code>, <code>explore</code>,
-<code>ggstatsplot</code></td>
-<td>Diagnoza i krytyka raportów automatycznych</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Testy, <code>lm()</code>, <code>glm()</code></td>
-<td>Wyniki modeli z ostrożną interpretacją</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>R Markdown i projekt</td>
-<td>Odtwarzalny raport grupowy</td>
+<td>Konsultacje</td>
+<td align="right">45 min</td>
+<td>Projekt grupowy i omówienie wyników</td>
+<td>Przegląd raportu i plan złożenia</td>
 </tr>
 </tbody>
 </table>
-<p>Każde spotkanie zaczyna się od <strong>Learn</strong> — pracy z
-prowadzącym — i kończy <strong>Challenge</strong>, czyli samodzielnym
-zastosowaniem. Każde ćwiczenie podaje cel, kroki i kryteria sukcesu
-(TILT).</p>
-</div>
-<div id="powiązanie-z-treściami-sylabusa" class="section level2">
-<h2>Powiązanie z treściami sylabusa</h2>
-<table>
-<thead>
-<tr class="header">
-<th>Blok z karty przedmiotu</th>
-<th>Spotkania</th>
-<th>Ćwiczenia</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1. Środowisko R, projekty, typy i pakiety</td>
-<td>1–2</td>
-<td>1–6</td>
-</tr>
-<tr class="even">
-<td>2. Import i czyszczenie danych</td>
-<td>3–4</td>
-<td>7–12</td>
-</tr>
-<tr class="odd">
-<td>3. Operacje, dplyr, tidyr, funkcje i pomoc</td>
-<td>4–5</td>
-<td>10–15</td>
-</tr>
-<tr class="even">
-<td>4. Wykresy, ggplot2 i raport</td>
-<td>6–7, 10</td>
-<td>16–21, 28–30</td>
-</tr>
-<tr class="odd">
-<td>5. dlookr, explore i ggstatsplot</td>
-<td>8</td>
-<td>22–24</td>
-</tr>
-<tr class="even">
-<td>6. Dane jakościowe, testy, lm() i glm()</td>
-<td>9</td>
-<td>25–27</td>
-</tr>
-<tr class="odd">
-<td>7. Podsumowania, wielkość efektu i SI</td>
-<td>9–10</td>
-<td>27–30</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Razem: 7 × 90 + 45 = 675 minut = 15 godzin
+lekcyjnych.</strong> Szczegółowy termin złożenia projektu zostanie
+podany w MS Teams po ogłoszeniu harmonogramu sesji przez rektora.</p>
 </div>
 <div id="rozpocznij" class="section level2">
 <h2>Rozpocznij</h2>
-<p><a class="btn-course" href="organizacyjne.html">Przygotuj
-środowisko</a> <a class="btn-course" href="materialy.html">Pobierz
-szablon</a> <a class="btn-course" href="ocenianie.html">Sprawdź
+<p><a class="btn-course" href="organizacyjne.html">Spotkanie
+organizacyjne</a> <a class="btn-course" href="prompty.html">Wybierz ramę
+promptu</a> <a class="btn-course" href="materialy.html">Pobierz
+szablony</a> <a class="btn-course" href="ocenianie.html">Sprawdź
 ocenianie</a></p>
 </div>
 <div id="sylabus" class="section level2">
@@ -580,8 +527,7 @@ ocenianie</a></p>
 <p>Kurs realizuje efekty W1–W3, U1–U5 i K1–K2 z <a
 href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">karty przedmiotu</a>.
 Warunkiem zaliczenia jest aktywne uczestnictwo i pozytywna ocena
-projektu grupowego; szczegóły znajdują się w zakładce <a
-href="ocenianie.html">Ocena</a>.</p>
+projektu grupowego.</p>
 </div>
 
 <footer class="course-footer">

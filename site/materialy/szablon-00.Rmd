@@ -1,0 +1,63 @@
+---
+title: "Spotkanie organizacyjne — moja praca"
+author: "Imię i nazwisko"
+output:
+  html_document:
+    toc: true
+---
+
+Instrukcja online: <https://marekdejauj.github.io/jezykr/organizacyjne.html>.
+
+## Start: projekt i dane
+
+Otwórz ten plik w folderze projektu. Uruchom blok poniżej, aby zainstalować brakujące pakiety i przygotować fikcyjne dane.
+
+```{r start, message=FALSE, warning=FALSE}
+source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```
+
+## Projekt, konsola i pliki
+
+Sprawdź folder, pliki, liczbę wierszy oraz strukturę ramki. Zapisz wynik i wyjaśnij go.
+
+```{r projekt}
+getwd()
+list.files()
+list.files("dane")
+dim(zgloszenia)
+str(zgloszenia)
+```
+
+## Typy i struktury
+
+Utwórz własny wektor, macierz, listę i małą ramkę danych. Sprawdź ich typ oraz rozmiar.
+
+```{r struktury}
+# Wpisz i uruchom własny kod.
+```
+
+## Wybrany prompt
+
+Mój framework: **wpisz CO-STAR, RTF, AUTOMAT albo CRISPE**.
+
+Asystenta uruchomiłem/am jako: **zapisany agent / Copilot Chat**.
+
+## Próba odpowiedzi asystenta
+
+Zapisz, jaki kod zaproponował asystent do policzenia braków `ocena`. Uruchom własną kontrolę:
+
+```{r kontrola}
+sum(is.na(zgloszenia$ocena))
+```
+
+Moja interpretacja i sposób kontroli: **uzupełnij**.
+
+## Kontrola końcowa
+
+- [ ] Projekt otwiera się we właściwym folderze.
+- [ ] Skrypt startowy tworzy 240 fikcyjnych zgłoszeń.
+- [ ] Znam różnicę między instalacją pakietu a jego załadowaniem.
+- [ ] Wiem, jak usunąć wybrany obiekt i gdzie szukać pomocy.
+- [ ] Sprawdziłem/am odpowiedź asystenta własnym kodem.
+
+To ćwiczenie przygotowuje do sześciu plików `.Rmd` oddawanych w zadaniach MS Teams.

@@ -1,33 +1,27 @@
 ---
-title: "Zasady zaliczenia i rubryka"
+title: "Zaliczenie i rubryka oceny"
 ---
 
-## Warunki zaliczenia
+<div class="hero"><h2>Projekt grupowy</h2><p>Jedno pytanie, odtwarzalna analiza w R i wniosek oparty na sprawdzonych wynikach.</p></div>
 
-Zgodnie z sylabusem wymagane są **aktywne uczestnictwo** (dopuszczalna jedna nieobecność) i **pozytywna ocena grupowego projektu zaliczeniowego**. Przy nadmiarowych usprawiedliwionych nieobecnościach student lub studentka konsultuje z prowadzącym alternatywną formę osiągnięcia efektów uczenia się. Ćwiczenia oddawane w MS Teams dokumentują postęp; same nie zastępują projektu.
+Warunkiem zaliczenia jest pozytywna ocena projektu grupowego oraz udział w zajęciach zgodny z sylabusem (dopuszczalna jedna nieobecność). Sześć plików z ćwiczeń służy bieżącej informacji zwrotnej i przygotowaniu do projektu. Każdy plik oddajesz osobno w zadaniu MS Teams. W przypadku dodatkowej usprawiedliwionej nieobecności skontaktuj się z prowadzącym w sprawie osiągnięcia brakujących efektów.
 
-## Projekt grupowy
+**Termin projektu** zostanie podany w zadaniu MS Teams po ogłoszeniu przez rektora harmonogramu sesji. Ostatnie spotkanie, trwające 45 minut, służy konsultacji i kontroli projektu; plik można przekazać wtedy albo później, w terminie wskazanym w Teams.
 
-Grupa liczy 2–4 osoby. Korzysta z [szablonu projektu](materialy/szablon-projekt.Rmd) i fikcyjnych danych kursowych albo z własnego zbioru, do którego ma prawo. Własny zbiór wymaga uzgodnienia z prowadzącym, aby raport dało się odtworzyć bez ujawniania danych osobowych. Jeżeli grupa używa danych kursowych, przekazuje jeden plik `.Rmd`; skrypt startowy odtwarza dane. W zadaniu Teams podaje nazwiska i zakres pracy osób z grupy.
+## Polecenie projektu
 
-Raport powinien zawierać: pytanie badawcze lub instytucjonalne; opis źródła i ograniczeń danych; przygotowanie i kontrolę jakości; co najmniej dwie wizualizacje; tabelę podsumowującą; wybraną analizę statystyczną lub model; interpretację oraz rekomendację. Kod musi uruchamiać się od początku w czystej sesji R. Termin projektu jest podany w zadaniu MS Teams.
+Pracujcie w zespole 2–4 osób. Pobierzcie [szablon projektu](materialy/szablon-projekt.Rmd). Zadajcie jedno pytanie o obsługę zgłoszeń w instytucji informacyjnej. Użyjcie fikcyjnych danych kursowych lub innego, jawnie opisanego zbioru uzgodnionego z prowadzącym. W jednym pliku `.Rmd` pokażcie kod od pobrania danych po końcowy wniosek. Wynik powinien zawierać kontrolę jakości, tabelę, co najmniej dwa wykresy, odpowiedni test lub model, interpretację miary efektu i ograniczenia. Wskażcie podział pracy i sposób sprawdzenia ewentualnych sugestii SI.
 
-## Rubryka projektu — 20 punktów
+Przekażcie **jeden plik źródłowy `.Rmd` na zespół** w zadaniu MS Teams. Raport musi renderować się na innym komputerze po uruchomieniu bloku startowego. Nie dołączajcie folderu projektu, lokalnych danych, HTML ani plików z hasłami.
 
-| Kryterium | 4 punkty | 2–3 punkty | 0–1 punkt |
-|---|---|---|---|
-| Pytanie i dane | Konkretne pytanie, opis źródła, typów i ograniczeń | Pytanie lub opis danych wymaga doprecyzowania | Brak pytania lub niejasne pochodzenie danych |
-| Przygotowanie i kod | Odtwarzalny import, czyszczenie i kontrola; czytelne obiekty | Drobne błędy lub niepełna kontrola | Raport nie uruchamia się albo brak kluczowych etapów |
-| Wizualizacja i analiza | Poprawny dobór metod, czytelne podpisy, sprawdzenie założeń | Metody użyte częściowo poprawnie | Analiza błędna lub nieobecna |
-| Interpretacja i etyka | Wniosek oparty na liczbach, podaje niepewność i ograniczenia | Wniosek ogólny lub niepełny | Wniosek sprzeczny z wynikami albo narusza zasady danych |
-| Raport i współpraca | Spójny `.Rmd`, podpisane sekcje, podział pracy i poprawny język | Raport wymaga drobnych poprawek | Brak raportu lub wkładu grupy |
+## Rubryka — 20 punktów
 
-**Próg pozytywnej oceny projektu: co najmniej 11/20 punktów oraz działający raport.** Ocena końcowa wynika z wyniku projektu, z zastrzeżeniem formalnych warunków uczestnictwa. Proponowana skala: 11–12 pkt — 3,0; 13–14 — 3,5; 15–16 — 4,0; 17–18 — 4,5; 19–20 — 5,0. Wynik 0–10 pkt — 2,0.
+| Kryterium | 4 pkt | 2–3 pkt | 0–1 pkt |
+|:---|:---|:---|:---|
+| Pytanie i dane | Jasne pytanie, jednostka obserwacji, źródło oraz ograniczenia. | Pytanie i dane są opisane, lecz część założeń pozostaje niejasna. | Brakuje pytania lub wiarygodnego opisu danych. |
+| Odtwarzalność i jakość | `.Rmd` renderuje się od początku, zachowuje surowe dane i jawnie czyści błędy oraz braki. | Kod działa po drobnej korekcie lub opis czyszczenia jest niepełny. | Wynik zależy od ręcznych kroków albo kod nie działa. |
+| Tabela i wykresy | Tabela i dwa czytelne, trafne wykresy mają opis osi, jednostki i komentarz. | Część wyników jest nieczytelna lub słabo odpowiada pytaniu. | Brakuje wymaganych wyników albo są błędne. |
+| Analiza i interpretacja | Test lub model odpowiada pytaniu; liczebności, efekt i ograniczenia są poprawnie zinterpretowane. | Metoda jest zasadniczo trafna, lecz interpretacja lub kontrola założeń jest niepełna. | Metoda jest nieadekwatna albo wniosek nie wynika z obliczeń. |
+| Wniosek i praca zespołu | Wniosek wynika z liczb, wskazano podział pracy i zweryfikowano użycie SI. | Wniosek jest zbyt ogólny lub dokumentacja współpracy i kontroli jest niepełna. | Brak wniosku, wkładu osób albo kontroli wyniku. |
 
-## Informacja zwrotna do ćwiczeń
-
-Przy każdym ćwiczeniu znajdziesz kryteria sukcesu TILT. Przed oddaniem sprawdź, czy raport renderuje się od pierwszego bloku, czy dane i wyniki są opisane oraz czy samodzielna część **Challenge** zawiera Twój kod i interpretację. W zadaniu Teams prowadzący może wskazać poprawki do następnego spotkania.
-
-## Odpowiedzialne użycie narzędzi SI
-
-Obowiązują zasady użycia narzędzi opartych na sztucznej inteligencji przywołane w sylabusie. Możesz wykorzystać narzędzie do wyjaśnienia komunikatu błędu, porównania sposobów rozwiązania lub korekty kodu, ale sprawdź wynik w R i opisz własnymi słowami, co zrobił kod. Nie przekazuj narzędziom danych osobowych. W projekcie podaj krótko, do jakich zadań użyto SI i jak zweryfikowano odpowiedzi.
+**Pozytywna ocena:** co najmniej 11 z 20 punktów oraz renderujący się raport, który zawiera pytanie, własny kod analizy i wniosek. Punktacja szczegółowa i informacja zwrotna pojawią się w MS Teams. Błędy można omówić podczas [konsultacji](konsultacje.html).

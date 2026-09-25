@@ -6,39 +6,39 @@ title: "Materiały do pobrania"
 
 | Materiał | Zastosowanie |
 |---|---|
-| [Sylabus PDF](materialy/jezyk-r-uj-wzzins-24-17358-26.pdf) | Zakres i formalne warunki zaliczenia |
-| [Skrypt `init-v1.R`](materialy/init-v1.R) | Pakiety, fikcyjne dane i pliki CSV/XLSX; szablony pobierają go automatycznie |
+| [Sylabus PDF](materialy/jezyk-r-uj-wzzins-24-17358-26.pdf) | Treści, efekty i formalne warunki zaliczenia |
+| [`init-v1.R`](materialy/init-v1.R) | Instalacja pakietów i odtwarzanie fikcyjnych danych CSV/XLSX |
 | [Szablon projektu](materialy/szablon-projekt.Rmd) | Grupowy raport zaliczeniowy |
+| [Cztery prompty](prompty.html) | Wybór ramy asystenta Microsoft Copilot |
 
 ## Szablony spotkań
 
-| Spotkanie | Plik | Główna umiejętność |
-|---|---|---|
-| 1 | [szablon-01.Rmd](materialy/szablon-01.Rmd) | Projekt, konsola i pierwszy raport |
-| 2 | [szablon-02.Rmd](materialy/szablon-02.Rmd) | Obiekty i struktury |
-| 3 | [szablon-03.Rmd](materialy/szablon-03.Rmd) | CSV, Excel i braki |
-| 4 | [szablon-04.Rmd](materialy/szablon-04.Rmd) | Transformacja danych |
-| 5 | [szablon-05.Rmd](materialy/szablon-05.Rmd) | Funkcje i sterowanie |
-| 6 | [szablon-06.Rmd](materialy/szablon-06.Rmd) | Wykresy |
-| 7 | [szablon-07.Rmd](materialy/szablon-07.Rmd) | Zależności i mapa cieplna |
-| 8 | [szablon-08.Rmd](materialy/szablon-08.Rmd) | Eksploracja pakietowa |
-| 9 | [szablon-09.Rmd](materialy/szablon-09.Rmd) | Testy i modele |
-| 10 | [szablon-10.Rmd](materialy/szablon-10.Rmd) | Raport i projekt |
+| Spotkanie | Czas | Szablon | Rezultat |
+|---|---:|---|---|
+| Organizacyjne | 90 min | [szablon-00.Rmd](materialy/szablon-00.Rmd) | Próba R Markdown i test asystenta |
+| 1. Import i czyszczenie | 90 min | [szablon-01.Rmd](materialy/szablon-01.Rmd) | Raport jakości danych |
+| 2. Operacje i funkcje | 90 min | [szablon-02.Rmd](materialy/szablon-02.Rmd) | Transformacja i własna funkcja |
+| 3. Wizualizacja | 90 min | [szablon-03.Rmd](materialy/szablon-03.Rmd) | Wykresy ggplot2 |
+| 4. Eksploracja | 90 min | [szablon-04.Rmd](materialy/szablon-04.Rmd) | Audyt raportu automatycznego |
+| 5. Testy i modele | 90 min | [szablon-05.Rmd](materialy/szablon-05.Rmd) | Testy, lm() i glm() |
+| 6. R i Copilot CLI | 90 min | [szablon-06.Rmd](materialy/szablon-06.Rmd) | Raport liczbowy z kontrolą SI |
+| Konsultacje projektu | 45 min | [szablon-projekt.Rmd](materialy/szablon-projekt.Rmd) | Przegląd raportu grupowego |
 
 ## Sposób użycia
 
-1. Pobierz właściwy szablon do folderu swojego projektu.
-2. Wpisuj kod i krótkie odpowiedzi w miejscach oznaczonych **Twoja praca**. W szablonie są również cel, polecenie i kryteria sprawdzenia.
-3. Uruchom pierwszy blok kodu, a następnie kolejne bloki. Wyrenderuj cały dokument przed oddaniem.
-4. Zmień nazwę pliku na `nazwisko_imie_NN.Rmd` i prześlij go do zadania w MS Teams. Do projektu grupowego użyj nazwy `grupa_N_projekt.Rmd`.
+1. Pobierz jeden szablon `.Rmd` do folderu swojego projektu. W RStudio otwórz projekt, a w Positronie jego folder.
+2. Wykonaj blok **start**. Przy pierwszym uruchomieniu potrzebny jest internet do pobrania skryptu i brakujących pakietów.
+3. Przykłady z instrukcji wpisuj lub modyfikuj w miejscach **Twoja praca**. Polecenia GitHub Copilot CLI wpisuj w Terminalu, nie w blokach R. Część **Challenge** wykonaj samodzielnie.
+4. Wyrenderuj cały dokument od początku. Zmień nazwę na `nazwisko_imie_NN.Rmd` i dołącz tylko ten plik do zadania w MS Teams.
 
-Pliki wynikowe `dane/`, `wyniki/` i HTML służą do pracy lokalnej. Sam raport `.Rmd` odtwarza potrzebne dane po ponownym uruchomieniu, dlatego nie trzeba przesyłać całego projektu.
+Pliki `dane/`, `wyniki/` i HTML służą do pracy lokalnej. Wersjonowany skrypt startowy odtwarza dane przy ponownym uruchomieniu raportu, dlatego nie trzeba przesyłać projektu. Raport grupowy składa się osobno w terminie ogłoszonym w Teams po komunikacie rektora o sesji.
 
 ## Pomoc i lektury
 
 - H. Wickham, G. Grolemund, *R for Data Science* (2016) — lektura obowiązkowa w sylabusie; [wersja internetowa](https://r4ds.had.co.nz/).
 - P. Teetor, M. Loukides, *R Cookbook* (2011) — lektura obowiązkowa w sylabusie.
-- [RStudio User Guide](https://docs.posit.co/ide/user/) — projekty, konsola, pliki i debugowanie.
-- [R Markdown](https://rmarkdown.rstudio.com/) — tworzenie raportów z kodem i tekstem.
-- [Dokumentacja dplyr](https://dplyr.tidyverse.org/) i [ggplot2](https://ggplot2.tidyverse.org/) — operacje na danych i wykresy.
-- [Pomoc Positron](https://positron.posit.co/quarto.html#support-for-r-markdown) — renderowanie plików `.Rmd`.
+- [RStudio User Guide](https://docs.posit.co/ide/user/) — projekty, konsola i debugowanie.
+- [R Markdown](https://rmarkdown.rstudio.com/) — raporty z kodem i tekstem.
+- [dplyr](https://dplyr.tidyverse.org/) i [ggplot2](https://ggplot2.tidyverse.org/) — praca z danymi i wykresami.
+- [R Markdown w Positronie](https://positron.posit.co/quarto.html#support-for-r-markdown).
+- [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli) — instrukcja instalacji na spotkanie 6.

@@ -1,63 +1,82 @@
 ---
-title: "Spotkanie 5: funkcje, warunki i pętle"
+title: "Spotkanie 5: testy i modele"
 ---
 
-<div class="hero"><h2>Spotkanie 5 z 10</h2><p>Własna funkcja, logika warunkowa, iteracja i proste debugowanie.</p></div>
+<div class="hero"><h2>Spotkanie 5 z 6 · treść programowa 6</h2><p>Sprawdzasz zależność kategorii, porównujesz grupy oraz interpretujesz modele lm() i glm().</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 10 min operatory, 30 min funkcja, 25 min warunek i pętla, 20 min zadanie własne, 5 min kontrola.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min pytania i założenia, 20 min dane jakościowe, 20 min porównanie i lm(), 25 min glm(), 10 min własna interpretacja, 5 min kontrola.</div>
 
-Pobierz [szablon 05](materialy/szablon-05.Rmd). Jeśli komunikat błędu jest niejasny, zacznij od `str()`, `class()`, `traceback()` oraz pomocy `?function`. W RStudio i Positronie można też ustawić punkt przerwania w skrypcie `.R`.
+Pobierz [szablon 05](materialy/szablon-05.Rmd). Dane są fikcyjne i wygenerowane według jawnej reguły. Wynik statystyczny służy nauce metody; nie opisuje rzeczywistej instytucji.
 
 ## Learn — z prowadzącym
 
-### Ćwiczenie 13. Funkcja z kontrolą argumentu
+### Ćwiczenie 16. Tabela jakościowa i test
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Napiszesz funkcję zamiast powtarzać ten sam fragment kodu.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj funkcję liczącą odsetek braków w wektorze. Sprawdź ją na dwóch kolumnach i na własnym małym przykładzie.</p></div>
-
-~~~r
-odsetek_brakow <- function(x) {
-  if (length(x) == 0L) stop("Wektor nie może być pusty.")
-  100 * sum(is.na(x)) / length(x)
-}
-odsetek_brakow(zgloszenia$ocena)
-odsetek_brakow(zgloszenia$dzial)
-odsetek_brakow(c(1, NA, 3, NA))
-~~~
-
-Wykonaj `odsetek_brakow(numeric(0))` i przeczytaj błąd. Wyjaśnij rolę `if`, `stop()`, `is.na()` i wartości zwracanej przez ostatnią linię funkcji. Spróbuj poprawić celowo błędną nazwę `ocenaa` po przeczytaniu komunikatu R.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Przykład czteroelementowy zwraca 50%, pusty wektor daje jasny komunikat, a funkcja działa dla liczby i tekstu.</p></div>
-
-### Ćwiczenie 14. Warunek i pętla
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Rozróżnisz warunek dla jednej wartości i warunek dla całego wektora.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Oznacz czas obsługi jako krótki lub długi, a potem policz braki w wybranych kolumnach pętlą.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoczniesz test zależności od sprawdzenia liczności i założeń.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj tabelę kanału i rozwiązania sprawy. Uruchom test niezależności chi-kwadrat.</p></div>
 
 ~~~r
-prog <- 40
-etykieta <- ifelse(zgloszenia_analiza$czas_min > prog,
-                   "Długi", "Krótki")
-table(etykieta, useNA = "ifany")
-kolumny <- c("czas_min", "ocena", "koszt")
-for (nazwa in kolumny) {
-  cat(nazwa, ":", sum(is.na(zgloszenia_analiza[[nazwa]])), "\n")
-}
+tab <- table(zgloszenia_analiza$kanal,
+             zgloszenia_analiza$rozwiazano)
+tab
+prop.table(tab, margin = 1)
+test_kategorie <- chisq.test(tab)
+test_kategorie
+test_kategorie$expected
 ~~~
 
-Zwróć uwagę, że brak czasu daje brak etykiety. Zmień `prog` na 30 i porównaj liczności. Następnie uruchom pętlę krok po kroku w konsoli i sprawdź wartość `nazwa`. To jest najprostsza forma śledzenia kodu.
+Sprawdź oczekiwane liczności i zapisz, czy warunki przybliżenia są spełnione. Wniosek ma dotyczyć zależności w tych danych; nie nazywaj jej skutkiem kanału kontaktu.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Potrafisz wyjaśnić wynik <code>ifelse()</code>, wykryć brak etykiety i odczytać trzy liczby braków bez kopiowania kodu.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport podaje liczności, proporcje, oczekiwane liczności, wynik testu oraz ostrożny wniosek.</p></div>
+
+### Ćwiczenie 17. Różnica średnich i model liniowy
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Porównasz grupy oraz odczytasz współczynnik modelu w jednostkach czasu.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom test t dla czasu w grupach A i B oraz model czasu zależny od kanału i grupy.</p></div>
+
+~~~r
+table(zgloszenia_analiza$grupa,
+      is.na(zgloszenia_analiza$czas_min))
+test_czas <- t.test(czas_min ~ grupa, data = zgloszenia_analiza)
+test_czas
+model_lm <- lm(czas_min ~ kanal + grupa, data = zgloszenia_analiza)
+summary(model_lm)
+confint(model_lm)
+plot(model_lm, which = 1)
+~~~
+
+Odczytaj przedział ufności testu. W modelu ustal kategorie odniesienia; wybierz jeden współczynnik i podaj jego interpretację w minutach. Na wykresie reszt poszukaj wzoru, który może ograniczać model. Wyjaśnij różnicę między prostym porównaniem A/B a współczynnikiem modelu uwzględniającego kanał.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wniosek podaje jednostkę, kategorię odniesienia, niepewność wyniku i ograniczenie analizy.</p></div>
+
+### Ćwiczenie 18. Model logistyczny
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zinterpretujesz iloraz szans i przewidywane prawdopodobieństwo bez mylenia tych miar.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz zmienną binarną i dopasuj glm() do rozwiązania sprawy.</p></div>
+
+~~~r
+dane_model <- zgloszenia_analiza |>
+  dplyr::mutate(czy_rozwiazano = as.integer(rozwiazano == "Tak"))
+model_glm <- glm(czy_rozwiazano ~ czas_min + grupa + typ_sprawy,
+                 family = binomial(), data = dane_model)
+summary(model_glm)
+exp(coef(model_glm))
+nobs(model_glm)
+~~~
+
+Wskaż, ile rekordów pominął model z powodu braków. Dla `czas_min` odczytaj iloraz szans na dodatkową minutę. Nie interpretuj go jako procentowej zmiany prawdopodobieństwa. Sprawdź `?glm` i `?predict.glm`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Model działa, raport pokazuje liczebność analizy i poprawnie odróżnia iloraz szans od prawdopodobieństwa.</p></div>
 
 ## Challenge — samodzielnie
 
-### Ćwiczenie 15. Własny program kontroli
+### Ćwiczenie 19. Dwa profile i wybór metody
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz funkcję, warunek, pętlę i test rozwiązania.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Napisz funkcję <code>ocen_kolumne(x, prog_brakow)</code>, która zwraca „sprawdź”, gdy udział braków przekracza próg, a „OK” w przeciwnym razie. Funkcja ma odrzucać próg spoza zakresu 0–100. Użyj pętli po co najmniej czterech kolumnach zbioru i zapisz nazwy wraz z wynikiem w ramce danych.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie przygotujesz wynik modelu, który można sprawdzić i wyjaśnić.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zdefiniuj dwa profile zgłoszeń różniące się czasem, ale mające tę samą grupę i typ sprawy. Użyj predict(model_glm, newdata = profile, type = "response"). Pokaż prawdopodobieństwa w tabeli i napisz, co zmienia się między profilami. Następnie zaproponuj jeden inny test lub model dla własnego pytania o dane kursowe i uzasadnij wybór.</p></div>
 
-Przetestuj funkcję na wektorze bez braków, na wektorze z połową braków i na błędnym progu. Możesz użyć `if` dla pojedynczego wyniku i `data.frame()` do tabeli.
+Użyj wartości istniejących w danych; sprawdź zakres czasów po czyszczeniu. Wyjaśnij, dlaczego sama różnica przewidywań nie daje dowodu przyczynowego. Jeżeli użyjesz asystenta, zapisz sugestię i jej kontrolę.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja działa dla różnych kolumn, próg jest walidowany, pętla tworzy tabelę wynikową, a trzy testy są widoczne w raporcie.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Profile są jawne i sensowne; prawdopodobieństwa należą do przedziału 0–1, a interpretacja wskazuje ograniczenie modelu.</p></div>
 
 Oddaj `nazwisko_imie_05.Rmd` do zadania spotkania 5 w MS Teams.

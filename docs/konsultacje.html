@@ -11,7 +11,7 @@
 
 
 
-<title>Spotkanie 8: eksploracja pakietowa</title>
+<title>Konsultacje projektu — 45 minut</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -388,40 +382,39 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 8: eksploracja pakietowa</h1>
+<h1 class="title toc-ignore">Konsultacje projektu — 45 minut</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 8 z 10
+Spotkanie końcowe · 45 minut
 </h2>
 <p>
-Diagnoza jakości, opis zmiennych i wykres statystyczny z dlookr, explore
-i ggstatsplot.
+Sprawdź projekt z zespołem, omów trudności i przygotuj jeden plik do
+zadania w MS Teams.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 15 min instalacja i pomoc, 25 min
-diagnoza, 25 min eksploracja, 20 min raport automatyczny, 5 min
-kontrola.
+<strong>Plan 45 minut:</strong> 5 min stan prac, 20 min konsultacje
+analiz, 15 min kontrola raportu, 5 min przekazanie lub ustalenie
+ostatnich poprawek.
 </div>
-<p>Pobierz <a href="materialy/szablon-08.Rmd">szablon 08</a>. Pierwszy
-blok instaluje potrzebne pakiety eksploracyjne przed załadowaniem
-pozostałych bibliotek. Przy pierwszym uruchomieniu pobranie zależności
-może potrwać kilka minut; przygotuj pakiety przed zajęciami, jeśli masz
-taką możliwość.</p>
+<p>Przynieś aktualny <a href="materialy/szablon-projekt.Rmd">szablon
+projektu</a> wypełniony przez zespół. Możesz wtedy przesłać gotowy plik;
+<strong>ostateczny termin</strong> zostanie podany w zadaniu MS Teams po
+komunikacie rektora o harmonogramie sesji.</p>
 <div id="learn-z-prowadzącym" class="section level2">
 <h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-22.-diagnoza-z-dlookr" class="section level3">
-<h3>Ćwiczenie 22. Diagnoza z dlookr</h3>
+<div id="ćwiczenie-k1.-pytanie-dane-i-analiza" class="section level3">
+<h3>Ćwiczenie K1. Pytanie, dane i analiza</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Porównasz automatyczny profil danych z ręczną kontrolą jakości.
+Upewnisz się, że metoda i wniosek odpowiadają temu samemu pytaniu.
 </p>
 </div>
 <div class="tilt-card task">
@@ -429,80 +422,36 @@ Porównasz automatyczny profil danych z ręczną kontrolą jakości.
 Zadanie
 </h3>
 <p>
-Uruchom diagnozę braków dla surowych i oczyszczonych danych.
+W zespole pokaż pytanie, tabelę, dwa wykresy oraz test lub model.
+Wyjaśnij, co oznacza jednostka obserwacji, jak obsłużono braki i którą
+miarę efektu interpretujesz.
 </p>
 </div>
-<pre class="r"><code>pakiety_kursu(c(&quot;dlookr&quot;, &quot;explore&quot;, &quot;ggstatsplot&quot;))
-diag_surowe &lt;- dlookr::diagnose(zgloszenia)
-diag_czyste &lt;- dlookr::diagnose(zgloszenia_analiza)
-diag_surowe
-diag_czyste</code></pre>
-<p>Wskaż kolumny z brakami oraz różnicę w kolumnie
-<code>czas_min</code>. Sprawdź, czy raport <code>diagnose()</code> sam
-wykrył wartość -5 i 190 jako błędy; jeżeli nie, wyjaśnij dlaczego
-potrzebna jest reguła dziedzinowa.</p>
+<p>Zaznacz miejsca, w których potrzebujesz pomocy prowadzącego. Porównaj
+wymagania z <a href="ocenianie.html">rubryką</a>; oddziel wynik liczbowy
+od własnej interpretacji. Jeżeli użyto SI, pokaż wynik niezależnej
+kontroli w R.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Widzisz różnicę dwóch braków w <code>czas_min</code> i rozumiesz, że
-statystyka braków nie zastępuje oceny sensu wartości.
-</p>
-</div>
-</div>
-<div id="ćwiczenie-23.-opis-i-wykres-statystyczny"
-class="section level3">
-<h3>Ćwiczenie 23. Opis i wykres statystyczny</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Odczytasz podsumowanie automatyczne, zachowując kontrolę nad pytaniem
-badawczym.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Opisz wszystkie zmienne z explore i porównaj czas między grupami z
-ggstatsplot.
-</p>
-</div>
-<pre class="r"><code>explore::describe_all(zgloszenia_analiza)
-dane_test &lt;- zgloszenia_analiza |&gt;
-  dplyr::filter(!is.na(czas_min))
-ggstatsplot::ggbetweenstats(data = dane_test,
-                            x = grupa, y = czas_min,
-                            type = &quot;parametric&quot;)</code></pre>
-<p>Odczytaj liczebności grup, kierunek różnicy oraz podpis testu. Nie
-zakładaj, że automatyczny wybór testu jest właściwy dla każdego pytania.
-Zapisz, co trzeba sprawdzić przed interpretacją.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Raport zawiera tabelę opisową i wykres obu grup, a tekst odróżnia wynik
-automatyczny od własnej interpretacji.
+Każda osoba w zespole potrafi wyjaśnić pytanie, dane, najważniejszą
+liczbę i ograniczenie wniosku.
 </p>
 </div>
 </div>
 </div>
 <div id="challenge-samodzielnie" class="section level2">
 <h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-24.-raport-automatyczny-i-audyt"
-class="section level3">
-<h3>Ćwiczenie 24. Raport automatyczny i audyt</h3>
+<div id="ćwiczenie-k2.-próba-oddania" class="section level3">
+<h3>Ćwiczenie K2. Próba oddania</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Wygenerujesz raport EDA i wskażesz jego mocne oraz słabe strony.
+Przekażesz raport, który można odtworzyć z jednego pliku.
 </p>
 </div>
 <div class="tilt-card task">
@@ -510,32 +459,23 @@ Wygenerujesz raport EDA i wskażesz jego mocne oraz słabe strony.
 Zadanie
 </h3>
 <p>
-Utwórz folder <code>wyniki/</code> i wygeneruj lokalny raport HTML:
-<code>dlookr::eda_web_report(zgloszenia_analiza, output_file =
-“eda.html”, output_dir = normalizePath(“wyniki”, winslash = “/”), browse
-= FALSE)</code>. Porównaj wybraną tabelę lub wykres z własnym wynikiem z
-poprzednich spotkań. W oddawanym <code>.Rmd</code> podaj nazwę
-wygenerowanego pliku, dwa zgodne ustalenia i jedną rzecz, której raport
-nie wyjaśnia.
+Uruchom ponownie R, wyrenderuj projekt od początku, sprawdź zgodność
+liczb z opisem i popraw wskazane błędy.
 </p>
 </div>
-<p>W raporcie R Markdown umieść wywołanie <code>eda_web_report()</code>
-w bloku z opcją <code>eval=FALSE</code>, ponieważ odrębny raport HTML
-tworzysz jednorazowo w konsoli. W treści pokaż kod i własną kontrolę,
-aby główny dokument dało się renderować bez ponownego tworzenia drugiego
-raportu.</p>
+<p>Sprawdź nazwiska i wkład członków zespołu. Do zadania projektu w MS
+Teams wgraj <strong>jeden plik <code>.Rmd</code> na zespół</strong>
+przed terminem widocznym w Teams. Nie dołączaj projektu RStudio, danych
+generowanych skryptem ani HTML. Zachowaj własną kopię pliku.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Plik <code>wyniki/eda.html</code> powstaje lokalnie; oddany
-<code>.Rmd</code> zawiera kod generowania, sprawdzoną liczbę i krytyczny
-komentarz. Nie dołączasz drugiego HTML do Teams.
+Raport renderuje się w czystej sesji, spełnia rubrykę i jest gotowy do
+oceny w MS Teams.
 </p>
 </div>
-<p>Oddaj <code>nazwisko_imie_08.Rmd</code> do zadania spotkania 8 w MS
-Teams.</p>
 </div>
 </div>
 

@@ -1,5 +1,5 @@
 ---
-title: "Spotkanie 3: import danych i kontrola jakości — praca studenta"
+title: "Spotkanie 3: wizualizacja danych — praca studenta"
 author: "Imię i nazwisko"
 output:
   html_document:
@@ -15,25 +15,27 @@ source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = 
 
 ## Learn — z prowadzącym
 
-### Ćwiczenie 7. Odczyt CSV i Excel
+### Ćwiczenie 9. Rozkład czasu
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Zaimportujesz dane z dwóch formatów, kontrolując typy i kodowanie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Odczytaj oba pliki i porównaj liczby wierszy, kolumn oraz typ pola z datą.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Dobierzesz histogram do zmiennej liczbowej i sprawdzisz wpływ szerokości przedziału.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Porównaj szybki wykres bazowy z histogramem ggplot2. Zmień binwidth i opisz różnicę.</p></div>
 
 ~~~r
-csv <- read.csv("dane/zgloszenia.csv", na.strings = "",
-                fileEncoding = "UTF-8", stringsAsFactors = FALSE)
-xlsx <- readxl::read_excel("dane/zgloszenia.xlsx")
-dim(csv)
-dim(xlsx)
-str(csv$data)
-str(xlsx$data)
-head(csv[, c("id", "data", "dzial")], 3)
+hist(zgloszenia_analiza$czas_min,
+     main = "Czas obsługi", xlab = "Minuty", col = "grey80")
+ggplot2::ggplot(zgloszenia_analiza,
+                ggplot2::aes(x = czas_min)) +
+  ggplot2::geom_histogram(binwidth = 10, fill = "#2b6d73",
+                          color = "white", na.rm = TRUE) +
+  ggplot2::labs(title = "Rozkład czasu obsługi",
+                x = "Czas [min]", y = "Liczba zgłoszeń") +
+  ggplot2::theme_minimal()
+summary(zgloszenia_analiza$czas_min)
 ~~~
 
-Plik CSV nie przechowuje typów kolumn tak jak arkusz Excel. Zamień datę w `csv` na typ `Date` za pomocą `as.Date()`. Sprawdź `class()` przed zmianą i po niej. Obejrzyj nagłówki przez `names()` i pomoc `?read.csv`.
+Sprawdź `binwidth = 5` i `binwidth = 20`. Dane pozostają te same; zmienia się sposób grupowania wartości. Wskaż medianę w wynikach `summary()`.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Obie ramki mają 240 wierszy i 10 kolumn; wyjaśniasz różnicę typów daty i umiesz ją poprawić.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Histogram ma tytuł, osie i jednostkę; opis uwzględnia wpływ szerokości koszyków oraz braków.</p></div>
 
 **Twoja praca — kod:**
 
@@ -44,22 +46,27 @@ Plik CSV nie przechowuje typów kolumn tak jak arkusz Excel. Zamień datę w `cs
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 
-### Ćwiczenie 8. Braki i wartości podejrzane
+### Ćwiczenie 10. Czas i koszt
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Odróżnisz brak od wartości błędnej i zachowasz surowe dane.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz braki w każdej kolumnie oraz znajdź niemożliwe i skrajne czasy obsługi.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz współzmienność dwóch zmiennych liczbowych bez przypisywania jej przyczyny.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wykres punktowy z kolorem kanału i oblicz korelację dla pełnych par.</p></div>
 
 ~~~r
-colSums(is.na(csv))
-summary(csv$czas_min)
-csv[csv$czas_min < 0 | csv$czas_min > 120,
-    c("id", "czas_min", "kanal")]
-table(csv$dzial, useNA = "ifany")
+ggplot2::ggplot(zgloszenia_analiza,
+                ggplot2::aes(x = czas_min, y = koszt, color = kanal)) +
+  ggplot2::geom_point(alpha = 0.6, na.rm = TRUE) +
+  ggplot2::geom_smooth(method = "lm", se = FALSE, na.rm = TRUE) +
+  ggplot2::labs(title = "Czas a koszt obsługi",
+                x = "Czas [min]", y = "Koszt [zł]", color = "Kanał") +
+  ggplot2::theme_minimal()
+sum(complete.cases(zgloszenia_analiza[, c("czas_min", "koszt")]))
+cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
+    use = "complete.obs")
 ~~~
 
-Zapisz w tekście, czy rekord z czasem 190 minut należy usunąć automatycznie. Zaproponuj regułę: co zrobić z czasem ujemnym, brakami ocen i niespójnymi nazwami działów. Surowy obiekt `csv` pozostaw bez zmian.
+Wyjaśnij, co oznacza dodatnia korelacja i dlaczego nie dowodzi przyczynowości. Sprawdź liczbę pełnych par przed opisem współczynnika.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport podaje liczbę braków w kolumnach, wykazuje czas -5 i 190 oraz oddziela obserwację nietypową od ewidentnego błędu.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wykres ma obie jednostki, korelacja korzysta z pełnych par, a komentarz nie myli zależności z wpływem.</p></div>
 
 **Twoja praca — kod:**
 
@@ -70,16 +77,34 @@ Zapisz w tekście, czy rekord z czasem 190 minut należy usunąć automatycznie.
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 
-## Challenge — samodzielnie
+### Ćwiczenie 11. Czas i kombinacje kategorii
 
-### Ćwiczenie 9. Własny plik wynikowy
+<div class="tilt-card purpose"><h3>Cel</h3><p>Przygotujesz dane zagregowane do wykresu liniowego i mapy cieplnej.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Policz zgłoszenia według miesiąca oraz kanału i działu; narysuj dwa różne wykresy.</p></div>
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie zapiszesz i ponownie odczytasz uporządkowane dane.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz <code>dane_robocze</code> jako kopię <code>csv</code>. Oznacz ujemny czas jako <code>NA</code>, zachowując 190 do dalszej kontroli. Utwórz folder <code>wyniki/</code> i zapisz <code>dane_robocze</code> przez <code>write.csv(..., row.names = FALSE)</code>. Odczytaj plik ponownie i porównaj liczbę wierszy oraz braków.</p></div>
+~~~r
+miesiace <- zgloszenia_analiza |>
+  dplyr::mutate(miesiac = format(data, "%Y-%m")) |>
+  dplyr::count(miesiac)
+ggplot2::ggplot(miesiace, ggplot2::aes(miesiac, n, group = 1)) +
+  ggplot2::geom_line(color = "#2b6d73") +
+  ggplot2::geom_point() +
+  ggplot2::labs(title = "Zgłoszenia w czasie",
+                x = "Miesiąc", y = "Liczba zgłoszeń") +
+  ggplot2::theme_minimal()
+komorki <- zgloszenia_analiza |>
+  dplyr::count(kanal, dzial)
+ggplot2::ggplot(komorki, ggplot2::aes(kanal, dzial, fill = n)) +
+  ggplot2::geom_tile(color = "white") +
+  ggplot2::labs(title = "Natężenie zgłoszeń",
+                x = "Kanał", y = "Dział", fill = "Liczba") +
+  ggplot2::theme_minimal()
+sum(komorki$n)
+~~~
 
-Używaj ścieżek względnych. Opisz, dlaczego przed eksportem tworzysz nowy obiekt, zamiast zmieniać plik źródłowy.
+Wskaż, czy linia łączy rekordy czy agregaty. Sprawdź kolejność miesięcy oraz to, jak mapa przedstawia brak działu.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wyeksportowany CSV ma 240 wierszy, nie ma kolumny z numerami wierszy, a rekord z ujemnym czasem ma brak. Raport działa od początku po usunięciu lokalnego folderu <code>wyniki/</code>.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Linia pokazuje kolejne miesiące, mapa pokazuje liczności, a suma komórek daje 240.</p></div>
 
 **Twoja praca — kod:**
 
@@ -90,10 +115,30 @@ Używaj ścieżek względnych. Opisz, dlaczego przed eksportem tworzysz nowy obi
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 
+## Challenge — samodzielnie
+
+### Ćwiczenie 12. Własna mapa rozwiązanych spraw
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie dobierzesz miarę, skalę i kontrolę małych grup.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Policz procent spraw rozwiązanych w każdej kombinacji kanału i działu. Pokaż wynik na mapie cieplnej z czytelną legendą procentową. Podaj obok liczność każdej komórki. Ustal, jak potraktujesz brak działu, i zapisz tę decyzję.</p></div>
+
+Wskazówka: użyj `group_by(kanal, dzial)` i `100 * mean(rozwiazano == "Tak")`. Skala ma obejmować 0–100%. Dodaj jedno zdanie o ograniczeniu porównania małych grup.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Kolor oznacza procent, a nie liczbę zgłoszeń; tabela liczności pozwala ocenić wiarygodność komórek i kod tworzy wykres od początku.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw4}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
 
 ## Kontrola przed oddaniem
 
 - [ ] Dokument renderuje się od początku w czystej sesji R.
-- [ ] Wszystkie trzy ćwiczenia zawierają kod i interpretację.
+- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.
 - [ ] Część Challenge jest samodzielnym rozwiązaniem.
 - [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.

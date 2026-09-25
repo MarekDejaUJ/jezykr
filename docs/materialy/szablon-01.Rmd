@@ -1,5 +1,5 @@
 ---
-title: "Spotkanie 1: projekt, konsola i pierwszy raport — praca studenta"
+title: "Spotkanie 1: import, pliki i czyszczenie danych — praca studenta"
 author: "Imię i nazwisko"
 output:
   html_document:
@@ -15,17 +15,27 @@ source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = 
 
 ## Learn — z prowadzącym
 
-### Ćwiczenie 1. Projekt i pliki
+### Ćwiczenie 1. Dwa formaty, te same rekordy
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Ustawisz folder roboczy, tak aby kod działał na innym komputerze.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz projekt RStudio albo otwórz folder w Positronie. Pobierz szablon do jego katalogu. Sprawdź położenie i zawartość.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zaimportujesz CSV i XLSX oraz sprawdzisz strukturę danych.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Odczytaj dwa pliki z folderu projektu. Porównaj rozmiar ramek i typ kolumny data.</p></div>
 
-1. W konsoli wpisz `getwd()`. Porównaj wynik z folderem, w którym zapisano plik `szablon-01.Rmd`.
-2. Wpisz `list.files()`. Powinien pojawić się szablon. Jeśli nie, popraw folder projektu w IDE.
-3. Utwórz folder wynikowy: `dir.create("wyniki", showWarnings = FALSE)`; sprawdź `list.dirs(recursive = FALSE)`.
-4. Otwórz szablon. Uruchom jego blok **start**. Obejrzyj obiekty przez `ls()` i pliki przez `list.files("dane")`.
+~~~r
+list.files("dane")
+csv <- read.csv("dane/zgloszenia.csv", na.strings = "",
+                fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+xlsx <- readxl::read_excel("dane/zgloszenia.xlsx")
+dim(csv)
+dim(xlsx)
+class(csv$data)
+class(xlsx$data)
+csv$data <- as.Date(csv$data)
+head(csv[, c("id", "data", "dzial")], 3)
+~~~
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p><code>getwd()</code> wskazuje projekt, istnieje folder <code>dane/</code> z plikami CSV i XLSX, a obiekt <code>zgloszenia</code> ma 240 wierszy.</p></div>
+Wyjaśnij, dlaczego przy imporcie CSV trzeba sprawdzić datę i braki. Obejrzyj pomoc `?read.csv` oraz nazwy kolumn przez `names(csv)`. Zapisz, co oznacza jeden wiersz danych.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Oba pliki mają 240 wierszy i 10 kolumn. Kolumna data w CSV została jawnie zamieniona na datę, a raport podaje jednostkę obserwacji.</p></div>
 
 **Twoja praca — kod:**
 
@@ -36,25 +46,22 @@ source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 
-### Ćwiczenie 2. Konsola, obiekty i pomoc
+### Ćwiczenie 2. Brak, błąd i wartość skrajna
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Odróżnisz polecenie wykonane w konsoli od kodu zapisanego w raporcie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Sprawdź arytmetykę, przypisanie, podgląd danych i pomoc R. Zapisz użyteczne polecenia w szablonie.</p></div>
-
-W konsoli wykonaj po kolei:
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozdzielisz diagnozę braków od decyzji o wartości podejrzanej.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Policz braki w każdej kolumnie, znajdź czas ujemny i czas powyżej 120 minut. Surowego obiektu csv nie zmieniaj.</p></div>
 
 ~~~r
-2 + 2
-liczba_zgloszen <- nrow(zgloszenia)
-liczba_zgloszen
-names(zgloszenia)
-head(zgloszenia, 3)
-?nrow
+colSums(is.na(csv))
+summary(csv$czas_min)
+csv[csv$czas_min < 0 | csv$czas_min > 120,
+    c("id", "czas_min", "kanal")]
+table(csv$dzial, useNA = "ifany")
 ~~~
 
-Zauważ, że wynik `2 + 2` znika po zamknięciu sesji, a kod zapisany w pliku pozostaje. Usuń tylko próbny obiekt `liczba_zgloszen` przez `rm(liczba_zgloszen)`. Wyświetl `ls()`. Komendę `rm(list = ls())` poznaj jako sposób wyczyszczenia **konsoli** przed testem; nie umieszczaj jej w raporcie. W szablonie dopisz dwie linie tekstu: po co używa się projektu i co robi `source()`.
+W tekście rozróżnij niemożliwy czas -5 minut od nietypowych 190 minut. Ustal z prowadzącym regułę ćwiczeniową: oba czasy oznacz jako brak w **nowej** ramce i pokaż, ile rekordów to dotyczy. W rzeczywistej instytucji wartość 190 minut wymagałaby sprawdzenia w źródle.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Potrafisz utworzyć i usunąć obiekt, znaleźć pomoc funkcji oraz rozróżnić plik źródłowy, dane i wynik HTML.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Widzisz trzy braki oceny, jeden brak działu i jeden brak kosztu oraz dwa podejrzane czasy. Uzasadniasz regułę zamiast bez wyjaśnienia usuwać wiersze.</p></div>
 
 **Twoja praca — kod:**
 
@@ -65,16 +72,30 @@ Zauważ, że wynik `2 + 2` znika po zamknięciu sesji, a kod zapisany w pliku po
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 
-## Challenge — samodzielnie
+### Ćwiczenie 3. Nowa ramka po czyszczeniu
 
-### Ćwiczenie 3. Pierwszy odtwarzalny raport
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zapiszesz reguły porządkowania w kodzie, zachowując wersję surową.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Ujednolić nazwy działów i oznaczyć podejrzane czasy. Porównaj obiekt przed zmianą i po niej.</p></div>
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz tekst, kod i wynik w jednym dokumencie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>W szablonie dodaj blok R, który wyświetli liczbę wierszy i kolumn, nazwy trzech pierwszych kolumn oraz liczbę różnych kanałów kontaktu. Pod wynikiem napisz dwa zdania interpretacji.</p></div>
+~~~r
+dane_czyste <- csv |>
+  dplyr::mutate(
+    dzial = trimws(dzial),
+    dzial = dplyr::case_when(
+      tolower(dzial) == "katalog" ~ "Katalog",
+      tolower(dzial) == "repozytorium" ~ "Repozytorium",
+      TRUE ~ dzial
+    ),
+    czas_min = ifelse(czas_min < 0 | czas_min > 120, NA, czas_min)
+  )
+table(dane_czyste$dzial, useNA = "ifany")
+sum(is.na(dane_czyste$czas_min))
+nrow(dane_czyste)
+~~~
 
-Wskazówki: użyj `nrow()`, `ncol()`, `names()`, `unique()` i `length()`. W RStudio wybierz **Knit**, w Positronie użyj polecenia renderowania R Markdown. Jeśli raport działa tylko po ręcznym uruchomieniu bloków, zrestartuj R i ponów renderowanie.
+Sprawdź `csv[c(11, 79), "czas_min"]`: surowe wartości nadal muszą być dostępne. Wyjaśnij, dlaczego brak czasu nie musi oznaczać usunięcia całego zgłoszenia.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport renderuje się od początku; zawiera 240 wierszy, 10 kolumn i 3 kanały. Tekst wyjaśnia, że dane są fikcyjne i opisuje jednostkę obserwacji.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Nowa ramka ma 240 wierszy, trzy spójne nazwy działów i dwa braki czasu; surowe dane pozostają bez zmian.</p></div>
 
 **Twoja praca — kod:**
 
@@ -85,10 +106,30 @@ Wskazówki: użyj `nrow()`, `ncol()`, `names()`, `unique()` i `length()`. W RStu
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 
+## Challenge — samodzielnie
+
+### Ćwiczenie 4. Eksport i ponowna kontrola
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie zapiszesz CSV, odczytasz je ponownie i sprawdzisz jakość wyniku.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder wyniki/, zapisz dane_czyste do wyniki/zgloszenia_czyste.csv z row.names = FALSE i na = "". Ponownie wczytaj ten plik. Sprawdź liczbę wierszy, kolumn, braków czasu i brak niepotrzebnej kolumny numerującej wiersze.</p></div>
+
+Dodaj własną regułę kontroli, np. porównanie liczby rekordów przed eksportem i po nim. Wyjaśnij, kiedy przy ponownym odczycie CSV trzeba znowu ustawić typ daty. Raport musi działać po usunięciu folderu `wyniki/`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Plik wynikowy ma 240 wierszy i 10 kolumn, dwa braki czasu i spójne działy. Kod odtwarza folder i eksport bez ręcznych kroków.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw4}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
 
 ## Kontrola przed oddaniem
 
 - [ ] Dokument renderuje się od początku w czystej sesji R.
-- [ ] Wszystkie trzy ćwiczenia zawierają kod i interpretację.
+- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.
 - [ ] Część Challenge jest samodzielnym rozwiązaniem.
 - [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.

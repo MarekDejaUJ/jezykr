@@ -9,7 +9,7 @@ site/*_cache/
 site/*_files/
 site/.Rproj.user/
 
-# Lokalny plan pracy i pliki tymczasowe
+# Pliki prywatne i tymczasowe
 przygotowanie-kursu.md
 .work/
 *.tmp

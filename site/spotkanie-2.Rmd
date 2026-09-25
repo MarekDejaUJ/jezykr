@@ -1,66 +1,90 @@
 ---
-title: "Spotkanie 2: typy danych i struktury R"
+title: "Spotkanie 2: operacje, funkcje i przekształcenia"
 ---
 
-<div class="hero"><h2>Spotkanie 2 z 10</h2><p>Wektory, macierze, listy i ramki danych jako podstawowe narzędzia pracy.</p></div>
+<div class="hero"><h2>Spotkanie 2 z 6 · treść programowa 3</h2><p>Operujesz na wektorach i próbach losowych, przekształcasz ramki oraz piszesz własną funkcję R.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 10 min powtórka, 30 min wektory i typy, 25 min struktury, 20 min zadanie własne, 5 min kontrola.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min operatory, 20 min próba losowa, 25 min dplyr i tidyr, 15 min funkcja z prowadzącym, 15 min samodzielny program, 5 min kontrola.</div>
 
-Pobierz [szablon 02](materialy/szablon-02.Rmd). Przed każdym nowym obiektem zapisz krótką informację, co oznacza.
+Pobierz [szablon 02](materialy/szablon-02.Rmd). Blok startowy udostępnia obiekty `zgloszenia` i `zgloszenia_analiza`. Skrypt startowy zawiera jawne reguły czyszczenia; nie nadpisuj surowego obiektu.
 
 ## Learn — z prowadzącym
 
-### Ćwiczenie 4. Wektor, typ i brak danych
+### Ćwiczenie 5. Wektor, warunek i próbka
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz typy <code>numeric</code>, <code>character</code> i <code>logical</code> oraz wartości <code>NA</code>.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wektory i sprawdź, jak R przelicza elementy oraz traktuje brak.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz operację na całym wektorze, wartości brakujące i powtarzalne losowanie.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wektor, policz średnią z pominięciem braku i wylosuj 12 identyfikatorów zgłoszeń.</p></div>
 
 ~~~r
 czasy <- c(12, 18, NA, 30)
-kanaly <- c("Online", "Telefon", "Online", "Na miejscu")
 czasy > 15
-typeof(czasy)
-typeof(kanaly)
 mean(czasy)
 mean(czasy, na.rm = TRUE)
-is.na(czasy)
+sum(is.na(czasy))
+set.seed(17358)
+proba_id <- sample(zgloszenia$id, size = 12, replace = FALSE)
+proba_id
 ~~~
 
-1. Wyjaśnij, dlaczego pierwsza średnia jest `NA`, a druga liczbą.
-2. Zbuduj własny wektor logiczny `dlugie` dla czasów powyżej 15 minut.
-3. Sprawdź `length(czasy)` i `sum(is.na(czasy))`. Przeczytaj pomoc `?mean`.
+Sprawdź `typeof(czasy)` i `length(proba_id)`. Ponownie uruchom blok po `set.seed()` i wyjaśnij, dlaczego próba się nie zmienia. W pomocy `?sample` odszukaj znaczenie `replace`.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wskazujesz typ każdego wektora i jeden brak; średnia z pominięciem braku wynosi 20.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Średnia z trzech dostępnych czasów wynosi 20; próba ma 12 unikalnych ID i jest powtarzalna.</p></div>
 
-### Ćwiczenie 5. Macierz, lista i ramka danych
+### Ćwiczenie 6. Filtrowanie, agregacja i układ tabeli
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Dobierzesz strukturę do jednorodnych i mieszanych danych.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz trzy struktury i odczytaj z nich wskazane elementy.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zmienisz dane jednostkowe w zestawienie według kanału i grupy.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Użyj select(), filter(), arrange(), group_by(), summarise() oraz pivot_wider().</p></div>
 
 ~~~r
-macierz <- matrix(1:6, nrow = 2, byrow = TRUE)
-raport <- list(tytul = "Obsługa", liczba = 240, gotowy = FALSE)
-proba <- data.frame(id = c("Z1", "Z2"),
-                    czas_min = c(12, 18),
-                    kanal = c("Online", "Telefon"))
-macierz[2, 3]
-raport$liczba
-proba[proba$czas_min > 15, c("id", "kanal")]
+online <- zgloszenia_analiza |>
+  dplyr::select(id, kanal, grupa, czas_min) |>
+  dplyr::filter(kanal == "Online") |>
+  dplyr::arrange(dplyr::desc(czas_min))
+head(online)
+podsumowanie <- zgloszenia_analiza |>
+  dplyr::group_by(kanal, grupa) |>
+  dplyr::summarise(
+    liczba = dplyr::n(),
+    sredni_czas = mean(czas_min, na.rm = TRUE),
+    .groups = "drop"
+  )
+podsumowanie
+sum(podsumowanie$liczba)
+tidyr::pivot_wider(podsumowanie, names_from = grupa,
+                   values_from = sredni_czas)
 ~~~
 
-Sprawdź `str()` i `dim()` każdego obiektu. Wyjaśnij, dlaczego w ramce danych kolumny mogą mieć różne typy, a macierz ma jeden typ. Obejrzyj pierwsze trzy wiersze `zgloszenia` i wyświetl tylko `id`, `dzial`, `ocena`.
+Zbuduj również wersję długą przez `tidyr::pivot_longer()` dla dwóch kolumn tabeli szerokiej. Opisz, czym różni się liczba obserwacji od średniej. Sprawdź pomoc `?dplyr::summarise`.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Umiesz wskazać element [2,3] macierzy, pole listy i podzbiór ramki. Potrafisz uzasadnić dobór struktury.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Zestawienie ma sześć kombinacji, liczności sumują się do 240, a tabela szeroka ma osobne kolumny A i B.</p></div>
+
+### Ćwiczenie 7. Własna funkcja i diagnoza błędu
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Napiszesz funkcję wielokrotnego użytku i sprawdzisz jej zachowanie w typowym i skrajnym przypadku.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Policz odsetek braków dla dowolnego wektora. Przetestuj także pusty wektor i celowo błędną nazwę kolumny.</p></div>
+
+~~~r
+odsetek_brakow <- function(x) {
+  if (length(x) == 0L) stop("Wektor nie może być pusty.")
+  100 * sum(is.na(x)) / length(x)
+}
+odsetek_brakow(zgloszenia$ocena)
+odsetek_brakow(c(1, NA, 3, NA))
+~~~
+
+W konsoli uruchom `odsetek_brakow(numeric(0))` i odczytaj komunikat, potem popraw wywołanie. Sprawdź `?is.na`, `str(zgloszenia)` i `traceback()` po błędzie. W oddawanym raporcie pokaż kod błędnego wywołania w bloku z `eval=FALSE`, aby dokument nadal się renderował.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja zwraca 50 dla przykładu z dwoma brakami, odrzuca pusty wektor i działa zarówno dla liczb, jak i tekstu.</p></div>
 
 ## Challenge — samodzielnie
 
-### Ćwiczenie 6. Mały opis usług
+### Ćwiczenie 8. Program kontroli jakości
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie połączysz typy danych i indeksowanie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj ramkę pięciu fikcyjnych zapytań z kolumnami <code>id</code>, <code>kanal</code>, <code>czas_min</code> i <code>ocena</code>. Jeden wynik oceny ma być <code>NA</code>. Utwórz listę zawierającą tę ramkę, liczbę zapytań i datę opracowania. Oblicz średni czas oraz liczbę braków oceny; wybierz wiersze o czasie powyżej własnego progu.</p></div>
+<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz funkcję, warunek, pętlę i wynikową ramkę danych.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Napisz funkcję ocen_kolumne(x, prog_brakow), która zwraca „sprawdź”, gdy procent braków przekracza próg, a „OK” w przeciwnym razie. Odrzuć próg spoza 0–100. Pętlą for oceń co najmniej cztery kolumny zbioru i zapisz wynik w ramce z nazwą, procentem braków i oceną.</p></div>
 
-Zapisz w tekście, dlaczego `ocena` jest liczbą, a `kanal` tekstem. Nie używaj `attach()`; odwołuj się jawnie do kolumn.
+Sprawdź funkcję na wektorze bez braków, z połową braków i na błędnym progu. Błędne wywołanie pokaż jako kod nieuruchamiany przy renderowaniu. Własnymi słowami wyjaśnij, dlaczego próg jest decyzją analityczną.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Ramka ma 5 wierszy i 4 kolumny, lista zawiera trzy elementy, brak oceny nie psuje obliczeń, a wybrany próg i wynik są opisane.</p></div>
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja i pętla działają na różnych kolumnach, walidacja progu daje czytelny błąd, a trzy testy potwierdzają zachowanie programu.</p></div>
 
 Oddaj `nazwisko_imie_02.Rmd` do zadania spotkania 2 w MS Teams.

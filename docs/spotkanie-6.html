@@ -11,7 +11,7 @@
 
 
 
-<title>Spotkanie 6: wykresy i ggplot2</title>
+<title>Spotkanie 6: R i GitHub Copilot CLI</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,39 +334,33 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
     </li>
     <li>
-      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+      <a href="spotkanie-3.html">3. Wizualizacja</a>
     </li>
     <li>
-      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+      <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+      <a href="spotkanie-5.html">5. Testy i modele</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
-    </li>
-    <li>
-      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
-    </li>
-    <li>
-      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
-    </li>
-    <li>
-      <a href="spotkanie-9.html">9. Testy i modele</a>
-    </li>
-    <li>
-      <a href="spotkanie-10.html">10. Raport i projekt</a>
+      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
     </li>
   </ul>
 </li>
 <li>
+  <a href="konsultacje.html">Konsultacje</a>
+</li>
+<li>
   <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="prompty.html">Prompty</a>
 </li>
 <li>
   <a href="materialy.html">Materiały</a>
@@ -388,38 +382,45 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 6: wykresy i ggplot2</h1>
+<h1 class="title toc-ignore">Spotkanie 6: R i GitHub Copilot CLI</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 6 z 10
+Spotkanie 6 z 6 · treść programowa 7
 </h2>
 <p>
-Wykres bazowy, histogram i porównanie grup w ggplot2.
+Instalujesz GitHub Copilot CLI w planie Free i sprawdzasz jego pomoc
+przy statystykach, wielkości efektu oraz poprawianiu kodu.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min dobór wykresu, 30 min rozkład, 25
-min porównanie, 20 min zadanie własne, 5 min kontrola.
+<strong>Plan 90 minut:</strong> 20 min instalacja i logowanie, 20 min
+podsumowanie liczbowe, 25 min wielkość efektu, 20 min korekta kodu, 5
+min kontrola.
 </div>
-<p>Pobierz <a href="materialy/szablon-06.Rmd">szablon 06</a>. Do
-wykresów czasu używaj <code>zgloszenia_analiza</code>; dwa podejrzane
-czasy zostały w nim oznaczone jako brak. Wyjaśnij ten wybór w
-raporcie.</p>
+<p>Pobierz <a href="materialy/szablon-06.Rmd">szablon 06</a>.
+<strong>GitHub Copilot CLI</strong> działa w terminalu i wymaga konta
+GitHub. To inne narzędzie niż Microsoft Copilot Chat z <a
+href="organizacyjne.html">organizacji</a>. <a
+href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli">GitHub
+potwierdza dostępność CLI w planie Copilot Free</a>; plan Free ma
+ograniczony miesięczny przydział użycia. Nie trzeba wykupować płatnego
+planu do wykonania zajęć.</p>
 <div id="learn-z-prowadzącym" class="section level2">
 <h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-16.-rozkład-jednej-zmiennej" class="section level3">
-<h3>Ćwiczenie 16. Rozkład jednej zmiennej</h3>
+<div id="ćwiczenie-20.-instalacja-i-bezpieczne-uruchomienie"
+class="section level3">
+<h3>Ćwiczenie 20. Instalacja i bezpieczne uruchomienie</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Dobierzesz histogram do rozkładu liczbowego i odczytasz jego
-ograniczenia.
+Uruchomisz asystenta CLI w folderze kursowym i poznasz granice jego
+dostępu.
 </p>
 </div>
 <div class="tilt-card task">
@@ -427,39 +428,58 @@ ograniczenia.
 Zadanie
 </h3>
 <p>
-Porównaj szybki wykres bazowy z wykresem ggplot2 i dostosuj podpisy.
+Aktywuj GitHub Copilot Free na koncie GitHub, zainstaluj CLI, uruchom je
+w terminalu projektu i zaloguj się.
 </p>
 </div>
-<pre class="r"><code>hist(zgloszenia_analiza$czas_min,
-     main = &quot;Czas obsługi&quot;, xlab = &quot;Minuty&quot;, col = &quot;grey80&quot;)
-ggplot2::ggplot(zgloszenia_analiza,
-                ggplot2::aes(x = czas_min)) +
-  ggplot2::geom_histogram(binwidth = 10, fill = &quot;#2b6d73&quot;,
-                          color = &quot;white&quot;, na.rm = TRUE) +
-  ggplot2::labs(title = &quot;Rozkład czasu obsługi&quot;,
-                x = &quot;Czas [min]&quot;, y = &quot;Liczba zgłoszeń&quot;) +
-  ggplot2::theme_minimal()</code></pre>
-<p>Zmień <code>binwidth</code> na 5 i 20. Opisz, jak zmienia się obraz
-rozkładu, choć dane są te same. Sprawdź medianę i kwartyle przez
-<code>summary()</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Zaloguj się na <a href="https://github.com/">GitHub</a> własnym
+kontem i włącz <a
+href="https://docs.github.com/en/copilot/how-tos/manage-your-account/get-started-with-a-copilot-plan">Copilot
+Free</a>, jeżeli nie masz aktywnego planu.</li>
+<li>W RStudio lub Positronie otwórz <strong>Terminal</strong> w folderze
+projektu. W Windows, w <strong>PowerShell 6 lub nowszym</strong>,
+wykonaj <code>winget install GitHub.Copilot</code>. Gdy
+<code>winget</code> nie jest dostępny, zgodnie z <a
+href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli">instrukcją
+instalacji GitHub</a> można użyć Node.js 22 lub nowszego i
+<code>npm install -g @github/copilot</code>. Na innych systemach wybierz
+metodę z tej samej instrukcji.</li>
+<li>Sprawdź instalację przez <code>copilot version</code>, a potem
+uruchom <code>copilot</code>. Jeśli narzędzie poprosi o logowanie, wpisz
+<code>/login</code> i postępuj zgodnie z poleceniami.</li>
+<li>Zatwierdź zaufanie <strong>tylko do folderu tego projektu</strong>.
+Przeczytaj każde żądanie odczytu, uruchomienia polecenia lub zmiany
+pliku przed zgodą. <a
+href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview">Instrukcja
+użycia CLI</a> wyjaśnia dostęp narzędzia do plików. Zakończ przez
+<code>/exit</code>.</li>
+</ol>
+<p>Nie wklejaj haseł, tokenów ani danych osobowych. Korzystaj z
+fikcyjnego zbioru kursowego. Jeżeli instalacja lub logowanie nie
+powiedzie się w czasie zajęć, wykonaj obliczenia samodzielnie w R i
+zapisz, który etap CLI sprawił trudność; pokażesz go prowadzącemu
+podczas konsultacji.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Wykres ma tytuł, podpisane osie i jednostkę; potrafisz wskazać wpływ
-szerokości przedziału na interpretację.
+Wiesz, czym różnią się dwa konta Copilot, widzisz wersję CLI i potrafisz
+uruchomić oraz zamknąć sesję we właściwym folderze.
 </p>
 </div>
 </div>
-<div id="ćwiczenie-17.-porównanie-kanałów" class="section level3">
-<h3>Ćwiczenie 17. Porównanie kanałów</h3>
+<div id="ćwiczenie-21.-podsumowanie-liczbowe-z-kontrolą"
+class="section level3">
+<h3>Ćwiczenie 21. Podsumowanie liczbowe z kontrolą</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Porównasz rozkłady kilku grup bez ukrywania zmienności.
+Poprosisz CLI o wskazówkę do kodu, ale liczby obliczysz i sprawdzisz w
+R.
 </p>
 </div>
 <div class="tilt-card task">
@@ -467,41 +487,104 @@ Porównasz rozkłady kilku grup bez ukrywania zmienności.
 Zadanie
 </h3>
 <p>
-Zbuduj wykres pudełkowy i sprawdź, czy wniosek odpowiada liczbowemu
-zestawieniu.
+Zapytaj CLI o kod dla liczebności, średniej, mediany i odchylenia czasu
+obsługi według grupy. Nie podawaj gotowych liczb w promptcie.
 </p>
 </div>
-<pre class="r"><code>ggplot2::ggplot(zgloszenia_analiza,
-                ggplot2::aes(x = kanal, y = czas_min)) +
-  ggplot2::geom_boxplot(fill = &quot;#c98f4b&quot;, na.rm = TRUE) +
-  ggplot2::labs(title = &quot;Czas obsługi według kanału&quot;,
-                x = &quot;Kanał&quot;, y = &quot;Czas [min]&quot;) +
-  ggplot2::theme_minimal()
-aggregate(czas_min ~ kanal, zgloszenia_analiza, median)</code></pre>
-<p>Wskaż kanał z najwyższą medianą i opisz rozrzut. Zastanów się, czy
-wykres pokazuje liczebność grup; jeśli nie, dodaj tabelę
-<code>table()</code>.</p>
+<p>Przykładowe polecenie w interaktywnej sesji CLI: „W pliku R Markdown
+pracuję z ramką <code>zgloszenia_analiza</code>. Podaj krótki kod R
+liczący n, liczbę braków, średnią, medianę i sd dla
+<code>czas_min</code> według <code>grupa</code>. Nie zgaduj wyników.
+Pokaż test sumy liczebności i wyjaśnij <code>na.rm</code>.”</p>
+<p>Porównaj propozycję z tym szkieletem i uruchom własny kod:</p>
+<pre class="r"><code>statystyki &lt;- zgloszenia_analiza |&gt;
+  dplyr::group_by(grupa) |&gt;
+  dplyr::summarise(
+    n = dplyr::n(),
+    braki = sum(is.na(czas_min)),
+    srednia = mean(czas_min, na.rm = TRUE),
+    mediana = median(czas_min, na.rm = TRUE),
+    sd = sd(czas_min, na.rm = TRUE),
+    .groups = &quot;drop&quot;
+  )
+statystyki
+sum(statystyki$n)</code></pre>
+<p>Sprawdź, czy suma <code>n</code> daje 240 oraz czy
+<code>n - braki</code> odpowiada liczbie obserwacji użytych do średniej.
+W tekście podaj wynik po uruchomieniu kodu, nie z odpowiedzi CLI.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Opis mediany zgadza się z tabelą, a wniosek uwzględnia zmienność i
-liczebność.
+Raport zawiera tabelę dla A i B, poprawne liczebności i własną kontrolę;
+wiadomo, która sugestia pochodziła z CLI.
+</p>
+</div>
+</div>
+<div id="ćwiczenie-22.-wielkość-efektu-i-interpretacja"
+class="section level3">
+<h3>Ćwiczenie 22. Wielkość efektu i interpretacja</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Obliczysz standaryzowaną różnicę średnich i sprawdzisz interpretację
+asystenta.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Oblicz d Cohena dla czasu w grupach A i B z połączonym odchyleniem
+standardowym. Zapytaj CLI, co oznacza znak i jednostka wyniku, a
+odpowiedź porównaj z własnym kodem.
+</p>
+</div>
+<pre class="r"><code>a &lt;- na.omit(zgloszenia_analiza$czas_min[
+  zgloszenia_analiza$grupa == &quot;A&quot;])
+b &lt;- na.omit(zgloszenia_analiza$czas_min[
+  zgloszenia_analiza$grupa == &quot;B&quot;])
+sd_pooled &lt;- sqrt(((length(a) - 1) * var(a) +
+                   (length(b) - 1) * var(b)) /
+                  (length(a) + length(b) - 2))
+d_cohena &lt;- (mean(a) - mean(b)) / sd_pooled
+c(n_A = length(a), n_B = length(b),
+  roznica_min = mean(a) - mean(b), d = d_cohena)</code></pre>
+<p>Przykładowe pytanie do CLI: „Wyjaśnij znak i znaczenie d Cohena
+obliczonego jako (średnia A − średnia B) / połączone SD. Jak sprawdzić
+liczebności i czy z tej wielkości wolno wnioskować o przyczynie? Nie
+podawaj arbitralnej etykiety mały/duży bez kontekstu.”</p>
+<p>Sprawdź, że znak <code>d_cohena</code> jest taki sam jak znak surowej
+różnicy średnich i że <code>sd_pooled &gt; 0</code>. Efekt jest bez
+jednostki; różnica średnich jest w minutach. Nie utożsamiaj wielkości
+efektu z wartością p.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Raport podaje liczbę obserwacji, różnicę w minutach, d Cohena, kierunek
+i ograniczenie interpretacji.
 </p>
 </div>
 </div>
 </div>
 <div id="challenge-samodzielnie" class="section level2">
 <h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-18.-trzy-wykresy-do-notatki" class="section level3">
-<h3>Ćwiczenie 18. Trzy wykresy do notatki</h3>
+<div id="ćwiczenie-23.-napraw-kod-i-audytuj-sugestię"
+class="section level3">
+<h3>Ćwiczenie 23. Napraw kod i audytuj sugestię</h3>
 <div class="tilt-card purpose">
 <h3>
 Cel
 </h3>
 <p>
-Samodzielnie dobierzesz geometrię do pytania.
+Samodzielnie rozpoznasz błąd w kodzie, użyjesz CLI do diagnozy i
+sprawdzisz poprawkę.
 </p>
 </div>
 <div class="tilt-card task">
@@ -509,27 +592,36 @@ Samodzielnie dobierzesz geometrię do pytania.
 Zadanie
 </h3>
 <p>
-W raporcie przygotuj wykres słupkowy liczby spraw według działu,
-histogram kosztu oraz wykres pudełkowy ocen według kanału. Popraw
-tytuły, osie, jednostki i kolory. Pod każdym wykresem wpisz jedno zdanie
-obserwacji i jedno ograniczenie.
+Poniższy kod zawiera błędną nazwę kolumny oraz pomija obsługę braków.
+Poproś CLI o wyjaśnienie obu problemów bez modyfikowania pliku.
+Następnie napisz własną poprawioną wersję w raporcie, uruchom ją i
+porównaj z wynikiem ćwiczenia 21.
 </p>
 </div>
-<p>Użyj <code>geom_bar()</code> dla liczności kategorii,
-<code>geom_histogram()</code> dla kosztu i <code>geom_boxplot()</code>
-dla oceny. Nie wymuszaj osi od zera na wykresie pudełkowym; zadbaj o
-czytelną skalę.</p>
+<pre class="r"><code># Kod do diagnozy; pokaż w .Rmd z eval=FALSE:
+zgloszenia_analiza |&gt;
+  dplyr::group_by(grupa) |&gt;
+  dplyr::summarise(srednia = mean(czas_minn))</code></pre>
+<p>W końcowym <code>.Rmd</code> zapisz: fragment błędny, krótką diagnozę
+CLI, poprawiony kod, wynik własnej kontroli i jedno zdanie, którego
+sugestii asystenta nie przyjąłeś lub co dodatkowo sprawdziłeś. Nie
+pozwalaj CLI wykonywać zmian bez przeczytania propozycji. Jeżeli limit
+planu Free się wyczerpie, wykonaj diagnozę samodzielnie i opisz
+test.</p>
 <div class="tilt-card criteria">
 <h3>
 Kryteria sukcesu
 </h3>
 <p>
-Wszystkie trzy wykresy renderują się, typ wykresu odpowiada zmiennej, a
-tekst nie sugeruje zależności przyczynowej.
+Poprawiony kod renderuje się od początku, daje wynik zgodny z ćwiczeniem
+21 i pokazuje świadomą kontrolę odpowiedzi CLI.
 </p>
 </div>
 <p>Oddaj <code>nazwisko_imie_06.Rmd</code> do zadania spotkania 6 w MS
-Teams.</p>
+Teams. Po nim zespół kończy <a href="ocenianie.html">projekt
+grupowy</a>; <a href="konsultacje.html">ostatnie 45 minut</a> służy
+konsultacji. Termin projektu zostanie ogłoszony w Teams po komunikacie
+rektora.</p>
 </div>
 </div>
 
