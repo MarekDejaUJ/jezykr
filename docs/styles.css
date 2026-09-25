@@ -1,0 +1,594 @@
+:root {
+  --ink: #171714;
+  --muted: #68645c;
+  --line: #c9c2b5;
+  --paper: #fffdf8;
+  --beige: #f1ece2;
+  --beige-deep: #e7e0d3;
+  --sans: "Segoe UI Variable Text", Aptos, "Segoe UI", Arial, sans-serif;
+  --display: "Segoe UI Variable Display", Aptos, "Segoe UI", Arial, sans-serif;
+  --mono: "Courier New", Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  scroll-padding-top: 72px;
+}
+
+body {
+  color: var(--ink);
+  background: var(--beige);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 350;
+  line-height: 1.58;
+}
+
+body,
+.navbar,
+.course-identity,
+.main-container,
+.course-footer {
+  box-sizing: border-box;
+}
+
+/* Nawigacja */
+.navbar-default,
+.navbar-inverse {
+  min-height: 52px;
+  background: var(--ink);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-family: var(--sans);
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a,
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.navbar-default .navbar-brand,
+.navbar-inverse .navbar-brand {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus,
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.navbar-default .navbar-toggle,
+.navbar-inverse .navbar-toggle {
+  border-color: var(--paper);
+  border-radius: 0;
+}
+
+.navbar-default .navbar-toggle .icon-bar,
+.navbar-inverse .navbar-toggle .icon-bar {
+  background: var(--paper);
+}
+
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus,
+.navbar-inverse .navbar-toggle:hover {
+  background: var(--paper);
+}
+
+.navbar-default .navbar-toggle:focus .icon-bar,
+.navbar-default .navbar-toggle:hover .icon-bar,
+.navbar-inverse .navbar-toggle:focus .icon-bar,
+.navbar-inverse .navbar-toggle:hover .icon-bar {
+  background: var(--ink);
+}
+
+.dropdown-menu {
+  padding: 0;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  box-shadow: none;
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.dropdown-menu > li > a {
+  padding: 9px 14px;
+  color: var(--ink);
+}
+
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+/* Identyfikacja kursu */
+.course-identity {
+  max-width: 1000px;
+  margin: 28px auto 0;
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  color: var(--ink);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  font: 650 11px/1.35 var(--sans);
+  text-transform: uppercase;
+}
+
+.course-identity span:nth-child(2) {
+  text-align: center;
+}
+
+.course-identity span:last-child {
+  text-align: right;
+}
+
+/* Główna kolumna */
+.main-container {
+  max-width: 1000px;
+  margin: 0 auto 72px;
+  padding: 42px 0 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.toc-content {
+  padding-right: 34px;
+}
+
+p,
+.toc-content > ul,
+.toc-content > ol,
+.lead {
+  max-width: 46rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--ink);
+  font-family: var(--display);
+  line-height: 1.18;
+}
+
+h1 {
+  max-width: 46rem;
+  margin: 0 0 1.25rem;
+  font-size: 2.45rem;
+  font-weight: 350;
+}
+
+h2 {
+  margin-top: 3.3rem;
+  padding: 0 0 .55rem;
+  border-bottom: 1px solid var(--ink);
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+h3 {
+  margin-top: 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+.lead {
+  color: var(--ink);
+  font-size: 1.17rem;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:focus,
+a:hover {
+  color: var(--ink);
+  text-decoration-thickness: 2px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Wprowadzenie */
+.hero {
+  max-width: 46rem;
+  margin: 0 0 2.6rem;
+  padding: 1.15rem 0 1.15rem 1.5rem;
+  color: var(--ink);
+  background: transparent;
+  border-left: 8px solid var(--ink);
+  border-radius: 0;
+}
+
+.hero h2,
+.hero p {
+  color: var(--ink);
+}
+
+.hero h2 {
+  margin-top: 0;
+  border: 0;
+}
+
+.hero p:last-child {
+  margin-bottom: 0;
+}
+
+/* Spis treści */
+.tocify {
+  margin-top: 0;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-radius: 0;
+  font: 12px/1.35 var(--sans);
+}
+
+.tocify .list-group-item {
+  padding: 7px 10px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.tocify .list-group-item:focus,
+.tocify .list-group-item:hover {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.tocify .list-group-item.active,
+.tocify .list-group-item.active:focus,
+.tocify .list-group-item.active:hover {
+  color: var(--ink);
+  background: var(--paper);
+  border-left: 3px solid var(--ink);
+  font-weight: 700;
+}
+
+/* Moduły treści */
+.quick-grid,
+.tilt-grid,
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  gap: 22px;
+  margin: 1.35rem 0 2rem;
+}
+
+.quick-card,
+.download-card {
+  padding: .95rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0;
+}
+
+.tilt-card {
+  padding: .85rem 0 0;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid var(--ink);
+  border-radius: 0;
+}
+
+.tilt-card.purpose,
+.tilt-card.task,
+.tilt-card.criteria {
+  background: transparent;
+  border-left: 0;
+}
+
+.quick-card h3,
+.tilt-card h3,
+.download-card h3 {
+  margin: 0 0 .5rem;
+  font-size: .93rem;
+}
+
+.quick-card p,
+.tilt-card p,
+.download-card p {
+  margin-bottom: .35rem;
+}
+
+.timebox,
+.note {
+  max-width: 46rem;
+  margin: 1.2rem 0;
+  padding: .8rem 1rem;
+  color: var(--ink);
+  background: var(--beige-deep);
+  border: 0;
+  border-left: 4px solid var(--ink);
+  border-radius: 0;
+}
+
+.timebox strong,
+.note strong {
+  color: var(--ink);
+}
+
+.timebox p:last-child,
+.note p:last-child {
+  margin-bottom: 0;
+}
+
+/* Formuły i bloki kodu */
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--mono);
+}
+
+code {
+  color: var(--ink);
+  background: var(--beige-deep);
+  border-radius: 0;
+}
+
+pre {
+  position: relative;
+  margin: 1rem 0 1.45rem;
+  padding: 1rem 5.25rem 1rem 1.1rem;
+  overflow: auto;
+  color: var(--ink);
+  background: var(--beige) !important;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code,
+pre code.hljs,
+pre code * {
+  color: var(--ink) !important;
+  background: var(--beige) !important;
+  white-space: pre-wrap;
+}
+
+.copy-code {
+  position: absolute;
+  top: .55rem;
+  right: .55rem;
+  padding: .35rem .6rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font: 650 11px/1.2 var(--sans);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.copy-code:focus,
+.copy-code:hover {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+/* Tabele i pliki */
+.table,
+table {
+  width: 100%;
+  margin: 1.4rem 0 2rem;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  font-size: 15px;
+}
+
+.table > thead > tr > th,
+th {
+  color: var(--paper);
+  background: var(--ink);
+  border: 0;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th,
+th,
+td {
+  padding: .58rem .7rem !important;
+  vertical-align: top !important;
+  border-color: var(--line);
+}
+
+.btn-course {
+  display: inline-block;
+  margin: .25rem .25rem .25rem 0;
+  padding: .52rem .75rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font: 650 12px/1.35 var(--sans);
+  text-decoration: none;
+}
+
+.btn-course:focus,
+.btn-course:hover {
+  color: var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+}
+
+.course-footer {
+  max-width: 1000px;
+  margin: 0 auto 34px;
+  padding: 12px 0;
+  color: var(--muted);
+  text-align: left;
+  border-top: 1px solid var(--ink);
+  font: 11px/1.4 var(--sans);
+  text-transform: uppercase;
+}
+
+.course-footer p {
+  margin: 0;
+  max-width: none;
+}
+
+@media (max-width: 1040px) {
+  .course-identity,
+  .main-container,
+  .course-footer {
+    margin-right: 24px;
+    margin-left: 24px;
+  }
+}
+
+@media (max-width: 780px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .main-container {
+    width: auto !important;
+    margin: 0 18px 48px;
+    padding: 30px 0 0;
+    overflow: hidden;
+  }
+
+  .tocify,
+  .toc-content + .tocify,
+  div.tocify {
+    display: none !important;
+  }
+
+  .toc-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 0;
+  }
+
+  .course-identity {
+    display: block;
+    margin: 16px 18px 0;
+    padding: 9px 0;
+    overflow-wrap: anywhere;
+  }
+
+  .course-identity span {
+    display: block;
+    margin: .2rem 0;
+    text-align: left !important;
+  }
+
+  .quick-grid,
+  .tilt-grid,
+  .download-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    margin-top: 2.7rem;
+    font-size: 1.3rem;
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  pre {
+    max-width: 100%;
+    padding-right: 4.8rem;
+    white-space: pre;
+    overflow-x: auto;
+    overflow-wrap: normal;
+  }
+
+  .course-footer {
+    margin-right: 18px;
+    margin-left: 18px;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    font-size: 10.5pt;
+  }
+
+  .navbar,
+  .tocify,
+  .copy-code {
+    display: none !important;
+  }
+
+  .main-container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .course-identity {
+    margin: 0 0 12mm;
+  }
+
+  h2,
+  h3,
+  pre,
+  .tilt-card,
+  .timebox,
+  .note {
+    break-inside: avoid;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}

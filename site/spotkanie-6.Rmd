@@ -1,0 +1,64 @@
+---
+title: "Spotkanie 6: wykresy i ggplot2"
+---
+
+<div class="hero"><h2>Spotkanie 6 z 10</h2><p>Wykres bazowy, histogram i porównanie grup w ggplot2.</p></div>
+
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min dobór wykresu, 30 min rozkład, 25 min porównanie, 20 min zadanie własne, 5 min kontrola.</div>
+
+Pobierz [szablon 06](materialy/szablon-06.Rmd). Do wykresów czasu używaj `zgloszenia_analiza`; dwa podejrzane czasy zostały w nim oznaczone jako brak. Wyjaśnij ten wybór w raporcie.
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 16. Rozkład jednej zmiennej
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Dobierzesz histogram do rozkładu liczbowego i odczytasz jego ograniczenia.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Porównaj szybki wykres bazowy z wykresem ggplot2 i dostosuj podpisy.</p></div>
+
+~~~r
+hist(zgloszenia_analiza$czas_min,
+     main = "Czas obsługi", xlab = "Minuty", col = "grey80")
+ggplot2::ggplot(zgloszenia_analiza,
+                ggplot2::aes(x = czas_min)) +
+  ggplot2::geom_histogram(binwidth = 10, fill = "#2b6d73",
+                          color = "white", na.rm = TRUE) +
+  ggplot2::labs(title = "Rozkład czasu obsługi",
+                x = "Czas [min]", y = "Liczba zgłoszeń") +
+  ggplot2::theme_minimal()
+~~~
+
+Zmień `binwidth` na 5 i 20. Opisz, jak zmienia się obraz rozkładu, choć dane są te same. Sprawdź medianę i kwartyle przez `summary()`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wykres ma tytuł, podpisane osie i jednostkę; potrafisz wskazać wpływ szerokości przedziału na interpretację.</p></div>
+
+### Ćwiczenie 17. Porównanie kanałów
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Porównasz rozkłady kilku grup bez ukrywania zmienności.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj wykres pudełkowy i sprawdź, czy wniosek odpowiada liczbowemu zestawieniu.</p></div>
+
+~~~r
+ggplot2::ggplot(zgloszenia_analiza,
+                ggplot2::aes(x = kanal, y = czas_min)) +
+  ggplot2::geom_boxplot(fill = "#c98f4b", na.rm = TRUE) +
+  ggplot2::labs(title = "Czas obsługi według kanału",
+                x = "Kanał", y = "Czas [min]") +
+  ggplot2::theme_minimal()
+aggregate(czas_min ~ kanal, zgloszenia_analiza, median)
+~~~
+
+Wskaż kanał z najwyższą medianą i opisz rozrzut. Zastanów się, czy wykres pokazuje liczebność grup; jeśli nie, dodaj tabelę `table()`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Opis mediany zgadza się z tabelą, a wniosek uwzględnia zmienność i liczebność.</p></div>
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 18. Trzy wykresy do notatki
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie dobierzesz geometrię do pytania.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>W raporcie przygotuj wykres słupkowy liczby spraw według działu, histogram kosztu oraz wykres pudełkowy ocen według kanału. Popraw tytuły, osie, jednostki i kolory. Pod każdym wykresem wpisz jedno zdanie obserwacji i jedno ograniczenie.</p></div>
+
+Użyj `geom_bar()` dla liczności kategorii, `geom_histogram()` dla kosztu i `geom_boxplot()` dla oceny. Nie wymuszaj osi od zera na wykresie pudełkowym; zadbaj o czytelną skalę.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wszystkie trzy wykresy renderują się, typ wykresu odpowiada zmiennej, a tekst nie sugeruje zależności przyczynowej.</p></div>
+
+Oddaj `nazwisko_imie_06.Rmd` do zadania spotkania 6 w MS Teams.

@@ -1,0 +1,59 @@
+---
+title: "Spotkanie 9: testy i modele liniowe"
+---
+
+<div class="hero"><h2>Spotkanie 9 z 10</h2><p>Dane jakościowe, porównanie grup, model liniowy i model logistyczny.</p></div>
+
+<div class="timebox"><strong>Plan 90 minut:</strong> 15 min pytania i założenia, 20 min tabela i test, 25 min lm(), 25 min glm(), 5 min kontrola.</div>
+
+Pobierz [szablon 09](materialy/szablon-09.Rmd). Dane są fikcyjne i wygenerowane według jawnej reguły; wyniki służą nauce interpretacji, nie opisowi rzeczywistej instytucji.
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 25. Zmienne jakościowe i test
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Sprawdzisz związek między dwiema kategoriami, zaczynając od liczności.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj tabelę kanału i rozwiązania sprawy oraz przeprowadź test niezależności chi-kwadrat.</p></div>
+
+~~~r
+tab <- table(zgloszenia_analiza$kanal,
+             zgloszenia_analiza$rozwiazano)
+tab
+prop.table(tab, margin = 1)
+test_kategorie <- chisq.test(tab)
+test_kategorie
+test_kategorie$expected
+~~~
+
+Sprawdź oczekiwane liczności i opisz, czy test jest odpowiedni. Odczytaj wartość p i zapisz wniosek językiem zależności, bez tezy o przyczynowości. Następnie porównaj średni czas grup A i B przez `t.test(czas_min ~ grupa, data = zgloszenia_analiza)` i odczytaj przedział ufności.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport pokazuje tabelę liczności, proporcje w kanałach, warunek testu, wartość p oraz przedział ufności dla różnicy czasu.</p></div>
+
+### Ćwiczenie 26. Model liniowy
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zinterpretujesz współczynnik modelu przy kontroli drugiej zmiennej.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Dopasuj model czasu obsługi zależny od kanału i grupy; sprawdź diagnostykę reszt.</p></div>
+
+~~~r
+model_lm <- lm(czas_min ~ kanal + grupa, data = zgloszenia_analiza)
+summary(model_lm)
+confint(model_lm)
+plot(model_lm, which = 1)
+~~~
+
+Ustal grupę odniesienia dla kanału i grupy. Wybierz jeden współczynnik i wyjaśnij go w minutach. Opisz, co może sugerować wzór na wykresie reszt i dlaczego model nie dowodzi wpływu kanału.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wniosek podaje jednostkę współczynnika, grupę odniesienia, niepewność i jedno ograniczenie modelu.</p></div>
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 27. Model rozwiązania sprawy
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie dopasujesz i odczytasz prosty model logistyczny.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz binarny wynik <code>czy_rozwiazano</code> (1 dla „Tak”, 0 dla „Nie”). Dopasuj <code>glm(czy_rozwiazano ~ czas_min + grupa + typ_sprawy, family = binomial(), data = ...)</code>. Pokaż <code>summary()</code>, zamień wybrany współczynnik na iloraz szans przez <code>exp()</code> i oblicz przewidywane prawdopodobieństwo dla dwóch jawnie opisanych profili przez <code>predict(..., type = "response")</code>.</p></div>
+
+Zapisz, ile obserwacji weszło do modelu. Oblicz także standaryzowaną różnicę średnich czasu między grupami A i B: podziel różnicę przez połączone wewnątrzgrupowe odchylenie standardowe, tj. pierwiastek z `((n_A - 1) * s_A^2 + (n_B - 1) * s_B^2) / (n_A + n_B - 2)`. Zweryfikuj obliczenie ręcznie lub z pomocą narzędzia SI, podając sposób kontroli. Nie interpretuj ilorazu szans jako procentowej zmiany prawdopodobieństwa.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Model się dopasowuje, profile mają sensowne wartości, prawdopodobieństwa są w przedziale 0–1, a interpretacja odróżnia iloraz szans od prawdopodobieństwa i wspomina o brakach danych.</p></div>
+
+Oddaj `nazwisko_imie_09.Rmd` do zadania spotkania 9 w MS Teams.

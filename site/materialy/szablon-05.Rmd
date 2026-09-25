@@ -1,0 +1,101 @@
+---
+title: "Spotkanie 5: funkcje, warunki i pętle — praca studenta"
+author: "Imię i nazwisko"
+output:
+  html_document:
+    toc: true
+---
+
+Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-5.html>.
+Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
+
+```{r start, message=FALSE, warning=FALSE}
+source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 13. Funkcja z kontrolą argumentu
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Napiszesz funkcję zamiast powtarzać ten sam fragment kodu.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj funkcję liczącą odsetek braków w wektorze. Sprawdź ją na dwóch kolumnach i na własnym małym przykładzie.</p></div>
+
+~~~r
+odsetek_brakow <- function(x) {
+  if (length(x) == 0L) stop("Wektor nie może być pusty.")
+  100 * sum(is.na(x)) / length(x)
+}
+odsetek_brakow(zgloszenia$ocena)
+odsetek_brakow(zgloszenia$dzial)
+odsetek_brakow(c(1, NA, 3, NA))
+~~~
+
+Wykonaj `odsetek_brakow(numeric(0))` i przeczytaj błąd. Wyjaśnij rolę `if`, `stop()`, `is.na()` i wartości zwracanej przez ostatnią linię funkcji. Spróbuj poprawić celowo błędną nazwę `ocenaa` po przeczytaniu komunikatu R.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Przykład czteroelementowy zwraca 50%, pusty wektor daje jasny komunikat, a funkcja działa dla liczby i tekstu.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw1}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+### Ćwiczenie 14. Warunek i pętla
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozróżnisz warunek dla jednej wartości i warunek dla całego wektora.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Oznacz czas obsługi jako krótki lub długi, a potem policz braki w wybranych kolumnach pętlą.</p></div>
+
+~~~r
+prog <- 40
+etykieta <- ifelse(zgloszenia_analiza$czas_min > prog,
+                   "Długi", "Krótki")
+table(etykieta, useNA = "ifany")
+kolumny <- c("czas_min", "ocena", "koszt")
+for (nazwa in kolumny) {
+  cat(nazwa, ":", sum(is.na(zgloszenia_analiza[[nazwa]])), "\n")
+}
+~~~
+
+Zwróć uwagę, że brak czasu daje brak etykiety. Zmień `prog` na 30 i porównaj liczności. Następnie uruchom pętlę krok po kroku w konsoli i sprawdź wartość `nazwa`. To jest najprostsza forma śledzenia kodu.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Potrafisz wyjaśnić wynik <code>ifelse()</code>, wykryć brak etykiety i odczytać trzy liczby braków bez kopiowania kodu.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw2}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 15. Własny program kontroli
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz funkcję, warunek, pętlę i test rozwiązania.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Napisz funkcję <code>ocen_kolumne(x, prog_brakow)</code>, która zwraca „sprawdź”, gdy udział braków przekracza próg, a „OK” w przeciwnym razie. Funkcja ma odrzucać próg spoza zakresu 0–100. Użyj pętli po co najmniej czterech kolumnach zbioru i zapisz nazwy wraz z wynikiem w ramce danych.</p></div>
+
+Przetestuj funkcję na wektorze bez braków, na wektorze z połową braków i na błędnym progu. Możesz użyć `if` dla pojedynczego wyniku i `data.frame()` do tabeli.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja działa dla różnych kolumn, próg jest walidowany, pętla tworzy tabelę wynikową, a trzy testy są widoczne w raporcie.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw3}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+
+## Kontrola przed oddaniem
+
+- [ ] Dokument renderuje się od początku w czystej sesji R.
+- [ ] Wszystkie trzy ćwiczenia zawierają kod i interpretację.
+- [ ] Część Challenge jest samodzielnym rozwiązaniem.
+- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.

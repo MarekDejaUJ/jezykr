@@ -1,0 +1,44 @@
+---
+title: "Materiały do pobrania"
+---
+
+## Dokumenty i skrypt startowy
+
+| Materiał | Zastosowanie |
+|---|---|
+| [Sylabus PDF](materialy/jezyk-r-uj-wzzins-24-17358-26.pdf) | Zakres i formalne warunki zaliczenia |
+| [Skrypt `init-v1.R`](materialy/init-v1.R) | Pakiety, fikcyjne dane i pliki CSV/XLSX; szablony pobierają go automatycznie |
+| [Szablon projektu](materialy/szablon-projekt.Rmd) | Grupowy raport zaliczeniowy |
+
+## Szablony spotkań
+
+| Spotkanie | Plik | Główna umiejętność |
+|---|---|---|
+| 1 | [szablon-01.Rmd](materialy/szablon-01.Rmd) | Projekt, konsola i pierwszy raport |
+| 2 | [szablon-02.Rmd](materialy/szablon-02.Rmd) | Obiekty i struktury |
+| 3 | [szablon-03.Rmd](materialy/szablon-03.Rmd) | CSV, Excel i braki |
+| 4 | [szablon-04.Rmd](materialy/szablon-04.Rmd) | Transformacja danych |
+| 5 | [szablon-05.Rmd](materialy/szablon-05.Rmd) | Funkcje i sterowanie |
+| 6 | [szablon-06.Rmd](materialy/szablon-06.Rmd) | Wykresy |
+| 7 | [szablon-07.Rmd](materialy/szablon-07.Rmd) | Zależności i mapa cieplna |
+| 8 | [szablon-08.Rmd](materialy/szablon-08.Rmd) | Eksploracja pakietowa |
+| 9 | [szablon-09.Rmd](materialy/szablon-09.Rmd) | Testy i modele |
+| 10 | [szablon-10.Rmd](materialy/szablon-10.Rmd) | Raport i projekt |
+
+## Sposób użycia
+
+1. Pobierz właściwy szablon do folderu swojego projektu.
+2. Wpisuj kod i krótkie odpowiedzi w miejscach oznaczonych **Twoja praca**. W szablonie są również cel, polecenie i kryteria sprawdzenia.
+3. Uruchom pierwszy blok kodu, a następnie kolejne bloki. Wyrenderuj cały dokument przed oddaniem.
+4. Zmień nazwę pliku na `nazwisko_imie_NN.Rmd` i prześlij go do zadania w MS Teams. Do projektu grupowego użyj nazwy `grupa_N_projekt.Rmd`.
+
+Pliki wynikowe `dane/`, `wyniki/` i HTML służą do pracy lokalnej. Sam raport `.Rmd` odtwarza potrzebne dane po ponownym uruchomieniu, dlatego nie trzeba przesyłać całego projektu.
+
+## Pomoc i lektury
+
+- H. Wickham, G. Grolemund, *R for Data Science* (2016) — lektura obowiązkowa w sylabusie; [wersja internetowa](https://r4ds.had.co.nz/).
+- P. Teetor, M. Loukides, *R Cookbook* (2011) — lektura obowiązkowa w sylabusie.
+- [RStudio User Guide](https://docs.posit.co/ide/user/) — projekty, konsola, pliki i debugowanie.
+- [R Markdown](https://rmarkdown.rstudio.com/) — tworzenie raportów z kodem i tekstem.
+- [Dokumentacja dplyr](https://dplyr.tidyverse.org/) i [ggplot2](https://ggplot2.tidyverse.org/) — operacje na danych i wykresy.
+- [Pomoc Positron](https://positron.posit.co/quarto.html#support-for-r-markdown) — renderowanie plików `.Rmd`.

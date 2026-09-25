@@ -1,0 +1,61 @@
+---
+title: "Spotkanie 3: import danych i kontrola jakości"
+---
+
+<div class="hero"><h2>Spotkanie 3 z 10</h2><p>Odczyt CSV i Excela, braki, błędne wartości i bezpieczny eksport.</p></div>
+
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min typy plików, 30 min import, 25 min diagnoza, 20 min eksport i porównanie, 5 min kontrola.</div>
+
+Pobierz [szablon 03](materialy/szablon-03.Rmd). Skrypt startowy tworzy `dane/zgloszenia.csv` i `dane/zgloszenia.xlsx`; są to dwa formaty tego samego zbioru.
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 7. Odczyt CSV i Excel
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zaimportujesz dane z dwóch formatów, kontrolując typy i kodowanie.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Odczytaj oba pliki i porównaj liczby wierszy, kolumn oraz typ pola z datą.</p></div>
+
+~~~r
+csv <- read.csv("dane/zgloszenia.csv", na.strings = "",
+                fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+xlsx <- readxl::read_excel("dane/zgloszenia.xlsx")
+dim(csv)
+dim(xlsx)
+str(csv$data)
+str(xlsx$data)
+head(csv[, c("id", "data", "dzial")], 3)
+~~~
+
+Plik CSV nie przechowuje typów kolumn tak jak arkusz Excel. Zamień datę w `csv` na typ `Date` za pomocą `as.Date()`. Sprawdź `class()` przed zmianą i po niej. Obejrzyj nagłówki przez `names()` i pomoc `?read.csv`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Obie ramki mają 240 wierszy i 10 kolumn; wyjaśniasz różnicę typów daty i umiesz ją poprawić.</p></div>
+
+### Ćwiczenie 8. Braki i wartości podejrzane
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Odróżnisz brak od wartości błędnej i zachowasz surowe dane.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Policz braki w każdej kolumnie oraz znajdź niemożliwe i skrajne czasy obsługi.</p></div>
+
+~~~r
+colSums(is.na(csv))
+summary(csv$czas_min)
+csv[csv$czas_min < 0 | csv$czas_min > 120,
+    c("id", "czas_min", "kanal")]
+table(csv$dzial, useNA = "ifany")
+~~~
+
+Zapisz w tekście, czy rekord z czasem 190 minut należy usunąć automatycznie. Zaproponuj regułę: co zrobić z czasem ujemnym, brakami ocen i niespójnymi nazwami działów. Surowy obiekt `csv` pozostaw bez zmian.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport podaje liczbę braków w kolumnach, wykazuje czas -5 i 190 oraz oddziela obserwację nietypową od ewidentnego błędu.</p></div>
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 9. Własny plik wynikowy
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie zapiszesz i ponownie odczytasz uporządkowane dane.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz <code>dane_robocze</code> jako kopię <code>csv</code>. Oznacz ujemny czas jako <code>NA</code>, zachowując 190 do dalszej kontroli. Utwórz folder <code>wyniki/</code> i zapisz <code>dane_robocze</code> przez <code>write.csv(..., row.names = FALSE)</code>. Odczytaj plik ponownie i porównaj liczbę wierszy oraz braków.</p></div>
+
+Używaj ścieżek względnych. Opisz, dlaczego przed eksportem tworzysz nowy obiekt, zamiast zmieniać plik źródłowy.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wyeksportowany CSV ma 240 wierszy, nie ma kolumny z numerami wierszy, a rekord z ujemnym czasem ma brak. Raport działa od początku po usunięciu lokalnego folderu <code>wyniki/</code>.</p></div>
+
+Oddaj wyłącznie `nazwisko_imie_03.Rmd` do zadania spotkania 3 w MS Teams.

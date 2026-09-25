@@ -1,0 +1,56 @@
+---
+title: "Spotkanie 1: projekt, konsola i pierwszy raport"
+---
+
+<div class="hero"><h2>Spotkanie 1 z 10</h2><p>Zakładasz projekt, rozpoznajesz konsolę i zapisujesz pierwszy dokument R Markdown.</p></div>
+
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min cele i sylabus, 25 min projekt i pliki, 25 min konsola i pakiety, 20 min raport, 10 min kontrola.</div>
+
+Pobierz [szablon 01](materialy/szablon-01.Rmd) do folderu projektu. Instrukcję instalacji i oddawania pracy znajdziesz w [Organizacji](organizacyjne.html). Wykonuj ćwiczenia w podanej kolejności.
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 1. Projekt i pliki
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Ustawisz folder roboczy, tak aby kod działał na innym komputerze.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz projekt RStudio albo otwórz folder w Positronie. Pobierz szablon do jego katalogu. Sprawdź położenie i zawartość.</p></div>
+
+1. W konsoli wpisz `getwd()`. Porównaj wynik z folderem, w którym zapisano plik `szablon-01.Rmd`.
+2. Wpisz `list.files()`. Powinien pojawić się szablon. Jeśli nie, popraw folder projektu w IDE.
+3. Utwórz folder wynikowy: `dir.create("wyniki", showWarnings = FALSE)`; sprawdź `list.dirs(recursive = FALSE)`.
+4. Otwórz szablon. Uruchom jego blok **start**. Obejrzyj obiekty przez `ls()` i pliki przez `list.files("dane")`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p><code>getwd()</code> wskazuje projekt, istnieje folder <code>dane/</code> z plikami CSV i XLSX, a obiekt <code>zgloszenia</code> ma 240 wierszy.</p></div>
+
+### Ćwiczenie 2. Konsola, obiekty i pomoc
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Odróżnisz polecenie wykonane w konsoli od kodu zapisanego w raporcie.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Sprawdź arytmetykę, przypisanie, podgląd danych i pomoc R. Zapisz użyteczne polecenia w szablonie.</p></div>
+
+W konsoli wykonaj po kolei:
+
+~~~r
+2 + 2
+liczba_zgloszen <- nrow(zgloszenia)
+liczba_zgloszen
+names(zgloszenia)
+head(zgloszenia, 3)
+?nrow
+~~~
+
+Zauważ, że wynik `2 + 2` znika po zamknięciu sesji, a kod zapisany w pliku pozostaje. Usuń tylko próbny obiekt `liczba_zgloszen` przez `rm(liczba_zgloszen)`. Wyświetl `ls()`. Komendę `rm(list = ls())` poznaj jako sposób wyczyszczenia **konsoli** przed testem; nie umieszczaj jej w raporcie. W szablonie dopisz dwie linie tekstu: po co używa się projektu i co robi `source()`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Potrafisz utworzyć i usunąć obiekt, znaleźć pomoc funkcji oraz rozróżnić plik źródłowy, dane i wynik HTML.</p></div>
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 3. Pierwszy odtwarzalny raport
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz tekst, kod i wynik w jednym dokumencie.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>W szablonie dodaj blok R, który wyświetli liczbę wierszy i kolumn, nazwy trzech pierwszych kolumn oraz liczbę różnych kanałów kontaktu. Pod wynikiem napisz dwa zdania interpretacji.</p></div>
+
+Wskazówki: użyj `nrow()`, `ncol()`, `names()`, `unique()` i `length()`. W RStudio wybierz **Knit**, w Positronie użyj polecenia renderowania R Markdown. Jeśli raport działa tylko po ręcznym uruchomieniu bloków, zrestartuj R i ponów renderowanie.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport renderuje się od początku; zawiera 240 wierszy, 10 kolumn i 3 kanały. Tekst wyjaśnia, że dane są fikcyjne i opisuje jednostkę obserwacji.</p></div>
+
+Zapisz `nazwisko_imie_01.Rmd` i prześlij go w zadaniu spotkania 1 na MS Teams. Nie dołączaj folderu projektu.

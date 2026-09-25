@@ -1,0 +1,87 @@
+:root {
+  --course-sans: "Segoe UI Variable Text", "Segoe UI", Aptos, Arial, sans-serif;
+  --course-mono: "Courier New", Consolas, "Liberation Mono", monospace;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+.navbar,
+.dropdown-menu,
+.course-identity,
+.tocify,
+.tocify .list-group-item,
+.main-container,
+.main-container p,
+.main-container li,
+.main-container table,
+.main-container th,
+.main-container td,
+.main-container h1,
+.main-container h2,
+.main-container h3,
+.main-container h4,
+.main-container h5,
+.main-container h6,
+.course-footer {
+  font-family: var(--course-sans) !important;
+}
+
+body,
+.main-container p,
+.main-container li,
+.main-container td {
+  font-weight: 350;
+}
+
+.main-container h1 {
+  font-weight: 350;
+}
+
+.main-container h2 {
+  font-weight: 400;
+}
+
+.main-container h3,
+.main-container h4,
+.main-container h5,
+.main-container h6,
+.main-container strong,
+.main-container b {
+  font-family: var(--course-sans) !important;
+  font-weight: 600;
+}
+
+/* Wyjaśnienia i prompty korzystają z kroju tekstu strony. */
+pre:not(.excel):not(.math),
+pre:not(.excel):not(.math) code,
+pre:not(.excel):not(.math) code * {
+  font-family: var(--course-sans) !important;
+}
+
+/* Formuły, równania i krótkie odwołania do funkcji pozostają techniczne. */
+code,
+kbd,
+samp,
+pre.excel,
+pre.excel code,
+pre.excel code *,
+pre.math,
+pre.math code,
+pre.math code * {
+  font-family: var(--course-mono) !important;
+}
+
+pre,
+pre code,
+pre code.hljs,
+pre code * {
+  color: #171714 !important;
+  background: #f1ece2 !important;
+}
+
+.copy-code {
+  font-family: var(--course-sans) !important;
+}

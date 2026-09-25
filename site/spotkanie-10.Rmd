@@ -1,0 +1,42 @@
+---
+title: "Spotkanie 10: raport R Markdown i projekt"
+---
+
+<div class="hero"><h2>Spotkanie 10 z 10</h2><p>Łączysz pytanie, dane, kod, wykresy i wniosek w odtwarzalny raport grupowy.</p></div>
+
+<div class="timebox"><strong>Plan 90 minut:</strong> 10 min rubryka, 25 min struktura raportu, 25 min przegląd kodu, 25 min próba projektu, 5 min kontrola.</div>
+
+Pobierz [szablon 10](materialy/szablon-10.Rmd) do ćwiczenia i [szablon projektu](materialy/szablon-projekt.Rmd) do pracy grupowej. Przeczytaj [rubrykę](ocenianie.html) przed podziałem pracy.
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 28. Struktura raportu
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Zapiszesz analizę tak, aby czytelnik mógł prześledzić każdą decyzję.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>W szablonie wpisz jedno pytanie o usługę informacyjną, opisz jednostkę obserwacji i dodaj sekcje: dane, kontrola jakości, wynik, ograniczenia, rekomendacja.</p></div>
+
+W bloku kodu oblicz liczbę obserwacji i braków. W tekście użyj wartości wstawionej z kodu, np. zapisu <code>&#96;r nrow(zgloszenia)&#96;</code>, zamiast przepisywać liczbę ręcznie. Dodaj jedną tabelę i podpisany wykres z poprzednich spotkań.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Każda liczba w tekście zgadza się z kodem, wykres odpowiada pytaniu, a raport podaje ograniczenie fikcyjnych danych.</p></div>
+
+### Ćwiczenie 29. Próba odtwarzalności
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Sprawdzisz, czy pojedynczy plik <code>.Rmd</code> wystarczy do odtworzenia pracy.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zapisz plik, zrestartuj sesję R, wyczyść środowisko w konsoli i wyrenderuj dokument od początku. Zanotuj pierwszy błąd, jeśli wystąpi, oraz sposób jego poprawy.</p></div>
+
+Sprawdź, czy w kodzie nie ma `setwd("C:/...")`, odwołania do pliku na Pulpicie ani obiektu utworzonego wyłącznie ręcznie w konsoli. W projekcie z danymi kursowymi pierwszy blok powinien pobierać wersjonowany `init-v1.R`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport powstaje w czystej sesji z jednego pliku; zależności i źródło danych są jawne.</p></div>
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 30. Szkic projektu grupowego
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Przekształcisz wyniki ćwiczeń w plan analizy możliwy do ocenienia według rubryki.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>W grupie 2–4 osób ustalcie jedno pytanie, wybierzcie dwa wykresy i jedną analizę statystyczną lub model. Wypełnijcie nagłówek projektu nazwiskami i podziałem pracy. Przygotujcie wstępny akapit wyniku zawierający liczbę, interpretację i ograniczenie. Wspólnie sprawdźcie renderowanie pliku projektu.</p></div>
+
+Jeżeli używacie narzędzia SI do wyjaśnienia błędu lub poprawy kodu, zanotujcie zadanie, otrzymaną sugestię i własny test. Do końcowego projektu stosujcie [rubrykę 20 punktów](ocenianie.html).
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Szkic zawiera pytanie, przypisane zadania, plan analizy i działający plik <code>.Rmd</code>. Wniosek opiera się na wyniku, a nie na samym wyglądzie wykresu.</p></div>
+
+Oddaj `nazwisko_imie_10.Rmd` do zadania spotkania 10. Grupowy raport `grupa_N_projekt.Rmd` złóż w osobnym zadaniu projektu w terminie wskazanym w MS Teams.

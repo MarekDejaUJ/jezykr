@@ -1,0 +1,17 @@
+# Pliki lokalne R i środowisk IDE
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.vscode/
+*.Rproj
+site/*_cache/
+site/*_files/
+site/.Rproj.user/
+
+# Lokalny plan pracy i pliki tymczasowe
+przygotowanie-kursu.md
+.work/
+*.tmp
+*.bak
+~$*

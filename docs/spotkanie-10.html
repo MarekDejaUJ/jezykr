@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Spotkanie 10: raport R Markdown i projekt</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<link rel="stylesheet" href="typography.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Język R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Start</a>
+</li>
+<li>
+  <a href="organizacyjne.html">Organizacja</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Spotkania
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spotkanie-1.html">1. Projekt i konsola</a>
+    </li>
+    <li>
+      <a href="spotkanie-2.html">2. Obiekty i struktury</a>
+    </li>
+    <li>
+      <a href="spotkanie-3.html">3. Import i jakość danych</a>
+    </li>
+    <li>
+      <a href="spotkanie-4.html">4. Transformacje dplyr i tidyr</a>
+    </li>
+    <li>
+      <a href="spotkanie-5.html">5. Funkcje, warunki i pętle</a>
+    </li>
+    <li>
+      <a href="spotkanie-6.html">6. Wykresy i ggplot2</a>
+    </li>
+    <li>
+      <a href="spotkanie-7.html">7. Wizualizacja zależności</a>
+    </li>
+    <li>
+      <a href="spotkanie-8.html">8. Eksploracja pakietowa</a>
+    </li>
+    <li>
+      <a href="spotkanie-9.html">9. Testy i modele</a>
+    </li>
+    <li>
+      <a href="spotkanie-10.html">10. Raport i projekt</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="ocenianie.html">Ocena</a>
+</li>
+<li>
+  <a href="materialy.html">Materiały</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown-header">dr Marek Deja</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="course-identity" role="banner">
+  <span>dr Marek Deja</span>
+  <span>Język R</span>
+  <span>UJ.WZZINS.24.17358.26</span>
+</div>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Spotkanie 10: raport R Markdown i
+projekt</h1>
+
+</div>
+
+
+<div class="hero">
+<h2>
+Spotkanie 10 z 10
+</h2>
+<p>
+Łączysz pytanie, dane, kod, wykresy i wniosek w odtwarzalny raport
+grupowy.
+</p>
+</div>
+<div class="timebox">
+<strong>Plan 90 minut:</strong> 10 min rubryka, 25 min struktura
+raportu, 25 min przegląd kodu, 25 min próba projektu, 5 min kontrola.
+</div>
+<p>Pobierz <a href="materialy/szablon-10.Rmd">szablon 10</a> do
+ćwiczenia i <a href="materialy/szablon-projekt.Rmd">szablon projektu</a>
+do pracy grupowej. Przeczytaj <a href="ocenianie.html">rubrykę</a> przed
+podziałem pracy.</p>
+<div id="learn-z-prowadzącym" class="section level2">
+<h2>Learn — z prowadzącym</h2>
+<div id="ćwiczenie-28.-struktura-raportu" class="section level3">
+<h3>Ćwiczenie 28. Struktura raportu</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Zapiszesz analizę tak, aby czytelnik mógł prześledzić każdą decyzję.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+W szablonie wpisz jedno pytanie o usługę informacyjną, opisz jednostkę
+obserwacji i dodaj sekcje: dane, kontrola jakości, wynik, ograniczenia,
+rekomendacja.
+</p>
+</div>
+<p>W bloku kodu oblicz liczbę obserwacji i braków. W tekście użyj
+wartości wstawionej z kodu, np. zapisu <code>`r
+nrow(zgloszenia)`</code>, zamiast przepisywać liczbę ręcznie. Dodaj
+jedną tabelę i podpisany wykres z poprzednich spotkań.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Każda liczba w tekście zgadza się z kodem, wykres odpowiada pytaniu, a
+raport podaje ograniczenie fikcyjnych danych.
+</p>
+</div>
+</div>
+<div id="ćwiczenie-29.-próba-odtwarzalności" class="section level3">
+<h3>Ćwiczenie 29. Próba odtwarzalności</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Sprawdzisz, czy pojedynczy plik <code>.Rmd</code> wystarczy do
+odtworzenia pracy.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+Zapisz plik, zrestartuj sesję R, wyczyść środowisko w konsoli i
+wyrenderuj dokument od początku. Zanotuj pierwszy błąd, jeśli wystąpi,
+oraz sposób jego poprawy.
+</p>
+</div>
+<p>Sprawdź, czy w kodzie nie ma <code>setwd("C:/...")</code>, odwołania
+do pliku na Pulpicie ani obiektu utworzonego wyłącznie ręcznie w
+konsoli. W projekcie z danymi kursowymi pierwszy blok powinien pobierać
+wersjonowany <code>init-v1.R</code>.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Raport powstaje w czystej sesji z jednego pliku; zależności i źródło
+danych są jawne.
+</p>
+</div>
+</div>
+</div>
+<div id="challenge-samodzielnie" class="section level2">
+<h2>Challenge — samodzielnie</h2>
+<div id="ćwiczenie-30.-szkic-projektu-grupowego" class="section level3">
+<h3>Ćwiczenie 30. Szkic projektu grupowego</h3>
+<div class="tilt-card purpose">
+<h3>
+Cel
+</h3>
+<p>
+Przekształcisz wyniki ćwiczeń w plan analizy możliwy do ocenienia według
+rubryki.
+</p>
+</div>
+<div class="tilt-card task">
+<h3>
+Zadanie
+</h3>
+<p>
+W grupie 2–4 osób ustalcie jedno pytanie, wybierzcie dwa wykresy i jedną
+analizę statystyczną lub model. Wypełnijcie nagłówek projektu nazwiskami
+i podziałem pracy. Przygotujcie wstępny akapit wyniku zawierający
+liczbę, interpretację i ograniczenie. Wspólnie sprawdźcie renderowanie
+pliku projektu.
+</p>
+</div>
+<p>Jeżeli używacie narzędzia SI do wyjaśnienia błędu lub poprawy kodu,
+zanotujcie zadanie, otrzymaną sugestię i własny test. Do końcowego
+projektu stosujcie <a href="ocenianie.html">rubrykę 20 punktów</a>.</p>
+<div class="tilt-card criteria">
+<h3>
+Kryteria sukcesu
+</h3>
+<p>
+Szkic zawiera pytanie, przypisane zadania, plan analizy i działający
+plik <code>.Rmd</code>. Wniosek opiera się na wyniku, a nie na samym
+wyglądzie wykresu.
+</p>
+</div>
+<p>Oddaj <code>nazwisko_imie_10.Rmd</code> do zadania spotkania 10.
+Grupowy raport <code>grupa_N_projekt.Rmd</code> złóż w osobnym zadaniu
+projektu w terminie wskazanym w MS Teams.</p>
+</div>
+</div>
+
+<footer class="course-footer">
+  <p>dr Marek Deja · Język R · UJ.WZZINS.24.17358.26</p>
+</footer>
+<script src="script.js"></script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

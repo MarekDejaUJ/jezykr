@@ -1,0 +1,80 @@
+---
+title: "Projekt grupowy — Język R"
+author: "Imiona i nazwiska członków grupy"
+date: "2027/2028"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+## Skład grupy i podział pracy
+
+Wpisz imię i nazwisko każdej osoby oraz jej wkład: przygotowanie danych, kod, wizualizacje, analiza, redakcja i kontrola. Każdy członek grupy powinien umieć wyjaśnić wszystkie wyniki.
+
+## Pytanie i uzasadnienie
+
+Zapisz jedno konkretne pytanie dotyczące obsługi zapytań w instytucji informacyjnej. Wskaż odbiorcę raportu i decyzję, którą wyniki mogą wspierać. Unikaj pytań o przyczynę, jeśli dane nie pozwalają jej ustalić.
+
+## Dane i odtwarzalność
+
+Poniższy blok odtwarza fikcyjne dane kursowe. Jeżeli po uzgodnieniu z prowadzącym używasz innego zbioru, podaj jego źródło, prawo do wykorzystania i sposób pobrania w jednym pliku `.Rmd`.
+
+```{r start, message=FALSE, warning=FALSE}
+source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```
+
+Opisz jednostkę obserwacji, liczbę rekordów, pola użyte w analizie oraz ograniczenia. Nie umieszczaj danych osobowych.
+
+```{r opis-danych}
+# Wyświetl rozmiar, typy i kilka przykładowych wierszy.
+```
+
+## Przygotowanie i kontrola jakości
+
+Zachowaj surowe dane. W nowym obiekcie zapisz wszystkie reguły czyszczenia. Wykaż liczbę braków i rekordów wykluczonych z analizy. Uzasadnij sposób postępowania z czasem -5 i 190 minut oraz niespójnymi nazwami działów.
+
+```{r czyszczenie}
+# Wpisz odtwarzalny kod czyszczenia.
+```
+
+## Tabela i wizualizacje
+
+Zbuduj tabelę podsumowującą oraz co najmniej dwa wykresy odpowiadające pytaniu. Każdy wykres ma tytuł, opis osi, jednostkę i krótki komentarz. Sprawdź liczebność porównywanych grup.
+
+```{r tabela}
+# Wpisz kod tabeli.
+```
+
+```{r wykres-1}
+# Wpisz kod pierwszego wykresu.
+```
+
+```{r wykres-2}
+# Wpisz kod drugiego wykresu.
+```
+
+## Analiza i interpretacja
+
+Wybierz test statystyczny albo model `lm()` lub `glm()` adekwatny do pytania. Podaj wynik, jednostkę lub miarę efektu, przedział niepewności tam, gdzie jest dostępny, oraz ograniczenie metody. Nie utożsamiaj korelacji z przyczynowością.
+
+```{r analiza}
+# Wpisz kod analizy i sprawdzenie założeń.
+```
+
+## Wniosek i rekomendacja
+
+Napisz krótki wniosek oparty na liczbach i jedną praktyczną rekomendację. Wyjaśnij, co trzeba zbadać przed podjęciem decyzji w rzeczywistej instytucji.
+
+## Korzystanie z narzędzi SI
+
+Jeżeli grupa użyła narzędzia SI, podaj do czego, jaką sugestię otrzymała i jak sprawdziła wynik w R. Nie wklejaj danych osobowych ani haseł.
+
+## Kontrola końcowa
+
+- [ ] Raport renderuje się od początku w czystej sesji R.
+- [ ] Pytanie, dane, kod, tabela, dwa wykresy i analiza tworzą spójną całość.
+- [ ] Wyniki liczbowe w tekście zgadzają się z wynikami kodu.
+- [ ] Podano ograniczenia danych i metod.
+- [ ] Podział pracy grupy jest jawny.
+- [ ] Do zadania w MS Teams przekazujemy jeden plik `.Rmd`.

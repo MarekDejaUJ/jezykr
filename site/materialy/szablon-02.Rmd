@@ -1,0 +1,104 @@
+---
+title: "Spotkanie 2: typy danych i struktury R — praca studenta"
+author: "Imię i nazwisko"
+output:
+  html_document:
+    toc: true
+---
+
+Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>.
+Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
+
+```{r start, message=FALSE, warning=FALSE}
+source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 4. Wektor, typ i brak danych
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz typy <code>numeric</code>, <code>character</code> i <code>logical</code> oraz wartości <code>NA</code>.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wektory i sprawdź, jak R przelicza elementy oraz traktuje brak.</p></div>
+
+~~~r
+czasy <- c(12, 18, NA, 30)
+kanaly <- c("Online", "Telefon", "Online", "Na miejscu")
+czasy > 15
+typeof(czasy)
+typeof(kanaly)
+mean(czasy)
+mean(czasy, na.rm = TRUE)
+is.na(czasy)
+~~~
+
+1. Wyjaśnij, dlaczego pierwsza średnia jest `NA`, a druga liczbą.
+2. Zbuduj własny wektor logiczny `dlugie` dla czasów powyżej 15 minut.
+3. Sprawdź `length(czasy)` i `sum(is.na(czasy))`. Przeczytaj pomoc `?mean`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wskazujesz typ każdego wektora i jeden brak; średnia z pominięciem braku wynosi 20.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw1}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+### Ćwiczenie 5. Macierz, lista i ramka danych
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Dobierzesz strukturę do jednorodnych i mieszanych danych.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz trzy struktury i odczytaj z nich wskazane elementy.</p></div>
+
+~~~r
+macierz <- matrix(1:6, nrow = 2, byrow = TRUE)
+raport <- list(tytul = "Obsługa", liczba = 240, gotowy = FALSE)
+proba <- data.frame(id = c("Z1", "Z2"),
+                    czas_min = c(12, 18),
+                    kanal = c("Online", "Telefon"))
+macierz[2, 3]
+raport$liczba
+proba[proba$czas_min > 15, c("id", "kanal")]
+~~~
+
+Sprawdź `str()` i `dim()` każdego obiektu. Wyjaśnij, dlaczego w ramce danych kolumny mogą mieć różne typy, a macierz ma jeden typ. Obejrzyj pierwsze trzy wiersze `zgloszenia` i wyświetl tylko `id`, `dzial`, `ocena`.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Umiesz wskazać element [2,3] macierzy, pole listy i podzbiór ramki. Potrafisz uzasadnić dobór struktury.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw2}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 6. Mały opis usług
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie połączysz typy danych i indeksowanie.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Zbuduj ramkę pięciu fikcyjnych zapytań z kolumnami <code>id</code>, <code>kanal</code>, <code>czas_min</code> i <code>ocena</code>. Jeden wynik oceny ma być <code>NA</code>. Utwórz listę zawierającą tę ramkę, liczbę zapytań i datę opracowania. Oblicz średni czas oraz liczbę braków oceny; wybierz wiersze o czasie powyżej własnego progu.</p></div>
+
+Zapisz w tekście, dlaczego `ocena` jest liczbą, a `kanal` tekstem. Nie używaj `attach()`; odwołuj się jawnie do kolumn.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Ramka ma 5 wierszy i 4 kolumny, lista zawiera trzy elementy, brak oceny nie psuje obliczeń, a wybrany próg i wynik są opisane.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw3}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+
+## Kontrola przed oddaniem
+
+- [ ] Dokument renderuje się od początku w czystej sesji R.
+- [ ] Wszystkie trzy ćwiczenia zawierają kod i interpretację.
+- [ ] Część Challenge jest samodzielnym rozwiązaniem.
+- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.

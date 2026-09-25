@@ -1,0 +1,33 @@
+---
+title: "Zasady zaliczenia i rubryka"
+---
+
+## Warunki zaliczenia
+
+Zgodnie z sylabusem wymagane są **aktywne uczestnictwo** (dopuszczalna jedna nieobecność) i **pozytywna ocena grupowego projektu zaliczeniowego**. Przy nadmiarowych usprawiedliwionych nieobecnościach student lub studentka konsultuje z prowadzącym alternatywną formę osiągnięcia efektów uczenia się. Ćwiczenia oddawane w MS Teams dokumentują postęp; same nie zastępują projektu.
+
+## Projekt grupowy
+
+Grupa liczy 2–4 osoby. Korzysta z [szablonu projektu](materialy/szablon-projekt.Rmd) i fikcyjnych danych kursowych albo z własnego zbioru, do którego ma prawo. Własny zbiór wymaga uzgodnienia z prowadzącym, aby raport dało się odtworzyć bez ujawniania danych osobowych. Jeżeli grupa używa danych kursowych, przekazuje jeden plik `.Rmd`; skrypt startowy odtwarza dane. W zadaniu Teams podaje nazwiska i zakres pracy osób z grupy.
+
+Raport powinien zawierać: pytanie badawcze lub instytucjonalne; opis źródła i ograniczeń danych; przygotowanie i kontrolę jakości; co najmniej dwie wizualizacje; tabelę podsumowującą; wybraną analizę statystyczną lub model; interpretację oraz rekomendację. Kod musi uruchamiać się od początku w czystej sesji R. Termin projektu jest podany w zadaniu MS Teams.
+
+## Rubryka projektu — 20 punktów
+
+| Kryterium | 4 punkty | 2–3 punkty | 0–1 punkt |
+|---|---|---|---|
+| Pytanie i dane | Konkretne pytanie, opis źródła, typów i ograniczeń | Pytanie lub opis danych wymaga doprecyzowania | Brak pytania lub niejasne pochodzenie danych |
+| Przygotowanie i kod | Odtwarzalny import, czyszczenie i kontrola; czytelne obiekty | Drobne błędy lub niepełna kontrola | Raport nie uruchamia się albo brak kluczowych etapów |
+| Wizualizacja i analiza | Poprawny dobór metod, czytelne podpisy, sprawdzenie założeń | Metody użyte częściowo poprawnie | Analiza błędna lub nieobecna |
+| Interpretacja i etyka | Wniosek oparty na liczbach, podaje niepewność i ograniczenia | Wniosek ogólny lub niepełny | Wniosek sprzeczny z wynikami albo narusza zasady danych |
+| Raport i współpraca | Spójny `.Rmd`, podpisane sekcje, podział pracy i poprawny język | Raport wymaga drobnych poprawek | Brak raportu lub wkładu grupy |
+
+**Próg pozytywnej oceny projektu: co najmniej 11/20 punktów oraz działający raport.** Ocena końcowa wynika z wyniku projektu, z zastrzeżeniem formalnych warunków uczestnictwa. Proponowana skala: 11–12 pkt — 3,0; 13–14 — 3,5; 15–16 — 4,0; 17–18 — 4,5; 19–20 — 5,0. Wynik 0–10 pkt — 2,0.
+
+## Informacja zwrotna do ćwiczeń
+
+Przy każdym ćwiczeniu znajdziesz kryteria sukcesu TILT. Przed oddaniem sprawdź, czy raport renderuje się od pierwszego bloku, czy dane i wyniki są opisane oraz czy samodzielna część **Challenge** zawiera Twój kod i interpretację. W zadaniu Teams prowadzący może wskazać poprawki do następnego spotkania.
+
+## Odpowiedzialne użycie narzędzi SI
+
+Obowiązują zasady użycia narzędzi opartych na sztucznej inteligencji przywołane w sylabusie. Możesz wykorzystać narzędzie do wyjaśnienia komunikatu błędu, porównania sposobów rozwiązania lub korekty kodu, ale sprawdź wynik w R i opisz własnymi słowami, co zrobił kod. Nie przekazuj narzędziom danych osobowych. W projekcie podaj krótko, do jakich zadań użyto SI i jak zweryfikowano odpowiedzi.

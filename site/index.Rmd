@@ -1,0 +1,58 @@
+---
+title: "Język R"
+---
+
+<div class="hero">
+<h2>Od pierwszego polecenia do raportu badawczego</h2>
+<p>Dziesięć spotkań po 90 minut: programowanie w R, przygotowanie danych, wizualizacja, eksploracja, modele i odpowiedzialne przedstawianie wyników.</p>
+</div>
+
+## Cel zajęć
+
+Po ukończeniu kursu potrafisz przygotować dane do analizy, napisać i poprawić prosty skrypt R, stworzyć wykres oraz raport R Markdown łączący kod, wyniki i interpretację. Pracujemy na fikcyjnych danych o obsłudze zapytań w instytucji informacyjnej.
+
+<div class="quick-grid">
+  <div class="quick-card"><h3>Podstawy R</h3><p>Konsola, projekt, obiekty, wektory, macierze, listy, ramki danych, funkcje i pętle.</p></div>
+  <div class="quick-card"><h3>Dane</h3><p>CSV i Excel, braki, czyszczenie, filtrowanie, agregacja, dplyr i tidyr.</p></div>
+  <div class="quick-card"><h3>Analiza</h3><p>ggplot2, eksploracja pakietowa, testy, modele lm() i glm().</p></div>
+  <div class="quick-card"><h3>Raport</h3><p>R Markdown, sprawdzanie kodu, etyczna interpretacja i projekt grupowy.</p></div>
+</div>
+
+## Program
+
+| Spotkanie | Temat | Rezultat |
+|---|---|---|
+| 1 | Projekt, konsola, pakiety, pliki | Działający projekt i pierwszy raport `.Rmd` |
+| 2 | Typy i struktury danych | Własne obiekty i kontrola typów |
+| 3 | CSV, Excel i jakość danych | Raport z importu, braków i błędów |
+| 4 | `dplyr` i `tidyr` | Zbiór oczyszczony i tabela podsumowująca |
+| 5 | Funkcje, warunki, pętle | Skrypt rozwiązujący powtarzalny problem |
+| 6 | Wykresy i `ggplot2` | Trzy czytelne wykresy z opisem |
+| 7 | Wizualizacja zależności | Wykres punktowy, liniowy i mapa cieplna |
+| 8 | `dlookr`, `explore`, `ggstatsplot` | Diagnoza i krytyka raportów automatycznych |
+| 9 | Testy, `lm()`, `glm()` | Wyniki modeli z ostrożną interpretacją |
+| 10 | R Markdown i projekt | Odtwarzalny raport grupowy |
+
+Każde spotkanie zaczyna się od **Learn** — pracy z prowadzącym — i kończy **Challenge**, czyli samodzielnym zastosowaniem. Każde ćwiczenie podaje cel, kroki i kryteria sukcesu (TILT).
+
+## Powiązanie z treściami sylabusa
+
+| Blok z karty przedmiotu | Spotkania | Ćwiczenia |
+|---|---|---|
+| 1. Środowisko R, projekty, typy i pakiety | 1–2 | 1–6 |
+| 2. Import i czyszczenie danych | 3–4 | 7–12 |
+| 3. Operacje, dplyr, tidyr, funkcje i pomoc | 4–5 | 10–15 |
+| 4. Wykresy, ggplot2 i raport | 6–7, 10 | 16–21, 28–30 |
+| 5. dlookr, explore i ggstatsplot | 8 | 22–24 |
+| 6. Dane jakościowe, testy, lm() i glm() | 9 | 25–27 |
+| 7. Podsumowania, wielkość efektu i SI | 9–10 | 27–30 |
+
+## Rozpocznij
+
+<a class="btn-course" href="organizacyjne.html">Przygotuj środowisko</a>
+<a class="btn-course" href="materialy.html">Pobierz szablon</a>
+<a class="btn-course" href="ocenianie.html">Sprawdź ocenianie</a>
+
+## Sylabus
+
+Kurs realizuje efekty W1–W3, U1–U5 i K1–K2 z [karty przedmiotu](materialy/jezyk-r-uj-wzzins-24-17358-26.pdf). Warunkiem zaliczenia jest aktywne uczestnictwo i pozytywna ocena projektu grupowego; szczegóły znajdują się w zakładce [Ocena](ocenianie.html).

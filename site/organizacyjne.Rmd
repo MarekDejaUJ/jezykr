@@ -1,0 +1,60 @@
+---
+title: "Organizacja pracy"
+---
+
+<div class="hero">
+<h2>Jedno spotkanie, jeden raport</h2>
+<p>Instrukcje czytasz na stronie. Kod i odpowiedzi zapisujesz w pobranym szablonie R Markdown. Uzupełniony plik `.Rmd` przekazujesz przez zadanie w MS Teams.</p>
+</div>
+
+## 1. Wymagania i sylabus
+
+<div class="tilt-grid">
+  <div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz zakres przedmiotu i sposób zaliczenia.</p></div>
+  <div class="tilt-card task"><h3>Zadanie</h3><p>Otwórz kartę przedmiotu i znajdź treści programowe, efekty U4–U5 oraz warunki zaliczenia.</p></div>
+  <div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Potrafisz wskazać liczbę godzin ćwiczeń, dopuszczalną liczbę nieobecności i rodzaj projektu.</p></div>
+</div>
+
+<a class="btn-course" href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">Otwórz sylabus PDF</a>
+
+Sylabus przewiduje **15 godzin ćwiczeń**, **jedną dopuszczalną nieobecność** i **pozytywnie oceniony projekt grupowy**. W razie nadmiarowych usprawiedliwionych nieobecności skonsultuj z prowadzącym alternatywną formę osiągnięcia efektów uczenia się. Zasady projektu i rubryka znajdują się w [Ocenie](ocenianie.html).
+
+## 2. Przygotowanie środowiska
+
+1. Zainstaluj aktualną wersję R oraz RStudio Desktop albo Positron. W RStudio wybierz **File → New Project → New Directory → New Project**. W Positronie utwórz folder kursu i otwórz go przez **File → Open Folder**. Nazwij go np. `jezyk-r`.
+2. W konsoli wykonaj `getwd()`. Wynik powinien wskazywać folder projektu. Jeśli pracujesz bez projektu, ustaw folder przez **Session → Set Working Directory → Choose Directory** (RStudio) albo otwórz właściwy folder w Positronie. Nie wpisuj do raportu bezwzględnej ścieżki do swojego komputera.
+3. Pobierz [szablon spotkania 1](materialy/szablon-01.Rmd) do folderu projektu. W następnych tygodniach pobieraj kolejne szablony do tego samego folderu.
+4. Otwórz plik `.Rmd`. Uruchom pierwszy blok kodu. Skrypt startowy pobierze pakiety, przygotuje dane i zapisze pliki w folderze `dane/`. Przy pierwszym uruchomieniu potrzebny jest internet.
+5. W RStudio użyj **Knit**; w Positronie otwórz paletę poleceń i wybierz **R: Render Document With R Markdown** albo w konsoli wpisz `rmarkdown::render("szablon-01.Rmd")`. Obejrzyj HTML na swoim komputerze.
+
+W Visual Studio Code możesz również otworzyć ten sam folder projektu, uruchomić R w terminalu i wykonać `rmarkdown::render("szablon-01.Rmd")`. Kurs pokazuje te same pliki źródłowe i polecenia R niezależnie od edytora; w RStudio przycisk **Knit** upraszcza pierwsze ćwiczenia.
+
+Nie przekazujesz projektu, folderu `dane/` ani HTML. Do zadania w MS Teams dołączasz uzupełniony plik `.Rmd`, nazwany np. `nazwisko_imie_01.Rmd`. Raport powinien renderować się od początku w czystej sesji R.
+
+## 3. Konsola, pliki i środowisko
+
+| Polecenie | Co robi | Kiedy używać |
+|---|---|---|
+| `2 + 2` | Oblicza wyrażenie w konsoli | Krótki test składni |
+| `x <- 5` | Tworzy obiekt `x` | Przechowanie wyniku |
+| `ls()` | Wyświetla obiekty sesji | Kontrola środowiska |
+| `rm(x)` | Usuwa wskazany obiekt | Porządkowanie sesji |
+| `rm(list = ls())` | Usuwa wszystkie obiekty | Test odtwarzalności **w konsoli**, przed renderowaniem |
+| `getwd()` | Pokazuje folder roboczy | Kontrola ścieżek |
+| `list.files()` | Pokazuje pliki w folderze | Szukanie plików CSV i raportu |
+| `dir.create("wyniki", showWarnings = FALSE)` | Tworzy folder | Organizacja eksportu |
+| `?mean` | Otwiera pomoc funkcji | Sprawdzenie argumentów |
+
+Plik `.Rmd` jest źródłem raportu: zwykły tekst opisuje decyzje, a bloki R uruchamiają kod. Plik `.R` zawiera sam kod, `.csv` przechowuje dane, a `.html` jest wynikiem renderowania. `setwd()` może pomóc doraźnie w konsoli, ale nie zapisuj go w oddawanym raporcie — projekt i ścieżki względne działają na innych komputerach.
+
+## 4. Praca z danymi i kodem
+
+- Dane ćwiczeniowe są fikcyjne. Skrypt `init-v1.R` jest publiczny i ma stałą nazwę wersji; możesz [przejrzeć go przed uruchomieniem](materialy/init-v1.R).
+- Pierwszy blok szablonu wywołuje `source(url(...), local = TRUE)`. Kod tworzy obiekt `zgloszenia` i pliki `dane/zgloszenia.csv`, `dane/zgloszenia.xlsx`. Skrypt nie nadpisuje istniejących plików.
+- Zmieniaj dane w nowych obiektach (`dane_czyste <- ...`), zachowując `zgloszenia` jako punkt odniesienia. Nazwy obiektów zapisuj czytelnie, a kolejne kroki komentuj.
+- Gdy kod zwróci błąd, przeczytaj komunikat, uruchom tylko odpowiedni blok, sprawdź `str()` i `names()`. Następnie wyrenderuj cały dokument od początku.
+- Nie umieszczaj w repozytorium ani w narzędziach generatywnych danych osobowych, haseł i tokenów. Wyniki opisuj z ograniczeniami danych.
+
+## 5. Oddawanie pracy
+
+W MS Teams otwórz zadanie przypisane do spotkania i prześlij jeden plik `.Rmd`. Termin i ewentualne wymagania szczególne są podane w zadaniu Teams. Zapisz kopię na własnym dysku lub w chmurze, ponieważ komputery w pracowni mogą nie zachować plików po wyłączeniu. Zadania tygodniowe służą ćwiczeniu i informacji zwrotnej; zaliczenie przedmiotu wymaga projektu grupowego zgodnie z sylabusem.

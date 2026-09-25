@@ -1,0 +1,98 @@
+---
+title: "Spotkanie 8: eksploracja pakietowa — praca studenta"
+author: "Imię i nazwisko"
+output:
+  html_document:
+    toc: true
+---
+
+Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-8.html>.
+Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
+
+```{r start, message=FALSE, warning=FALSE}
+options(jezykr.pakiety = c("dlookr", "explore", "ggstatsplot"))
+source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```
+
+## Learn — z prowadzącym
+
+### Ćwiczenie 22. Diagnoza z dlookr
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Porównasz automatyczny profil danych z ręczną kontrolą jakości.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom diagnozę braków dla surowych i oczyszczonych danych.</p></div>
+
+~~~r
+pakiety_kursu(c("dlookr", "explore", "ggstatsplot"))
+diag_surowe <- dlookr::diagnose(zgloszenia)
+diag_czyste <- dlookr::diagnose(zgloszenia_analiza)
+diag_surowe
+diag_czyste
+~~~
+
+Wskaż kolumny z brakami oraz różnicę w kolumnie `czas_min`. Sprawdź, czy raport `diagnose()` sam wykrył wartość -5 i 190 jako błędy; jeżeli nie, wyjaśnij dlaczego potrzebna jest reguła dziedzinowa.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Widzisz różnicę dwóch braków w <code>czas_min</code> i rozumiesz, że statystyka braków nie zastępuje oceny sensu wartości.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw1}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+### Ćwiczenie 23. Opis i wykres statystyczny
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Odczytasz podsumowanie automatyczne, zachowując kontrolę nad pytaniem badawczym.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Opisz wszystkie zmienne z explore i porównaj czas między grupami z ggstatsplot.</p></div>
+
+~~~r
+explore::describe_all(zgloszenia_analiza)
+dane_test <- zgloszenia_analiza |>
+  dplyr::filter(!is.na(czas_min))
+ggstatsplot::ggbetweenstats(data = dane_test,
+                            x = grupa, y = czas_min,
+                            type = "parametric")
+~~~
+
+Odczytaj liczebności grup, kierunek różnicy oraz podpis testu. Nie zakładaj, że automatyczny wybór testu jest właściwy dla każdego pytania. Zapisz, co trzeba sprawdzić przed interpretacją.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport zawiera tabelę opisową i wykres obu grup, a tekst odróżnia wynik automatyczny od własnej interpretacji.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw2}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+## Challenge — samodzielnie
+
+### Ćwiczenie 24. Raport automatyczny i audyt
+
+<div class="tilt-card purpose"><h3>Cel</h3><p>Wygenerujesz raport EDA i wskażesz jego mocne oraz słabe strony.</p></div>
+<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder <code>wyniki/</code> i wygeneruj lokalny raport HTML: <code>dlookr::eda_web_report(zgloszenia_analiza, output_file = "eda.html", output_dir = normalizePath("wyniki", winslash = "/"), browse = FALSE)</code>. Porównaj wybraną tabelę lub wykres z własnym wynikiem z poprzednich spotkań. W oddawanym <code>.Rmd</code> podaj nazwę wygenerowanego pliku, dwa zgodne ustalenia i jedną rzecz, której raport nie wyjaśnia.</p></div>
+
+W raporcie R Markdown umieść wywołanie `eda_web_report()` w bloku z opcją `eval=FALSE`, ponieważ odrębny raport HTML tworzysz jednorazowo w konsoli. W treści pokaż kod i własną kontrolę, aby główny dokument dało się renderować bez ponownego tworzenia drugiego raportu.
+
+<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Plik <code>wyniki/eda.html</code> powstaje lokalnie; oddany <code>.Rmd</code> zawiera kod generowania, sprawdzoną liczbę i krytyczny komentarz. Nie dołączasz drugiego HTML do Teams.</p></div>
+
+**Twoja praca — kod:**
+
+```{r cw3}
+# Wpisz i uruchom własny kod.
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+
+
+## Kontrola przed oddaniem
+
+- [ ] Dokument renderuje się od początku w czystej sesji R.
+- [ ] Wszystkie trzy ćwiczenia zawierają kod i interpretację.
+- [ ] Część Challenge jest samodzielnym rozwiązaniem.
+- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.
