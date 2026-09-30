@@ -1,138 +1,106 @@
 ---
-title: "Spotkanie 6: R i GitHub Copilot CLI — praca studenta"
+title: "Spotkanie 6: biblioteki R i generatywna SI"
+subtitle: "Praca studenta"
 author: "Imię i nazwisko"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+lang: pl
+papersize: a4
+geometry: margin=2.5cm
 output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    dev: png
   html_document:
     toc: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-6.html>.
-Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
-
-```{r start, message=FALSE, warning=FALSE}
-source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```{r start, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
+options(jezykr.pakiety = c("effectsize", "report"))
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-## Learn — z prowadzącym
+Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-6.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.
 
-### Ćwiczenie 20. Instalacja i bezpieczne uruchomienie
+## Ćwiczenie 6.1. GitHub Copilot CLI: instalacja i bezpieczne uruchomienie
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Uruchomisz asystenta CLI w folderze kursowym i poznasz granice jego dostępu.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Aktywuj GitHub Copilot Free na koncie GitHub, zainstaluj CLI, uruchom je w terminalu projektu i zaloguj się.</p></div>
+**Polecenie:** Aktywuj Copilot Free na koncie GitHub, sprawdź lub zainstaluj CLI, uruchom je w terminalu projektu, zaloguj się i zakończ sesję. W szablonie zapisz system, wynik `copilot version`, sposób logowania i ewentualny problem.
 
-1. Zaloguj się na [GitHub](https://github.com/) własnym kontem i włącz [Copilot Free](https://docs.github.com/en/copilot/how-tos/manage-your-account/get-started-with-a-copilot-plan), jeżeli nie masz aktywnego planu.
-2. W RStudio lub Positronie otwórz **Terminal** w folderze projektu. W Windows, w **PowerShell 6 lub nowszym**, wykonaj `winget install GitHub.Copilot`. Gdy `winget` nie jest dostępny, zgodnie z [instrukcją instalacji GitHub](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli) można użyć Node.js 22 lub nowszego i `npm install -g @github/copilot`. Na innych systemach wybierz metodę z tej samej instrukcji.
-3. Sprawdź instalację przez `copilot version`, a potem uruchom `copilot`. Jeśli narzędzie poprosi o logowanie, wpisz `/login` i postępuj zgodnie z poleceniami.
-4. Zatwierdź zaufanie **tylko do folderu tego projektu**. Przeczytaj każde żądanie odczytu, uruchomienia polecenia lub zmiany pliku przed zgodą. [Instrukcja użycia CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview) wyjaśnia dostęp narzędzia do plików. Zakończ przez `/exit`.
+**Odpowiedź:** uzupełnij.
 
-Nie wklejaj haseł, tokenów ani danych osobowych. Korzystaj z fikcyjnego zbioru kursowego. Jeżeli instalacja lub logowanie nie powiedzie się w czasie zajęć, wykonaj obliczenia samodzielnie w R i zapisz, który etap CLI sprawił trudność; pokażesz go prowadzącemu podczas konsultacji.
+## Ćwiczenie 6.2. Podsumowania statystyczne z bibliotek R
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wiesz, czym różnią się dwa konta Copilot, widzisz wersję CLI i potrafisz uruchomić oraz zamknąć sesję we właściwym folderze.</p></div>
+**Polecenie:** Zapytaj CLI o kod liczący liczność, braki, średnią, medianę i odchylenie standardowe czasu według grupy. Porównaj jego propozycję z kodem poniżej, a następnie wygeneruj tabelę opisową funkcją `report_sample()`.
 
-**Moja konfiguracja:** zanotuj system, wynik `copilot version`, sposób logowania i ewentualny problem. Polecenia terminala wpisuj w Terminalu, nie w bloku R.
-
-
-### Ćwiczenie 21. Podsumowanie liczbowe z kontrolą
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Poprosisz CLI o wskazówkę do kodu, ale liczby obliczysz i sprawdzisz w R.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Zapytaj CLI o kod dla liczebności, średniej, mediany i odchylenia czasu obsługi według grupy. Nie podawaj gotowych liczb w promptcie.</p></div>
-
-Przykładowe polecenie w interaktywnej sesji CLI: „W pliku R Markdown pracuję z ramką `zgloszenia_analiza`. Podaj krótki kod R liczący n, liczbę braków, średnią, medianę i sd dla `czas_min` według `grupa`. Nie zgaduj wyników. Pokaż test sumy liczebności i wyjaśnij `na.rm`.”
-
-Porównaj propozycję z tym szkieletem i uruchom własny kod:
-
-~~~r
-statystyki <- zgloszenia_analiza |>
-  dplyr::group_by(grupa) |>
-  dplyr::summarise(
-    n = dplyr::n(),
-    braki = sum(is.na(czas_min)),
-    srednia = mean(czas_min, na.rm = TRUE),
-    mediana = median(czas_min, na.rm = TRUE),
-    sd = sd(czas_min, na.rm = TRUE),
-    .groups = "drop"
-  )
-statystyki
-sum(statystyki$n)
-~~~
-
-Sprawdź, czy suma `n` daje 240 oraz czy `n - braki` odpowiada liczbie obserwacji użytych do średniej. W tekście podaj wynik po uruchomieniu kodu, nie z odpowiedzi CLI.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport zawiera tabelę dla A i B, poprawne liczebności i własną kontrolę; wiadomo, która sugestia pochodziła z CLI.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw2}
-# Wpisz i uruchom własny kod.
+```{r c6-2}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 6.3. Wielkość efektu i jej automatyczna interpretacja
 
-### Ćwiczenie 22. Wielkość efektu i interpretacja
+**Polecenie:** Oblicz d Cohena i g Hedgesa dla czasu w grupach A i B, sprawdź d ręcznie z połączonego odchylenia standardowego, a następnie zinterpretuj wynik funkcją `interpret_cohens_d()` według trzech konwencji. Oblicz V Craméra dla kanału i rozwiązania sprawy, iloraz szans dla grupy i rozwiązania oraz cząstkowe eta-kwadrat dla modelu z ćwiczenia 5.4.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Obliczysz standaryzowaną różnicę średnich i sprawdzisz interpretację asystenta.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Oblicz d Cohena dla czasu w grupach A i B z połączonym odchyleniem standardowym. Zapytaj CLI, co oznacza znak i jednostka wyniku, a odpowiedź porównaj z własnym kodem.</p></div>
-
-~~~r
-a <- na.omit(zgloszenia_analiza$czas_min[
-  zgloszenia_analiza$grupa == "A"])
-b <- na.omit(zgloszenia_analiza$czas_min[
-  zgloszenia_analiza$grupa == "B"])
-sd_pooled <- sqrt(((length(a) - 1) * var(a) +
-                   (length(b) - 1) * var(b)) /
-                  (length(a) + length(b) - 2))
-d_cohena <- (mean(a) - mean(b)) / sd_pooled
-c(n_A = length(a), n_B = length(b),
-  roznica_min = mean(a) - mean(b), d = d_cohena)
-~~~
-
-Przykładowe pytanie do CLI: „Wyjaśnij znak i znaczenie d Cohena obliczonego jako (średnia A − średnia B) / połączone SD. Jak sprawdzić liczebności i czy z tej wielkości wolno wnioskować o przyczynie? Nie podawaj arbitralnej etykiety mały/duży bez kontekstu.”
-
-Sprawdź, że znak `d_cohena` jest taki sam jak znak surowej różnicy średnich i że `sd_pooled > 0`. Efekt jest bez jednostki; różnica średnich jest w minutach. Nie utożsamiaj wielkości efektu z wartością p.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport podaje liczbę obserwacji, różnicę w minutach, d Cohena, kierunek i ograniczenie interpretacji.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw3}
-# Wpisz i uruchom własny kod.
+```{r c6-3}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 6.4. Tekst wygenerowany przez pakiet report
 
-## Challenge — samodzielnie
+**Polecenie:** Wygeneruj opis testu t z ćwiczenia 5.2 i modelu z ćwiczenia 5.4 funkcją `report()`. Porównaj każdą liczbę z wynikami z poprzedniego spotkania, wskaż jedno sformułowanie wymagające korekty lub kontekstu i napisz własny akapit po polsku.
 
-### Ćwiczenie 23. Napraw kod i audytuj sugestię
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie rozpoznasz błąd w kodzie, użyjesz CLI do diagnozy i sprawdzisz poprawkę.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Poniższy kod zawiera błędną nazwę kolumny oraz pomija obsługę braków. Poproś CLI o wyjaśnienie obu problemów bez modyfikowania pliku. Następnie napisz własną poprawioną wersję w raporcie, uruchom ją i porównaj z wynikiem ćwiczenia 21.</p></div>
-
-~~~r
-# Kod do diagnozy; pokaż w .Rmd z eval=FALSE:
-zgloszenia_analiza |>
-  dplyr::group_by(grupa) |>
-  dplyr::summarise(srednia = mean(czas_minn))
-~~~
-
-W końcowym `.Rmd` zapisz: fragment błędny, krótką diagnozę CLI, poprawiony kod, wynik własnej kontroli i jedno zdanie, którego sugestii asystenta nie przyjąłeś lub co dodatkowo sprawdziłeś. Nie pozwalaj CLI wykonywać zmian bez przeczytania propozycji. Jeżeli limit planu Free się wyczerpie, wykonaj diagnozę samodzielnie i opisz test.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Poprawiony kod renderuje się od początku, daje wynik zgodny z ćwiczeniem 21 i pokazuje świadomą kontrolę odpowiedzi CLI.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw4}
-# Wpisz i uruchom własny kod.
+```{r c6-4}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 6.5. Diagnoza błędu z pomocą CLI
 
+**Polecenie:** Uruchom poniższy kod i skopiuj komunikat błędu. Poproś CLI o wyjaśnienie komunikatu bez modyfikowania plików, porównaj odpowiedź z podpowiedzią zawartą w komunikacie dplyr i popraw kod samodzielnie.
+
+```{r c6-5, error=TRUE}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 6.6. Napraw kod i audytuj sugestię
+
+**Polecenie:** Poniższy kod ma liczyć średni czas i odsetek spraw rozwiązanych w kanale Online według grupy. Zawiera trzy błędy powodujące komunikat oraz dwa błędy, które nie dają komunikatu, ale zmieniają wynik. Poproś CLI o diagnozę bez modyfikowania plików, a potem napisz własną poprawioną wersję i sprawdź ją niezależnym obliczeniem.
+
+```{r c6-6, error=TRUE}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 6.7. Mini-raport z dziennikiem użycia SI
+
+**Polecenie:** Napisz akapit (do 150 słów) dla kierownika obsługi: czy pilotażowa procedura B skraca czas obsługi i zwiększa odsetek spraw rozwiązanych przy pierwszym kontakcie. Podaj liczby z niepewnością i wielkością efektu z ćwiczeń 5.1, 5.2 i 6.3 oraz jedno ograniczenie. Dołącz tabelę dziennika użycia SI.
+
+```{r c6-7}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 6.8. Szkic projektu grupowego
+
+**Polecenie:** W porozumieniu z zespołem zapisz: pytanie badawcze, odbiorcę i decyzję, którą wynik może wspierać, zmienne i ich typy, metodę analizy (tabela z sekcji „Jak czytać wynik testu” na spotkaniu 5), dwa planowane wykresy i podział pracy.
+
+**Odpowiedź:** uzupełnij.
 
 ## Kontrola przed oddaniem
 
-- [ ] Dokument renderuje się od początku w czystej sesji R.
-- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.
-- [ ] Część Challenge jest samodzielnym rozwiązaniem.
-- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.
+- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.
+- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.
+- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.
+- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_06.pdf`.

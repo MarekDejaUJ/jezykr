@@ -2,96 +2,321 @@
 title: "Spotkanie 3: wizualizacja danych"
 ---
 
-<div class="hero"><h2>Spotkanie 3 z 6 · treść programowa 4</h2><p>Tworzysz histogram, wykres punktowy, wykres liniowy i mapę cieplną w ggplot2.</p></div>
+<div class="hero"><h2>Spotkanie 3 z 6 · 90 minut · treść programowa 4</h2><p>Porównasz szybkie wykresy bazowe z gramatyką ggplot2, zbudujesz histogram, wykres punktowy, słupkowy, pudełkowy, liniowy i mapę cieplną, przygotujesz wykres do raportu i poprawisz wykres, który wprowadza w błąd.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 10 min dobór wykresu, 20 min histogram, 20 min punkty, 20 min linia i mapa, 15 min własny wykres, 5 min kontrola.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 8 min ćwiczenie 3.1 · 14 min ćwiczenie 3.2 · 12 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min ćwiczenie 3.5 · 27 min zadania 3.6–3.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
 
-Pobierz [szablon 03](materialy/szablon-03.Rmd). Do wykresów czasu używaj `zgloszenia_analiza`; dwa podejrzane czasy są w nim oznaczone jako brak. Każdy wykres opatrz pytaniem, jednostką i krótkim komentarzem.
+::: {.start}
+**Start:** otwórz projekt `jezykr`, uruchom skrypt startowy i pobierz szablon spotkania 3. Do wykresów używaj `zgloszenia_analiza`: dwa niemożliwe czasy są w nim oznaczone jako brak. Każdy wykres w raporcie ma odpowiadać na pytanie, mieć tytuł, opisane osie z jednostkami i jedno–dwa zdania komentarza.
+:::
 
-## Learn — z prowadzącym
-
-### Ćwiczenie 9. Rozkład czasu
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Dobierzesz histogram do zmiennej liczbowej i sprawdzisz wpływ szerokości przedziału.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Porównaj szybki wykres bazowy z histogramem ggplot2. Zmień binwidth i opisz różnicę.</p></div>
-
-~~~r
-hist(zgloszenia_analiza$czas_min,
-     main = "Czas obsługi", xlab = "Minuty", col = "grey80")
-ggplot2::ggplot(zgloszenia_analiza,
-                ggplot2::aes(x = czas_min)) +
-  ggplot2::geom_histogram(binwidth = 10, fill = "#2b6d73",
-                          color = "white", na.rm = TRUE) +
-  ggplot2::labs(title = "Rozkład czasu obsługi",
-                x = "Czas [min]", y = "Liczba zgłoszeń") +
-  ggplot2::theme_minimal()
-summary(zgloszenia_analiza$czas_min)
+~~~{.r .bez-uruchamiania}
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
+pobierz_szablon(3, "nazwisko_imie_03.Rmd")
 ~~~
 
-Sprawdź `binwidth = 5` i `binwidth = 20`. Dane pozostają te same; zmienia się sposób grupowania wartości. Wskaż medianę w wynikach `summary()`.
+## Jak dobrać wykres
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Histogram ma tytuł, osie i jednostkę; opis uwzględnia wpływ szerokości koszyków oraz braków.</p></div>
+| Pytanie | Zmienne | Wykres | Funkcja ggplot2 |
+|:-----------------------------|:---------------|:----------------|:-------------------|
+| Jak rozkładają się wartości? | jedna liczbowa | histogram, wykres gęstości | `geom_histogram()`, `geom_density()` |
+| Jak liczne są kategorie? | jedna kategorialna | słupkowy | `geom_bar()`, `geom_col()` |
+| Czy wartości różnią się między grupami? | liczbowa i kategorialna | pudełkowy, punkty z rozrzutem | `geom_boxplot()`, `geom_jitter()` |
+| Czy dwie zmienne liczbowe współzmieniają się? | dwie liczbowe | punktowy z linią trendu | `geom_point()`, `geom_smooth()` |
+| Jak zmienia się wartość w czasie? | data i liczba | liniowy | `geom_line()` |
+| Jak wygląda natężenie w kombinacjach kategorii? | dwie kategorialne i liczba | mapa cieplna | `geom_tile()` |
 
-### Ćwiczenie 10. Czas i koszt
+## Learn — ćwiczenia z prowadzącym
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz współzmienność dwóch zmiennych liczbowych bez przypisywania jej przyczyny.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wykres punktowy z kolorem kanału i oblicz korelację dla pełnych par.</p></div>
+### Ćwiczenie 3.1. Szybkie wykresy bazowe
+
+::: {.brief}
+**Cel:** Obejrzysz dane czterema szybkimi wykresami z bazowego R, zanim zaczniesz budować wykresy do raportu.
+
+**Polecenie:** Narysuj histogram czasu obsługi, wykres pudełkowy czasu według kanału, wykres słupkowy typów spraw i wykres punktowy czasu i kosztu. Zmień liczbę przedziałów histogramu i zanotuj, co widzisz.
+:::
+
+Wykresy bazowe powstają jednym poleceniem i dobrze nadają się do szybkiego rozpoznania danych w konsoli. Każdy element opisujesz argumentem tej samej funkcji: `main` (tytuł), `xlab` i `ylab` (osie), `col` (kolor). Do raportu używaj zwykle ggplot2, który łatwiej rozbudować i ujednolicić.
 
 ~~~r
-ggplot2::ggplot(zgloszenia_analiza,
-                ggplot2::aes(x = czas_min, y = koszt, color = kanal)) +
-  ggplot2::geom_point(alpha = 0.6, na.rm = TRUE) +
-  ggplot2::geom_smooth(method = "lm", se = FALSE, na.rm = TRUE) +
-  ggplot2::labs(title = "Czas a koszt obsługi",
-                x = "Czas [min]", y = "Koszt [zł]", color = "Kanał") +
-  ggplot2::theme_minimal()
-sum(complete.cases(zgloszenia_analiza[, c("czas_min", "koszt")]))
-cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
-    use = "complete.obs")
+hist(zgloszenia_analiza$czas_min, breaks = 20, main = "Czas obsługi",
+     xlab = "Czas [min]", ylab = "Liczba zgłoszeń", col = "grey80")
+boxplot(czas_min ~ kanal, data = zgloszenia_analiza,
+        main = "Czas według kanału", xlab = "Kanał", ylab = "Czas [min]")
+barplot(table(zgloszenia_analiza$typ_sprawy),
+        main = "Typy spraw", ylab = "Liczba zgłoszeń")
+plot(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
+     pch = 19, col = "grey40",
+     xlab = "Czas [min]", ylab = "Koszt [zł]", main = "Czas a koszt")
 ~~~
 
-Wyjaśnij, co oznacza dodatnia korelacja i dlaczego nie dowodzi przyczynowości. Sprawdź liczbę pełnych par przed opisem współczynnika.
+| Funkcja | Najważniejsze argumenty | Uwagi |
+|:-------------|:-------------------------------------|:------------------------------|
+| `hist(x, breaks, ...)` | `breaks` — liczba lub granice przedziałów; `main`, `xlab`, `col`, `border` | liczba przedziałów jest tylko sugestią dla R |
+| `boxplot(formula, data, ...)` | `y ~ grupa`; `horizontal = TRUE`; `varwidth = TRUE` — szerokość zależna od liczności | punkty poza „wąsami” to wartości odstające według reguły 1,5 IQR |
+| `barplot(height, ...)` | tabela liczności; `horiz = TRUE`; `las = 1` — poziome etykiety osi | wymaga gotowych liczności z `table()` |
+| `plot(x, y, ...)` | `pch` — kształt punktu; `cex` — wielkość; `col` | ogólna funkcja: dla dwóch wektorów liczb daje wykres punktowy |
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Wykres ma obie jednostki, korelacja korzysta z pełnych par, a komentarz nie myli zależności z wpływem.</p></div>
+**Sprawdź i zmień.** Porównaj histogram dla `breaks = 5` i `breaks = 40`. Dodaj do wykresu pudełkowego `varwidth = TRUE` i wyjaśnij, co oznacza szerokość pudełka. Na wykresie punktowym narysuj linię trendu: `abline(lm(koszt ~ czas_min, data = zgloszenia_analiza), lwd = 2)`.
 
-### Ćwiczenie 11. Czas i kombinacje kategorii
+::: {.criteria}
+**Kryteria sukcesu:** cztery wykresy mają tytuły i opisane osie; w szablonie zapisujesz trzy obserwacje, np. który kanał ma najdłuższy czas, jaki typ sprawy dominuje i czy koszt rośnie z czasem.
+:::
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Przygotujesz dane zagregowane do wykresu liniowego i mapy cieplnej.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz zgłoszenia według miesiąca oraz kanału i działu; narysuj dwa różne wykresy.</p></div>
+### Ćwiczenie 3.2. Gramatyka ggplot2: histogram, panele i etykiety
+
+::: {.brief}
+**Cel:** Poznasz budowę wykresu ggplot2 z warstw i dobierzesz szerokość przedziałów histogramu.
+
+**Polecenie:** Zbuduj histogram czasu obsługi warstwa po warstwie: dane i estetyki, geometria, etykiety, motyw. Porównaj trzy szerokości przedziałów, dodaj linię mediany i podziel wykres na panele według kanału.
+:::
+
+Wykres ggplot2 składa się z warstw łączonych znakiem `+`. `ggplot(dane, aes(...))` wskazuje dane i **estetyki** — przypisanie zmiennych do cech wykresu, np. osi `x`, koloru `fill`. **Geometria** (`geom_*`) decyduje, jak dane zostaną narysowane. `labs()` opisuje wykres, `facet_wrap()` dzieli go na panele, a `theme_*()` ustala wygląd. Stałe ustawienia, np. kolor wszystkich słupków, podajesz poza `aes()`; wewnątrz `aes()` umieszczasz tylko zmienne.
+
+~~~r
+mediana <- median(zgloszenia_analiza$czas_min, na.rm = TRUE)
+ggplot(zgloszenia_analiza, aes(x = czas_min)) +
+  geom_histogram(binwidth = 5, boundary = 0, fill = "#2b6d73", colour = "white",
+                 na.rm = TRUE) +
+  geom_vline(xintercept = mediana, linetype = "dashed") +
+  labs(title = "Rozkład czasu obsługi zgłoszeń",
+       subtitle = "Linia przerywana: mediana",
+       x = "Czas obsługi [min]", y = "Liczba zgłoszeń",
+       caption = "Dane fikcyjne, styczeń–czerwiec 2027") +
+  theme_minimal(base_size = 12)
+
+ggplot(zgloszenia_analiza, aes(x = czas_min)) +
+  geom_histogram(binwidth = 5, boundary = 0, fill = "#2b6d73", colour = "white",
+                 na.rm = TRUE) +
+  facet_wrap(~ kanal, ncol = 1) +
+  labs(x = "Czas obsługi [min]", y = "Liczba zgłoszeń") +
+  theme_minimal()
+~~~
+
+| Element | Najważniejsze argumenty | Działanie |
+|:-------------|:----------------------------------------------|:---------------------|
+| `ggplot(data, aes(...))` | ramka; estetyki `x`, `y`, `colour`, `fill`, `shape`, `size` | dane i przypisanie zmiennych |
+| `geom_histogram()` | `binwidth` — szerokość przedziału albo `bins` — ich liczba; `boundary` — punkt początkowy; `fill`, `colour`; `na.rm` | histogram |
+| `geom_vline()`, `geom_hline()` | `xintercept`, `yintercept`; `linetype`, `linewidth` | linia pionowa lub pozioma |
+| `labs()` | `title`, `subtitle`, `x`, `y`, `colour`, `fill`, `caption` | tytuły i opisy |
+| `facet_wrap(~ zmienna)` | `ncol`, `nrow`; `scales = "free_y"` — osobne skale | panele dla kategorii |
+| `theme_minimal(base_size)` | wielkość tekstu bazowego | gotowy motyw; inne: `theme_bw()`, `theme_classic()` |
+
+**Sprawdź i zmień.** Zmień `binwidth` na 2 i na 20: dane się nie zmieniają, zmienia się sposób ich grupowania. Na wzór pytania z R4DS wyjaśnij, dlaczego kod `ggplot(zgloszenia_analiza, aes(x = czas_min, fill = "blue")) + geom_histogram()` nie daje niebieskich słupków. Zastąp histogram warstwą `geom_density(aes(colour = kanal), na.rm = TRUE)` i porównaj kształty rozkładów kanałów.
+
+::: {.criteria}
+**Kryteria sukcesu:** histogram ma tytuł, osie z jednostką i linię mediany (35 minut); w opisie porównujesz trzy szerokości przedziałów i wskazujesz kanał z przesuniętym rozkładem (Telefon); wyjaśniasz różnicę między ustawieniem koloru wewnątrz i poza `aes()`.
+:::
+
+### Ćwiczenie 3.3. Wykres punktowy, linia trendu i korelacja
+
+::: {.brief}
+**Cel:** Rozpoznasz współzmienność dwóch zmiennych liczbowych i opiszesz ją bez przypisywania przyczyny.
+
+**Polecenie:** Narysuj wykres punktowy czasu i kosztu z kolorem kanału i linią trendu, oblicz korelację Pearsona i Spearmana dla pełnych par, a potem pokaż zależność czasu i oceny z rozrzuceniem nakładających się punktów.
+:::
+
+Wykres punktowy pokazuje każdą obserwację jako punkt. Przezroczystość `alpha` ujawnia miejsca, w których punkty się nakładają, a `geom_jitter()` lekko rozrzuca punkty, gdy jedna ze zmiennych przyjmuje tylko kilka wartości (np. ocena 1–5). Współczynnik korelacji mierzy siłę związku liniowego od −1 do 1; wersja Spearmana opiera się na rangach i jest odporna na wartości skrajne.
+
+~~~r
+ggplot(zgloszenia_analiza, aes(x = czas_min, y = koszt)) +
+  geom_point(aes(colour = kanal), alpha = 0.6, size = 2, na.rm = TRUE) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE, colour = "black",
+              na.rm = TRUE) +
+  scale_colour_brewer(palette = "Dark2") +
+  labs(title = "Czas a koszt obsługi", x = "Czas [min]", y = "Koszt [zł]",
+       colour = "Kanał") +
+  theme_minimal()
+pary <- complete.cases(zgloszenia_analiza[, c("czas_min", "koszt")])
+sum(pary)
+cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt, use = "complete.obs")
+cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt, use = "complete.obs",
+    method = "spearman")
+ggplot(zgloszenia_analiza, aes(x = ocena, y = czas_min)) +
+  geom_jitter(width = 0.15, height = 0, alpha = 0.5, na.rm = TRUE) +
+  labs(x = "Ocena [1–5]", y = "Czas [min]") +
+  theme_minimal()
+~~~
+
+| Funkcja | Najważniejsze argumenty | Działanie |
+|:--------------|:------------------------------------------------|:------------------|
+| `geom_point()` | `alpha` — przezroczystość 0–1; `size`; `shape`; `colour` | punkty |
+| `geom_jitter()` | `width`, `height` — zakres rozrzutu w poziomie i pionie | punkty lekko przesunięte losowo |
+| `geom_smooth()` | `method = "lm"` — prosta, `"loess"` — krzywa; `formula`; `se = TRUE` — pas niepewności | linia trendu |
+| `scale_colour_brewer()` | `palette`, np. `"Dark2"`, `"Set2"` | paleta kolorów dla kategorii |
+| `cor(x, y, use, method)` | `use = "complete.obs"` — tylko pełne pary; `method = "pearson"` albo `"spearman"` | współczynnik korelacji |
+
+**Sprawdź i zmień.** Przenieś `colour = kanal` z `geom_point()` do `aes()` w `ggplot()` i sprawdź, ile linii trendu powstało. Zmień `method = "lm"` na `"loess"`. Wyjaśnij, dlaczego silna korelacja czasu i kosztu nie oznacza, że skrócenie rozmowy samo obniży koszt, i czego potrzebowałbyś, aby to sprawdzić.
+
+::: {.criteria}
+**Kryteria sukcesu:** wykres ma jednostki obu osi i legendę kanału; korelacja czasu i kosztu wynosi 0,96 (Pearson) i 0,95 (Spearman) dla 237 pełnych par; korelacja czasu i oceny jest ujemna (około −0,51); komentarz nie myli współzmienności z przyczyną.
+:::
+
+### Ćwiczenie 3.4. Kategorie: wykresy słupkowe i pudełkowe
+
+::: {.brief}
+**Cel:** Porównasz liczności i rozkłady w kategoriach oraz dobierzesz układ słupków do pytania.
+
+**Polecenie:** Narysuj liczbę zgłoszeń w kanałach dwiema geometriami, porównaj udział spraw rozwiązanych w kanałach trzema ustawieniami `position` i zbuduj wykres pudełkowy czasu według kanału z zaznaczoną średnią.
+:::
+
+`geom_bar()` sam liczy wiersze w każdej kategorii, a `geom_col()` rysuje gotowe wartości z kolumny `y`. Gdy kolor słupka oznacza drugą zmienną, argument `position` decyduje o układzie: `"stack"` — słupki na sobie, `"dodge"` — obok siebie, `"fill"` — udziały do 100%. Wykres pudełkowy pokazuje medianę (kreska), kwartyle (pudełko), zakres typowych wartości (wąsy) i wartości odstające (punkty).
+
+~~~r
+ggplot(zgloszenia_analiza, aes(x = kanal)) +
+  geom_bar(fill = "#2b6d73") +
+  labs(x = "Kanał", y = "Liczba zgłoszeń") +
+  theme_minimal()
+zgloszenia_analiza |>
+  count(typ_sprawy) |>
+  ggplot(aes(x = reorder(typ_sprawy, n), y = n)) +
+  geom_col(fill = "#2b6d73") +
+  coord_flip() +
+  labs(x = NULL, y = "Liczba zgłoszeń", title = "Typy spraw") +
+  theme_minimal()
+ggplot(zgloszenia_analiza, aes(x = kanal, fill = rozwiazano)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Kanał", y = "Udział zgłoszeń", fill = "Rozwiązano") +
+  theme_minimal()
+ggplot(zgloszenia_analiza, aes(x = kanal, y = czas_min)) +
+  geom_boxplot(fill = "grey90", outlier.colour = "#b23b3b", na.rm = TRUE) +
+  stat_summary(fun = mean, geom = "point", shape = 4, size = 3, na.rm = TRUE) +
+  labs(x = "Kanał", y = "Czas [min]", caption = "Krzyżyk: średnia") +
+  theme_minimal()
+~~~
+
+| Funkcja | Najważniejsze argumenty | Działanie |
+|:---------------|:---------------------------------|:--------------------------------|
+| `geom_bar()` | `position = "stack"`, `"dodge"` albo `"fill"`; `fill` | słupki z liczności wierszy |
+| `geom_col()` | wymaga `y`; te same `position` | słupki z gotowych wartości |
+| `reorder(x, X)` | kategoria; wartość sortująca | kolejność kategorii według wartości |
+| `coord_flip()` | brak | zamienia osie; długie etykiety stają się czytelne |
+| `scale_y_continuous()` | `labels = scales::percent`; `limits`; `breaks` | opis i zakres osi liczbowej |
+| `geom_boxplot()` | `outlier.colour`, `outlier.shape`; `varwidth`; `notch` | wykres pudełkowy |
+| `stat_summary(fun, geom)` | funkcja podsumowania; geometria wyniku | dodaje np. średnią do wykresu |
+
+**Sprawdź i zmień.** Zmień `position = "fill"` na `"dodge"` i na `"stack"`: który wariant najlepiej odpowiada na pytanie o udział rozwiązanych spraw, a który o ich liczbę? Usuń `reorder()` i porównaj czytelność. Porównaj medianę i średnią w wykresie pudełkowym Online: co oznacza ich różnica?
+
+::: {.criteria}
+**Kryteria sukcesu:** wykresy liczności pokazują 104, 81 i 55 zgłoszeń w kanałach; wykres udziałów ma oś w procentach i pokazuje najniższy udział rozwiązanych spraw w kanale Online (77,9%); wykres pudełkowy ma opis znaczenia krzyżyka; w komentarzu wskazujesz, który wariant `position` odpowiada na które pytanie.
+:::
+
+### Ćwiczenie 3.5. Linia w czasie i mapa cieplna
+
+::: {.brief}
+**Cel:** Przygotujesz dane zagregowane do wykresu liniowego i mapy cieplnej.
+
+**Polecenie:** Policz zgłoszenia według miesiąca i kanału i narysuj je jako linie z datami na osi. Policz zgłoszenia w kombinacjach kanału i działu i pokaż je na mapie cieplnej z liczbami w komórkach.
+:::
+
+Wykres liniowy łączy punkty w kolejności osi `x`, dlatego rysuje się go z agregatów (np. liczby zgłoszeń w miesiącu), a nie z pojedynczych rekordów. Datę miesiąca najlepiej zapisać jako typ `Date` (np. pierwszy dzień miesiąca): oś będzie wtedy uporządkowana chronologicznie, a etykiety ustawisz funkcją `scale_x_date()`. Mapa cieplna koduje wartość kolorem komórki; dopisanie liczb ułatwia dokładny odczyt.
 
 ~~~r
 miesiace <- zgloszenia_analiza |>
-  dplyr::mutate(miesiac = format(data, "%Y-%m")) |>
-  dplyr::count(miesiac)
-ggplot2::ggplot(miesiace, ggplot2::aes(miesiac, n, group = 1)) +
-  ggplot2::geom_line(color = "#2b6d73") +
-  ggplot2::geom_point() +
-  ggplot2::labs(title = "Zgłoszenia w czasie",
-                x = "Miesiąc", y = "Liczba zgłoszeń") +
-  ggplot2::theme_minimal()
+  mutate(miesiac = as.Date(format(data, "%Y-%m-01"))) |>
+  count(miesiac, kanal)
+ggplot(miesiace, aes(x = miesiac, y = n, colour = kanal)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  scale_x_date(date_breaks = "1 month", date_labels = "%m.%Y") +
+  labs(title = "Zgłoszenia w kolejnych miesiącach", x = "Miesiąc",
+       y = "Liczba zgłoszeń", colour = "Kanał") +
+  theme_minimal()
 komorki <- zgloszenia_analiza |>
-  dplyr::count(kanal, dzial)
-ggplot2::ggplot(komorki, ggplot2::aes(kanal, dzial, fill = n)) +
-  ggplot2::geom_tile(color = "white") +
-  ggplot2::labs(title = "Natężenie zgłoszeń",
-                x = "Kanał", y = "Dział", fill = "Liczba") +
-  ggplot2::theme_minimal()
+  mutate(dzial = replace_na(dzial, "brak danych")) |>
+  count(kanal, dzial)
+ggplot(komorki, aes(x = kanal, y = dzial, fill = n)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = n)) +
+  scale_fill_gradient(low = "#f1ece2", high = "#2b6d73") +
+  labs(title = "Natężenie zgłoszeń", x = "Kanał", y = "Dział",
+       fill = "Liczba") +
+  theme_minimal()
 sum(komorki$n)
 ~~~
 
-Wskaż, czy linia łączy rekordy czy agregaty. Sprawdź kolejność miesięcy oraz to, jak mapa przedstawia brak działu.
+| Funkcja | Najważniejsze argumenty | Działanie |
+|:-------------|:-----------------------------------|:--------------------------------|
+| `geom_line()` | `linewidth`; `linetype`; estetyka `group` | linia łącząca punkty; każda grupa lub kolor to osobna linia |
+| `scale_x_date()` | `date_breaks = "1 month"`; `date_labels = "%m.%Y"`; `limits` | podziałka i opis osi dat |
+| `geom_tile()` | `fill`; `colour` — obramowanie komórki | prostokątne komórki |
+| `geom_text()` | `aes(label = ...)`; `size`; `colour` | tekst w miejscu danych |
+| `scale_fill_gradient()` | `low`, `high` — kolory końców skali; `limits` | ciągła skala koloru |
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Linia pokazuje kolejne miesiące, mapa pokazuje liczności, a suma komórek daje 240.</p></div>
+**Sprawdź i zmień.** Zamień `miesiac` na tekst `format(data, "%m")` i sprawdź, dlaczego `geom_line()` wymaga wtedy `aes(group = kanal)`. Usuń `replace_na()` i zobacz, jak mapa przedstawia brak działu. Zastąp `scale_fill_gradient()` paletą `scale_fill_viridis_c()` i oceń czytelność.
 
-## Challenge — samodzielnie
+::: {.criteria}
+**Kryteria sukcesu:** wykres liniowy ma sześć miesięcy w kolejności chronologicznej i pokazuje szczyt zgłoszeń Online w maju (29); mapa ma liczby w komórkach, osobny wiersz „brak danych”, a suma komórek wynosi 240.
+:::
 
-### Ćwiczenie 12. Własna mapa rozwiązanych spraw
+## Challenge — zadania samodzielne
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie dobierzesz miarę, skalę i kontrolę małych grup.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz procent spraw rozwiązanych w każdej kombinacji kanału i działu. Pokaż wynik na mapie cieplnej z czytelną legendą procentową. Podaj obok liczność każdej komórki. Ustal, jak potraktujesz brak działu, i zapisz tę decyzję.</p></div>
+### Zadanie 3.6. Wykres gotowy do raportu: theme(), opcje bloku i ggsave()
 
-Wskazówka: użyj `group_by(kanal, dzial)` i `100 * mean(rozwiazano == "Tak")`. Skala ma obejmować 0–100%. Dodaj jedno zdanie o ograniczeniu porównania małych grup.
+::: {.brief}
+**Cel:** Przygotujesz jeden wykres w wersji do raportu i zapiszesz go do pliku o zadanych wymiarach.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Kolor oznacza procent, a nie liczbę zgłoszeń; tabela liczności pozwala ocenić wiarygodność komórek i kod tworzy wykres od początku.</p></div>
+**Polecenie:** Wybierz jeden wykres z ćwiczeń 3.2–3.5, zapisz go w obiekcie `p`, dopracuj motyw funkcją `theme()` i zapisz do `wyniki/wykres_3_6.png` o wymiarach 16 × 10 cm i rozdzielczości 300 dpi. W nagłówku bloku ustaw rozmiar wykresu i podpis, a na koniec sprawdź, czy plik istnieje.
+:::
 
-Oddaj `nazwisko_imie_03.Rmd` do zadania spotkania 3 w MS Teams.
+Wykres zapisany w obiekcie (`p <- ggplot(...)`) można modyfikować dalszymi warstwami, np. `p + theme(...)`, i zapisać do pliku. Wygląd w PDF ustalasz opcjami bloku: `fig.width` i `fig.height` (w calach) oraz `fig.cap` (podpis pod wykresem). Nagłówek bloku w szablonie może wyglądać tak: `{r c3-6, fig.width=7, fig.height=4, fig.cap="Czas obsługi według kanału"}`.
+
+| Funkcja | Najważniejsze argumenty | Działanie |
+|:--------------------|:-------------------------------------------|:------------------|
+| `theme()` | `legend.position = "bottom"`; `plot.title = element_text(face = "bold")`; `panel.grid.minor = element_blank()`; `axis.text.x = element_text(angle = 45, hjust = 1)` | szczegóły wyglądu |
+| `element_text()`, `element_blank()` | `size`, `face`, `colour`, `angle`, `hjust` | opis elementu tekstowego; usunięcie elementu |
+| `ggsave(filename, plot, width, height, units, dpi)` | nazwa pliku z rozszerzeniem (`.png`, `.pdf`); obiekt wykresu; wymiary; `units = "cm"`; `dpi = 300` | zapis wykresu do pliku |
+| `file.exists()`, `file.size()` | ścieżka | kontrola zapisu |
+
+::: {.criteria}
+**Kryteria sukcesu:** plik `wyniki/wykres_3_6.png` powstaje przy renderowaniu; wykres w PDF ma podpis i zadany rozmiar; zmiany w `theme()` służą czytelności, a opis wyjaśnia każdą z nich.
+:::
+
+### Zadanie 3.7. Mapa odsetka rozwiązanych spraw
+
+::: {.brief}
+**Cel:** Samodzielnie dobierzesz miarę, skalę koloru i kontrolę małych grup.
+
+**Polecenie:** Policz odsetek spraw rozwiązanych w każdej kombinacji kanału i działu i pokaż go na mapie cieplnej ze skalą 0–100%. W komórkach wpisz odsetek i liczność, np. „85% (n = 20)”. Zdecyduj, jak potraktujesz zgłoszenie bez działu, i zapisz tę decyzję.
+:::
+
+Użyj `group_by(kanal, dzial)`, `summarise(n = n(), proc = 100 * mean(rozwiazano == "Tak"))` oraz `scale_fill_gradient(limits = c(0, 100))`. Etykietę złożysz funkcją `paste0(round(proc), "% (n = ", n, ")")`. Dodaj jedno zdanie o tym, dlaczego różnica kilku punktów procentowych w grupie 15–20 zgłoszeń może być przypadkowa.
+
+::: {.criteria}
+**Kryteria sukcesu:** kolor oznacza odsetek, a nie liczbę zgłoszeń; skala obejmuje 0–100%; odsetki mieszczą się między 67,7% (Online, Wsparcie) a 90,3% (Telefon, Repozytorium); każda komórka pokazuje liczność, a decyzja o braku działu jest opisana.
+:::
+
+### Zadanie 3.8. Krytyka i poprawa wykresu wprowadzającego w błąd
+
+::: {.brief}
+**Cel:** Rozpoznasz zabiegi, które zniekształcają odbiór wykresu, i przygotujesz rzetelną wersję (efekt K1).
+
+**Polecenie:** Uruchom poniższy kod i wskaż co najmniej trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję, która pokazuje średnią ocenę w kanałach wraz z niepewnością i licznością oraz ma neutralny tytuł.
+:::
+
+~~~r
+srednie_oceny <- zgloszenia_analiza |>
+  group_by(kanal) |>
+  summarise(ocena = mean(ocena, na.rm = TRUE))
+ggplot(srednie_oceny, aes(x = kanal, y = ocena, fill = kanal)) +
+  geom_col() +
+  coord_cartesian(ylim = c(3, 3.8)) +
+  labs(title = "Kanał Na miejscu zdecydowanie najlepszy!")
+~~~
+
+Zwróć uwagę na punkt początkowy osi słupków, skalę ocen (1–5), brak liczności i rozrzutu, zbędną legendę oraz tytuł, który przesądza o przyczynie. W poprawionej wersji policz w `summarise()` także `n = sum(!is.na(ocena))` i błąd standardowy `se = sd(ocena, na.rm = TRUE) / sqrt(n)`, zanim nadpiszesz kolumnę `ocena` średnią — kolejność wyrażeń w `summarise()` ma znaczenie. Pokaż średnie punktami z `geom_errorbar(aes(ymin = ocena - 2 * se, ymax = ocena + 2 * se), width = 0.1)` na osi obejmującej skalę 1–5.
+
+::: {.criteria}
+**Kryteria sukcesu:** wskazujesz co najmniej trzy problemy; poprawiony wykres ma pełną skalę ocen, pokazuje średnie 3,73 (Na miejscu), 3,48 (Online) i 3,12 (Telefon) z niepewnością oraz liczności 55, 101 i 81; tytuł opisuje wynik bez przesądzania o przyczynie.
+:::
+
+## Oddanie
+
+::: {.handin}
+Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_03.pdf` do zadania „Spotkanie 3” w MS Teams. Sprawdź w PDF, czy wszystkie wykresy mają czytelne osie i nie są ucięte.
+:::
+
+::: {.reading}
+**Lektura:** R for Data Science — [Data visualisation](https://r4ds.had.co.nz/data-visualisation.html) i [Graphics for communication](https://r4ds.had.co.nz/graphics-for-communication.html). Pełny opis warstw: [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/).
+:::

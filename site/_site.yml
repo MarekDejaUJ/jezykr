@@ -9,17 +9,17 @@ navbar:
       href: organizacyjne.html
     - text: "Spotkania"
       menu:
-        - text: "1. Import i czyszczenie"
+        - text: "1. Import i porządkowanie"
           href: spotkanie-1.html
-        - text: "2. Operacje i funkcje"
+        - text: "2. Operacje, funkcje i pętle"
           href: spotkanie-2.html
         - text: "3. Wizualizacja"
           href: spotkanie-3.html
         - text: "4. Eksploracja danych"
           href: spotkanie-4.html
-        - text: "5. Testy i modele"
+        - text: "5. Testy i modele liniowe"
           href: spotkanie-5.html
-        - text: "6. R i Copilot CLI"
+        - text: "6. Biblioteki R i generatywna SI"
           href: spotkanie-6.html
     - text: "Konsultacje"
       href: konsultacje.html

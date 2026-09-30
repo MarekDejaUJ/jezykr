@@ -8,53 +8,79 @@ if (rmarkdown::pandoc_available() == FALSE) {
   stop("Brak Pandoc. Uruchom skrypt w środowisku z Pandoc, np. z RStudio.")
 }
 
-# Szablony zawierają dokładnie te same polecenia co strony spotkań.
-for (numer in seq_len(6L)) {
-  sciezka <- sprintf("site/spotkanie-%d.Rmd", numer)
-  tekst <- readLines(sciezka, encoding = "UTF-8", warn = FALSE)
-  start <- grep("^## Learn", tekst)
-  koniec <- tail(grep("^(Oddaj|Zapisz) ", tekst), 1L)
-  stopifnot(length(start) == 1L, length(koniec) == 1L, koniec > start)
-  tytul <- sub('^title: "(.*)"$', '\\1', tekst[2], useBytes = TRUE)
-  instrukcje <- tekst[start:(koniec - 1L)]
+adres <- "https://marekdejauj.github.io/jezykr/"
+strony <- c("organizacyjne", sprintf("spotkanie-%d", 1:6))
+pakiety_spotkan <- list(
+  "4" = c("dlookr", "explore", "ggstatsplot"),
+  "6" = c("effectsize", "report")
+)
+
+# Szablony powstają ze stron: każde ćwiczenie i zadanie dostaje polecenie, blok kodu i miejsce na interpretację.
+for (numer in 0:6) {
+  strona <- strony[numer + 1L]
+  tekst <- readLines(file.path("site", paste0(strona, ".Rmd")), encoding = "UTF-8", warn = FALSE)
+  tytul <- sub('^title: "(.*)"$', "\\1", tekst[2], useBytes = TRUE)
+  naglowki <- grep("^### (Ćwiczenie|Zadanie) ", tekst)
+  stopifnot(length(naglowki) >= 7L)
+  pakiety <- pakiety_spotkan[[as.character(numer)]]
+
   wynik <- c(
-    "---", paste0('title: "', tytul, ' — praca studenta"'),
+    "---",
+    sprintf('title: "%s"', tytul),
+    'subtitle: "Praca studenta"',
     'author: "Imię i nazwisko"',
-    "output:", "  html_document:", "    toc: true", "---", "",
-    sprintf("Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-%d.html>.", numer),
-    "Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.",
-    "", "```{r start, message=FALSE, warning=FALSE}",
-    if (numer == 4L) 'options(jezykr.pakiety = c("dlookr", "explore", "ggstatsplot"))',
-    'source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)',
-    "```", ""
+    "date: \"`r format(Sys.Date(), '%d.%m.%Y')`\"",
+    "lang: pl",
+    "papersize: a4",
+    "geometry: margin=2.5cm",
+    "output:",
+    "  pdf_document:",
+    "    latex_engine: xelatex",
+    "    toc: true",
+    "    dev: png",
+    "  html_document:",
+    "    toc: true",
+    "header-includes:",
+    "  - \\usepackage{fvextra}",
+    "  - \\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\\\\{\\}}",
+    "---", "",
+    "```{r start, include=FALSE}",
+    "knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF",
+    if (length(pakiety) > 0L) sprintf("options(jezykr.pakiety = c(%s))", paste0('"', pakiety, '"', collapse = ", ")),
+    sprintf('source("%smaterialy/init-v2.R", local = TRUE)', adres),
+    "```", "",
+    sprintf("Instrukcja: <%s%s.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.", adres, strona),
+    ""
   )
-  cwiczenie <- 0L
-  for (linia in instrukcje) {
-    wynik <- c(wynik, linia)
-    if (grepl('class="tilt-card criteria"', linia, fixed = TRUE)) {
-      cwiczenie <- cwiczenie + 1L
-      if (numer == 6L && cwiczenie == 1L) {
-        wynik <- c(wynik, "", "**Moja konfiguracja:** zanotuj system, wynik `copilot version`, sposób logowania i ewentualny problem. Polecenia terminala wpisuj w Terminalu, nie w bloku R.", "")
-      } else {
-        opcje <- if (numer == 4L && cwiczenie == 3L) ", eval=FALSE" else ""
-        wynik <- c(wynik, "", "**Twoja praca — kod:**", "",
-                   sprintf("```{r cw%d%s}", cwiczenie, opcje),
-                   "# Wpisz i uruchom własny kod.", "```", "",
-                   "**Wynik i interpretacja:** uzupełnij własnymi słowami.", "")
-        if (numer == 4L && cwiczenie == 3L) {
-          wynik <- c(wynik, "", "**Moja niezależna kontrola liczb w R:**", "",
-                     "```{r kontrola-eda}", "# Wpisz kod kontroli jednej liczby z raportu.", "```", "")
-        }
-      }
+
+  for (k in seq_along(naglowki)) {
+    linia <- naglowki[k]
+    koniec <- if (k < length(naglowki)) naglowki[k + 1L] - 1L else length(tekst)
+    fragment <- tekst[linia:koniec]
+    brief <- grep("^::: \\{\\.brief", fragment)[1]
+    stopifnot(!is.na(brief))
+    polecenie <- grep("^\\*\\*Polecenie:\\*\\*", fragment)[1]
+    stopifnot(!is.na(polecenie), polecenie > brief)
+    tryb <- sub('.*szablon="([^"]*)".*', "\\1", fragment[brief])
+    if (identical(tryb, fragment[brief])) tryb <- ""
+    etykieta <- sub("^### (Ćwiczenie|Zadanie) ([0-9]+)\\.([0-9]+)\\..*$", "c\\2-\\3", tekst[linia])
+
+    wynik <- c(wynik, sub("^###", "##", tekst[linia]), "", fragment[polecenie], "")
+    if (identical(tryb, "tekst")) {
+      wynik <- c(wynik, "**Odpowiedź:** uzupełnij.", "")
+    } else {
+      opcje <- if (nzchar(tryb)) paste0(", ", tryb) else ""
+      wynik <- c(wynik, sprintf("```{r %s%s}", etykieta, opcje), "# Twój kod", "```", "",
+                 "**Wynik i interpretacja:** uzupełnij własnymi słowami.", "")
     }
   }
-  stopifnot(cwiczenie >= 3L, cwiczenie <= 5L)
-  wynik <- c(wynik, "", "## Kontrola przed oddaniem", "",
-             "- [ ] Dokument renderuje się od początku w czystej sesji R.",
-             "- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.",
-             "- [ ] Część Challenge jest samodzielnym rozwiązaniem.",
-             "- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.")
-  writeLines(wynik, sprintf("site/materialy/szablon-%02d.Rmd", numer), useBytes = TRUE)
+
+  wynik <- c(wynik, "## Kontrola przed oddaniem", "",
+             "- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.",
+             "- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.",
+             "- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.",
+             sprintf("- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_%02d.pdf`.", numer))
+  writeLines(enc2utf8(wynik), sprintf("site/materialy/szablon-%02d.Rmd", numer), useBytes = TRUE)
 }
 
 # docs jest wyłącznie wynikiem renderowania; usunięcie usuwa stare strony i zasoby.

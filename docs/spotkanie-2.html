@@ -11,9 +11,9 @@
 
 
 
-<title>Spotkanie 2: operacje, funkcje i przekształcenia</title>
+<title>Spotkanie 2: operacje na danych, funkcje i pętle</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -382,204 +382,828 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 2: operacje, funkcje i
-przekształcenia</h1>
+<h1 class="title toc-ignore">Spotkanie 2: operacje na danych, funkcje i
+pętle</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 2 z 6 · treść programowa 3
+Spotkanie 2 z 6 · 90 minut · treść programowa 3
 </h2>
 <p>
-Operujesz na wektorach i próbach losowych, przekształcasz ramki oraz
-piszesz własną funkcję R.
+Przekształcisz dane pakietami dplyr i tidyr, połączysz dwie tabele,
+wylosujesz powtarzalne próby, a następnie napiszesz własne funkcje z
+warunkami i pętlą oraz znajdziesz błąd w kodzie narzędziami debugowania.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min operatory, 20 min próba losowa,
-25 min dplyr i tidyr, 15 min funkcja z prowadzącym, 15 min samodzielny
-program, 5 min kontrola.
+<strong>Plan 90 minut:</strong> 3 min start · 12 min ćwiczenie 2.1 · 12
+min ćwiczenie 2.2 · 12 min ćwiczenie 2.3 · 12 min ćwiczenie 2.4 · 10 min
+ćwiczenie 2.5 · 27 min zadania 2.6–2.8 · 2 min oddanie. Zadania, których
+nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.
 </div>
-<p>Pobierz <a href="materialy/szablon-02.Rmd">szablon 02</a>. Blok
-startowy udostępnia obiekty <code>zgloszenia</code> i
-<code>zgloszenia_analiza</code>. Skrypt startowy zawiera jawne reguły
-czyszczenia; nie nadpisuj surowego obiektu.</p>
-<div id="learn-z-prowadzącym" class="section level2">
-<h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-5.-wektor-warunek-i-próbka" class="section level3">
-<h3>Ćwiczenie 5. Wektor, warunek i próbka</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Rozpoznasz operację na całym wektorze, wartości brakujące i powtarzalne
-losowanie.
-</p>
+<div class="start">
+<p><strong>Start:</strong> otwórz projekt <code>jezykr</code>, uruchom
+skrypt startowy i pobierz szablon spotkania 2. Od tego spotkania
+pracujesz głównie na obiekcie <code>zgloszenia_analiza</code>: skrypt
+startowy stosuje w nim reguły z zadania 1.6 (ujednolicone działy, czasy
+spoza 0–120 minut jako brak). Surowy obiekt <code>zgloszenia</code>
+pozostaje bez zmian.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Utwórz wektor, policz średnią z pominięciem braku i wylosuj 12
-identyfikatorów zgłoszeń.
-</p>
-</div>
-<pre class="r"><code>czasy &lt;- c(12, 18, NA, 30)
-czasy &gt; 15
-mean(czasy)
-mean(czasy, na.rm = TRUE)
-sum(is.na(czasy))
-set.seed(17358)
-proba_id &lt;- sample(zgloszenia$id, size = 12, replace = FALSE)
-proba_id</code></pre>
-<p>Sprawdź <code>typeof(czasy)</code> i <code>length(proba_id)</code>.
-Ponownie uruchom blok po <code>set.seed()</code> i wyjaśnij, dlaczego
-próba się nie zmienia. W pomocy <code>?sample</code> odszukaj znaczenie
-<code>replace</code>.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Średnia z trzech dostępnych czasów wynosi 20; próba ma 12 unikalnych ID
-i jest powtarzalna.
-</p>
-</div>
-</div>
-<div id="ćwiczenie-6.-filtrowanie-agregacja-i-układ-tabeli"
+<pre class="r bez-uruchamiania"><code>source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
+pobierz_szablon(2, &quot;nazwisko_imie_02.Rmd&quot;)</code></pre>
+<div id="learn-ćwiczenia-z-prowadzącym" class="section level2">
+<h2>Learn — ćwiczenia z prowadzącym</h2>
+<div id="ćwiczenie-2.1.-potok-select-filter-i-arrange"
 class="section level3">
-<h3>Ćwiczenie 6. Filtrowanie, agregacja i układ tabeli</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Zmienisz dane jednostkowe w zestawienie według kanału i grupy.
-</p>
+<h3>Ćwiczenie 2.1. Potok, select(), filter() i arrange()</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Zapiszesz ciąg operacji na danych jako czytelny
+potok i poznasz pomocników wyboru kolumn.</p>
+<p><strong>Polecenie:</strong> W jednym potoku wybierz kolumny,
+odfiltruj zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je
+malejąco. Następnie wypróbuj wybór kolumn według nazwy i typu oraz
+filtry z <code>%in%</code>, <code>between()</code> i
+<code>is.na()</code>.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Użyj select(), filter(), arrange(), group_by(), summarise() oraz
-pivot_wider().
-</p>
+<p>Pakiet <code>dplyr</code> (ładuje go skrypt startowy) udostępnia
+funkcje-czasowniki: każda przyjmuje ramkę jako pierwszy argument i
+zwraca nową ramkę. Operator potoku <code>|&gt;</code> przekazuje wynik z
+lewej strony jako pierwszy argument funkcji po prawej:
+<code>x |&gt; f(y)</code> oznacza <code>f(x, y)</code>. Potok czyta się
+„weź dane, a następnie…”. W RStudio wstawisz go skrótem Ctrl+Shift+M
+(Cmd+Shift+M), jeśli w <strong>Tools → Global Options → Code</strong>
+zaznaczysz <strong>Use native pipe operator</strong>.</p>
+<pre class="r"><code>zgloszenia_analiza |&gt;
+  select(id, kanal, dzial, czas_min) |&gt;
+  filter(kanal == &quot;Telefon&quot;, czas_min &gt; 60) |&gt;
+  arrange(desc(czas_min))
+
+names(select(zgloszenia_analiza, where(is.numeric)))       # kolumny liczbowe
+names(select(zgloszenia_analiza, ends_with(&quot;_min&quot;), starts_with(&quot;k&quot;)))
+# zmiana nazwy kolumny przy wyborze
+select(zgloszenia_analiza, identyfikator = id, kanal) |&gt; head(3)
+filter(zgloszenia_analiza, typ_sprawy %in% c(&quot;Dostęp&quot;, &quot;Opis metadanych&quot;),
+       !is.na(ocena)) |&gt; nrow()
+filter(zgloszenia_analiza, between(czas_min, 30, 40)) |&gt; nrow()
+filter(zgloszenia_analiza, is.na(czas_min)) |&gt; select(id, czas_min)
+distinct(zgloszenia_analiza, kanal, dzial) |&gt; nrow()       # różne kombinacje
+slice_max(zgloszenia_analiza, czas_min, n = 3) |&gt; select(id, czas_min)</code></pre>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="49%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Najważniejsze argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>select(.data, ...)</code></td>
+<td align="left">nazwy kolumn; <code>-kolumna</code> usuwa;
+<code>nowa = stara</code> zmienia nazwę; pomocnicy
+<code>starts_with()</code>, <code>ends_with()</code>,
+<code>contains()</code>, <code>where(is.numeric)</code></td>
+<td align="left">wybór i kolejność kolumn</td>
+</tr>
+<tr class="even">
+<td align="left"><code>filter(.data, ...)</code></td>
+<td align="left">warunki logiczne; przecinek między warunkami działa jak
+<code>&amp;</code></td>
+<td align="left">wiersze spełniające wszystkie warunki; wiersze z
+<code>NA</code> w warunku są pomijane</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>arrange(.data, ...)</code></td>
+<td align="left">kolumny sortujące; <code>desc(x)</code> — malejąco</td>
+<td align="left">kolejność wierszy; braki zawsze na końcu</td>
+</tr>
+<tr class="even">
+<td align="left"><code>between(x, left, right)</code></td>
+<td align="left">granice włącznie</td>
+<td align="left">skrót dla
+<code>x &gt;= left &amp; x &lt;= right</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>distinct(.data, ...)</code></td>
+<td align="left">kolumny</td>
+<td align="left">unikalne kombinacje wartości</td>
+</tr>
+<tr class="even">
+<td align="left"><code>slice_max(.data, order_by, n)</code></td>
+<td align="left">kolumna; liczba wierszy;
+<code>with_ties = TRUE</code></td>
+<td align="left">wiersze z największymi wartościami</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>slice_head(.data, n)</code>,
+<code>slice_min()</code></td>
+<td align="left">liczba wierszy</td>
+<td align="left">pierwsze wiersze, najmniejsze wartości</td>
+</tr>
+</tbody>
+</table>
+<p>W odróżnieniu od zapisu <code>ramka[warunek, ]</code> z ćwiczenia 1.5
+funkcja <code>filter()</code> nie zwraca pustych wierszy dla braków:
+wiersz, dla którego warunek daje <code>NA</code>, zostaje pominięty.
+Jeżeli chcesz zachować braki, dopisz je jawnie, np.
+<code>czas_min &gt; 60 | is.na(czas_min)</code>.</p>
+<p><strong>Sprawdź i zmień.</strong> Na wzór ćwiczeń z R4DS znajdź: (1)
+nierozwiązane zgłoszenia działu Wsparcie, (2) zgłoszenia z marca, czyli
+<code>format(data, "%m") == "03"</code>, (3) zgłoszenia, w których czas
+jest znany, a ocena nie. Jak posortować ramkę tak, aby wiersze z brakiem
+czasu znalazły się na początku? Wskazówka:
+<code>arrange(desc(is.na(czas_min)))</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> potok zwraca 6 zgłoszeń
+telefonicznych, od Z0173 (75 minut) do Z0040 (61 minut); kolumny
+liczbowe to <code>czas_min</code>, <code>ocena</code> i
+<code>koszt</code>; między 30 a 40 minut trwa 73 zgłoszenia; kombinacji
+kanału i działu jest 10; nierozwiązanych zgłoszeń działu Wsparcie jest
+18.</p>
 </div>
-<pre class="r"><code>online &lt;- zgloszenia_analiza |&gt;
-  dplyr::select(id, kanal, grupa, czas_min) |&gt;
-  dplyr::filter(kanal == &quot;Online&quot;) |&gt;
-  dplyr::arrange(dplyr::desc(czas_min))
-head(online)
-podsumowanie &lt;- zgloszenia_analiza |&gt;
-  dplyr::group_by(kanal, grupa) |&gt;
-  dplyr::summarise(
-    liczba = dplyr::n(),
+</div>
+<div id="ćwiczenie-2.2.-nowe-zmienne-mutate-if_else-case_when-i-cut"
+class="section level3">
+<h3>Ćwiczenie 2.2. Nowe zmienne: mutate(), if_else(), case_when() i
+cut()</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Utworzysz nowe zmienne z działań
+arytmetycznych, warunków i przedziałów liczbowych.</p>
+<p><strong>Polecenie:</strong> Dodaj do danych czas w godzinach, koszt
+minuty, pełne godziny i resztę minut, miesiąc, kwartał, znacznik długiej
+obsługi, kategorię czasu oraz opis oceny. Sprawdź nowe zmienne funkcją
+<code>count()</code>.</p>
+</div>
+<p><code>mutate()</code> dodaje nowe kolumny albo zastępuje istniejące,
+zachowując liczbę wierszy. Nowa kolumna może korzystać z kolumn
+utworzonych wcześniej w tym samym wywołaniu. Działania wykonują się na
+całych kolumnach naraz, tak jak na wektorach w ćwiczeniu 0.3.</p>
+<pre class="r"><code>zgl &lt;- zgloszenia_analiza |&gt;
+  mutate(
+    czas_h = round(czas_min / 60, 2),
+    koszt_na_min = round(koszt / czas_min, 2),
+    godziny = czas_min %/% 60,                       # dzielenie całkowite
+    minuty = czas_min %% 60,                         # reszta z dzielenia
+    miesiac = as.integer(format(data, &quot;%m&quot;)),
+    kwartal = if_else(miesiac &lt;= 3, &quot;I kwartał&quot;, &quot;II kwartał&quot;),
+    dlugie = czas_min &gt; 45,
+    czas_kat = cut(czas_min, breaks = c(0, 20, 40, 60, Inf),
+                   labels = c(&quot;do 20&quot;, &quot;21-40&quot;, &quot;41-60&quot;, &quot;ponad 60&quot;)),
+    ocena_opis = case_when(
+      ocena &gt;= 4 ~ &quot;zadowolony&quot;,
+      ocena == 3 ~ &quot;neutralny&quot;,
+      ocena &lt;= 2 ~ &quot;niezadowolony&quot;,
+      .default = &quot;brak oceny&quot;
+    ),
+    czy_rozwiazano = rozwiazano == &quot;Tak&quot;
+  )
+count(zgl, czas_kat)
+count(zgl, ocena_opis)
+count(zgl, kwartal)
+mean(zgl$czy_rozwiazano)                             # udział spraw rozwiązanych
+zgl |&gt; filter(czas_min &gt;= 60) |&gt; select(id, czas_min, godziny, minuty) |&gt; head(3)
+if_else(c(1, NA, 5) &gt; 2, &quot;tak&quot;, &quot;nie&quot;, missing = &quot;brak&quot;)</code></pre>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="45%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>mutate(.data, nazwa = wyrażenie, ...)</code></td>
+<td align="left">nowe lub istniejące kolumny; <code>.before</code>,
+<code>.after</code> — miejsce nowej kolumny</td>
+<td align="left">dodaje lub zmienia kolumny</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>if_else(condition, true, false, missing)</code></td>
+<td align="left">warunek; wartość dla <code>TRUE</code>; dla
+<code>FALSE</code>; dla <code>NA</code></td>
+<td align="left">wybór z dwóch wartości; pilnuje, by obie miały ten sam
+typ</td>
+</tr>
+<tr class="odd">
+<td
+align="left"><code>case_when(warunek ~ wartość, ..., .default)</code></td>
+<td align="left">pary warunek–wartość sprawdzane po kolei;
+<code>.default</code> — gdy żaden warunek nie jest spełniony</td>
+<td align="left">wybór z wielu wartości</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cut(x, breaks, labels, right = TRUE)</code></td>
+<td align="left">granice przedziałów; etykiety;
+<code>right = TRUE</code> — przedziały domknięte z prawej, np. (20,
+40]</td>
+<td align="left">zamienia liczby na czynnik przedziałów</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>%/%</code>, <code>%%</code></td>
+<td align="left">dwie liczby</td>
+<td align="left">dzielenie całkowite i reszta z dzielenia</td>
+</tr>
+</tbody>
+</table>
+<p>W <code>case_when()</code> kolejność warunków ma znaczenie: pierwszy
+spełniony warunek wygrywa. Braki trafiają do <code>.default</code>, bo
+<code>NA &gt;= 4</code> nie jest ani prawdą, ani fałszem. W
+<code>cut()</code> wartość spoza wszystkich przedziałów oraz brak dają
+<code>NA</code>.</p>
+<p><strong>Sprawdź i zmień.</strong> Zmień w <code>cut()</code> argument
+<code>right = FALSE</code> i porównaj liczności kategorii. Przestaw
+warunek <code>ocena &lt;= 2</code> na pierwsze miejsce: czy wynik się
+zmienia i dlaczego? Dlaczego <code>koszt_na_min</code> ma 3 braki, choć
+<code>koszt</code> ma tylko 1? Dodaj kolumnę
+<code>koszt_godziny = koszt / czas_h</code> i porównaj ją z
+<code>koszt_na_min * 60</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> kategorie czasu mają liczności 39,
+118, 73 i 8 oraz 2 braki; ocen „zadowolony” jest 113, „neutralny” 77,
+„niezadowolony” 47 i 3 braki oceny; w I kwartale wpłynęło 113 zgłoszeń,
+w II — 127; udział spraw rozwiązanych wynosi 0,825. Umiesz wyjaśnić,
+skąd biorą się braki w nowych zmiennych.</p>
+</div>
+</div>
+<div
+id="ćwiczenie-2.3.-grupowanie-i-podsumowania-group_by-summarise-count-i-across"
+class="section level3">
+<h3>Ćwiczenie 2.3. Grupowanie i podsumowania: group_by(), summarise(),
+count() i across()</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Zamienisz dane jednostkowe w zestawienia według
+grup i odróżnisz podsumowanie od przekształcenia w grupach.</p>
+<p><strong>Polecenie:</strong> Dla każdego kanału policz liczbę
+zgłoszeń, braki czasu, średnią, medianę i odchylenie standardowe czasu
+oraz odsetek spraw rozwiązanych. Policz kombinacje kanału i działu,
+średnie kilku zmiennych naraz według grupy procedury oraz różnicę czasu
+każdego zgłoszenia od średniej jego kanału.</p>
+</div>
+<p><code>group_by()</code> nie zmienia wyglądu danych, lecz zapisuje,
+według których kolumn mają działać kolejne funkcje.
+<code>summarise()</code> zwraca jeden wiersz na grupę, a
+<code>mutate()</code> w grupach zachowuje wszystkie wiersze i liczy
+wartości w obrębie grupy. Argument <code>.groups = "drop"</code> usuwa
+grupowanie po podsumowaniu, dzięki czemu kolejne operacje nie działają
+niespodziewanie w grupach.</p>
+<pre class="r"><code>zgloszenia_analiza |&gt;
+  group_by(kanal) |&gt;
+  summarise(
+    n = n(),
+    braki_czasu = sum(is.na(czas_min)),
     sredni_czas = mean(czas_min, na.rm = TRUE),
+    mediana = median(czas_min, na.rm = TRUE),
+    odch_std = sd(czas_min, na.rm = TRUE),
+    proc_rozw = 100 * mean(rozwiazano == &quot;Tak&quot;),
     .groups = &quot;drop&quot;
   )
-podsumowanie
-sum(podsumowanie$liczba)
-tidyr::pivot_wider(podsumowanie, names_from = grupa,
-                   values_from = sredni_czas)</code></pre>
-<p>Zbuduj również wersję długą przez <code>tidyr::pivot_longer()</code>
-dla dwóch kolumn tabeli szerokiej. Opisz, czym różni się liczba
-obserwacji od średniej. Sprawdź pomoc
-<code>?dplyr::summarise</code>.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Zestawienie ma sześć kombinacji, liczności sumują się do 240, a tabela
-szeroka ma osobne kolumny A i B.
-</p>
+count(zgloszenia_analiza, kanal, dzial, sort = TRUE, name = &quot;liczba&quot;) |&gt; head(5)
+zgloszenia_analiza |&gt;
+  group_by(grupa) |&gt;
+  summarise(across(c(czas_min, koszt, ocena), \(x) mean(x, na.rm = TRUE)))
+zgloszenia_analiza |&gt;
+  group_by(kanal) |&gt;
+  mutate(roznica = czas_min - mean(czas_min, na.rm = TRUE)) |&gt;
+  ungroup() |&gt;
+  select(id, kanal, czas_min, roznica) |&gt;
+  head(3)</code></pre>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="46%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>group_by(.data, ...)</code></td>
+<td align="left">kolumny grupujące</td>
+<td align="left">zapisuje grupy dla kolejnych funkcji</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>summarise(.data, nazwa = funkcja(...), .groups)</code></td>
+<td align="left">podsumowania; <code>.groups = "drop"</code>,
+<code>"keep"</code> albo <code>"drop_last"</code></td>
+<td align="left">jeden wiersz na grupę</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>n()</code>, <code>n_distinct(x)</code></td>
+<td align="left">brak; wektor</td>
+<td align="left">liczba wierszy w grupie; liczba różnych wartości</td>
+</tr>
+<tr class="even">
+<td align="left"><code>count(x, ..., sort, name)</code></td>
+<td align="left">kolumny; <code>sort = TRUE</code> — malejąco;
+<code>name</code> — nazwa kolumny liczności</td>
+<td align="left">skrót <code>group_by() + summarise(n = n())</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>across(.cols, .fns)</code></td>
+<td align="left">kolumny, np. <code>c(czas_min, koszt)</code> albo
+<code>where(is.numeric)</code>; funkcja, np.
+<code>\(x) mean(x, na.rm = TRUE)</code></td>
+<td align="left">ta sama funkcja dla wielu kolumn</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ungroup(x)</code></td>
+<td align="left">ramka</td>
+<td align="left">usuwa grupowanie</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>mean()</code>, <code>median()</code>,
+<code>sd()</code></td>
+<td align="left"><code>x</code>; <code>na.rm = TRUE</code></td>
+<td align="left">średnia, mediana, odchylenie standardowe</td>
+</tr>
+</tbody>
+</table>
+<p>Zapis <code>\(x) mean(x, na.rm = TRUE)</code> to krótka funkcja
+anonimowa: <code>\(x)</code> oznacza „dla każdej kolumny <code>x</code>
+wykonaj…”. Średnia z wektora logicznego, np.
+<code>mean(rozwiazano == "Tak")</code>, to udział wartości
+<code>TRUE</code>.</p>
+<p><strong>Sprawdź i zmień.</strong> Usuń z <code>summarise()</code>
+argument <code>.groups = "drop"</code>, pogrupuj jednocześnie według
+<code>kanal</code> i <code>grupa</code>, a potem sprawdź
+<code>group_vars()</code> na wyniku: które grupowanie zostało? Zamień
+<code>mean</code> na <code>median</code> w <code>across()</code>. Dodaj
+do pierwszego zestawienia <code>arrange(desc(sredni_czas))</code> i
+wyjaśnij, dlaczego kanały Online i Na miejscu mają niemal identyczną
+średnią, a różną medianę.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> zestawienie ma trzy wiersze,
+liczności 104, 81 i 55 sumują się do 240; średni czas wynosi 42,8 minuty
+dla Telefonu i 30,5 minuty dla pozostałych kanałów; grupa B ma średnio o
+3,5 minuty krótszy czas (32,9 wobec 36,4). Wyjaśniasz różnicę między
+<code>summarise()</code> i <code>mutate()</code> w grupach.</p>
 </div>
 </div>
-<div id="ćwiczenie-7.-własna-funkcja-i-diagnoza-błędu"
+<div id="ćwiczenie-2.4.-dane-uporządkowane-tidyr-i-łączenie-tabel"
 class="section level3">
-<h3>Ćwiczenie 7. Własna funkcja i diagnoza błędu</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Napiszesz funkcję wielokrotnego użytku i sprawdzisz jej zachowanie w
-typowym i skrajnym przypadku.
-</p>
+<h3>Ćwiczenie 2.4. Dane uporządkowane, tidyr i łączenie tabel</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Zmienisz układ tabeli między postacią długą i
+szeroką, obsłużysz braki funkcjami tidyr i połączysz rejestr zgłoszeń ze
+słownikiem działów.</p>
+<p><strong>Polecenie:</strong> Zamień zestawienie kanału i grupy na
+tabelę szeroką i z powrotem na długą, zbuduj tabelę działów według
+miesięcy, porównaj <code>drop_na()</code> z <code>replace_na()</code>, a
+następnie połącz zgłoszenia z arkuszem <code>dzialy</code> i znajdź
+dział, który nie ma zgłoszeń.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Policz odsetek braków dla dowolnego wektora. Przetestuj także pusty
-wektor i celowo błędną nazwę kolumny.
-</p>
+<p>Dane są uporządkowane (ang. <em>tidy</em>), gdy każda zmienna jest
+kolumną, każda obserwacja wierszem, a każda wartość jedną komórką. Taki
+układ jest wygodny do obliczeń i wykresów. Tabela szeroka, z kategoriami
+w nagłówkach kolumn, jest czytelniejsza dla człowieka w raporcie.
+<code>pivot_wider()</code> i <code>pivot_longer()</code> zamieniają
+jeden układ w drugi bez utraty informacji. Połączenie tabel dopisuje do
+każdego wiersza informacje z drugiej tabeli na podstawie wspólnego
+klucza, tu nazwy działu.</p>
+<pre class="r"><code>tab_dluga &lt;- count(zgloszenia_analiza, kanal, grupa)
+tab_dluga
+tab_szeroka &lt;- pivot_wider(tab_dluga, names_from = grupa, values_from = n,
+                           values_fill = 0)
+tab_szeroka
+pivot_longer(tab_szeroka, cols = c(A, B), names_to = &quot;grupa&quot;, values_to = &quot;n&quot;)
+zgloszenia_analiza |&gt;
+  mutate(miesiac = format(data, &quot;%m&quot;)) |&gt;
+  count(dzial, miesiac) |&gt;
+  pivot_wider(names_from = miesiac, values_from = n, values_fill = 0)
+nrow(drop_na(zgloszenia_analiza, czas_min, dzial))   # bez braków w 2 kolumnach
+zgloszenia_analiza |&gt;
+  mutate(dzial = replace_na(dzial, &quot;nieznany&quot;)) |&gt;
+  count(dzial)
+
+dzialy &lt;- read_excel(&quot;dane/zgloszenia.xlsx&quot;, sheet = &quot;dzialy&quot;)
+polaczone &lt;- left_join(zgloszenia_analiza, dzialy, by = &quot;dzial&quot;)
+dim(polaczone)
+count(polaczone, dzial, budynek, etaty)
+anti_join(dzialy, zgloszenia_analiza, by = &quot;dzial&quot;)  # działy bez zgłoszeń</code></pre>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="43%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td
+align="left"><code>pivot_wider(data, names_from, values_from, values_fill)</code></td>
+<td align="left">kolumna z nazwami nowych kolumn; kolumna z wartościami;
+wartość dla pustych komórek</td>
+<td align="left">układ długi → szeroki</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>pivot_longer(data, cols, names_to, values_to)</code></td>
+<td align="left">kolumny do złożenia; nazwa kolumny na dawne nagłówki;
+nazwa kolumny na wartości</td>
+<td align="left">układ szeroki → długi</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>drop_na(data, ...)</code></td>
+<td align="left">kolumny; bez kolumn — wszystkie</td>
+<td align="left">usuwa wiersze z brakami</td>
+</tr>
+<tr class="even">
+<td align="left"><code>replace_na(x, replace)</code></td>
+<td align="left">wektor; wartość zastępcza</td>
+<td align="left">zastępuje braki</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>left_join(x, y, by)</code></td>
+<td align="left">tabela główna; tabela dopisywana; klucz</td>
+<td align="left">zachowuje wszystkie wiersze <code>x</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>inner_join()</code>, <code>right_join()</code>,
+<code>full_join()</code></td>
+<td align="left">jak wyżej</td>
+<td align="left">tylko pasujące; wszystkie z <code>y</code>; wszystkie z
+obu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>anti_join(x, y, by)</code></td>
+<td align="left">jak wyżej</td>
+<td align="left">wiersze <code>x</code> bez odpowiednika w
+<code>y</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Porównaj liczbę wierszy wyniku
+<code>inner_join()</code> i <code>right_join()</code> z
+<code>left_join()</code> i wyjaśnij różnice na przykładzie zgłoszenia
+bez działu i działu Informacja. Sprawdź, ile wierszy zostaje po
+<code>drop_na(zgloszenia_analiza)</code> bez wskazania kolumn. W tabeli
+miesięcznej usuń <code>values_fill = 0</code> i zobacz, gdzie pojawiają
+się braki.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> tabela szeroka ma 3 wiersze i
+kolumny A oraz B (np. Telefon: 34 i 47), a powrót do układu długiego
+daje 6 wierszy; <code>drop_na()</code> dla dwóch kolumn zostawia 237
+wierszy; ramka <code>polaczone</code> ma 240 wierszy i 12 kolumn; bez
+zgłoszeń jest dział Informacja. Wyjaśniasz, dlaczego
+<code>inner_join()</code> zwraca 239 wierszy.</p>
 </div>
-<pre class="r"><code>odsetek_brakow &lt;- function(x) {
-  if (length(x) == 0L) stop(&quot;Wektor nie może być pusty.&quot;)
-  100 * sum(is.na(x)) / length(x)
+</div>
+<div id="ćwiczenie-2.5.-próby-losowe-i-symulacja"
+class="section level3">
+<h3>Ćwiczenie 2.5. Próby losowe i symulacja</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Wylosujesz powtarzalne próby z danych i
+rozkładów oraz zobaczysz, jak zmienia się średnia z próby.</p>
+<p><strong>Polecenie:</strong> Po <code>set.seed()</code> wylosuj
+wartości funkcją <code>sample()</code>, pobierz próbę 24 zgłoszeń i
+próbę warstwową 10% z każdego kanału, wygeneruj dane z rozkładu
+normalnego i sprawdź na 500 próbach, jak bardzo średnia z próby różni
+się od średniej całego zbioru.</p>
+</div>
+<p>Komputer losuje liczby pseudolosowe: ciąg wynika z punktu startowego.
+<code>set.seed()</code> ustala ten punkt, więc po nim kod daje za każdym
+razem te same wyniki; bez niego każde uruchomienie jest inne. Umieszczaj
+<code>set.seed()</code> w tym samym bloku co losowanie, aby raport był
+odtwarzalny. Skrypt startowy nie zmienia Twojego generatora, choć sam
+korzysta z losowania.</p>
+<pre class="r"><code>set.seed(2027)
+sample(1:6, size = 10, replace = TRUE)                  # 10 rzutów kostką
+sample(zgloszenia_analiza$id, size = 5)                 # 5 różnych ID
+table(sample(c(&quot;A&quot;, &quot;B&quot;), size = 100, replace = TRUE, prob = c(0.7, 0.3)))
+proba &lt;- slice_sample(zgloszenia_analiza, n = 24)
+mean(proba$czas_min, na.rm = TRUE)
+mean(zgloszenia_analiza$czas_min, na.rm = TRUE)         # średnia całego zbioru
+slice_sample(zgloszenia_analiza, prop = 0.1, by = kanal) |&gt; count(kanal)
+sym &lt;- rnorm(1000, mean = 35, sd = 12)
+round(c(srednia = mean(sym), sd = sd(sym)), 2)
+round(runif(3, min = 0, max = 1), 3)
+czasy &lt;- na.omit(zgloszenia_analiza$czas_min)
+srednie &lt;- replicate(500, mean(sample(czasy, size = 24)))
+summary(srednie)
+hist(srednie, main = &quot;Średnie z 500 prób po 24 zgłoszenia&quot;,
+     xlab = &quot;Średni czas [min]&quot;)</code></pre>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="40%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>set.seed(seed)</code></td>
+<td align="left">liczba całkowita</td>
+<td align="left">ustala punkt startowy losowania</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>sample(x, size, replace = FALSE, prob = NULL)</code></td>
+<td align="left">zbiór; liczba losowań; ze zwracaniem lub bez;
+prawdopodobieństwa</td>
+<td align="left">losowanie elementów</td>
+</tr>
+<tr class="odd">
+<td
+align="left"><code>slice_sample(.data, n, prop, by, replace)</code></td>
+<td align="left">liczba albo odsetek wierszy; <code>by</code> —
+losowanie osobno w grupach</td>
+<td align="left">losowa próba wierszy ramki</td>
+</tr>
+<tr class="even">
+<td align="left"><code>rnorm(n, mean = 0, sd = 1)</code></td>
+<td align="left">liczba wartości; średnia; odchylenie</td>
+<td align="left">rozkład normalny</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>runif(n, min = 0, max = 1)</code></td>
+<td align="left">liczba wartości; granice</td>
+<td align="left">rozkład jednostajny</td>
+</tr>
+<tr class="even">
+<td align="left"><code>replicate(n, expr)</code></td>
+<td align="left">liczba powtórzeń; wyrażenie</td>
+<td align="left">wielokrotne wykonanie tego samego losowania</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>na.omit(x)</code></td>
+<td align="left">wektor</td>
+<td align="left">usuwa braki</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Uruchom blok dwa razy z
+<code>set.seed(2027)</code> i raz bez tej linii; porównaj wyniki.
+Zwiększ próbę w <code>replicate()</code> z 24 do 96 zgłoszeń i porównaj
+rozrzut średnich funkcją <code>sd(srednie)</code>. Wyjaśnij, dlaczego
+<code>sample(1:6, 10)</code> bez <code>replace = TRUE</code> kończy się
+błędem.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> wyniki powtarzają się po
+<code>set.seed(2027)</code>; próba ma 24 wiersze, a próba warstwowa 23
+wiersze (10, 8 i 5); średnia z próby różni się od średniej całego zbioru
+(34,7 minuty); średnie z 500 prób mieszczą się mniej więcej między 27 a
+43 minutami, a przy większych próbach rozrzut maleje.</p>
+</div>
+</div>
+</div>
+<div id="challenge-zadania-samodzielne" class="section level2">
+<h2>Challenge — zadania samodzielne</h2>
+<div id="zadanie-2.6.-funkcja-z-walidacją-i-debugowanie"
+class="section level3">
+<h3>Zadanie 2.6. Funkcja z walidacją i debugowanie</h3>
+<div class="brief" szablon="error=TRUE">
+<p><strong>Cel:</strong> Napiszesz funkcję, która sprawdza poprawność
+argumentów, oraz znajdziesz błąd w cudzej funkcji narzędziami
+debugowania.</p>
+<p><strong>Polecenie:</strong> Napisz funkcję
+<code>opisz(x, cyfry = 1)</code>, która dla wektora liczbowego zwraca
+nazwany wektor: liczbę elementów, liczbę braków, średnią, medianę i
+odchylenie standardowe. Funkcja ma zatrzymać się z czytelnym
+komunikatem, gdy <code>x</code> nie jest liczbowy. Następnie znajdź i
+popraw błąd w funkcji <code>srednia_bez_skrajnych()</code>.</p>
+</div>
+<p>Funkcja z walidacją najpierw sprawdza argumenty, a dopiero potem
+liczy. <code>stop("komunikat")</code> przerywa działanie z Twoim opisem
+błędu; <code>stopifnot(warunek)</code> jest krótszą wersją dla prostych
+warunków. W bloku z opcją <code>error=TRUE</code> błąd zostanie pokazany
+w PDF, a renderowanie będzie kontynuowane — tak pokażesz, że walidacja
+działa.</p>
+<pre class="r bez-uruchamiania"><code>opisz &lt;- function(x, cyfry = 1) {
+  if (!is.numeric(x)) stop(&quot;Argument x musi być liczbowy.&quot;)
+  wynik &lt;- c(n = length(x), braki = sum(is.na(x)),
+             srednia = mean(x, na.rm = TRUE))   # dopisz medianę i sd
+  round(wynik, cyfry)
+}</code></pre>
+<p>Poniższa funkcja ma usunąć czasy spoza przedziału i policzyć średnią.
+Dla surowych danych działa, ale dla <code>zgloszenia_analiza</code>
+zwraca <code>NA</code>.</p>
+<pre class="r"><code>srednia_bez_skrajnych &lt;- function(x, dolny = 0, gorny = 120) {
+  x &lt;- x[x &gt;= dolny &amp; x &lt;= gorny]
+  mean(x)
 }
-odsetek_brakow(zgloszenia$ocena)
-odsetek_brakow(c(1, NA, 3, NA))</code></pre>
-<p>W konsoli uruchom <code>odsetek_brakow(numeric(0))</code> i odczytaj
-komunikat, potem popraw wywołanie. Sprawdź <code>?is.na</code>,
-<code>str(zgloszenia)</code> i <code>traceback()</code> po błędzie. W
-oddawanym raporcie pokaż kod błędnego wywołania w bloku z
-<code>eval=FALSE</code>, aby dokument nadal się renderował.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Funkcja zwraca 50 dla przykładu z dwoma brakami, odrzuca pusty wektor i
-działa zarówno dla liczb, jak i tekstu.
-</p>
+srednia_bez_skrajnych(zgloszenia$czas_min)
+srednia_bez_skrajnych(zgloszenia_analiza$czas_min)</code></pre>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="32%" />
+<col width="46%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Narzędzie</th>
+<th align="left">Użycie</th>
+<th align="left">Co daje</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>traceback()</code></td>
+<td align="left">w konsoli zaraz po błędzie</td>
+<td align="left">ciąg wywołań, które doprowadziły do błędu</td>
+</tr>
+<tr class="even">
+<td align="left"><code>debugonce(f)</code></td>
+<td align="left">przed wywołaniem <code>f(...)</code></td>
+<td align="left">przy następnym wywołaniu otwiera funkcję krok po
+kroku</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>browser()</code></td>
+<td align="left">linia wpisana w ciało funkcji</td>
+<td align="left">zatrzymuje funkcję w tym miejscu; w konsoli możesz
+podglądać obiekty</td>
+</tr>
+<tr class="even">
+<td align="left">polecenia w trybie debugowania</td>
+<td align="left"><code>n</code> — następna linia, <code>c</code> —
+kontynuuj, <code>Q</code> — zakończ</td>
+<td align="left">sterowanie wykonaniem</td>
+</tr>
+<tr class="odd">
+<td align="left">punkt przerwania w RStudio</td>
+<td align="left">kliknięcie na lewym marginesie skryptu
+<code>.R</code></td>
+<td align="left">zatrzymanie w wybranej linii</td>
+</tr>
+</tbody>
+</table>
+<p>W konsoli uruchom <code>debugonce(srednia_bez_skrajnych)</code>, a
+potem <code>srednia_bez_skrajnych(zgloszenia_analiza$czas_min)</code>.
+Po pierwszej linii ciała funkcji wpisz <code>sum(is.na(x))</code> i
+wyjaśnij, skąd biorą się braki po wyborze warunkiem (wróć do ćwiczenia
+1.5). Popraw funkcję na dwa sposoby: przez <code>which()</code> i przez
+<code>mean(x, na.rm = TRUE)</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong>
+<code>opisz(zgloszenia_analiza$czas_min)</code> zwraca n = 240, braki =
+2, średnią 34,7, medianę 35 i sd 13,9; wywołanie dla <code>kanal</code>
+pokazuje w PDF Twój komunikat błędu; poprawiona
+<code>srednia_bez_skrajnych()</code> zwraca 34,7 dla obu zbiorów, a opis
+wskazuje przyczynę błędu.</p>
+</div>
+</div>
+<div id="zadanie-2.7.-pętla-i-warunek-program-kontroli-jakości"
+class="section level3">
+<h3>Zadanie 2.7. Pętla i warunek: program kontroli jakości</h3>
+<div class="brief" szablon="error=TRUE">
+<p><strong>Cel:</strong> Połączysz funkcję, warunek, pętlę i wynikową
+ramkę danych w mały program.</p>
+<p><strong>Polecenie:</strong> Napisz funkcję
+<code>ocen_kolumne(x, prog_brakow = 1)</code>, która zwraca „sprawdź”,
+gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i odrzuca
+próg spoza 0–100. Pętlą <code>for</code> oceń kolumny
+<code>dzial</code>, <code>czas_min</code>, <code>ocena</code>,
+<code>koszt</code> i <code>rozwiazano</code>, zapisując wynik w ramce z
+nazwą kolumny, procentem braków i oceną. Porównaj wynik z wersją bez
+pętli.</p>
+</div>
+<p>Pętla <code>for (i in seq_along(kolumny))</code> wykonuje ciało dla
+każdej pozycji wektora. Wynik zapisuj w obiekcie przygotowanym przed
+pętlą, np. ramce z kolumnami wypełnionymi <code>NA</code>. Warunek
+<code>if (...) ... else ...</code> wybiera jedną z dwóch dróg dla
+pojedynczej wartości; dla całych wektorów używasz <code>ifelse()</code>
+lub <code>if_else()</code>.</p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="39%" />
+<col width="43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Konstrukcja</th>
+<th align="left">Zapis</th>
+<th align="left">Uwagi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">pętla</td>
+<td align="left"><code>for (i in seq_along(x)) { ... }</code></td>
+<td align="left"><code>seq_along()</code> jest bezpieczniejsze niż
+<code>1:length(x)</code> dla pustego <code>x</code></td>
+</tr>
+<tr class="even">
+<td align="left">warunek</td>
+<td align="left"><code>if (warunek) { ... } else { ... }</code></td>
+<td align="left">warunek musi być pojedynczą wartością <code>TRUE</code>
+albo <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td align="left">kilka warunków</td>
+<td align="left"><code>||</code>, <code>&amp;&amp;</code></td>
+<td align="left">wersje „i/lub” dla pojedynczych wartości w
+<code>if</code></td>
+</tr>
+<tr class="even">
+<td align="left">kolumna o nazwie z wektora</td>
+<td align="left"><code>ramka[[nazwa]]</code></td>
+<td align="left"><code>ramka$nazwa</code> nie działa, gdy nazwa jest w
+zmiennej</td>
+</tr>
+<tr class="odd">
+<td align="left">bez pętli</td>
+<td
+align="left"><code>vapply(ramka[kolumny], ocen_kolumne, character(1), prog_brakow = 1)</code></td>
+<td align="left">ta sama operacja dla każdej kolumny</td>
+</tr>
+</tbody>
+</table>
+<p>Przetestuj funkcję na wektorze bez braków, na wektorze
+<code>c(1, NA, 3, NA)</code> i na błędnym progu <code>150</code>; błędne
+wywołanie umieść w bloku z <code>error=TRUE</code>. Własnymi słowami
+wyjaśnij, dlaczego wartość progu jest decyzją analityczną.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> przy progu 1% jedyną kolumną do
+sprawdzenia jest <code>ocena</code> (1,25% braków); przy progu 0,5%
+także <code>czas_min</code> (0,83%); wersja z <code>vapply()</code> daje
+ten sam wynik co pętla; błędny próg kończy się czytelnym
+komunikatem.</p>
+</div>
+</div>
+<div id="zadanie-2.8.-zestawienie-dla-kierownika-z-pomocą-dokumentacji"
+class="section level3">
+<h3>Zadanie 2.8. Zestawienie dla kierownika z pomocą dokumentacji</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Samodzielnie połączysz poznane funkcje w jeden
+potok i sprawdzisz ich argumenty w dokumentacji.</p>
+<p><strong>Polecenie:</strong> Przygotuj tabelę dla kierownika: dla
+każdego działu liczba zgłoszeń, liczba etatów, liczba zgłoszeń na etat,
+odsetek spraw rozwiązanych i mediana czasu, posortowana malejąco według
+obciążenia etatu. Zgłoszenie bez działu oznacz jako „nieznany”. Dodaj
+drugą tabelę w układzie szerokim: działy w wierszach, kanały w
+kolumnach. Zapisz, z których stron pomocy korzystałeś i jaki argument
+tam sprawdziłeś.</p>
+</div>
+<p>Skorzystaj z <code>replace_na()</code>, <code>left_join()</code>,
+<code>group_by()</code>, <code>summarise()</code>,
+<code>arrange()</code>, <code>count()</code> i
+<code>pivot_wider()</code>. Liczbę etatów w grupie uzyskasz funkcją
+<code>first(etaty)</code>. Przed pisaniem kodu przeczytaj w pomocy
+<code>?left_join</code> opis argumentu <code>by</code>, a w
+<code>?pivot_wider</code> argument <code>values_fill</code>. W dwóch
+zdaniach zinterpretuj wynik: który dział jest najbardziej obciążony i
+czego ta tabela nie mówi o jakości obsługi.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> najbardziej obciążone jest
+Repozytorium (76 zgłoszeń, 3 etaty, 25,3 zgłoszenia na etat), następnie
+Katalog (23,0) i Wsparcie (14,2); odsetek rozwiązanych wynosi
+odpowiednio 84,2%, 87,0% i 74,6%; tabela szeroka sumuje się do 240;
+interpretacja nie przypisuje różnic jednej przyczynie.</p>
 </div>
 </div>
 </div>
-<div id="challenge-samodzielnie" class="section level2">
-<h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-8.-program-kontroli-jakości" class="section level3">
-<h3>Ćwiczenie 8. Program kontroli jakości</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Połączysz funkcję, warunek, pętlę i wynikową ramkę danych.
-</p>
+<div id="oddanie" class="section level2">
+<h2>Oddanie</h2>
+<div class="handin">
+<p>Wyrenderuj szablon do PDF i prześlij
+<code>nazwisko_imie_02.pdf</code> do zadania „Spotkanie 2” w MS Teams.
+Bloki z zamierzonymi błędami mają opcję <code>error=TRUE</code>, dlatego
+nie zatrzymają renderowania.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Napisz funkcję ocen_kolumne(x, prog_brakow), która zwraca „sprawdź”, gdy
-procent braków przekracza próg, a „OK” w przeciwnym razie. Odrzuć próg
-spoza 0–100. Pętlą for oceń co najmniej cztery kolumny zbioru i zapisz
-wynik w ramce z nazwą, procentem braków i oceną.
-</p>
-</div>
-<p>Sprawdź funkcję na wektorze bez braków, z połową braków i na błędnym
-progu. Błędne wywołanie pokaż jako kod nieuruchamiany przy renderowaniu.
-Własnymi słowami wyjaśnij, dlaczego próg jest decyzją analityczną.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Funkcja i pętla działają na różnych kolumnach, walidacja progu daje
-czytelny błąd, a trzy testy potwierdzają zachowanie programu.
-</p>
-</div>
-<p>Oddaj <code>nazwisko_imie_02.Rmd</code> do zadania spotkania 2 w MS
-Teams.</p>
+<div class="reading">
+<p><strong>Lektura:</strong> R for Data Science — <a
+href="https://r4ds.had.co.nz/transform.html">Data transformation</a>, <a
+href="https://r4ds.had.co.nz/pipes.html">Pipes</a>, <a
+href="https://r4ds.had.co.nz/tidy-data.html">Tidy data</a>, <a
+href="https://r4ds.had.co.nz/relational-data.html">Relational data</a>,
+<a href="https://r4ds.had.co.nz/functions.html">Functions</a> i <a
+href="https://r4ds.had.co.nz/iteration.html">Iteration</a>. Debugowanie:
+<a href="https://docs.posit.co/ide/user/">RStudio User Guide</a>.</p>
 </div>
 </div>
 

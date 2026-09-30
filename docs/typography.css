@@ -1,6 +1,6 @@
 :root {
   --course-sans: "Segoe UI Variable Text", "Segoe UI", Aptos, Arial, sans-serif;
-  --course-mono: "Courier New", Consolas, "Liberation Mono", monospace;
+  --course-mono: Consolas, "Cascadia Mono", Menlo, "SF Mono", "Liberation Mono", monospace;
 }
 
 body,
@@ -54,24 +54,21 @@ body,
   font-weight: 600;
 }
 
-/* Wyjaśnienia i prompty korzystają z kroju tekstu strony. */
-pre:not(.excel):not(.math),
-pre:not(.excel):not(.math) code,
-pre:not(.excel):not(.math) code * {
-  font-family: var(--course-sans) !important;
-}
-
-/* Formuły, równania i krótkie odwołania do funkcji pozostają techniczne. */
+/* Kod R, polecenia terminala i odwołania do funkcji mają krój o stałej szerokości. */
 code,
 kbd,
 samp,
-pre.excel,
-pre.excel code,
-pre.excel code *,
-pre.math,
-pre.math code,
-pre.math code * {
+pre,
+pre code,
+pre code * {
   font-family: var(--course-mono) !important;
+}
+
+/* Prompty w blokach tekstowych korzystają z kroju tekstu strony. */
+pre.text,
+pre.text code,
+pre.text code * {
+  font-family: var(--course-sans) !important;
 }
 
 pre,

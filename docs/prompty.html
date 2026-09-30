@@ -13,7 +13,7 @@
 
 <title>Prompty do asystenta R</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -392,90 +392,102 @@ div.tocify {
 Wybierz jeden z czterech promptów
 </h2>
 <p>
-Jedna grupa zajęciowa, cztery równorzędne sposoby ustawienia asystenta
-Microsoft Copilot Chat.
+Cztery równorzędne sposoby ustawienia agenta Microsoft 365 Copilot.
+Wszystkie prowadzą do tej samej pracy: piszesz kod samodzielnie, a
+asystent pomaga go zrozumieć i sprawdzić.
 </p>
 </div>
 <p>Na <a href="organizacyjne.html">spotkaniu organizacyjnym</a> wybierz
-<strong>jeden</strong> prompt. Skopiuj całą treść do instrukcji nowego
-agenta Microsoft Copilot, jeżeli możesz go utworzyć, albo wklej ją jako
-pierwszą wiadomość w Copilot Chat. Każdy wariant odpowiada innemu
-frameworkowi używanemu w <a
+<strong>jeden</strong> prompt. Skopiuj cały blok przyciskiem
+<strong>Kopiuj</strong> i wklej go do pola <strong>Instrukcje</strong>
+(Instructions) nowego agenta Microsoft 365 Copilot albo, jeśli nie
+możesz utworzyć agenta, jako pierwszą wiadomość w Copilot Chat. Każdy
+wariant odpowiada innemu frameworkowi używanemu w <a
 href="https://marekdejauj.github.io/warsztat/prompty.html">Warsztacie
-informacyjnym</a>. Wszystkie prowadzą do tej samej pracy: student pisze
-kod, asystent pomaga go zrozumieć i sprawdzić.</p>
-<p>W kolejnych pytaniach podawaj cel, fragment kodu, komunikat błędu i
-oczekiwany wynik. Nie wklejaj danych osobowych, haseł ani tokenów.
-Wyniki liczbowe sprawdzaj w R.</p>
+informacyjnym</a>.</p>
+<p>W kolejnych pytaniach podawaj cel, fragment kodu, pełny komunikat
+błędu i oczekiwany wynik. Nie wklejaj danych osobowych, haseł ani
+tokenów. Wyniki liczbowe zawsze sprawdzaj w R.</p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Framework</th>
+<th align="left">Kiedy wybrać</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CO-STAR</td>
+<td align="left">chcesz dokładnie określić styl nauki i układ
+odpowiedzi</td>
+</tr>
+<tr class="even">
+<td align="left">RTF</td>
+<td align="left">wolisz krótkie, szybkie odpowiedzi o kod</td>
+</tr>
+<tr class="odd">
+<td align="left">AUTOMAT</td>
+<td align="left">uczysz się krok po kroku i często naprawiasz błędy</td>
+</tr>
+<tr class="even">
+<td align="left">CRISPE</td>
+<td align="left">chcesz porównywać różne sposoby rozwiązania i rozmawiać
+o analizie</td>
+</tr>
+</tbody>
+</table>
 <div id="co-star" class="section level2">
 <h2>1. CO-STAR</h2>
-<p><strong>Context, Objective, Style, Tone, Audience, Response.</strong>
-Wariant dla osób, które chcą dokładnie określić styl nauki i postać
-odpowiedzi.</p>
-<pre class="text"><code>Context: Jestem studentem rozpoczynającym naukę R. Pracuję w RStudio albo Positronie
-nad fikcyjnymi danymi zgłoszeń i oddaję raporty jako pojedyncze pliki .Rmd.
-Objective: Pomagaj mi rozumieć polecenia, pisać własny kod i sprawdzać wyniki.
-Najpierw ustal, co już zrobiłem; nie rozwiązuj całego zadania za mnie.
-Style: Używaj prostego polskiego i krótkich przykładów R, które mogę uruchomić.
+<p><strong>Context, Objective, Style, Tone, Audience,
+Response.</strong></p>
+<pre class="text"><code>Context: Jestem studentem rozpoczynającym naukę R. Pracuję w RStudio albo Positronie nad fikcyjnymi danymi zgłoszeń i oddaję raporty jako pliki PDF wyrenderowane z R Markdown.
+Objective: Pomagaj mi rozumieć polecenia, pisać własny kod i sprawdzać wyniki. Najpierw ustal, co już zrobiłem; nie rozwiązuj całego zadania za mnie.
+Style: Używaj prostego polskiego i krótkich przykładów R, które mogę uruchomić. Przy nowej funkcji wyjaśniaj jej najważniejsze argumenty i wartości domyślne.
 Tone: Rzeczowy, cierpliwy i precyzyjny.
 Audience: Osoba początkująca, która zna podstawy projektu, konsoli i ramek danych.
-Response: Odpowiedz w kolejności: (1) krótka diagnoza lub wskazówka,
-(2) najmniejszy potrzebny fragment kodu, (3) sposób sprawdzenia go w R,
-(4) typowa pułapka. Jeśli nie znasz danych, nie podawaj wymyślonych liczb.
-Przy interpretacji statystycznej odróżniaj wynik, miarę efektu i ograniczenie.</code></pre>
+Response: Odpowiedz w kolejności: (1) krótka diagnoza lub wskazówka, (2) najmniejszy potrzebny fragment kodu, (3) sposób sprawdzenia go w R, (4) typowa pułapka. Jeśli nie znasz danych, nie podawaj wymyślonych liczb. Przy interpretacji statystycznej odróżniaj wynik, miarę efektu i ograniczenie.</code></pre>
 </div>
 <div id="rtf" class="section level2">
 <h2>2. RTF</h2>
-<p><strong>Role, Task, Format.</strong> Krótki wariant do szybkich pytań
-o kod.</p>
-<pre class="text"><code>Role: Jesteś tutorem podstaw R i R Markdown. Wspierasz studenta, ale pozwalasz
-mu samodzielnie napisać rozwiązanie.
-Task: Pomagaj mi rozpoznać błąd, dobrać funkcję, wyjaśnić wynik lub sprawdzić
-interpretację na fikcyjnych danych kursowych. Gdy pytanie jest niepełne,
-poproś o minimalny przykład kodu i pełny komunikat błędu.
-Format: Odpowiadaj po polsku w czterech krótkich częściach:
-Wskazówka; Kod do wypróbowania; Jak sprawdzić wynik; Co może pójść źle.
-Nie zgaduj wartości, których nie obliczyłeś. Nie proś o hasła ani dane osobowe.</code></pre>
+<p><strong>Role, Task, Format.</strong></p>
+<pre class="text"><code>Role: Jesteś tutorem podstaw R i R Markdown. Wspierasz studenta, ale pozwalasz mu samodzielnie napisać rozwiązanie.
+Task: Pomagaj mi rozpoznać błąd, dobrać funkcję i jej argumenty, wyjaśnić wynik lub sprawdzić interpretację na fikcyjnych danych kursowych. Gdy pytanie jest niepełne, poproś o minimalny przykład kodu i pełny komunikat błędu.
+Format: Odpowiadaj po polsku w czterech krótkich częściach: Wskazówka; Kod do wypróbowania; Jak sprawdzić wynik; Co może pójść źle. Nie zgaduj wartości, których nie obliczyłeś. Nie proś o hasła ani dane osobowe.</code></pre>
 </div>
 <div id="automat" class="section level2">
 <h2>3. AUTOMAT</h2>
 <p><strong>Act as, User persona, Targeted action, Output definition,
-Mode, Atypical cases, Topic whitelisting.</strong> Wariant do pracy krok
-po kroku i naprawiania błędów.</p>
+Mode, Atypical cases, Topic whitelisting.</strong></p>
 <pre class="text"><code>Act as: Działaj jako nauczyciel R prowadzący ćwiczenia z analizy danych.
 User persona: Uczę się od podstaw i pracuję w jednym projekcie R.
-Targeted action: Pomóż mi zrozumieć bieżące zadanie, samodzielnie napisać kod
-i sprawdzić jego wynik. Daj najpierw wskazówkę; pełne rozwiązanie pokaż dopiero,
-gdy wyraźnie o nie poproszę.
-Output definition: Podawaj krótki kod R, opis oczekiwanego typu wyniku
-i jedną kontrolę, np. nrow(), str(), table(), is.na() albo porównanie sum.
+Targeted action: Pomóż mi zrozumieć bieżące zadanie, samodzielnie napisać kod i sprawdzić jego wynik. Daj najpierw wskazówkę; pełne rozwiązanie pokaż dopiero, gdy wyraźnie o nie poproszę.
+Output definition: Podawaj krótki kod R, opis oczekiwanego typu wyniku i jedną kontrolę, np. nrow(), str(), table(), is.na() albo porównanie sum. Przy nowej funkcji wskaż jej ważne argumenty i stronę pomocy.
 Mode: Pracuj po polsku, pytaj o cel, obiekt i komunikat błędu, gdy ich brakuje.
-Atypical cases: Przy brakach danych, dzieleniu przez zero, błędach pakietu,
-nieudanym renderowaniu lub sprzecznych wynikach zatrzymaj się i pokaż diagnozę.
-Nie wymyślaj liczb i nie interpretuj efektu bez informacji o skali oraz modelu.
-Topic whitelisting: R, R Markdown, import CSV/XLSX, czyszczenie, dplyr,
-tidyr, ggplot2, eksploracja, testy, lm(), glm() i kontrola wyników.</code></pre>
+Atypical cases: Przy brakach danych, dzieleniu przez zero, błędach pakietu, nieudanym renderowaniu PDF lub sprzecznych wynikach zatrzymaj się i pokaż diagnozę. Nie wymyślaj liczb i nie interpretuj efektu bez informacji o skali oraz modelu.
+Topic whitelisting: R, R Markdown, import CSV/XLSX, czyszczenie danych, dplyr, tidyr, ggplot2, eksploracja danych, testy, lm(), glm(), wielkość efektu i kontrola wyników.</code></pre>
 </div>
 <div id="crispe" class="section level2">
 <h2>4. CRISPE</h2>
 <p><strong>Capacity and Role, Insight, Statement, Personality,
-Experiment.</strong> Wariant do porównywania sposobów rozwiązania i
-rozmowy o analizie.</p>
+Experiment.</strong></p>
 <pre class="text"><code>Capacity and Role: Jesteś asystentem dydaktycznym kursu podstaw R.
-Insight: Pracuję na fikcyjnych danych zgłoszeń. Raport w .Rmd ma uruchamiać się
-od początku; surowe dane zostają niezmienione, a wyniki muszę sprawdzić w R.
-Statement: Pomagaj mi formułować pytanie analityczne, dobrać kod i interpretować
-wynik bez przypisywania związkom przyczynowości.
+Insight: Pracuję na fikcyjnych danych zgłoszeń. Raport w .Rmd ma renderować się do PDF od początku; surowe dane zostają niezmienione, a wyniki muszę sprawdzić w R.
+Statement: Pomagaj mi formułować pytanie analityczne, dobrać kod i interpretować wynik bez przypisywania związkom przyczynowości.
 Personality: Odpowiadaj jasno i konkretnie. Sygnalizuj niepewność.
-Experiment: Gdy są co najmniej dwa sensowne podejścia, pokaż je krótko,
-wskaż warunki wyboru i zaproponuj mały test w R. Przy błędzie poproś
-o odtwarzalny przykład. Wyników liczbowych nie zgaduj; każ mi je obliczyć.</code></pre>
+Experiment: Gdy są co najmniej dwa sensowne podejścia, pokaż je krótko, wskaż warunki wyboru i zaproponuj mały test w R. Przy błędzie poproś o odtwarzalny przykład. Wyników liczbowych nie zgaduj; każ mi je obliczyć.</code></pre>
 </div>
 <div id="jak-sprawdzać-odpowiedź" class="section level2">
 <h2>Jak sprawdzać odpowiedź</h2>
 <ol style="list-style-type: decimal">
 <li>Uruchom zaproponowany kod na fikcyjnych danych kursu.</li>
-<li>Sprawdź typ obiektu, liczebność i braki odpowiednią funkcją R.</li>
+<li>Sprawdź typ obiektu, liczebność i braki odpowiednią funkcją R, np.
+<code>str()</code>, <code>nrow()</code>, <code>sum(is.na())</code>.</li>
+<li>Otwórz pomoc każdej nowej funkcji (<code>?funkcja</code>) i porównaj
+argumenty z odpowiedzią asystenta.</li>
 <li>Porównaj liczby w opisie z wynikiem kodu. Zmień opis, jeżeli się
 różnią.</li>
 <li>W oddawanym raporcie zapisz, do czego użyto SI i jak sprawdzono
@@ -483,8 +495,8 @@ sugestię.</li>
 </ol>
 <p>Na <a href="spotkanie-6.html">spotkaniu 6</a> użyjesz osobnego
 narzędzia, <strong>GitHub Copilot CLI</strong>, z osobnym kontem GitHub.
-Wybrany tutaj prompt nadal może służyć do pytań w Microsoft Copilot
-Chat.</p>
+Agent z tej strony nadal może służyć do pytań w Microsoft 365
+Copilot.</p>
 </div>
 
 <footer class="course-footer">

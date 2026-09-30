@@ -2,30 +2,61 @@
 title: "Konsultacje projektu — 45 minut"
 ---
 
-<div class="hero"><h2>Spotkanie końcowe · 45 minut</h2><p>Sprawdź projekt z zespołem, omów trudności i przygotuj jeden plik do zadania w MS Teams.</p></div>
+<div class="hero"><h2>Spotkanie końcowe · 45 minut</h2><p>Sprawdź projekt z zespołem, omów trudności z prowadzącym i przygotuj dwa pliki do zadania w MS Teams: PDF i źródło .Rmd.</p></div>
 
-<div class="timebox"><strong>Plan 45 minut:</strong> 5 min stan prac, 20 min konsultacje analiz, 15 min kontrola raportu, 5 min przekazanie lub ustalenie ostatnich poprawek.</div>
+<div class="timebox"><strong>Plan 45 minut:</strong> 5 min stan prac · 20 min ćwiczenie K.1 · 15 min zadanie K.2 · 5 min przekazanie plików lub ustalenie ostatnich poprawek.</div>
 
-Przynieś aktualny [szablon projektu](materialy/szablon-projekt.Rmd) wypełniony przez zespół. Możesz wtedy przesłać gotowy plik; **ostateczny termin** zostanie podany w zadaniu MS Teams po komunikacie rektora o harmonogramie sesji.
+::: {.start}
+**Start:** przynieś szablon projektu wypełniony przez zespół oraz szkic z zadania 6.8. W pracowni zapisz plik w projekcie `jezykr` i uruchom skrypt startowy; blok `start` szablonu odtworzy dane.
+:::
 
-## Learn — z prowadzącym
+~~~{.r .bez-uruchamiania}
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
+pobierz_szablon("projekt", "projekt_nazwiska.Rmd")
+~~~
 
-### Ćwiczenie K1. Pytanie, dane i analiza
+Możesz przekazać gotowe pliki już na konsultacjach; **ostateczny termin** podaje zadanie w MS Teams po ogłoszeniu harmonogramu sesji.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Upewnisz się, że metoda i wniosek odpowiadają temu samemu pytaniu.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>W zespole pokaż pytanie, tabelę, dwa wykresy oraz test lub model. Wyjaśnij, co oznacza jednostka obserwacji, jak obsłużono braki i którą miarę efektu interpretujesz.</p></div>
+## Learn — ćwiczenie z prowadzącym
 
-Zaznacz miejsca, w których potrzebujesz pomocy prowadzącego. Porównaj wymagania z [rubryką](ocenianie.html); oddziel wynik liczbowy od własnej interpretacji. Jeżeli użyto SI, pokaż wynik niezależnej kontroli w R.
+### Ćwiczenie K.1. Pytanie, dane i analiza
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Każda osoba w zespole potrafi wyjaśnić pytanie, dane, najważniejszą liczbę i ograniczenie wniosku.</p></div>
+::: {.brief}
+**Cel:** Upewnisz się, że metoda i wniosek odpowiadają temu samemu pytaniu.
 
-## Challenge — samodzielnie
+**Polecenie:** Pokaż prowadzącemu pytanie, tabelę, dwa wykresy oraz test lub model. Wyjaśnij, co jest jednostką obserwacji, jak obsłużono braki i wartości podejrzane oraz którą miarę efektu interpretujesz.
+:::
 
-### Ćwiczenie K2. Próba oddania
+Zaznacz miejsca, w których potrzebujesz pomocy. Porównaj raport z [rubryką](ocenianie.html) wiersz po wierszu i oddziel wynik liczbowy od własnej interpretacji. Jeżeli zespół korzystał z SI, pokaż wpis w dzienniku użycia i wynik niezależnej kontroli w R.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Przekażesz raport, który można odtworzyć z jednego pliku.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom ponownie R, wyrenderuj projekt od początku, sprawdź zgodność liczb z opisem i popraw wskazane błędy.</p></div>
+| Pytanie kontrolne | Gdzie w raporcie |
+|:----------------------------------------------------------|:----------------------|
+| Czy pytanie wskazuje odbiorcę i decyzję? | Pytanie i uzasadnienie |
+| Czy wiadomo, ile rekordów wykluczono i dlaczego? | Przygotowanie i kontrola jakości |
+| Czy każdy wykres ma tytuł, osie z jednostkami i komentarz? | Tabela i wizualizacje |
+| Czy metoda pasuje do typów zmiennych (tabela „Jak czytać wynik testu” ze spotkania 5)? | Analiza i interpretacja |
+| Czy podano wielkość efektu z niepewnością i liczebność? | Analiza i interpretacja |
+| Czy wniosek nie przypisuje przyczyny tam, gdzie dane jej nie pozwalają ustalić? | Wniosek i rekomendacja |
 
-Sprawdź nazwiska i wkład członków zespołu. Do zadania projektu w MS Teams wgraj **jeden plik `.Rmd` na zespół** przed terminem widocznym w Teams. Nie dołączaj projektu RStudio, danych generowanych skryptem ani HTML. Zachowaj własną kopię pliku.
+::: {.criteria}
+**Kryteria sukcesu:** każda osoba w zespole potrafi wyjaśnić pytanie, dane, najważniejszą liczbę i ograniczenie wniosku; zespół ma listę poprawek z przypisanymi osobami.
+:::
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport renderuje się w czystej sesji, spełnia rubrykę i jest gotowy do oceny w MS Teams.</p></div>
+## Challenge — zadanie zespołu
+
+### Zadanie K.2. Próba oddania
+
+::: {.brief}
+**Cel:** Przekażesz raport, który można odtworzyć z jednego pliku źródłowego.
+
+**Polecenie:** Zrestartuj R, wyrenderuj projekt do PDF od początku, sprawdź zgodność liczb w tekście z wynikami kodu i popraw wskazane błędy. Następnie sprawdź nazwiska i opis wkładu członków zespołu.
+:::
+
+1. **Session → Restart R**, potem **Knit**. Jeżeli PDF nie powstaje, przeczytaj pierwszy komunikat błędu i popraw wskazany blok.
+2. Porównaj każdą liczbę w tekście z wynikiem w bloku kodu. Liczby w tekście możesz też wstawiać automatycznie zapisem `` `r knitr::inline_expr("round(mean(x), 1)")` ``, dzięki czemu zawsze będą zgodne z danymi.
+3. Nazwij pliki `projekt_nazwiska.pdf` i `projekt_nazwiska.Rmd` i dołącz **oba** do zadania projektu w MS Teams przed terminem widocznym w Teams. Nie dołączaj folderu projektu, danych odtwarzanych przez skrypt ani plików HTML.
+4. Zachowaj kopię plików w OneDrive.
+
+::: {.criteria}
+**Kryteria sukcesu:** raport renderuje się do PDF w czystej sesji, spełnia rubrykę, a zespół przekazał PDF i `.Rmd` w MS Teams albo zna listę ostatnich poprawek i termin.
+:::

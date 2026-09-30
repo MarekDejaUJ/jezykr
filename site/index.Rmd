@@ -4,39 +4,41 @@ title: "Język R"
 
 <div class="hero">
 <h2>Od pierwszego polecenia do raportu badawczego</h2>
-<p>Siedem spotkań po 90 minut oraz 45 minut konsultacji projektu. Łącznie 15 godzin lekcyjnych: środowisko R, dane, wizualizacja, modele i odpowiedzialna praca z SI.</p>
+<p>Siedem spotkań po 90 minut oraz 45 minut konsultacji projektu — łącznie 15 godzin lekcyjnych: środowisko R, import i porządkowanie danych, przekształcenia, wizualizacja, eksploracja, testy i modele oraz odpowiedzialna praca z generatywną SI.</p>
 </div>
 
 ## Jak pracujemy
 
-Zaczynamy od spotkania organizacyjnego: projekt RStudio lub folder Positrona, pierwszy dokument R Markdown oraz własny asystent w Microsoft Copilot Chat. Na sześciu spotkaniach roboczych rozwiązujemy zadania w kolejności **Learn** (z prowadzącym) i **Challenge** (samodzielnie). Każde ćwiczenie zawiera cel, kroki i kryteria sukcesu TILT. Ostatnie 45 minut przeznaczamy na konsultacje projektu grupowego.
+Zaczynamy od spotkania organizacyjnego: poznasz zasady kursu, utworzysz projekt RStudio lub folder Positrona, wyrenderujesz pierwszy dokument R Markdown do PDF i skonfigurujesz własnego agenta w Microsoft 365 Copilot. Każde z sześciu spotkań roboczych składa się z pięciu ćwiczeń z prowadzącym (**Learn**) i trzech zadań samodzielnych (**Challenge**). Każde ćwiczenie ma cel, polecenie i kryteria sukcesu, objaśnienie najważniejszych funkcji wraz z ich argumentami oraz propozycje zmian do samodzielnego sprawdzenia. Po każdym spotkaniu przesyłasz jeden plik PDF do zadania w MS Teams. Ostatnie 45 minut przeznaczamy na konsultacje projektu grupowego.
+
+Każde spotkanie zaczyna się tak samo: nowy projekt, dwie linie w konsoli i praca w szablonie. Skrypt startowy za każdym razem odtwarza identyczne dane, więc żadne spotkanie nie zależy od plików z poprzednich zajęć. Szczegóły opisuje sekcja [Jak wygląda każde spotkanie](organizacyjne.html#kazde-spotkanie).
 
 <div class="quick-grid">
-  <div class="quick-card"><h3>Podstawy R</h3><p>Konsola, projekt, pakiety, typy, struktury, funkcje i pętle.</p></div>
-  <div class="quick-card"><h3>Dane</h3><p>CSV, Excel, braki, filtrowanie, agregacja, dplyr i tidyr.</p></div>
-  <div class="quick-card"><h3>Analiza</h3><p>ggplot2, eksploracja pakietowa, testy, modele lm() i glm().</p></div>
-  <div class="quick-card"><h3>Raport</h3><p>R Markdown, interpretacja, kontrola kodu i projekt grupowy.</p></div>
+  <div class="quick-card"><h3>Podstawy R</h3><p>Projekt, R Markdown, typy i struktury danych, pakiety, pomoc, funkcje, warunki i pętle.</p></div>
+  <div class="quick-card"><h3>Dane</h3><p>CSV i Excel, braki i wartości podejrzane, dplyr, tidyr, łączenie tabel, próby losowe.</p></div>
+  <div class="quick-card"><h3>Analiza</h3><p>ggplot2, dlookr, explore i ggstatsplot, testy, lm() i glm(), wielkość efektu.</p></div>
+  <div class="quick-card"><h3>Raport</h3><p>PDF z R Markdown, interpretacja, kontrola sugestii SI i projekt grupowy.</p></div>
 </div>
 
 ## Plan 15 godzin lekcyjnych
 
 | Spotkanie | Czas | Treść sylabusa | Rezultat |
-|---|---:|---|---|
-| Organizacyjne | 90 min | 1. Środowisko R, typy i pakiety; wprowadzenie do SI z treści 7 | Projekt, pierwszy `.Rmd` i asystent Microsoft Copilot |
-| 1 | 90 min | 2. Organizowanie i czyszczenie danych | Import CSV/XLSX i kontrolowany zbiór roboczy |
-| 2 | 90 min | 3. Operacje na danych | Transformacja z dplyr i tidyr, własna funkcja |
-| 3 | 90 min | 4. Wizualizacja danych | Wykresy ggplot2 i ich interpretacja |
-| 4 | 90 min | 5. Eksploracyjna analiza danych | Diagnoza dlookr, explore i ggstatsplot |
-| 5 | 90 min | 6. Dane jakościowe i modele liniowe | Testy, lm() i glm() |
-| 6 | 90 min | 7. Biblioteki R i generatywna SI | Podsumowanie, wielkość efektu, korekta kodu z Copilot CLI |
-| Konsultacje | 45 min | Projekt grupowy i omówienie wyników | Przegląd raportu i plan złożenia |
+|:-----|-----:|:----------------------------|:------------------------------------------|
+| [Organizacyjne](organizacyjne.html) | 90 min | 1. Środowisko R, typy danych i pakiety; wstęp do SI z treści 7 | Projekt, pierwszy PDF, agent Microsoft 365 Copilot |
+| [1](spotkanie-1.html) | 90 min | 2. Organizowanie i czyszczenie danych | Import CSV i XLSX, diagnoza braków, uporządkowana ramka, pierwsza funkcja |
+| [2](spotkanie-2.html) | 90 min | 3. Operacje na danych | Przekształcenia dplyr i tidyr, łączenie tabel, próby losowe, funkcje i pętle |
+| [3](spotkanie-3.html) | 90 min | 4. Wizualizacja danych | Wykresy bazowe i ggplot2, wykres do raportu, krytyka wykresu |
+| [4](spotkanie-4.html) | 90 min | 5. Eksploracyjna analiza danych | Diagnoza dlookr, przegląd explore, porównania ggstatsplot, audyt raportu |
+| [5](spotkanie-5.html) | 90 min | 6. Dane jakościowe i modele liniowe | Chi-kwadrat, testy t i Wilcoxona, korelacja, lm() i glm() |
+| [6](spotkanie-6.html) | 90 min | 7. Biblioteki R i generatywna SI | Podsumowania, wielkość efektu, tekst z pakietu report, korekta kodu z Copilot CLI |
+| [Konsultacje](konsultacje.html) | 45 min | Projekt grupowy i omówienie wyników | Przegląd raportu i plan złożenia |
 
-**Razem: 7 × 90 + 45 = 675 minut = 15 godzin lekcyjnych.** Szczegółowy termin złożenia projektu zostanie podany w MS Teams po ogłoszeniu harmonogramu sesji przez rektora.
+**Razem: 7 × 90 + 45 = 675 minut = 15 godzin lekcyjnych.** Termin złożenia projektu zostanie podany w MS Teams po ogłoszeniu harmonogramu sesji.
 
 ## Rozpocznij
 
 <a class="btn-course" href="organizacyjne.html">Spotkanie organizacyjne</a>
-<a class="btn-course" href="prompty.html">Wybierz ramę promptu</a>
+<a class="btn-course" href="prompty.html">Wybierz prompt asystenta</a>
 <a class="btn-course" href="materialy.html">Pobierz szablony</a>
 <a class="btn-course" href="ocenianie.html">Sprawdź ocenianie</a>
 

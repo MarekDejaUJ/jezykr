@@ -1,59 +1,259 @@
 ---
-title: "Spotkanie 4: automatyczna eksploracja danych"
+title: "Spotkanie 4: eksploracyjna analiza danych"
 ---
 
-<div class="hero"><h2>Spotkanie 4 z 6 · treść programowa 5</h2><p>Porównujesz ręczną kontrolę z raportami pakietów dlookr, explore i ggstatsplot.</p></div>
+<div class="hero"><h2>Spotkanie 4 z 6 · 90 minut · treść programowa 5</h2><p>Zdiagnozujesz jakość danych pakietem dlookr, opiszesz rozkłady i wartości odstające, przejrzysz zmienne pakietem explore, porównasz grupy wykresami ggstatsplot i wygenerujesz raport automatyczny, którego wyniki sprawdzisz niezależnie w R.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 15 min pakiety i pomoc, 20 min diagnoza, 20 min opis i wykres, 25 min raport automatyczny, 10 min audyt.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start i pakiety · 12 min ćwiczenie 4.1 · 12 min ćwiczenie 4.2 · 10 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4 · 10 min ćwiczenie 4.5 · 25 min zadania 4.6–4.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
 
-Pobierz [szablon 04](materialy/szablon-04.Rmd). Jego blok startowy instaluje dodatkowo `dlookr`, `explore` i `ggstatsplot`. Przy pierwszym uruchomieniu instalacja może potrwać kilka minut; otwórz szablon przed zajęciami, jeżeli masz taką możliwość.
+::: {.start}
+**Start:** na tym spotkaniu skrypt startowy ładuje trzy dodatkowe pakiety. Przed jego uruchomieniem wskaż je opcją `jezykr.pakiety`; szablon spotkania 4 robi to w bloku `start`. Na własnym komputerze pierwsza instalacja może potrwać kilka minut, dlatego uruchom skrypt przed zajęciami.
+:::
 
-## Learn — z prowadzącym
-
-### Ćwiczenie 13. Diagnoza jakości z dlookr
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Porównasz automatyczną diagnozę braków z własną regułą jakości.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom diagnose() dla surowych i oczyszczonych danych. Znajdź różnicę w czas_min.</p></div>
-
-~~~r
-pakiety_kursu(c("dlookr", "explore", "ggstatsplot"))
-diag_surowe <- dlookr::diagnose(zgloszenia)
-diag_czyste <- dlookr::diagnose(zgloszenia_analiza)
-diag_surowe
-diag_czyste
+~~~{.r .bez-uruchamiania}
+options(jezykr.pakiety = c("dlookr", "explore", "ggstatsplot"))
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
+pobierz_szablon(4, "nazwisko_imie_04.Rmd")
 ~~~
 
-Porównaj liczbę braków `czas_min`. Czy sama diagnoza wykryła, że -5 i 190 minut są problemem? Wyjaśnij, skąd pochodzi reguła jakości i kiedy należałoby sprawdzić źródło.
+Eksploracyjna analiza danych (EDA) to systematyczne zadawanie pytań o dane: jak wygląda rozkład każdej zmiennej, gdzie są braki i wartości nietypowe, jak zmienne współzmieniają się ze sobą. Pakiety z tego spotkania przyspieszają pracę, ale niczego nie rozstrzygają za Ciebie. Każdą liczbę z raportu automatycznego, którą przytaczasz w tekście, sprawdź w R niezależnie. Skrypt startowy ładuje wskazane pakiety, a mimo to wywołujemy funkcje z przedrostkiem `pakiet::`, dzięki czemu widać, skąd pochodzą; ma to znaczenie, bo `dlookr` i `explore` mają funkcje o tej samej nazwie `describe()`.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>W oczyszczonym obiekcie są dwa dodatkowe braki czasu; wiesz, że profil statystyczny nie zastępuje oceny sensu wartości.</p></div>
+## Learn — ćwiczenia z prowadzącym
 
-### Ćwiczenie 14. Opis i wykres z dwóch pakietów
+### Ćwiczenie 4.1. Diagnoza jakości z dlookr
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Odczytasz wyniki automatyczne bez oddawania narzędziu interpretacji pytania.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom describe_all() i ggbetweenstats() dla czasu w grupach A i B.</p></div>
+::: {.brief}
+**Cel:** Porównasz automatyczną diagnozę jakości z regułami czyszczenia ze spotkania 1.
+
+**Polecenie:** Uruchom `diagnose()` dla danych surowych i oczyszczonych, a następnie `diagnose_category()`, `diagnose_numeric()` i `diagnose_outlier()` dla danych surowych. Wskaż, które problemy wykryła diagnoza automatyczna, a których nie.
+:::
+
+`diagnose()` zwraca dla każdej zmiennej jej typ, liczbę i odsetek braków oraz liczbę i udział unikalnych wartości. Funkcje szczegółowe opisują kategorie (liczność i ranga poziomów), zmienne liczbowe (kwartyle, liczba zer, wartości ujemnych i odstających) oraz wpływ wartości odstających na średnią. Wszystkie przyjmują ramkę jako pierwszy argument, a opcjonalnie nazwy wybranych zmiennych.
 
 ~~~r
+dlookr::diagnose(zgloszenia)
+dlookr::diagnose(zgloszenia_analiza)
+dlookr::diagnose_category(zgloszenia, dzial)
+dlookr::diagnose_numeric(zgloszenia)
+dlookr::diagnose_outlier(zgloszenia)
+~~~
+
+| Funkcja | Kolumny wyniku | Na co patrzeć |
+|:--------------|:-------------------------------|:----------------------------------|
+| `diagnose(.data, ...)` | `types`, `missing_count`, `missing_percent`, `unique_count`, `unique_rate` | braki; zmienne z jedną wartością; identyfikatory (udział unikalnych = 1) |
+| `diagnose_category(.data, ...)` | `levels`, `freq`, `ratio`, `rank` | niespójne zapisy tej samej kategorii, rzadkie poziomy |
+| `diagnose_numeric(.data, ...)` | `min`, `Q1`, `mean`, `median`, `Q3`, `max`, `zero`, `minus`, `outlier` | wartości ujemne tam, gdzie są niemożliwe; liczba wartości odstających |
+| `diagnose_outlier(.data, ...)` | `outliers_cnt`, `outliers_ratio`, `outliers_mean`, `with_mean`, `without_mean` | jak bardzo wartości odstające przesuwają średnią |
+
+**Sprawdź i zmień.** Porównaj wiersz `czas_min` w obu wynikach `diagnose()`. Dlaczego `unique_count` dla `dzial` w danych surowych wynosi 6, a w oczyszczonych 4? Czy diagnoza oznaczyła −5 minut jako błąd, czy tylko jako wartość ujemną? Dlaczego `diagnose_numeric()` uznaje za odstające 6 ocen równych 1?
+
+::: {.criteria}
+**Kryteria sukcesu:** w danych oczyszczonych `czas_min` ma 2 braki (0,83%), a w surowych żadnego; `diagnose_category()` pokazuje pięć zapisów działu i brak; `diagnose_numeric()` wskazuje 1 wartość ujemną i 3 odstające czasy; średni czas bez wartości odstających spada z 35,2 do 34,5 minuty. Wyjaśniasz, że profil statystyczny nie ocenia sensu wartości.
+:::
+
+### Ćwiczenie 4.2. Rozkłady, normalność i wartości odstające
+
+::: {.brief}
+**Cel:** Opiszesz rozkłady zmiennych liczbowych statystykami położenia i kształtu oraz sprawdzisz założenie normalności.
+
+**Polecenie:** Uruchom `describe()` dla wszystkich zmiennych liczbowych i dla czasu w podziale na kanały, sprawdź normalność testem Shapiro–Wilka i narysuj wykresy normalności oraz wartości odstających.
+:::
+
+`describe()` zwraca liczność, braki, średnią, odchylenie standardowe, błąd standardowy średniej, rozstęp międzykwartylowy, skośność, kurtozę i percentyle. Skośność bliska 0 oznacza rozkład symetryczny, dodatnia — długi prawy ogon. Kurtoza podawana jest względem rozkładu normalnego, dla którego wynosi 0. Test Shapiro–Wilka sprawdza hipotezę, że dane pochodzą z rozkładu normalnego: małe p (np. < 0,05) oznacza odstępstwo od normalności. Przy dużych próbach test wykrywa nawet nieistotne odstępstwa, dlatego zawsze patrz też na wykres.
+
+~~~r
+dlookr::describe(zgloszenia_analiza)
+zgloszenia_analiza |>
+  group_by(kanal) |>
+  dlookr::describe(czas_min)
+dlookr::normality(zgloszenia_analiza)
+dlookr::plot_normality(zgloszenia_analiza, czas_min)
+dlookr::plot_outlier(zgloszenia, czas_min)
+~~~
+
+| Funkcja | Najważniejsze argumenty | Wynik |
+|:-----------------|:----------------------------------|:----------------------------|
+| `describe(.data, ...)` | zmienne; działa z `group_by()`; `statistics`, `quantiles` — wybór miar | tabela statystyk opisowych |
+| `normality(.data, ..., sample = 5000)` | zmienne; maksymalna liczba obserwacji w teście | statystyka W i wartość p testu Shapiro–Wilka |
+| `plot_normality(.data, ...)` | zmienna; `left`, `right` — przekształcenia do porównania, np. `"log"`, `"sqrt"` | histogram, wykres kwantylowy Q–Q i wersje po przekształceniu |
+| `plot_outlier(.data, ...)` | zmienna; `col` — kolor | rozkład z wartościami odstającymi i bez nich |
+
+Wykresy `dlookr` mogą wypisać ostrzeżenie o przestarzałym argumencie `size` w ggplot2. Pochodzi ono z kodu pakietu, nie z Twojego, i nie zmienia wyniku; ostrzeżenie (*warning*) informuje, a błąd (*error*) przerywa obliczenia.
+
+**Sprawdź i zmień.** Odczytaj z `describe()` skośność czasu i oceny: która zmienna jest bardziej asymetryczna? Porównaj wynik testu normalności dla `ocena` z jej wykresem — dlaczego zmienna o pięciu możliwych wartościach nie może mieć rozkładu normalnego? W `plot_normality()` dodaj `left = "sqrt", right = "log"`.
+
+::: {.criteria}
+**Kryteria sukcesu:** średni czas wynosi 34,7 minuty (sd 13,9, n = 238); czas w kanale Telefon ma średnią 42,8 minuty; test Shapiro–Wilka nie odrzuca normalności czasu (p = 0,66), ale odrzuca ją dla oceny (p < 0,001); w opisie łączysz wynik testu z wykresem.
+:::
+
+### Ćwiczenie 4.3. Szybki przegląd zmiennych z explore
+
+::: {.brief}
+**Cel:** Przejrzysz wszystkie zmienne i ich związek ze zmienną wynikową jednym poleceniem na zmienną.
+
+**Polecenie:** Obejrzyj przegląd typów i braków, opis wszystkich zmiennych, opis czasu i kanału, a następnie wykresy czasu w grupach procedury i rozwiązania sprawy w kanałach.
+:::
+
+Pakiet `explore` automatycznie dobiera wykres do typu zmiennej: dla liczb rysuje gęstość, dla kategorii wykres słupkowy. Argument `target` wskazuje zmienną, względem której porównujesz rozkład, np. grupę lub wynik sprawy. `describe()` z tego pakietu drukuje zwięzły opis jednej zmiennej; uwaga, funkcja o tej samej nazwie istnieje w `dlookr` — przedrostek `explore::` rozstrzyga, której używasz.
+
+~~~r
+explore::explore_tbl(zgloszenia_analiza)
 explore::describe_all(zgloszenia_analiza)
-dane_test <- zgloszenia_analiza |>
-  dplyr::filter(!is.na(czas_min))
-ggstatsplot::ggbetweenstats(data = dane_test,
-                            x = grupa, y = czas_min,
-                            type = "parametric")
+explore::describe(zgloszenia_analiza, czas_min)
+explore::describe(zgloszenia_analiza, kanal)
+explore::explore(zgloszenia_analiza, czas_min, target = grupa)
+explore::explore(zgloszenia_analiza, kanal, target = rozwiazano)
 ~~~
 
-Odczytaj liczebności, kierunek różnicy i informację o teście. Porównaj liczebności z `table(dane_test$grupa)`. Zapisz, jakie założenie lub ograniczenie trzeba uwzględnić przed interpretacją.
+| Funkcja | Najważniejsze argumenty | Wynik |
+|:--------------------|:--------------------------------|:----------------------------|
+| `explore_tbl(data)` | ramka | wykres typów zmiennych i braków |
+| `describe_all(data)` | ramka | tabela: typ, braki, liczba unikalnych, min, średnia, max |
+| `describe(data, var)` | ramka; zmienna | opis jednej zmiennej: kwantyle albo liczności kategorii |
+| `explore(data, var, target)` | ramka; zmienna; opcjonalnie zmienna docelowa; `min_val`, `max_val` — przycięcie osi | wykres dobrany do typu zmiennej |
+| `report(data, target, output_file, output_dir)` | ramka; zmienna docelowa; nazwa i folder pliku | raport HTML ze wszystkimi zmiennymi |
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport zawiera opis zmiennych, wykres grup i niezależną kontrolę liczebności; komentarz oddziela wynik automatyczny od własnego wniosku.</p></div>
+W wykresie z argumentem `target` odsetki liczone są w obrębie kategorii zmiennej docelowej: słupek „Online” przy „Nie” pokazuje, jaka część nierozwiązanych spraw pochodzi z kanału Online, a nie odsetek nierozwiązanych spraw w tym kanale.
 
-## Challenge — samodzielnie
+**Sprawdź i zmień.** Porównaj wynik `explore::describe_all()` z `dlookr::diagnose()`: które informacje się powtarzają, a które są tylko w jednym narzędziu? Narysuj `explore::explore(zgloszenia_analiza, koszt, target = kanal)`. Czy wykres gęstości czasu w grupach A i B sugeruje różnicę, którą warto sprawdzić testem w ćwiczeniu 4.4?
 
-### Ćwiczenie 15. Raport EDA i jego audyt
+::: {.criteria}
+**Kryteria sukcesu:** opis czasu podaje 2 braki, zakres 3–75 minut i medianę 35; opis kanału podaje 104, 81 i 55 zgłoszeń; w szablonie zapisujesz jedną hipotezę do sprawdzenia, wynikającą z wykresów.
+:::
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Wygenerujesz lokalny raport HTML i wskażesz, co potwierdza oraz czego nie wyjaśnia.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder wyniki/ i wygeneruj raport przez dlookr::eda_web_report(zgloszenia_analiza, output_file = "eda.html", output_dir = normalizePath("wyniki", winslash = "/"), browse = FALSE). W oddawanym .Rmd pokaż ten kod w bloku z eval=FALSE. Podaj dwa ustalenia zgodne z własną kontrolą i jedną rzecz, której raport nie wyjaśnia.</p></div>
+### Ćwiczenie 4.4. Porównanie grup z ggstatsplot
 
-Raport EDA utwórz jednorazowo w konsoli. Dokument `.Rmd` ma renderować się bez ponownego tworzenia drugiego HTML. W jego treści podaj nazwę pliku, jedną sprawdzoną liczbę, wynik niezależnego sprawdzenia i ograniczenie raportu. Nie dołączaj `wyniki/eda.html` do MS Teams.
+::: {.brief}
+**Cel:** Odczytasz wynik testu z podpisu wykresu i sprawdzisz go klasycznym testem w R.
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Lokalny plik wyniki/eda.html powstaje; oddany raport zawiera kod generowania, sprawdzoną liczbę i krytyczny komentarz.</p></div>
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu statystykę testu, wartość p, wielkość efektu z przedziałem ufności i liczność. Pobierz te same liczby funkcją `extract_stats()` i porównaj je z wynikiem `t.test()`.
+:::
 
-Oddaj `nazwisko_imie_04.Rmd` do zadania spotkania 4 w MS Teams.
+`ggbetweenstats()` łączy wykres punktów, pudełek i skrzypiec z testem różnic. W podpisie (ang. *subtitle*) znajdziesz kolejno: statystykę testu z liczbą stopni swobody, wartość p (zaokrągloną do dwóch miejsc), wielkość efektu z 95% przedziałem ufności i liczbę obserwacji. Wariant `"parametric"` dla dwóch grup to test t Welcha, dla trzech i więcej grup — ANOVA Welcha; `"nonparametric"` to test Manna–Whitneya albo Kruskala–Wallisa. Braki w zmiennej `y` usuń przed wykresem, aby liczność była jawna.
+
+~~~r
+dane_test <- zgloszenia_analiza |> filter(!is.na(czas_min))
+table(dane_test$grupa)
+wykres_ab <- ggstatsplot::ggbetweenstats(
+  data = dane_test, x = grupa, y = czas_min, type = "parametric",
+  xlab = "Grupa procedury", ylab = "Czas [min]"
+)
+wykres_ab
+ggstatsplot::extract_stats(wykres_ab)$subtitle_data |>
+  select(statistic, df.error, p.value, effectsize, estimate, conf.low, conf.high)
+t.test(czas_min ~ grupa, data = dane_test)
+~~~
+
+| Argument `ggbetweenstats()` | Znaczenie |
+|:-------------------------|:-------------------------------------------------------|
+| `data`, `x`, `y` | ramka, zmienna grupująca, zmienna liczbowa (nazwy bez cudzysłowów) |
+| `type` | `"parametric"`, `"nonparametric"`, `"robust"` albo `"bayes"` |
+| `pairwise.display` | przy 3+ grupach: `"significant"`, `"non-significant"`, `"all"` albo `"none"` |
+| `p.adjust.method` | poprawka na wielokrotne porównania, np. `"holm"`, `"bonferroni"`, `"none"` |
+| `centrality.plotting`, `centrality.type` | czy i jaką miarę tendencji centralnej zaznaczyć |
+| `var.equal` | `FALSE` (Welch) albo `TRUE` (klasyczny test t) |
+| `xlab`, `ylab`, `title`, `caption` | opisy wykresu |
+| `results.subtitle` | `FALSE` wyłącza podpis z testem |
+| `bf.message` | `FALSE` wyłącza podpis z czynnikiem Bayesa (BF01) pod wykresem |
+
+**Sprawdź i zmień.** Zmień `type` na `"nonparametric"` i porównaj wartość p oraz rodzaj wielkości efektu. Grupy A i B przydzielono losowo: co to zmienia w interpretacji różnicy w porównaniu z różnicą między kanałami, których użytkownicy wybierają sami?
+
+::: {.criteria}
+**Kryteria sukcesu:** grupy liczą 121 i 117 zgłoszeń z czasem (oba braki czasu są w grupie B); test Welcha daje t ≈ 1,98, p ≈ 0,049, a różnica średnich wynosi 3,5 minuty (36,4 wobec 32,9); g Hedgesa ≈ 0,26 z przedziałem od około 0,00 do 0,51; liczby z wykresu, `extract_stats()` i `t.test()` są zgodne. Opis wskazuje, że przedział efektu sięga prawie zera.
+:::
+
+### Ćwiczenie 4.5. Raport automatyczny
+
+::: {.brief szablon="eval=FALSE"}
+**Cel:** Wygenerujesz raport EDA w HTML i poznasz jego strukturę, zanim ocenisz jego wartość w zadaniu 4.6.
+
+**Polecenie:** W konsoli wygeneruj raport `dlookr::eda_web_report()` do pliku `wyniki/eda.html` i otwórz go w przeglądarce. W szablonie pokaż kod w bloku z `eval=FALSE` i wypisz nazwy głównych sekcji raportu.
+:::
+
+Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu (renderowanie dokumentu wewnątrz renderowania innego dokumentu często kończy się błędem). Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną.
+
+~~~{.r .bez-uruchamiania}
+dlookr::eda_web_report(zgloszenia_analiza, target = "grupa",
+                       output_file = "eda.html",
+                       output_dir = normalizePath("wyniki", winslash = "/"),
+                       title = "Eksploracja zgłoszeń", browse = FALSE)
+dlookr::diagnose_web_report(zgloszenia, output_file = "diagnoza.html",
+                            output_dir = normalizePath("wyniki", winslash = "/"),
+                            browse = FALSE)
+explore::report(zgloszenia_analiza, output_file = "explore.html",
+                output_dir = normalizePath("wyniki", winslash = "/"))
+~~~
+
+| Argument | Znaczenie |
+|:------------------|:--------------------------------------------------------------|
+| `target` | zmienna docelowa (w `dlookr` jako tekst); raport dodaje porównania względem niej |
+| `output_file`, `output_dir` | nazwa pliku i pełna ścieżka folderu |
+| `browse` | `TRUE` otwiera raport od razu w przeglądarce |
+| `title`, `subtitle`, `author` | opisy strony tytułowej |
+| `sample_percent` | odsetek wierszy użytych w raporcie, przydatny przy bardzo dużych zbiorach |
+
+**Sprawdź i zmień.** Wygeneruj także `diagnose_web_report()` dla danych surowych i porównaj sekcję ostrzeżeń z wynikami ćwiczenia 4.1. Sprawdź rozmiar plików funkcją `file.size()`: dlaczego raporty HTML są tak duże i dlaczego nie dołączasz ich do zadania w Teams?
+
+::: {.criteria}
+**Kryteria sukcesu:** plik `wyniki/eda.html` powstaje i otwiera się w przeglądarce; szablon zawiera kod generowania w bloku z `eval=FALSE` i listę sekcji raportu.
+:::
+
+## Challenge — zadania samodzielne
+
+### Zadanie 4.6. Audyt raportu EDA
+
+::: {.brief}
+**Cel:** Ocenisz, co raport automatyczny potwierdza, a czego nie wyjaśnia.
+
+**Polecenie:** Wybierz z raportu `wyniki/eda.html` dwie liczby lub obserwacje i sprawdź każdą niezależnym kodem R (np. `mean()`, `table()`, `cor()`). Wskaż jedną rzecz, której raport nie wyjaśnia, i jedną decyzję, której nie może podjąć za analityka.
+:::
+
+W szablonie dla każdej sprawdzanej liczby podaj: sekcję raportu, wartość z raportu, kod kontrolny i jego wynik. Przykładem rzeczy, której raport nie wyjaśnia, jest pochodzenie wartości odstających albo przyczyna różnic między grupami. Nie dołączaj pliku HTML do zadania.
+
+::: {.criteria}
+**Kryteria sukcesu:** dwie liczby z raportu są zgodne z Twoimi obliczeniami, a kod kontrolny działa w PDF; komentarz trafnie wskazuje ograniczenie raportu i decyzję należącą do analityka.
+:::
+
+### Zadanie 4.7. Porównanie trzech kanałów
+
+::: {.brief}
+**Cel:** Samodzielnie przeprowadzisz porównanie więcej niż dwóch grup i odczytasz porównania parami.
+
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu według kanału w wariancie nieparametrycznym z porównaniami parami (`pairwise.display = "significant"`, `p.adjust.method = "holm"`). Sprawdź mediany i liczności w `group_by()` i `summarise()`, a następnie opisz, które pary kanałów się różnią.
+:::
+
+Pobierz tabelę porównań parami funkcją `ggstatsplot::extract_stats(wykres)$pairwise_comparisons_data`. Wyjaśnij, po co stosuje się poprawkę Holma przy trzech porównaniach i dlaczego różnica między kanałami nie musi wynikać z samego kanału.
+
+::: {.criteria}
+**Kryteria sukcesu:** test Kruskala–Wallisa wskazuje różnicę między kanałami (p < 0,001); istotne są porównania Telefonu z pozostałymi kanałami, a Online i Na miejscu nie różnią się (p ≈ 0,71); mediany z własnego zestawienia (32, 43 i 29 minut) zgadzają się z wykresem.
+:::
+
+### Zadanie 4.8. Zależności między zmiennymi
+
+::: {.brief}
+**Cel:** Zbadasz zależności liczbowe i kategorialne narzędziami automatycznymi i ocenisz siłę dowodu.
+
+**Polecenie:** Narysuj macierz korelacji czasu, oceny i kosztu (`ggcorrmat()`), wykres punktowy czasu i oceny z testem Spearmana (`ggscatterstats()`) oraz wykres rozwiązania sprawy w kanałach (`ggbarstats()`). Dla każdego wykresu zapisz jedną liczbę i jedno zdanie interpretacji.
+:::
+
+| Funkcja | Najważniejsze argumenty |
+|:----------------------------|:----------------------------------------------------|
+| `ggcorrmat(data, cor.vars, type)` | `cor.vars = c(czas_min, ocena, koszt)`; `type = "parametric"` lub `"nonparametric"` |
+| `ggscatterstats(data, x, y, type, marginal)` | `marginal = FALSE` wyłącza histogramy brzegowe |
+| `ggbarstats(data, x, y)` | `x` — zmienna wynikowa, np. `rozwiazano`; `y` — grupy, np. `kanal` |
+
+W wykresie `ggbarstats()` porównaj wynik testu z różnicami odsetków z ćwiczenia 3.4. Wyjaśnij, dlaczego różnica 77,9% wobec 87,3% może być zgodna z brakiem istotnej zależności.
+
+::: {.criteria}
+**Kryteria sukcesu:** korelacja Spearmana czasu i oceny wynosi około −0,51 (n = 235); test chi-kwadrat dla kanału i rozwiązania sprawy nie wskazuje istotnej zależności (p ≈ 0,25; skorygowane V Craméra ≈ 0,06); interpretacja odróżnia siłę związku od jego istotności i nie przypisuje przyczyn.
+:::
+
+## Oddanie
+
+::: {.handin}
+Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_04.pdf` do zadania „Spotkanie 4” w MS Teams. Raportów HTML z folderu `wyniki/` nie dołączaj.
+:::
+
+::: {.reading}
+**Lektura:** R for Data Science — [Exploratory Data Analysis](https://r4ds.had.co.nz/exploratory-data-analysis.html). Dokumentacja pakietów: [dlookr](https://choonghyunryu.github.io/dlookr/), [explore](https://rolkra.github.io/explore/), [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/).
+:::

@@ -11,9 +11,9 @@
 
 
 
-<title>Spotkanie organizacyjne: R i asystent Copilot</title>
+<title>Spotkanie organizacyjne: projekt R, R Markdown i asystent Copilot</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -382,247 +382,1103 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie organizacyjne: R i asystent
-Copilot</h1>
+<h1 class="title toc-ignore">Spotkanie organizacyjne: projekt R, R
+Markdown i asystent Copilot</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie organizacyjne · 90 minut
+Spotkanie organizacyjne · 90 minut · treść programowa 1
 </h2>
 <p>
-Poznasz zasady kursu, utworzysz projekt R i pierwszy dokument R
-Markdown, a następnie skonfigurujesz asystenta w Microsoft Copilot Chat.
+Poznasz zasady kursu, przygotujesz projekt R i pierwszy dokument PDF,
+nauczysz się podstawowych typów i struktur danych R, a na koniec
+skonfigurujesz własnego agenta w Microsoft 365 Copilot.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min sylabus, 25 min projekt i
-konsola, 20 min typy i pliki, 25 min asystent Copilot, 10 min test.
+<strong>Plan 90 minut:</strong> 10 min sylabus i zasady · 15 min
+ćwiczenie 0.1 · 10 min ćwiczenie 0.2 · 15 min ćwiczenie 0.3 · 10 min
+ćwiczenie 0.4 · 5 min ćwiczenie 0.5 · 20 min zadanie 0.6 · 5 min zadanie
+0.7. Zadanie 0.8 dokończ po zajęciach.
 </div>
-<p>Przed spotkaniem zainstaluj R oraz RStudio Desktop albo Positron. W
-RStudio wybierz <strong>File → New Project → New Directory → New
-Project</strong>; w Positronie utwórz folder kursu i otwórz go przez
-<strong>File → Open Folder</strong>. Pobierz <a
-href="materialy/szablon-00.Rmd">szablon organizacyjny</a> do tego
-folderu. Na dalszych spotkaniach będziesz pobierać tylko plik
-<code>.Rmd</code> przypisany do danego zadania.</p>
-<div id="learn-z-prowadzącym" class="section level2">
-<h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-o1.-sylabus-i-sposób-pracy" class="section level3">
-<h3>Ćwiczenie O1. Sylabus i sposób pracy</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Rozpoznasz efekty uczenia się, warunki zaliczenia i sposób przekazywania
-plików.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Otwórz sylabus i znajdź siedem treści programowych, warunek obecności
-oraz formę projektu zaliczeniowego.
-</p>
-</div>
+<div id="sylabus-i-zasady-kursu" class="section level2">
+<h2>Sylabus i zasady kursu</h2>
+<p>Kurs realizuje kartę przedmiotu UJ.WZZINS.24.17358.26. Najważniejsze
+zasady zebrano w tabeli; pełną treść, efekty uczenia się i literaturę
+znajdziesz w sylabusie.</p>
 <p><a class="btn-course" href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">Otwórz
 sylabus PDF</a></p>
-<p>Zajęcia obejmują <strong>15 godzin lekcyjnych: 7 spotkań po 90 minut
-oraz 45 minut konsultacji</strong>. Sylabus dopuszcza jedną nieobecność
-i wymaga pozytywnej oceny projektu grupowego. Każde spotkanie robocze
-kończy się plikiem <code>.Rmd</code> przekazywanym w zadaniu MS Teams;
-projekt grupowy ma osobne zadanie i <a
-href="ocenianie.html">rubrykę</a>. Termin projektu zostanie ogłoszony w
-Teams po komunikacie rektora o harmonogramie sesji.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Umiesz wskazać liczbę godzin, dopuszczalną nieobecność, sześć zadań
-roboczych i projekt grupowy.
-</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="82%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Element</th>
+<th align="left">Zasada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Wymiar zajęć</td>
+<td align="left">15 godzin lekcyjnych: spotkanie organizacyjne i sześć
+spotkań roboczych po 90 minut oraz 45 minut konsultacji projektu.</td>
+</tr>
+<tr class="even">
+<td align="left">Obecność</td>
+<td align="left">Aktywne uczestnictwo; dopuszczalna jest jedna
+nieobecność. Przy większej liczbie usprawiedliwionych nieobecności ustal
+z prowadzącym alternatywną formę osiągnięcia efektów.</td>
+</tr>
+<tr class="odd">
+<td align="left">Prace po spotkaniach</td>
+<td align="left">Po każdym spotkaniu przesyłasz jeden plik PDF
+wyrenderowany z szablonu <code>.Rmd</code> do zadania w MS Teams. Prace
+służą informacji zwrotnej i przygotowaniu do projektu.</td>
+</tr>
+<tr class="even">
+<td align="left">Zaliczenie</td>
+<td align="left">Pozytywna ocena grupowego projektu (2–4 osoby). Zespół
+oddaje PDF oraz plik źródłowy <code>.Rmd</code>; kryteria opisuje <a
+href="ocenianie.html">rubryka</a>.</td>
+</tr>
+<tr class="odd">
+<td align="left">Terminy</td>
+<td align="left">Termin każdej pracy widać w zadaniu MS Teams. Termin
+projektu zostanie podany po ogłoszeniu harmonogramu sesji.</td>
+</tr>
+<tr class="even">
+<td align="left">Narzędzia SI</td>
+<td align="left">Obowiązuje Zarządzenie nr 115 Rektora UJ z 27 listopada
+2025 roku. Każde użycie SI opisujesz, a wynik sprawdzasz w R.</td>
+</tr>
+<tr class="odd">
+<td align="left">Lektura</td>
+<td align="left">H. Wickham, G. Grolemund, <a
+href="https://r4ds.had.co.nz/">R for Data Science</a> oraz P. Teetor,
+<em>R Cookbook</em>. Na końcu każdej strony znajdziesz rozdziały
+odpowiadające spotkaniu.</td>
+</tr>
+</tbody>
+</table>
 </div>
-</div>
-<div id="ćwiczenie-o2.-projekt-konsola-i-pierwszy-dokument"
-class="section level3">
-<h3>Ćwiczenie O2. Projekt, konsola i pierwszy dokument</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Ustawisz folder roboczy i rozpoznasz podstawowe typy oraz struktury R.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Uruchom R w projekcie, otwórz szablon, wykonaj blok startowy i sprawdź
-obiekty oraz pliki.
-</p>
-</div>
+<div id="kazde-spotkanie" class="section level2">
+<h2>Jak wygląda każde spotkanie</h2>
+<p>Komputery w pracowni mają zainstalowane na stałe R, RStudio,
+Positron, pakiety kursu i TinyTeX, ale po wyłączeniu usuwają pliki
+użytkownika. Dlatego każde spotkanie zaczyna się tak samo i nie zależy
+od plików z poprzednich zajęć: skrypt startowy za każdym razem odtwarza
+identyczne dane.</p>
+<div class="start">
 <ol style="list-style-type: decimal">
-<li>W konsoli wykonaj <code>getwd()</code> i <code>list.files()</code>.
-Pierwsze polecenie powinno wskazywać folder projektu, a drugie pokazać
-<code>szablon-00.Rmd</code>.</li>
-<li>Uruchom pierwszy blok szablonu. <code>source()</code> pobierze <a
-href="materialy/init-v1.R">skrypt startowy</a>; skrypt instaluje
-brakujące pakiety, ładuje je i tworzy fikcyjne dane
-<code>zgloszenia</code> oraz folder <code>dane/</code>. Pierwsze
-uruchomienie wymaga internetu.</li>
-<li>Wykonaj przykłady poniżej w konsoli, a użyteczne polecenia zapisz
-również w szablonie.</li>
+<li>Utwórz projekt <code>jezykr</code> (ćwiczenie 0.1). W domu możesz
+używać jednego projektu przez cały semestr.</li>
+<li>W konsoli uruchom skrypt startowy i pobierz szablon spotkania; w
+nazwie pliku wpisz swoje nazwisko, imię i numer spotkania.</li>
+<li>Pracuj w szablonie: pod każdym poleceniem jest blok kodu z
+komentarzem <code># Twój kod</code> — tam wpisuj lub kopiuj przykłady ze
+strony — oraz pole <strong>Wynik i interpretacja</strong> na Twój
+opis.</li>
+<li>Na koniec wyrenderuj PDF (<strong>Knit</strong>), prześlij go do
+zadania w MS Teams, a plik <code>.Rmd</code> zapisz w OneDrive, jeżeli
+chcesz go dokończyć w domu.</li>
 </ol>
-<pre class="r"><code>liczby &lt;- c(12, 18, NA, 30)                   # wektor liczbowy
-macierz &lt;- matrix(1:6, nrow = 2)              # macierz
-opis &lt;- list(liczba = 240, gotowe = TRUE)     # lista
-proba &lt;- data.frame(id = c(&quot;Z1&quot;, &quot;Z2&quot;),
-                    kanal = c(&quot;Online&quot;, &quot;Telefon&quot;)) # ramka danych
-typeof(liczby)
+</div>
+<pre class="r bez-uruchamiania"><code>source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
+pobierz_szablon(0, &quot;kowalska_anna_00.Rmd&quot;)</code></pre>
+<p>Pierwsza linia pobiera i wykonuje <a
+href="materialy/init-v2.R">skrypt startowy</a>: ładuje pakiety (a na
+własnym komputerze doinstalowuje brakujące), tworzy foldery
+<code>dane/</code> i <code>wyniki/</code>, zapisuje trzy pliki z
+fikcyjnymi danymi i tworzy w pamięci obiekty <code>zgloszenia</code>
+oraz <code>zgloszenia_analiza</code>. Druga linia pobiera szablon
+spotkania pod wskazaną nazwą i otwiera go w edytorze; istniejącego pliku
+nie nadpisze. Szablon zawiera ten sam skrypt w bloku <code>start</code>,
+więc renderowanie zawsze zaczyna się od świeżych danych.</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="61%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Plik</th>
+<th align="left">Zawartość</th>
+<th align="left">Oddajesz?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>.Rmd</code></td>
+<td align="left">tekst, kod i nagłówek YAML — źródło raportu</td>
+<td align="left">tylko w projekcie grupowym</td>
+</tr>
+<tr class="even">
+<td align="left"><code>.pdf</code></td>
+<td align="left">wyrenderowany raport z kodem i wynikami</td>
+<td align="left">tak, po każdym spotkaniu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>.R</code></td>
+<td align="left">sam kod, np. skrypt startowy</td>
+<td align="left">nie</td>
+</tr>
+<tr class="even">
+<td align="left"><code>.csv</code>, <code>.xlsx</code></td>
+<td align="left">dane w folderze <code>dane/</code>, odtwarzane przez
+skrypt</td>
+<td align="left">nie</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>.html</code></td>
+<td align="left">wynik renderowania zapasowego lub raport
+automatyczny</td>
+<td align="left">nie</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="learn-ćwiczenia-z-prowadzącym" class="section level2">
+<h2>Learn — ćwiczenia z prowadzącym</h2>
+<div id="ćwiczenie-0.1.-projekt-rstudio-i-porządek-w-folderze"
+class="section level3">
+<h3>Ćwiczenie 0.1. Projekt RStudio i porządek w folderze</h3>
+<div class="brief" szablon="tekst">
+<p><strong>Cel:</strong> Utworzysz projekt, w którym R zawsze startuje
+we właściwym folderze, a wszystkie ścieżki do plików są względne.</p>
+<p><strong>Polecenie:</strong> Utwórz projekt <code>jezykr</code>,
+rozpoznaj panele IDE, sprawdź folder roboczy i przygotuj podfoldery
+<code>dane/</code> oraz <code>wyniki/</code>. Zapisz w szablonie, jaką
+ścieżkę zwróciło <code>getwd()</code> i co oznacza ścieżka względna.</p>
+</div>
+<p>Projekt RStudio to folder z plikiem <code>.Rproj</code>. Po jego
+otwarciu folderem roboczym R staje się folder projektu, więc w kodzie
+wystarczą ścieżki względne, np. <code>"dane/zgloszenia.csv"</code>.
+Ścieżka bezwzględna, np. <code>"C:/Users/Anna/Pulpit/dane.csv"</code>,
+działa tylko na jednym komputerze; dlatego w raportach nie używaj
+<code>setwd()</code>. W Positronie tę samą rolę pełni folder otwarty
+poleceniem <strong>File → Open Folder</strong>.</p>
+<ol style="list-style-type: decimal">
+<li>W RStudio wybierz <strong>File → New Project → New Directory → New
+Project</strong>. Nazwa katalogu: <code>jezykr</code>; w pracowni utwórz
+go na Pulpicie, w domu w folderze OneDrive. Kliknij <strong>Create
+Project</strong>. W Positronie utwórz folder <code>jezykr</code> i
+otwórz go przez <strong>File → Open Folder</strong>.</li>
+<li>Rozpoznaj panele według tabeli poniżej.</li>
+<li>Na własnym komputerze wybierz <strong>Tools → Global Options →
+General</strong>, odznacz <strong>Restore .RData into workspace at
+startup</strong> i ustaw <strong>Save workspace to .RData on
+exit</strong> na <strong>Never</strong>. Każda sesja zaczyna się wtedy
+od pustej pamięci, a wynik zależy wyłącznie od kodu.</li>
+<li>Wykonaj w konsoli polecenia z ramki.</li>
+</ol>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="22%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Panel RStudio</th>
+<th align="left">Panel Positronu</th>
+<th align="left">Do czego służy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Source</td>
+<td align="left">Editor</td>
+<td align="left">Pliki <code>.R</code> i <code>.Rmd</code>. Tu
+zapisujesz kod, który ma przetrwać sesję.</td>
+</tr>
+<tr class="even">
+<td align="left">Console</td>
+<td align="left">Console</td>
+<td align="left">Wykonywanie poleceń. Historia konsoli nie jest
+raportem.</td>
+</tr>
+<tr class="odd">
+<td align="left">Environment</td>
+<td align="left">Variables</td>
+<td align="left">Obiekty w pamięci bieżącej sesji.</td>
+</tr>
+<tr class="even">
+<td align="left">Files, Plots, Help, Viewer</td>
+<td align="left">Explorer, Plots, Help, Viewer</td>
+<td align="left">Pliki projektu, wykresy, dokumentacja i podgląd
+HTML.</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>getwd()                                  # folder roboczy = folder projektu
+list.files()                             # pliki i foldery w folderze roboczym
+dir.create(&quot;dane&quot;, showWarnings = FALSE)
+dir.create(&quot;wyniki&quot;, showWarnings = FALSE)
+file.exists(c(&quot;dane&quot;, &quot;wyniki&quot;))
+file.path(&quot;dane&quot;, &quot;zgloszenia.csv&quot;)      # ścieżka złożona z części
+list.files(pattern = &quot;\\.Rproj$&quot;)        # tylko pliki kończące się na .Rproj</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="59%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Najważniejsze argumenty</th>
+<th align="left">Wynik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>getwd()</code></td>
+<td align="left">brak</td>
+<td align="left">ścieżka folderu roboczego jako tekst</td>
+</tr>
+<tr class="even">
+<td align="left"><code>list.files()</code></td>
+<td align="left"><code>path</code> — folder (domyślnie <code>"."</code>,
+czyli bieżący); <code>pattern</code> — wzorzec nazwy;
+<code>recursive = TRUE</code> — także podfoldery;
+<code>full.names = TRUE</code> — pełne ścieżki</td>
+<td align="left">wektor nazw plików</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dir.create()</code></td>
+<td align="left"><code>path</code> — nazwa folderu;
+<code>showWarnings = FALSE</code> — bez ostrzeżenia, gdy folder już
+istnieje; <code>recursive = TRUE</code> — także foldery pośrednie</td>
+<td align="left"><code>TRUE</code> albo <code>FALSE</code>
+(niewidocznie)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>file.exists()</code></td>
+<td align="left">jedna lub wiele ścieżek</td>
+<td align="left">wektor <code>TRUE</code>/<code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>file.path()</code></td>
+<td align="left">kolejne części ścieżki</td>
+<td align="left">ścieżka połączona znakiem <code>/</code>, poprawna w
+każdym systemie</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Uruchom
+<code>list.files(recursive = TRUE)</code> i porównaj wynik z panelem
+Files. W wzorcu <code>"\\.Rproj$"</code> znak <code>$</code> oznacza
+koniec nazwy, a <code>\\.</code> dosłowną kropkę; sprawdź, co zwróci
+<code>list.files(pattern = "Rproj")</code>. Wyjaśnij, dlaczego polecenie
+<code>setwd("C:/Users/Anna/Pulpit")</code> zapisane w raporcie nie
+zadziała na komputerze prowadzącego.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> <code>getwd()</code> wskazuje
+folder <code>jezykr</code>, w projekcie istnieją foldery
+<code>dane/</code> i <code>wyniki/</code>, a Ty potrafisz wyjaśnić
+różnicę między ścieżką względną i bezwzględną.</p>
+</div>
+</div>
+<div id="ćwiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf"
+class="section level3">
+<h3>Ćwiczenie 0.2. Szablon R Markdown, blok startowy i pierwszy PDF</h3>
+<div class="brief" szablon="tekst">
+<p><strong>Cel:</strong> Poznasz budowę dokumentu R Markdown i
+wyrenderujesz pierwszy PDF.</p>
+<p><strong>Polecenie:</strong> Pobierz szablon spotkania, uzupełnij w
+nagłówku YAML swoje imię i nazwisko, uruchom blok <code>start</code> i
+wyrenderuj dokument do PDF. Zapisz, ile trwało pierwsze renderowanie i
+czy pojawił się komunikat, który wymagał reakcji.</p>
+</div>
+<p>Dokument <code>.Rmd</code> składa się z trzech warstw: nagłówka YAML
+między liniami <code>---</code> (metadane i format wyniku), tekstu w
+Markdown oraz bloków kodu R. Renderowanie (<strong>Knit</strong>)
+uruchamia cały kod od początku w nowej sesji i składa tekst z wynikami w
+jeden plik. PDF powstaje więc tylko wtedy, gdy każdy blok działa; to
+najprostsza kontrola odtwarzalności raportu.</p>
+<pre class="yaml"><code>---
+title: &quot;Spotkanie organizacyjne&quot;
+subtitle: &quot;Praca studenta&quot;
+author: &quot;Anna Kowalska&quot;
+lang: pl
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+  html_document:
+    toc: true
+---</code></pre>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="78%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Pole YAML</th>
+<th align="left">Znaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>title</code>, <code>subtitle</code>,
+<code>author</code></td>
+<td align="left">tytuł, podtytuł i autor na pierwszej stronie</td>
+</tr>
+<tr class="even">
+<td align="left"><code>lang: pl</code></td>
+<td align="left">język dokumentu: polskie dzielenie wyrazów i nazwy, np.
+„Spis treści”</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>output</code></td>
+<td align="left">formaty wyniku; pierwszy z listy tworzy przycisk
+<strong>Knit</strong>, pozostałe są w menu obok niego</td>
+</tr>
+<tr class="even">
+<td align="left"><code>latex_engine: xelatex</code></td>
+<td align="left">silnik PDF obsługujący polskie znaki i symbole
+Unicode</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>toc: true</code></td>
+<td align="left">spis treści z nagłówków <code>##</code></td>
+</tr>
+</tbody>
+</table>
+<p>Blok kodu zaczyna się linią z nazwą i opcjami, a kończy trzema
+znakami <code>`</code>. Opcje decydują, co z bloku trafi do raportu.</p>
+<pre class="markdown"><code>```{r podsumowanie, echo=TRUE, message=FALSE}
+mean(c(12, 18, 30))
+```</code></pre>
+<table>
+<colgroup>
+<col width="22%" />
+<col width="12%" />
+<col width="65%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Opcja bloku</th>
+<th align="left">Domyślnie</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>echo</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left">pokazuje kod w raporcie; <code>echo=FALSE</code>
+zostawia tylko wynik</td>
+</tr>
+<tr class="even">
+<td align="left"><code>eval</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left">uruchamia kod; <code>eval=FALSE</code> tylko go
+pokazuje</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>include</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left"><code>include=FALSE</code> uruchamia kod, ale ukrywa
+kod i wynik (tak działa blok <code>start</code>)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>message</code>, <code>warning</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left">pokazują komunikaty i ostrzeżenia</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>error</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left"><code>error=TRUE</code> pokazuje błąd i pozwala
+dokończyć renderowanie</td>
+</tr>
+<tr class="even">
+<td align="left"><code>fig.width</code>, <code>fig.height</code>,
+<code>fig.cap</code></td>
+<td align="left">6,5 × 4,5 cala</td>
+<td align="left">rozmiar i podpis wykresu</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="28%" />
+<col width="46%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Czynność</th>
+<th align="left">RStudio (Windows / macOS)</th>
+<th align="left">Positron</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Uruchom linię lub zaznaczenie</td>
+<td align="left">Ctrl+Enter / Cmd+Enter</td>
+<td align="left">Ctrl+Enter / Cmd+Enter</td>
+</tr>
+<tr class="even">
+<td align="left">Uruchom cały blok</td>
+<td align="left">Ctrl+Shift+Enter / Cmd+Shift+Enter</td>
+<td align="left">przycisk <strong>Run Cell</strong> nad blokiem</td>
+</tr>
+<tr class="odd">
+<td align="left">Wstaw nowy blok R</td>
+<td align="left">Ctrl+Alt+I / Cmd+Option+I</td>
+<td align="left">wpisz linie bloku ręcznie</td>
+</tr>
+<tr class="even">
+<td align="left">Renderuj dokument</td>
+<td align="left">Ctrl+Shift+K / Cmd+Shift+K (<strong>Knit</strong>)</td>
+<td align="left"><strong>R: Render Document With R Markdown</strong>
+albo <code>rmarkdown::render("plik.Rmd")</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Operator przypisania <code>&lt;-</code></td>
+<td align="left">Alt+- / Option+-</td>
+<td align="left">Alt+- / Option+-</td>
+</tr>
+</tbody>
+</table>
+<p>W pracowni TinyTeX jest zainstalowany. Na własnym komputerze
+zainstaluj go jeden raz; <code>rmarkdown</code> użyje go automatycznie,
+a brakujące pakiety LaTeX doinstaluje przy pierwszym renderowaniu.</p>
+<pre class="r bez-uruchamiania"><code>install.packages(&quot;tinytex&quot;)
+tinytex::install_tinytex()     # jednorazowo, kilka minut
+tinytex::is_tinytex()          # TRUE oznacza gotową instalację</code></pre>
+<p>Jeżeli PDF nie powstaje, a do końca zajęć zostało mało czasu, wybierz
+z menu obok <strong>Knit</strong> polecenie <strong>Knit to
+HTML</strong>, otwórz wynik w przeglądarce i zapisz go jako PDF
+poleceniem <strong>Drukuj → Zapisz jako PDF</strong>. Komunikat błędu
+skopiuj do szablonu i pokaż prowadzącemu.</p>
+<p><strong>Sprawdź i zmień.</strong> Dodaj własny blok z
+<code>mean(c(12, 18, 30))</code> i wyrenderuj dokument dwa razy: z
+<code>echo=TRUE</code> i z <code>echo=FALSE</code>. Zamień w YAML
+kolejność formatów i sprawdź, jaki plik tworzy teraz
+<strong>Knit</strong>, a potem przywróć PDF na pierwsze miejsce.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> plik
+<code>nazwisko_imie_00.pdf</code> powstaje, ma Twoje imię i nazwisko
+oraz spis treści, a blok <code>start</code> nie wypisuje komunikatów w
+raporcie. Umiesz wyjaśnić, dlaczego renderowanie jest kontrolą
+odtwarzalności.</p>
+</div>
+</div>
+<div id="ćwiczenie-0.3.-konsola-obiekty-i-wektory"
+class="section level3">
+<h3>Ćwiczenie 0.3. Konsola, obiekty i wektory</h3>
+<div class="brief" szablon="error=TRUE">
+<p><strong>Cel:</strong> Rozpoznasz podstawowe typy danych R i nauczysz
+się wykonywać obliczenia na całych wektorach.</p>
+<p><strong>Polecenie:</strong> Utwórz trzy wektory różnych typów,
+sprawdź ich typ i długość, wybierz elementy pozycją oraz warunkiem i
+policz średnią z pominięciem braku.</p>
+</div>
+<p>Wszystko, co R przechowuje, jest obiektem; nazwę nadajesz operatorem
+przypisania <code>&lt;-</code>. Najprostszym obiektem jest wektor —
+uporządkowany ciąg wartości jednego typu. Nawet pojedyncza liczba jest
+wektorem o długości 1. Działania i porównania wykonują się na wszystkich
+elementach naraz; tę cechę nazywamy wektoryzacją.</p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="66%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Typ (<code>typeof()</code>)</th>
+<th align="left">Przykład</th>
+<th align="left">Uwagi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>double</code></td>
+<td align="left"><code>12.5</code>, <code>3</code></td>
+<td align="left">liczby rzeczywiste; domyślny typ liczb, separator
+dziesiętny to kropka</td>
+</tr>
+<tr class="even">
+<td align="left"><code>integer</code></td>
+<td align="left"><code>3L</code>, <code>1:5</code></td>
+<td align="left">liczby całkowite; przyrostek <code>L</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>character</code></td>
+<td align="left"><code>"Katalog"</code></td>
+<td align="left">tekst zawsze w cudzysłowie</td>
+</tr>
+<tr class="even">
+<td align="left"><code>logical</code></td>
+<td align="left"><code>TRUE</code>, <code>FALSE</code></td>
+<td align="left">wynik porównań; <code>sum()</code> liczy wartości
+<code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td align="left">wartości specjalne</td>
+<td align="left"><code>NA</code>, <code>NaN</code>, <code>Inf</code>,
+<code>NULL</code></td>
+<td align="left">brak danych, wynik nieokreślony (<code>0/0</code>),
+nieskończoność (<code>1/0</code>), brak obiektu</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>czasy &lt;- c(12, 18, NA, 30, 45)                 # czas obsługi w minutach
+kanaly &lt;- c(&quot;Online&quot;, &quot;Telefon&quot;, &quot;Online&quot;, &quot;Na miejscu&quot;, &quot;Online&quot;)
+pilne &lt;- c(TRUE, FALSE, FALSE, TRUE, FALSE)
+typeof(czasy)
+typeof(kanaly)
+typeof(pilne)
+length(czasy)
+czasy * 60                                     # sekundy, dla każdego elementu
+czasy &gt; 20                                     # porównanie daje wektor logiczny
+mean(czasy)                                    # brak „zaraża” wynik
+mean(czasy, na.rm = TRUE)                      # średnia z 4 dostępnych wartości
+sum(pilne)                                     # liczba wartości TRUE
+czasy[2]                                       # drugi element
+czasy[c(1, 4)]                                 # wybrane pozycje
+czasy[-1]                                      # wszystko oprócz pierwszego
+czasy[czasy &gt; 20 &amp; !is.na(czasy)]              # wybór warunkiem
+seq(from = 0, to = 60, by = 15)
+rep(c(&quot;A&quot;, &quot;B&quot;), times = 3)
+rep(c(&quot;A&quot;, &quot;B&quot;), each = 3)
+round(mean(czasy, na.rm = TRUE), digits = 1)</code></pre>
+<p>Typ wektora jest wspólny dla wszystkich elementów. Gdy łączysz różne
+typy, R zamienia je na typ ogólniejszy (logiczny → liczbowy → tekstowy).
+Zamiana tekstu na liczbę nie rozpoznaje polskiego przecinka
+dziesiętnego, a liczby zmiennoprzecinkowe porównuj z tolerancją.</p>
+<pre class="r"><code>c(1, &quot;dwa&quot;, TRUE)                  # wszystko staje się tekstem
+as.numeric(&quot;12.5&quot;)
+as.numeric(&quot;12,5&quot;)                 # przecinek: NA i ostrzeżenie
+as.integer(3.9)                    # obcina część ułamkową
+0.1 + 0.2 == 0.3                   # FALSE: zapis binarny liczb
+isTRUE(all.equal(0.1 + 0.2, 0.3))  # porównanie z tolerancją</code></pre>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="57%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>c()</code></td>
+<td align="left">kolejne wartości</td>
+<td align="left">łączy wartości w wektor</td>
+</tr>
+<tr class="even">
+<td align="left"><code>seq()</code></td>
+<td align="left"><code>from</code>, <code>to</code>, <code>by</code> —
+krok albo <code>length.out</code> — liczba elementów</td>
+<td align="left">ciąg liczb</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>rep()</code></td>
+<td align="left"><code>x</code>, <code>times</code> — powtórzenia
+całości, <code>each</code> — powtórzenia każdego elementu</td>
+<td align="left">powtarza wartości</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mean()</code></td>
+<td align="left"><code>x</code>; <code>na.rm = FALSE</code> — czy
+pominąć braki; <code>trim = 0</code> — odsetek wartości odcinanych z
+każdej strony</td>
+<td align="left">średnia</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>round()</code></td>
+<td align="left"><code>x</code>; <code>digits = 0</code> — liczba miejsc
+po przecinku</td>
+<td align="left">zaokrąglenie</td>
+</tr>
+<tr class="even">
+<td align="left"><code>is.na()</code></td>
+<td align="left"><code>x</code></td>
+<td align="left"><code>TRUE</code> dla każdego braku</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>typeof()</code>, <code>class()</code>,
+<code>length()</code></td>
+<td align="left">obiekt</td>
+<td align="left">typ zapisu, klasa i liczba elementów</td>
+</tr>
+</tbody>
+</table>
+<p>Nazwy obiektów zaczynaj literą, pisz bez spacji i polskich znaków,
+najlepiej w stylu <code>czas_obslugi</code>. Wielkość liter ma
+znaczenie: <code>Czasy</code> i <code>czasy</code> to dwa różne
+obiekty.</p>
+<p><strong>Sprawdź i zmień.</strong> Dlaczego poniższy kod zwraca błąd?
+Przeczytaj komunikat i popraw drugą linię. Blok tego ćwiczenia w
+szablonie ma opcję <code>error=TRUE</code>, więc komunikat błędu pojawi
+się w PDF, a renderowanie przejdzie do kolejnych bloków.</p>
+<pre class="r"><code>moja_zmienna &lt;- 10
+moja_zmiena</code></pre>
+<p>Porównaj <code>mean(czasy, na.rm = TRUE)</code> z
+<code>median(czasy, na.rm = TRUE)</code> i
+<code>mean(czasy, trim = 0.25, na.rm = TRUE)</code>. Sprawdź
+<code>seq(0, 1, length.out = 5)</code> i
+<code>sum(czasy &gt; 20, na.rm = TRUE)</code>: co liczy ta ostatnia
+funkcja?</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> podajesz typ trzech wektorów,
+wyjaśniasz, dlaczego <code>mean(czasy)</code> zwraca <code>NA</code>, a
+<code>mean(czasy, na.rm = TRUE)</code> zwraca 26,25, i wybierasz
+elementy wektora pozycją oraz warunkiem.</p>
+</div>
+</div>
+<div id="ćwiczenie-0.4.-czynniki-macierze-listy-i-ramki-danych"
+class="section level3">
+<h3>Ćwiczenie 0.4. Czynniki, macierze, listy i ramki danych</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Rozróżnisz struktury danych R i nauczysz się
+wybierać z nich elementy.</p>
+<p><strong>Polecenie:</strong> Zbuduj czynnik, macierz, listę i ramkę
+danych, obejrzyj je funkcją <code>str()</code> i wybierz z każdej
+wskazane elementy. Na koniec opisz strukturę zbioru
+<code>zgloszenia</code>.</p>
+</div>
+<p><strong>Czynnik</strong> (<code>factor</code>) przechowuje kategorie
+z zamkniętą listą poziomów; kolejność poziomów decyduje o kolejności na
+wykresach i o kategorii odniesienia w modelach. <strong>Macierz</strong>
+ma dwa wymiary i jeden typ danych. <strong>Lista</strong> może zawierać
+elementy dowolnych typów i długości. <strong>Ramka danych</strong> to
+lista kolumn tej samej długości: kolumna jest zmienną, a wiersz
+obserwacją.</p>
+<pre class="r"><code>kanal &lt;- factor(c(&quot;Online&quot;, &quot;Telefon&quot;, &quot;Online&quot;, &quot;Na miejscu&quot;),
+                levels = c(&quot;Online&quot;, &quot;Telefon&quot;, &quot;Na miejscu&quot;))
+levels(kanal)
+table(kanal)
+as.integer(kanal)                              # wewnętrzne kody poziomów
+
+m &lt;- matrix(1:6, nrow = 2, byrow = TRUE,
+            dimnames = list(c(&quot;A&quot;, &quot;B&quot;), c(&quot;sty&quot;, &quot;lut&quot;, &quot;mar&quot;)))
+m
+dim(m)
+m[&quot;B&quot;, &quot;lut&quot;]                                  # [wiersz, kolumna]
+m[, &quot;mar&quot;]                                     # cała kolumna
+rowSums(m)
+
+opis &lt;- list(nazwa = &quot;Zgłoszenia&quot;, liczba = 240, kanaly = levels(kanal))
+str(opis)
+opis$liczba
+opis[[&quot;kanaly&quot;]][2]
+opis[&quot;liczba&quot;]                                 # [ ] zwraca listę, [[ ]] element
+
+proba &lt;- data.frame(id = c(&quot;Z1&quot;, &quot;Z2&quot;, &quot;Z3&quot;),
+                    kanal = c(&quot;Online&quot;, &quot;Telefon&quot;, &quot;Online&quot;),
+                    czas = c(12, 45, 30))
 str(proba)
-dim(zgloszenia)</code></pre>
-<ol start="4" style="list-style-type: decimal">
-<li>Sprawdź <code>ls()</code>, <code>names(zgloszenia)</code>,
-<code>head(zgloszenia)</code> i <code>?mean</code>. Usuń tylko próbny
-obiekt <code>liczby</code> przez <code>rm(liczby)</code>. Polecenie
-<code>rm(list = ls())</code> usuwa wszystkie obiekty z sesji; stosuj je
-tylko świadomie w konsoli, nigdy w oddawanym raporcie.</li>
-<li>Porównaj <code>install.packages("dplyr")</code> (instalacja na
-komputerze) z <code>library(dplyr)</code> (załadowanie w sesji). Skrypt
-startowy wykonuje oba kroki tylko wtedy, gdy trzeba.</li>
-<li>Wyrenderuj szablon przez <strong>Knit</strong> w RStudio albo
-polecenie <strong>R: Render Document With R Markdown</strong> w
-Positronie. W obu IDE możesz użyć
-<code>rmarkdown::render("szablon-00.Rmd")</code>. W Visual Studio Code
-otwórz ten sam folder i wykonaj to polecenie w konsoli R.</li>
-</ol>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Wiesz, czym różnią się wektor, macierz, lista i ramka;
-<code>zgloszenia</code> ma 240 wierszy; szablon tworzy lokalny HTML bez
-ręcznego ustawiania bezwzględnej ścieżki.
-</p>
+proba$czas
+proba[2, ]                                     # drugi wiersz
+proba[proba$czas &gt; 20, c(&quot;id&quot;, &quot;czas&quot;)]        # wiersze warunkiem, kolumny nazwą</code></pre>
+<p>Te same narzędzia działają na zbiorze kursowym. Jeden wiersz
+<code>zgloszenia</code> opisuje jedno zgłoszenie — to jednostka
+obserwacji.</p>
+<pre class="r"><code>dim(zgloszenia)
+str(zgloszenia)
+head(zgloszenia, n = 3)
+summary(zgloszenia$czas_min)
+table(zgloszenia$kanal)</code></pre>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="55%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja lub operator</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>factor()</code></td>
+<td align="left"><code>x</code>; <code>levels</code> — dozwolone poziomy
+i ich kolejność; <code>labels</code> — etykiety;
+<code>ordered = TRUE</code> — skala porządkowa</td>
+<td align="left">czynnik</td>
+</tr>
+<tr class="even">
+<td align="left"><code>matrix()</code></td>
+<td align="left"><code>data</code>; <code>nrow</code>,
+<code>ncol</code>; <code>byrow = FALSE</code> — wypełnianie kolumnami;
+<code>dimnames</code> — lista nazw wierszy i kolumn</td>
+<td align="left">macierz</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>list()</code></td>
+<td align="left">nazwane elementy <code>nazwa = wartość</code></td>
+<td align="left">lista</td>
+</tr>
+<tr class="even">
+<td align="left"><code>data.frame()</code></td>
+<td align="left">kolumny <code>nazwa = wektor</code>;
+<code>stringsAsFactors = FALSE</code></td>
+<td align="left">ramka danych</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>str()</code></td>
+<td align="left">obiekt</td>
+<td align="left">zwięzła struktura: typy, wymiary, pierwsze
+wartości</td>
+</tr>
+<tr class="even">
+<td align="left"><code>head()</code>, <code>tail()</code></td>
+<td align="left"><code>x</code>; <code>n = 6</code> — liczba
+wierszy</td>
+<td align="left">początek lub koniec obiektu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>summary()</code></td>
+<td align="left">obiekt</td>
+<td align="left">podsumowanie zależne od typu: kwartyle, liczności,
+braki</td>
+</tr>
+<tr class="even">
+<td align="left"><code>x[i, j]</code></td>
+<td align="left">wiersze <code>i</code>, kolumny <code>j</code>: numery,
+nazwy albo warunek; puste miejsce oznacza „wszystkie”</td>
+<td align="left">wycinek macierzy lub ramki</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>x[[ ]]</code>, <code>x$nazwa</code></td>
+<td align="left">nazwa albo numer elementu</td>
+<td align="left">pojedynczy element listy lub kolumna ramki</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Usuń argument <code>levels</code> z
+<code>factor()</code> i porównaj <code>levels(kanal)</code>: R ustawi
+poziomy alfabetycznie. Utwórz macierz bez <code>byrow = TRUE</code> i
+porównaj układ liczb. Porównaj <code>class(opis["liczba"])</code> z
+<code>class(opis[["liczba"]])</code>. W
+<code>summary(zgloszenia$czas_min)</code> znajdź dwie wartości, które
+wyglądają na błąd w danych; wrócisz do nich na spotkaniu 1.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> wyjaśniasz różnicę między
+<code>[ ]</code> i <code>[[ ]]</code>, podajesz rozmiar
+<code>zgloszenia</code> (240 wierszy, 10 kolumn) i jednostkę obserwacji,
+a w <code>table(zgloszenia$kanal)</code> widzisz 104 zgłoszenia Online,
+81 telefonicznych i 55 na miejscu.</p>
 </div>
 </div>
-<div id="ćwiczenie-o3.-własny-asystent-w-microsoft-copilot"
+<div id="ćwiczenie-0.5.-pakiety-pomoc-i-czysta-sesja"
 class="section level3">
-<h3>Ćwiczenie O3. Własny asystent w Microsoft Copilot</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Skonfigurujesz chatbota pomagającego uczyć się R i sprawdzać wyniki, bez
-oddawania mu decyzji analitycznych.
-</p>
+<h3>Ćwiczenie 0.5. Pakiety, pomoc i czysta sesja</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Będziesz świadomie instalować i ładować pakiety
+oraz samodzielnie korzystać z dokumentacji R.</p>
+<p><strong>Polecenie:</strong> Sprawdź, czy pakiety kursu są
+zainstalowane i jakie mają wersje, użyj funkcji z pakietu bez jego
+ładowania, otwórz pomoc wybranej funkcji i odczytaj wartości domyślne
+jej argumentów.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Wybierz jeden z czterech frameworków promptu i utwórz asystenta w
-Microsoft Copilot albo rozpocznij czat z tym promptem.
-</p>
+<p>Pakiet to zestaw funkcji, danych i dokumentacji.
+<strong>Instalacja</strong> (<code>install.packages()</code>) kopiuje
+pakiet na komputer i wykonuje się ją raz; w pracowni zrobiono to
+wcześniej. <strong>Załadowanie</strong> (<code>library()</code>)
+udostępnia funkcje w bieżącej sesji i powtarza się je w każdym
+dokumencie. Zapis <code>pakiet::funkcja()</code> wywołuje funkcję bez
+ładowania pakietu i od razu pokazuje, skąd ona pochodzi. Skrypt startowy
+wykonuje oba kroki, ale tylko wtedy, gdy jest to potrzebne.</p>
+<pre class="r bez-uruchamiania"><code>install.packages(&quot;dplyr&quot;)      # instalacja: raz na komputerze
+library(dplyr)                 # załadowanie: w każdej sesji</code></pre>
+<pre class="r"><code>&quot;dplyr&quot; %in% rownames(installed.packages())   # czy pakiet jest zainstalowany?
+packageVersion(&quot;ggplot2&quot;)
+readxl::excel_sheets(&quot;dane/zgloszenia.xlsx&quot;)  # funkcja pakietu bez library()
+args(round)                                   # argumenty i wartości domyślne
+?mean
+help(&quot;read.csv&quot;)
+example(mean)
+vignette(package = &quot;dplyr&quot;)
+ls()                                          # obiekty w pamięci
+rm(proba)                                     # usuwa jeden obiekt
+exists(&quot;proba&quot;)</code></pre>
+<p>Strona pomocy ma zawsze te same części: <strong>Description</strong>
+(co robi funkcja), <strong>Usage</strong> (wywołanie z wartościami
+domyślnymi, np. <code>mean(x, trim = 0, na.rm = FALSE, ...)</code>),
+<strong>Arguments</strong> (znaczenie każdego argumentu),
+<strong>Value</strong> (co zwraca) i <strong>Examples</strong>
+(przykłady do uruchomienia). Zanim zapytasz asystenta, sprawdź
+<strong>Usage</strong> i <strong>Arguments</strong>.</p>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="33%" />
+<col width="42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Polecenie</th>
+<th align="left">Działanie</th>
+<th align="left">Kiedy używać</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>install.packages("pakiet")</code></td>
+<td align="left">pobiera i instaluje pakiet z CRAN</td>
+<td align="left">raz na komputerze</td>
+</tr>
+<tr class="even">
+<td align="left"><code>library(pakiet)</code></td>
+<td align="left">ładuje funkcje pakietu do sesji</td>
+<td align="left">na początku dokumentu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>pakiet::funkcja()</code></td>
+<td align="left">wywołuje funkcję bez ładowania</td>
+<td align="left">pojedyncze użycie, jasne pochodzenie funkcji</td>
+</tr>
+<tr class="even">
+<td align="left"><code>packageVersion("pakiet")</code></td>
+<td align="left">wersja pakietu</td>
+<td align="left">przy zgłaszaniu problemu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>?funkcja</code>,
+<code>help("funkcja")</code></td>
+<td align="left">strona pomocy</td>
+<td align="left">przed użyciem nowej funkcji</td>
+</tr>
+<tr class="even">
+<td align="left"><code>??"fraza"</code></td>
+<td align="left">wyszukiwanie w pomocy wszystkich pakietów</td>
+<td align="left">gdy nie znasz nazwy funkcji</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>args(funkcja)</code>,
+<code>example(funkcja)</code></td>
+<td align="left">argumenty z wartościami domyślnymi; przykłady z
+pomocy</td>
+<td align="left">szybkie przypomnienie</td>
+</tr>
+<tr class="even">
+<td align="left"><code>vignette(package = "pakiet")</code></td>
+<td align="left">dłuższe przewodniki</td>
+<td align="left">poznawanie nowego pakietu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>ls()</code>, <code>rm(obiekt)</code></td>
+<td align="left">lista i usuwanie obiektów</td>
+<td align="left">porządek w sesji</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Session → Restart R</strong>
+(Ctrl+Shift+F10)</td>
+<td align="left">nowa, pusta sesja</td>
+<td align="left">przed renderowaniem i gdy wynik „dziwnie” zależy od
+wcześniejszych poleceń</td>
+</tr>
+</tbody>
+</table>
+<p><code>rm(list = ls())</code> usuwa wszystkie obiekty, ale nie odłącza
+pakietów ani nie przywraca ustawień. Czystą sesję daje wyłącznie restart
+R, dlatego nie umieszczaj <code>rm(list = ls())</code> w raportach.</p>
+<p><strong>Sprawdź i zmień.</strong> Otwórz <a
+href="materialy/init-v2.R">skrypt startowy</a> i znajdź linię z
+<code>set.seed()</code> oraz funkcję, która instaluje brakujące pakiety.
+Wpisz <code>??"missing values"</code> i wskaż jedną funkcję spoza
+pakietu <code>base</code>. W pomocy <code>?round</code> sprawdź, co
+oznacza ujemna wartość <code>digits</code>, i przetestuj
+<code>round(1234.5, digits = -2)</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> wyjaśniasz różnicę między
+<code>install.packages()</code> i <code>library()</code>, odczytujesz z
+pomocy wartości domyślne <code>digits = 0</code> w <code>round()</code>
+oraz <code>na.rm = FALSE</code> w <code>mean()</code> i wiesz, dlaczego
+przed renderowaniem warto zrestartować R.</p>
+</div>
+</div>
+</div>
+<div id="challenge-zadania-samodzielne" class="section level2">
+<h2>Challenge — zadania samodzielne</h2>
+<div id="zadanie-0.6.-własny-agent-w-microsoft-365-copilot"
+class="section level3">
+<h3>Zadanie 0.6. Własny agent w Microsoft 365 Copilot</h3>
+<div class="brief" szablon="tekst">
+<p><strong>Cel:</strong> Skonfigurujesz agenta, który pomaga uczyć się
+R, ale nie podejmuje za Ciebie decyzji analitycznych.</p>
+<p><strong>Polecenie:</strong> Utwórz agenta „Asystent języka R” z
+jednym z czterech promptów, dodaj trzy polecenia startowe i przetestuj
+go jednym pytaniem, którego odpowiedź sprawdzisz w R. W szablonie zapisz
+wybrany framework, uzasadnienie wyboru w jednym zdaniu, polecenia
+startowe i wynik testu.</p>
 </div>
 <ol style="list-style-type: decimal">
-<li>Otwórz <a href="https://www.office.com/">Microsoft 365</a> i zaloguj
-się kontem studenckim UJ (<code>@student.uj.edu.pl</code>).</li>
-<li>Otwórz aplikację Microsoft Copilot. W panelu <strong>Agenci</strong>
-wybierz <strong>Nowy agent</strong>, jeśli ta funkcja jest dostępna na
-Twoim koncie. Instrukcję producenta znajdziesz w <a
+<li>Otwórz <a href="https://m365.cloud.microsoft/">Microsoft 365</a> i
+zaloguj się kontem studenckim UJ (<code>@student.uj.edu.pl</code>).</li>
+<li>Otwórz aplikację Copilot. W panelu bocznym wybierz
+<strong>Agenci</strong> (Agents) → <strong>Utwórz agenta</strong>
+(Create agent). Kreator ma dwie karty: <strong>Opisz</strong> (Describe)
+i <strong>Konfiguruj</strong> (Configure); wybierz
+<strong>Konfiguruj</strong>. Instrukcję producenta znajdziesz w <a
 href="https://support.microsoft.com/pl-PL/Microsoft-365-Copilot/build-your-own-agent-with-microsoft-365-copilot">pomocy
 Microsoft</a>.</li>
-<li>Otwórz <a href="prompty.html">Prompty</a>. Wybierz <strong>jeden z
-czterech</strong>: CO-STAR, RTF, AUTOMAT albo CRISPE. Skopiuj cały blok
-i wklej go jako instrukcję tworzonego agenta. Nadaj nazwę „Asystent
-języka R”.</li>
-<li>Jeżeli przycisk <strong>Nowy agent</strong> nie jest dostępny,
-otwórz <strong>Copilot Chat</strong>, wklej wybrany prompt jako pierwszą
-wiadomość i kontynuuj w tej rozmowie. Możliwość zapisania agenta zależy
-od ustawień i licencji konta UJ.</li>
+<li>Otwórz stronę <a href="prompty.html">Prompty</a> i wybierz
+<strong>jeden z czterech</strong>: CO-STAR, RTF, AUTOMAT albo CRISPE.
+Uzupełnij pola według tabeli.</li>
+<li>W panelu podglądu po prawej zadaj pytanie testowe, np. „Czym różni
+się <code>[ ]</code> od <code>[[ ]]</code> w liście R? Podaj krótki
+przykład, który mogę uruchomić”. Uruchom przykład w konsoli R i sprawdź,
+czy wynik zgadza się z odpowiedzią.</li>
+<li>Kliknij <strong>Utwórz</strong> (Create). Agent zapisze się na Twoim
+koncie; nie udostępniaj go publicznie.</li>
+<li>Jeżeli przycisk <strong>Utwórz agenta</strong> jest niedostępny na
+Twoim koncie, otwórz <strong>Copilot Chat</strong>, wklej wybrany prompt
+jako pierwszą wiadomość i kontynuuj tę rozmowę na kolejnych
+zajęciach.</li>
 </ol>
-<p>Microsoft Copilot w tym spotkaniu korzysta z konta uczelnianego.
-GitHub Copilot CLI na <a href="spotkanie-6.html">spotkaniu 6</a>
-korzysta z <strong>osobnego konta GitHub</strong>.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Masz zapisany agent albo aktywny czat z wybranym promptem i potrafisz
-wskazać framework, którego używasz.
-</p>
+<table>
+<colgroup>
+<col width="32%" />
+<col width="67%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Pole kreatora</th>
+<th align="left">Co wpisać</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Nazwa (Name)</td>
+<td align="left">Asystent języka R</td>
+</tr>
+<tr class="even">
+<td align="left">Opis (Description)</td>
+<td align="left">Pomaga zrozumieć kod R i R Markdown w kursie Język R.
+Nie podaje wyników bez obliczeń w R.</td>
+</tr>
+<tr class="odd">
+<td align="left">Instrukcje (Instructions)</td>
+<td align="left">cały blok wybranego promptu ze strony Prompty</td>
+</tr>
+<tr class="even">
+<td align="left">Wiedza (Knowledge), jeżeli jest dostępna</td>
+<td align="left">adres strony kursu:
+<code>https://marekdejauj.github.io/jezykr/</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Polecenia startowe (Starter prompts)</td>
+<td align="left">trzy polecenia z ramki poniżej</td>
+</tr>
+</tbody>
+</table>
+<pre class="text"><code>Wyjaśnij ten komunikat błędu R i zaproponuj, jak sprawdzić jego przyczynę: …
+Które argumenty funkcji … są ważne w moim zadaniu? Wskaż właściwą stronę pomocy R.
+Sprawdź moją interpretację wyniku: … Co w niej nie wynika z danych?</code></pre>
+<p>Nie podawaj asystentowi danych osobowych, haseł ani tokenów.
+Microsoft 365 Copilot korzysta z konta uczelnianego; GitHub Copilot CLI
+na <a href="spotkanie-6.html">spotkaniu 6</a> wymaga osobnego konta
+GitHub.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> agent albo rozmowa z promptem
+działa; w PDF podajesz framework z uzasadnieniem, trzy polecenia
+startowe, pytanie testowe i wynik jego sprawdzenia w R.</p>
 </div>
 </div>
-</div>
-<div id="challenge-samodzielnie" class="section level2">
-<h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-o4.-test-odpowiedzi-asystenta"
+<div id="zadanie-0.7.-sprawdź-odpowiedź-asystenta-w-r"
 class="section level3">
-<h3>Ćwiczenie O4. Test odpowiedzi asystenta</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Zweryfikujesz odpowiedź SI własnym kodem w R.
-</p>
+<h3>Zadanie 0.7. Sprawdź odpowiedź asystenta w R</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Zweryfikujesz odpowiedź SI własnym kodem.</p>
+<p><strong>Polecenie:</strong> Zadaj agentowi pytanie z ramki, uruchom
+zaproponowany kod na zbiorze <code>zgloszenia</code> i porównaj wyniki z
+kodem kontrolnym. Zapisz, co asystent zaproponował, jakie wyniki
+uzyskałeś i czy asystent próbował podać liczby bez dostępu do
+danych.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Zapytaj asystenta, jak policzyć braki w kolumnie ocena zbioru
-zgloszenia. Poproś o kod R, wyjaśnienie i test. Wykonaj kod samodzielnie
-i zapisz, co potwierdziłeś.
-</p>
-</div>
-<p>Przykładowe pytanie: „Mam ramkę danych <code>zgloszenia</code>. Jak
-sprawdzić liczbę braków w kolumnie <code>ocena</code>? Podaj kod R,
-opisz działanie <code>is.na()</code> i zaproponuj kontrolę. Nie zgaduj
-liczby braków bez danych”. Poprawna kontrola w R to
-<code>sum(is.na(zgloszenia$ocena))</code>; w danych kursowych wynik
-wynosi <strong>3</strong>.</p>
-<p>Nie podawaj asystentowi danych osobowych, haseł ani tokenów. Zapisz w
-szablonie, co asystent zaproponował i jak sprawdziłeś wynik.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Potrafisz wykazać trzy braki w R i wyjaśnić, że asystent nie jest
-źródłem prawdy o liczbach bez dostępu do danych.
-</p>
+<pre class="text"><code>Mam w R ramkę danych zgloszenia z kolumnami ocena (liczby 1–5 z brakami) i kanal (tekst). Podaj kod R, który policzy braki w kolumnie ocena i liczbę zgłoszeń w każdym kanale. Wyjaśnij działanie użytych funkcji. Nie podawaj wyników liczbowych, bo nie masz dostępu do danych.</code></pre>
+<pre class="r"><code>sum(is.na(zgloszenia$ocena))                   # sum() liczy wartości TRUE
+table(zgloszenia$kanal, useNA = &quot;ifany&quot;)       # liczności razem z brakami</code></pre>
+<p>Asystent może zaproponować inne, równie poprawne rozwiązanie, np.
+<code>colSums(is.na(zgloszenia))</code> albo
+<code>dplyr::count(zgloszenia, kanal)</code>. Oceniaj kod po wyniku
+uzyskanym w R, a nie po pewności tonu odpowiedzi.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> raport wykazuje 3 braki w kolumnie
+<code>ocena</code> i liczności kanałów sumujące się do 240; opis
+wyjaśnia, że asystent bez dostępu do danych nie jest źródłem liczb.</p>
 </div>
 </div>
+<div id="zadanie-0.8.-mała-ramka-danych-z-twojej-dziedziny"
+class="section level3">
+<h3>Zadanie 0.8. Mała ramka danych z Twojej dziedziny</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Samodzielnie zbudujesz, opiszesz i przeszukasz
+ramkę danych.</p>
+<p><strong>Polecenie:</strong> Utwórz ramkę <code>zbiory</code> z co
+najmniej sześcioma wierszami opisującymi obiekty informacyjne (książki,
+czasopisma, zbiory cyfrowe). Użyj co najmniej czterech typów danych,
+jednego braku <code>NA</code> i wykonaj obliczenia wymienione niżej.</p>
 </div>
-<div id="pliki-i-dalsza-praca" class="section level2">
-<h2>Pliki i dalsza praca</h2>
-<p><code>.Rmd</code> to plik źródłowy zawierający tekst i kod,
-<code>.R</code> zawiera sam kod, <code>.csv</code> oraz
-<code>.xlsx</code> przechowują dane, a <code>.html</code> jest
-wyrenderowanym wynikiem. Nie zapisuj <code>setwd("C:/...")</code> w
-raportach — używaj projektu i ścieżek względnych. Kopię pliku zachowaj
-na własnym dysku lub w chmurze; komputery pracowni mogą usuwać dane po
-wyłączeniu.</p>
-<p>Na spotkaniach 1–6 prześlij do zadania MS Teams wyłącznie uzupełniony
-plik <code>nazwisko_imie_NN.Rmd</code>. Termin każdego zadania
-znajdziesz w Teams. W przypadku nadmiarowych usprawiedliwionych
-nieobecności skonsultuj z prowadzącym alternatywną formę osiągnięcia
-efektów sylabusa.</p>
+<ol style="list-style-type: decimal">
+<li>Kolumny, np. <code>tytul</code> (tekst), <code>rok</code> (liczba
+całkowita), <code>strony</code> (liczba, jeden brak),
+<code>dostepny</code> (wartość logiczna), <code>format</code> (czynnik z
+poziomami „druk”, „e-book”, „audio”).</li>
+<li>Opis struktury: <code>str()</code>, <code>summary()</code>,
+<code>nrow()</code>.</li>
+<li>Średnia liczba stron z <code>na.rm = TRUE</code> i liczba dostępnych
+obiektów przez <code>sum(zbiory$dostepny)</code>.</li>
+<li>Wiersze spełniające warunek, np. dostępne e-booki:
+<code>zbiory[zbiory$dostepny &amp; zbiory$format == "e-book", ]</code>.</li>
+<li>Sortowanie według roku: <code>zbiory[order(zbiory$rok), ]</code>;
+sprawdź w <code>?order</code> argument <code>decreasing</code>.</li>
+<li>Nowa kolumna <code>wiek</code> obliczona jako
+<code>2027 - rok</code>.</li>
+<li>Lista <code>katalog</code> z elementami: ramka <code>zbiory</code>,
+liczba obiektów i data <code>Sys.Date()</code>; wybierz z niej liczbę
+obiektów zapisem <code>[[ ]]</code>.</li>
+</ol>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> kod działa od początku;
+<code>str()</code> pokazuje co najmniej cztery typy; obliczenia
+uwzględniają brak; opis wskazuje jednostkę obserwacji i jedną decyzję,
+którą podjąłeś przy projektowaniu ramki.</p>
+</div>
+</div>
+</div>
+<div id="oddanie" class="section level2">
+<h2>Oddanie</h2>
+<div class="handin">
+<p>Wyrenderuj szablon do PDF i prześlij plik
+<code>nazwisko_imie_00.pdf</code> do zadania „Spotkanie organizacyjne” w
+MS Teams. To oddanie próbne: sprawdza, czy projekt, skrypt startowy i
+renderowanie działają na Twoim komputerze. Plik <code>.Rmd</code> zapisz
+w OneDrive.</p>
+</div>
+<div class="reading">
+<p><strong>Lektura:</strong> R for Data Science — <a
+href="https://r4ds.had.co.nz/workflow-basics.html">Workflow: basics</a>,
+<a href="https://r4ds.had.co.nz/workflow-scripts.html">Workflow:
+scripts</a>, <a
+href="https://r4ds.had.co.nz/workflow-projects.html">Workflow:
+projects</a>, <a href="https://r4ds.had.co.nz/vectors.html">Vectors</a>
+i <a href="https://r4ds.had.co.nz/r-markdown.html">R Markdown</a>.
+Instalacja PDF: <a href="https://yihui.org/tinytex/">TinyTeX</a>.</p>
+</div>
 </div>
 
 <footer class="course-footer">

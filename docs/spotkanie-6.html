@@ -11,9 +11,9 @@
 
 
 
-<title>Spotkanie 6: R i GitHub Copilot CLI</title>
+<title>Spotkanie 6: biblioteki R i generatywna SI</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -382,125 +382,174 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 6: R i GitHub Copilot CLI</h1>
+<h1 class="title toc-ignore">Spotkanie 6: biblioteki R i generatywna
+SI</h1>
 
 </div>
 
 
 <div class="hero">
 <h2>
-Spotkanie 6 z 6 · treść programowa 7
+Spotkanie 6 z 6 · 90 minut · treść programowa 7
 </h2>
 <p>
-Instalujesz GitHub Copilot CLI w planie Free i sprawdzasz jego pomoc
-przy statystykach, wielkości efektu oraz poprawianiu kodu.
+Uruchomisz GitHub Copilot CLI, wygenerujesz podsumowania statystyczne
+bibliotekami R, obliczysz i automatycznie zinterpretujesz wielkość
+efektu, ocenisz tekst wygenerowany przez pakiet report i poprawisz kod z
+pomocą asystenta, zawsze sprawdzając wynik w R.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 20 min instalacja i logowanie, 20 min
-podsumowanie liczbowe, 25 min wielkość efektu, 20 min korekta kodu, 5
-min kontrola.
+<strong>Plan 90 minut:</strong> 3 min start · 15 min ćwiczenie 6.1 · 10
+min ćwiczenie 6.2 · 14 min ćwiczenie 6.3 · 10 min ćwiczenie 6.4 · 10 min
+ćwiczenie 6.5 · 26 min zadania 6.6–6.8 · 2 min oddanie. Zadania, których
+nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.
 </div>
-<p>Pobierz <a href="materialy/szablon-06.Rmd">szablon 06</a>.
-<strong>GitHub Copilot CLI</strong> działa w terminalu i wymaga konta
-GitHub. To inne narzędzie niż Microsoft Copilot Chat z <a
-href="organizacyjne.html">organizacji</a>. <a
-href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli">GitHub
-potwierdza dostępność CLI w planie Copilot Free</a>; plan Free ma
-ograniczony miesięczny przydział użycia. Nie trzeba wykupować płatnego
-planu do wykonania zajęć.</p>
-<div id="learn-z-prowadzącym" class="section level2">
-<h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-20.-instalacja-i-bezpieczne-uruchomienie"
+<div class="start">
+<p><strong>Start:</strong> skrypt startowy ładuje na tym spotkaniu dwa
+dodatkowe pakiety: <code>effectsize</code> (wielkości efektu i ich
+interpretacja) oraz <code>report</code> (tekst opisujący wynik). Szablon
+spotkania 6 wskazuje je w bloku <code>start</code>.</p>
+</div>
+<pre class="r bez-uruchamiania"><code>options(jezykr.pakiety = c(&quot;effectsize&quot;, &quot;report&quot;))
+source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
+pobierz_szablon(6, &quot;nazwisko_imie_06.Rmd&quot;)</code></pre>
+<p><strong>GitHub Copilot CLI</strong> to asystent SI działający w
+terminalu. Wymaga osobnego konta GitHub i jest innym narzędziem niż
+Microsoft 365 Copilot ze <a href="organizacyjne.html">spotkania
+organizacyjnego</a>. <a
+href="https://github.com/features/copilot/plans">Plan Copilot Free
+obejmuje CLI</a> z ograniczoną miesięczną pulą użycia; płatny plan nie
+jest potrzebny. Zasada tego spotkania: asystent może zaproponować kod
+lub wyjaśnienie, ale każda liczba w raporcie pochodzi z kodu
+uruchomionego w R, a każda sugestia jest opisana i sprawdzona.</p>
+<div id="learn-ćwiczenia-z-prowadzącym" class="section level2">
+<h2>Learn — ćwiczenia z prowadzącym</h2>
+<div
+id="ćwiczenie-6.1.-github-copilot-cli-instalacja-i-bezpieczne-uruchomienie"
 class="section level3">
-<h3>Ćwiczenie 20. Instalacja i bezpieczne uruchomienie</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Uruchomisz asystenta CLI w folderze kursowym i poznasz granice jego
-dostępu.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Aktywuj GitHub Copilot Free na koncie GitHub, zainstaluj CLI, uruchom je
-w terminalu projektu i zaloguj się.
-</p>
+<h3>Ćwiczenie 6.1. GitHub Copilot CLI: instalacja i bezpieczne
+uruchomienie</h3>
+<div class="brief" szablon="tekst">
+<p><strong>Cel:</strong> Uruchomisz asystenta CLI w folderze kursowym i
+poznasz granice jego dostępu do plików.</p>
+<p><strong>Polecenie:</strong> Aktywuj Copilot Free na koncie GitHub,
+sprawdź lub zainstaluj CLI, uruchom je w terminalu projektu, zaloguj się
+i zakończ sesję. W szablonie zapisz system, wynik
+<code>copilot version</code>, sposób logowania i ewentualny problem.</p>
 </div>
 <ol style="list-style-type: decimal">
 <li>Zaloguj się na <a href="https://github.com/">GitHub</a> własnym
 kontem i włącz <a
 href="https://docs.github.com/en/copilot/how-tos/manage-your-account/get-started-with-a-copilot-plan">Copilot
 Free</a>, jeżeli nie masz aktywnego planu.</li>
-<li>W RStudio lub Positronie otwórz <strong>Terminal</strong> w folderze
-projektu. W Windows, w <strong>PowerShell 6 lub nowszym</strong>,
-wykonaj <code>winget install GitHub.Copilot</code>. Gdy
-<code>winget</code> nie jest dostępny, zgodnie z <a
-href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli">instrukcją
-instalacji GitHub</a> można użyć Node.js 22 lub nowszego i
-<code>npm install -g @github/copilot</code>. Na innych systemach wybierz
-metodę z tej samej instrukcji.</li>
-<li>Sprawdź instalację przez <code>copilot version</code>, a potem
-uruchom <code>copilot</code>. Jeśli narzędzie poprosi o logowanie, wpisz
-<code>/login</code> i postępuj zgodnie z poleceniami.</li>
-<li>Zatwierdź zaufanie <strong>tylko do folderu tego projektu</strong>.
-Przeczytaj każde żądanie odczytu, uruchomienia polecenia lub zmiany
-pliku przed zgodą. <a
-href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview">Instrukcja
-użycia CLI</a> wyjaśnia dostęp narzędzia do plików. Zakończ przez
+<li>W RStudio lub Positronie otwórz kartę <strong>Terminal</strong> (nie
+konsolę R). Terminal startuje w folderze projektu; sprawdź to poleceniem
+<code>pwd</code> (macOS) albo <code>Get-Location</code> (Windows).</li>
+<li>Wpisz <code>copilot version</code>. Jeżeli system nie zna tego
+polecenia, zainstaluj CLI według <a
+href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli">instrukcji
+GitHub</a>: w Windows w PowerShell 6 lub nowszym
+<code>winget install GitHub.Copilot</code>, na macOS
+<code>brew install --cask copilot-cli</code>, a na każdym systemie z
+Node.js 22 lub nowszym <code>npm install -g @github/copilot</code>.</li>
+<li>Uruchom <code>copilot</code>. CLI zapyta, czy ufasz plikom w
+bieżącym folderze: potwierdź <strong>tylko</strong> dla folderu projektu
+<code>jezykr</code>. Jeśli CLI poprosi o logowanie, wpisz
+<code>/login</code> i postępuj według instrukcji.</li>
+<li>Przed każdą zgodą przeczytaj, czy asystent chce odczytać plik,
+uruchomić polecenie, czy zmienić plik. W tym kursie nie pozwalaj na
+zmiany plików bez przeczytania propozycji. Zakończ sesję poleceniem
 <code>/exit</code>.</li>
 </ol>
-<p>Nie wklejaj haseł, tokenów ani danych osobowych. Korzystaj z
-fikcyjnego zbioru kursowego. Jeżeli instalacja lub logowanie nie
-powiedzie się w czasie zajęć, wykonaj obliczenia samodzielnie w R i
-zapisz, który etap CLI sprawił trudność; pokażesz go prowadzącemu
-podczas konsultacji.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Wiesz, czym różnią się dwa konta Copilot, widzisz wersję CLI i potrafisz
-uruchomić oraz zamknąć sesję we właściwym folderze.
-</p>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="30%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Polecenie</th>
+<th align="left">Gdzie</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>copilot version</code></td>
+<td align="left">terminal</td>
+<td align="left">wersja CLI i informacja o aktualizacjach</td>
+</tr>
+<tr class="even">
+<td align="left"><code>copilot</code></td>
+<td align="left">terminal, w folderze projektu</td>
+<td align="left">rozpoczyna sesję interaktywną</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>/login</code>, <code>/logout</code></td>
+<td align="left">sesja CLI</td>
+<td align="left">logowanie do konta GitHub</td>
+</tr>
+<tr class="even">
+<td align="left"><code>/help</code></td>
+<td align="left">sesja CLI</td>
+<td align="left">lista poleceń</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>/usage</code></td>
+<td align="left">sesja CLI</td>
+<td align="left">zużycie w bieżącej sesji</td>
+</tr>
+<tr class="even">
+<td align="left"><code>/list-dirs</code></td>
+<td align="left">sesja CLI</td>
+<td align="left">foldery, do których CLI ma dostęp</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>/clear</code></td>
+<td align="left">sesja CLI</td>
+<td align="left">nowa rozmowa bez dotychczasowego kontekstu</td>
+</tr>
+<tr class="even">
+<td align="left"><code>/exit</code></td>
+<td align="left">sesja CLI</td>
+<td align="left">koniec sesji</td>
+</tr>
+</tbody>
+</table>
+<p>Polecenia CLI wpisujesz w <strong>Terminalu</strong>, a kod R w
+<strong>konsoli</strong> lub w bloku szablonu. Nie wklejaj haseł,
+tokenów ani danych osobowych; pracuj na fikcyjnych danych kursu. W
+pracowni logowanie trzeba powtórzyć na każdym spotkaniu, bo komputer
+usuwa dane użytkownika. Jeżeli instalacja lub logowanie nie powiedzie
+się, wykonaj pozostałe ćwiczenia samodzielnie w R i zapisz, który etap
+sprawił trudność.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> wiesz, czym różnią się konta
+Microsoft 365 Copilot i GitHub Copilot; widzisz wersję CLI; uruchamiasz
+i zamykasz sesję we właściwym folderze; w szablonie jest zapis
+konfiguracji albo opis problemu.</p>
 </div>
 </div>
-<div id="ćwiczenie-21.-podsumowanie-liczbowe-z-kontrolą"
+<div id="ćwiczenie-6.2.-podsumowania-statystyczne-z-bibliotek-r"
 class="section level3">
-<h3>Ćwiczenie 21. Podsumowanie liczbowe z kontrolą</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Poprosisz CLI o wskazówkę do kodu, ale liczby obliczysz i sprawdzisz w
-R.
-</p>
+<h3>Ćwiczenie 6.2. Podsumowania statystyczne z bibliotek R</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Wygenerujesz podsumowanie liczbowe na trzy
+sposoby i porównasz propozycję asystenta z własnym kodem.</p>
+<p><strong>Polecenie:</strong> Zapytaj CLI o kod liczący liczność,
+braki, średnią, medianę i odchylenie standardowe czasu według grupy.
+Porównaj jego propozycję z kodem poniżej, a następnie wygeneruj tabelę
+opisową funkcją <code>report_sample()</code>.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Zapytaj CLI o kod dla liczebności, średniej, mediany i odchylenia czasu
-obsługi według grupy. Nie podawaj gotowych liczb w promptcie.
-</p>
-</div>
-<p>Przykładowe polecenie w interaktywnej sesji CLI: „W pliku R Markdown
-pracuję z ramką <code>zgloszenia_analiza</code>. Podaj krótki kod R
-liczący n, liczbę braków, średnią, medianę i sd dla
-<code>czas_min</code> według <code>grupa</code>. Nie zgaduj wyników.
-Pokaż test sumy liczebności i wyjaśnij <code>na.rm</code>.”</p>
-<p>Porównaj propozycję z tym szkieletem i uruchom własny kod:</p>
-<pre class="r"><code>statystyki &lt;- zgloszenia_analiza |&gt;
-  dplyr::group_by(grupa) |&gt;
-  dplyr::summarise(
-    n = dplyr::n(),
+<p>Przykładowe polecenie w sesji CLI:</p>
+<pre class="text"><code>W pliku R Markdown pracuję z ramką zgloszenia_analiza. Podaj krótki kod R z dplyr liczący n, liczbę braków, średnią, medianę i sd dla czas_min według kolumny grupa. Nie zgaduj wyników i nie uruchamiaj kodu. Wyjaśnij, co robi na.rm = TRUE, i zaproponuj test poprawności sumy liczebności.</code></pre>
+<pre class="r"><code>summary(zgloszenia_analiza[, c(&quot;czas_min&quot;, &quot;koszt&quot;, &quot;ocena&quot;)])
+statystyki &lt;- zgloszenia_analiza |&gt;
+  group_by(grupa) |&gt;
+  summarise(
+    n = n(),
     braki = sum(is.na(czas_min)),
     srednia = mean(czas_min, na.rm = TRUE),
     mediana = median(czas_min, na.rm = TRUE),
@@ -508,120 +557,386 @@ Pokaż test sumy liczebności i wyjaśnij <code>na.rm</code>.”</p>
     .groups = &quot;drop&quot;
   )
 statystyki
-sum(statystyki$n)</code></pre>
-<p>Sprawdź, czy suma <code>n</code> daje 240 oraz czy
-<code>n - braki</code> odpowiada liczbie obserwacji użytych do średniej.
-W tekście podaj wynik po uruchomieniu kodu, nie z odpowiedzi CLI.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Raport zawiera tabelę dla A i B, poprawne liczebności i własną kontrolę;
-wiadomo, która sugestia pochodziła z CLI.
-</p>
+stopifnot(sum(statystyki$n) == nrow(zgloszenia_analiza))
+report::report_sample(zgloszenia_analiza, by = &quot;grupa&quot;,
+                      select = c(&quot;czas_min&quot;, &quot;koszt&quot;, &quot;kanal&quot;))</code></pre>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="49%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Najważniejsze argumenty</th>
+<th align="left">Wynik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>summary(object)</code></td>
+<td align="left">ramka lub wektor</td>
+<td align="left">kwartyle, średnia i braki każdej kolumny</td>
+</tr>
+<tr class="even">
+<td align="left"><code>summarise()</code> z <code>across()</code></td>
+<td align="left">kolumny i funkcje, np.
+<code>across(c(czas_min, koszt), \(x) mean(x, na.rm = TRUE))</code></td>
+<td align="left">własne podsumowanie w grupach</td>
+</tr>
+<tr class="odd">
+<td
+align="left"><code>report::report_sample(data, by, select)</code></td>
+<td align="left"><code>by</code> — zmienna grupująca;
+<code>select</code> — opisywane zmienne;
+<code>centrality = "median"</code></td>
+<td align="left">gotowa tabela opisowa próby</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Czy propozycja CLI użyła
+<code>na.rm = TRUE</code> we wszystkich funkcjach? Czy
+<code>n - braki</code> odpowiada liczbie obserwacji użytych do średniej?
+Porównaj <code>report_sample()</code> z tabelą <code>statystyki</code>:
+tabela automatyczna podaje dla grupy B n = 119, choć średnią czasu liczy
+ze 117 wartości — czy gdziekolwiek o tym informuje? Dodaj
+<code>centrality = "median"</code> do <code>report_sample()</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> tabela ma dwa wiersze, n = 121 i
+119, 2 braki w grupie B, średnie 36,4 i 32,9 minuty; kontrola
+<code>stopifnot()</code> przechodzi; w szablonie zaznaczasz, która część
+kodu pochodzi z CLI, i wyjaśniasz, dlaczego liczność grupy w
+<code>report_sample()</code> nie jest liczbą wartości użytych do
+średniej.</p>
 </div>
 </div>
-<div id="ćwiczenie-22.-wielkość-efektu-i-interpretacja"
+<div
+id="ćwiczenie-6.3.-wielkość-efektu-i-jej-automatyczna-interpretacja"
 class="section level3">
-<h3>Ćwiczenie 22. Wielkość efektu i interpretacja</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Obliczysz standaryzowaną różnicę średnich i sprawdzisz interpretację
-asystenta.
-</p>
+<h3>Ćwiczenie 6.3. Wielkość efektu i jej automatyczna interpretacja</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Obliczysz standaryzowane wielkości efektu z
+przedziałami ufności, sprawdzisz jedną z nich ręcznie i porównasz
+automatyczne etykiety według różnych konwencji.</p>
+<p><strong>Polecenie:</strong> Oblicz d Cohena i g Hedgesa dla czasu w
+grupach A i B, sprawdź d ręcznie z połączonego odchylenia standardowego,
+a następnie zinterpretuj wynik funkcją <code>interpret_cohens_d()</code>
+według trzech konwencji. Oblicz V Craméra dla kanału i rozwiązania
+sprawy, iloraz szans dla grupy i rozwiązania oraz cząstkowe eta-kwadrat
+dla modelu z ćwiczenia 5.4.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Oblicz d Cohena dla czasu w grupach A i B z połączonym odchyleniem
-standardowym. Zapytaj CLI, co oznacza znak i jednostka wyniku, a
-odpowiedź porównaj z własnym kodem.
-</p>
-</div>
-<pre class="r"><code>a &lt;- na.omit(zgloszenia_analiza$czas_min[
-  zgloszenia_analiza$grupa == &quot;A&quot;])
-b &lt;- na.omit(zgloszenia_analiza$czas_min[
-  zgloszenia_analiza$grupa == &quot;B&quot;])
-sd_pooled &lt;- sqrt(((length(a) - 1) * var(a) +
-                   (length(b) - 1) * var(b)) /
+<p>Wielkość efektu opisuje, jak duża jest różnica lub jak silny jest
+związek, niezależnie od liczebności próby. d Cohena to różnica średnich
+podzielona przez połączone odchylenie standardowe: d = 0,26 oznacza, że
+średnie różnią się o około ćwierć odchylenia standardowego. g Hedgesa to
+d z poprawką dla małych prób. Automatyczne etykiety („mały”, „średni”,
+„duży”) wynikają z przyjętej konwencji, a nie z danych — dlatego zawsze
+podawaj nazwę konwencji i oceniaj efekt w kontekście (czy 3,5 minuty ma
+znaczenie dla instytucji?).</p>
+<pre class="r"><code>dane_czas &lt;- filter(zgloszenia_analiza, !is.na(czas_min))
+d &lt;- effectsize::cohens_d(czas_min ~ grupa, data = dane_czas)
+d
+effectsize::hedges_g(czas_min ~ grupa, data = dane_czas)
+a &lt;- dane_czas$czas_min[dane_czas$grupa == &quot;A&quot;]
+b &lt;- dane_czas$czas_min[dane_czas$grupa == &quot;B&quot;]
+sd_pooled &lt;- sqrt(((length(a) - 1) * var(a) + (length(b) - 1) * var(b)) /
                   (length(a) + length(b) - 2))
-d_cohena &lt;- (mean(a) - mean(b)) / sd_pooled
-c(n_A = length(a), n_B = length(b),
-  roznica_min = mean(a) - mean(b), d = d_cohena)</code></pre>
-<p>Przykładowe pytanie do CLI: „Wyjaśnij znak i znaczenie d Cohena
-obliczonego jako (średnia A − średnia B) / połączone SD. Jak sprawdzić
-liczebności i czy z tej wielkości wolno wnioskować o przyczynie? Nie
-podawaj arbitralnej etykiety mały/duży bez kontekstu.”</p>
-<p>Sprawdź, że znak <code>d_cohena</code> jest taki sam jak znak surowej
-różnicy średnich i że <code>sd_pooled &gt; 0</code>. Efekt jest bez
-jednostki; różnica średnich jest w minutach. Nie utożsamiaj wielkości
-efektu z wartością p.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Raport podaje liczbę obserwacji, różnicę w minutach, d Cohena, kierunek
-i ograniczenie interpretacji.
-</p>
+(mean(a) - mean(b)) / sd_pooled                 # kontrola ręczna
+effectsize::interpret_cohens_d(d$Cohens_d, rules = &quot;cohen1988&quot;)
+effectsize::interpret_cohens_d(d$Cohens_d, rules = &quot;sawilowsky2009&quot;)
+effectsize::interpret_cohens_d(d$Cohens_d, rules = &quot;gignac2016&quot;)
+effectsize::cramers_v(xtabs(~ kanal + rozwiazano, data = zgloszenia_analiza))
+effectsize::oddsratio(xtabs(~ grupa + rozwiazano, data = zgloszenia_analiza))
+model_lm &lt;- lm(czas_min ~ kanal + grupa, data = zgloszenia_analiza)
+effectsize::eta_squared(model_lm, partial = TRUE)</code></pre>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="37%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Najważniejsze argumenty</th>
+<th align="left">Wynik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td
+align="left"><code>cohens_d(formula, data, pooled_sd = TRUE)</code></td>
+<td align="left"><code>wynik ~ grupa</code>;
+<code>pooled_sd = FALSE</code> — wersja bez połączonego SD;
+<code>ci = 0.95</code></td>
+<td align="left">d z przedziałem ufności</td>
+</tr>
+<tr class="even">
+<td align="left"><code>hedges_g()</code></td>
+<td align="left">jak wyżej</td>
+<td align="left">d z poprawką dla małych prób</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>interpret_cohens_d(d, rules)</code></td>
+<td align="left"><code>rules = "cohen1988"</code>,
+<code>"sawilowsky2009"</code>, <code>"gignac2016"</code></td>
+<td align="left">słowna etykieta według konwencji</td>
+</tr>
+<tr class="even">
+<td align="left"><code>cramers_v(x, adjust = TRUE)</code></td>
+<td align="left">tabela; <code>adjust</code> — poprawka na
+obciążenie</td>
+<td align="left">siła związku dwóch zmiennych kategorialnych</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>oddsratio(x)</code></td>
+<td align="left">tabela 2 × 2</td>
+<td align="left">iloraz szans z przedziałem ufności</td>
+</tr>
+<tr class="even">
+<td align="left"><code>eta_squared(model, partial = TRUE)</code></td>
+<td align="left">model <code>lm()</code> lub <code>aov()</code></td>
+<td align="left">część zmienności wyjaśniona przez każdy czynnik</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>interpret_r()</code>,
+<code>interpret_cramers_v()</code>,
+<code>interpret_eta_squared()</code></td>
+<td align="left">wartość; <code>rules</code></td>
+<td align="left">etykiety dla innych miar</td>
+</tr>
+</tbody>
+</table>
+<p>Zapytaj CLI: „Wyjaśnij znak i znaczenie d Cohena liczonego jako
+(średnia A − średnia B) / połączone SD. Czy z samej wielkości efektu
+wolno wnioskować o przyczynie? Nie podawaj etykiety mały/duży bez
+wskazania konwencji.” Porównaj odpowiedź z wynikiem kodu i z tym, że
+grupy przydzielono losowo.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> d Cohena wynosi 0,26 (95% CI
+0,00–0,51) i zgadza się z obliczeniem ręcznym; wszystkie trzy konwencje
+dają etykietę „small”; skorygowane V Craméra wynosi 0,06, iloraz szans
+2,57 (1,26–5,23), a cząstkowe eta-kwadrat 0,18 dla kanału i 0,04 dla
+grupy. Opis podaje konwencję i ocenia znaczenie praktyczne różnicy 3,5
+minuty.</p>
 </div>
 </div>
-</div>
-<div id="challenge-samodzielnie" class="section level2">
-<h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-23.-napraw-kod-i-audytuj-sugestię"
+<div id="ćwiczenie-6.4.-tekst-wygenerowany-przez-pakiet-report"
 class="section level3">
-<h3>Ćwiczenie 23. Napraw kod i audytuj sugestię</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Samodzielnie rozpoznasz błąd w kodzie, użyjesz CLI do diagnozy i
-sprawdzisz poprawkę.
-</p>
+<h3>Ćwiczenie 6.4. Tekst wygenerowany przez pakiet report</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Ocenisz automatycznie wygenerowany opis wyników
+statystycznych i przygotujesz własną, sprawdzoną wersję po polsku.</p>
+<p><strong>Polecenie:</strong> Wygeneruj opis testu t z ćwiczenia 5.2 i
+modelu z ćwiczenia 5.4 funkcją <code>report()</code>. Porównaj każdą
+liczbę z wynikami z poprzedniego spotkania, wskaż jedno sformułowanie
+wymagające korekty lub kontekstu i napisz własny akapit po polsku.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Poniższy kod zawiera błędną nazwę kolumny oraz pomija obsługę braków.
-Poproś CLI o wyjaśnienie obu problemów bez modyfikowania pliku.
-Następnie napisz własną poprawioną wersję w raporcie, uruchom ją i
-porównaj z wynikiem ćwiczenia 21.
-</p>
+<p>Pakiet <code>report</code> zamienia obiekt wyniku (test, model) w
+tekst w języku angielskim z liczbami i etykietami efektu. To przykład
+automatycznej interpretacji, która działa bez modelu językowego: tekst
+powstaje z reguł, dlatego jest powtarzalny, ale nie zna celu badania ani
+schematu zbierania danych.</p>
+<pre class="r"><code>test_t &lt;- t.test(czas_min ~ grupa, data = dane_czas)
+report::report(test_t, data = dane_czas)
+report::report(model_lm)
+model_glm &lt;- glm(as.integer(rozwiazano == &quot;Tak&quot;) ~ czas_min + grupa + typ_sprawy,
+                 family = binomial(), data = zgloszenia_analiza)
+parameters::model_parameters(model_glm, exponentiate = TRUE)</code></pre>
+<table>
+<colgroup>
+<col width="39%" />
+<col width="60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>report(x, data)</code></td>
+<td align="left">tekst opisujący test lub model; <code>data</code> —
+dane, z których liczono test</td>
+</tr>
+<tr class="even">
+<td align="left"><code>report_table(x)</code></td>
+<td align="left">ten sam wynik jako tabela</td>
+</tr>
+<tr class="odd">
+<td
+align="left"><code>parameters::model_parameters(model, exponentiate = TRUE)</code></td>
+<td align="left">tabela współczynników modelu;
+<code>exponentiate = TRUE</code> zamienia je na ilorazy szans</td>
+</tr>
+</tbody>
+</table>
+<p>Zwróć uwagę na etykiety „statistically significant” i „small” oraz na
+to, czego tekst nie mówi: że grupy przydzielono losowo, że wynik dotyczy
+danych fikcyjnych i że kategoria odniesienia kanału jest wybrana
+alfabetycznie. Jeżeli poprosisz CLI o tłumaczenie tekstu, sprawdź, czy
+nie zmieniło liczb ani nie dodało przyczynowości.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> liczby z <code>report()</code>
+zgadzają się z wynikami <code>t.test()</code> i
+<code>summary(model_lm)</code>; wskazujesz co najmniej jedno
+sformułowanie wymagające kontekstu; własny akapit po polsku podaje
+różnicę w minutach, przedział ufności, p, wielkość efektu z konwencją i
+ograniczenie.</p>
 </div>
-<pre class="r"><code># Kod do diagnozy; pokaż w .Rmd z eval=FALSE:
-zgloszenia_analiza |&gt;
-  dplyr::group_by(grupa) |&gt;
-  dplyr::summarise(srednia = mean(czas_minn))</code></pre>
-<p>W końcowym <code>.Rmd</code> zapisz: fragment błędny, krótką diagnozę
-CLI, poprawiony kod, wynik własnej kontroli i jedno zdanie, którego
-sugestii asystenta nie przyjąłeś lub co dodatkowo sprawdziłeś. Nie
-pozwalaj CLI wykonywać zmian bez przeczytania propozycji. Jeżeli limit
-planu Free się wyczerpie, wykonaj diagnozę samodzielnie i opisz
-test.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Poprawiony kod renderuje się od początku, daje wynik zgodny z ćwiczeniem
-21 i pokazuje świadomą kontrolę odpowiedzi CLI.
-</p>
 </div>
-<p>Oddaj <code>nazwisko_imie_06.Rmd</code> do zadania spotkania 6 w MS
-Teams. Po nim zespół kończy <a href="ocenianie.html">projekt
-grupowy</a>; <a href="konsultacje.html">ostatnie 45 minut</a> służy
-konsultacji. Termin projektu zostanie ogłoszony w Teams po komunikacie
-rektora.</p>
+<div id="ćwiczenie-6.5.-diagnoza-błędu-z-pomocą-cli"
+class="section level3">
+<h3>Ćwiczenie 6.5. Diagnoza błędu z pomocą CLI</h3>
+<div class="brief" szablon="error=TRUE">
+<p><strong>Cel:</strong> Poprosisz asystenta o wyjaśnienie komunikatu
+błędu, zanim sam poprawisz kod.</p>
+<p><strong>Polecenie:</strong> Uruchom poniższy kod i skopiuj komunikat
+błędu. Poproś CLI o wyjaśnienie komunikatu bez modyfikowania plików,
+porównaj odpowiedź z podpowiedzią zawartą w komunikacie dplyr i popraw
+kod samodzielnie.</p>
+</div>
+<pre class="r"><code>zgloszenia_analiza |&gt;
+  filter(kanal = &quot;Telefon&quot;) |&gt;
+  count(grupa)</code></pre>
+<p>Przykładowe polecenie w CLI: „Wyjaśnij ten komunikat błędu R:
+[komunikat]. Nie zmieniaj żadnych plików. Wskaż przyczynę i poprawkę w
+jednym zdaniu.” Dobre komunikaty błędów, takie jak w <code>dplyr</code>,
+często same podpowiadają poprawkę; przeczytaj je, zanim zapytasz
+asystenta.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> w PDF widać komunikat błędu (blok
+z <code>error=TRUE</code>) i poprawiony kod, który zwraca 34 zgłoszenia
+telefoniczne w grupie A i 47 w grupie B; opis porównuje odpowiedź CLI z
+podpowiedzią z komunikatu.</p>
+</div>
+</div>
+</div>
+<div id="challenge-zadania-samodzielne" class="section level2">
+<h2>Challenge — zadania samodzielne</h2>
+<div id="zadanie-6.6.-napraw-kod-i-audytuj-sugestię"
+class="section level3">
+<h3>Zadanie 6.6. Napraw kod i audytuj sugestię</h3>
+<div class="brief" szablon="error=TRUE">
+<p><strong>Cel:</strong> Samodzielnie rozpoznasz błędy jawne i ukryte,
+użyjesz CLI do diagnozy i sprawdzisz poprawkę w R.</p>
+<p><strong>Polecenie:</strong> Poniższy kod ma liczyć średni czas i
+odsetek spraw rozwiązanych w kanale Online według grupy. Zawiera trzy
+błędy powodujące komunikat oraz dwa błędy, które nie dają komunikatu,
+ale zmieniają wynik. Poproś CLI o diagnozę bez modyfikowania plików, a
+potem napisz własną poprawioną wersję i sprawdź ją niezależnym
+obliczeniem.</p>
+</div>
+<pre class="r bez-uruchamiania"><code>zgloszenia_analiza |&gt;
+  filter(kanal = &quot;Online&quot;) |&gt;
+  group_by(grupa) |&gt;
+  summarise(srednia = mean(czas_minn),
+            odsetek = 100 * mean(rozwiazano == &quot;tak&quot;)</code></pre>
+<p>W szablonie zapisz: listę znalezionych błędów, krótką diagnozę CLI,
+poprawiony kod z wynikiem i jedną sugestię asystenta, której nie
+przyjąłeś albo którą dodatkowo sprawdziłeś. Błąd ukryty jest groźniejszy
+od jawnego: kod działa, ale zwraca np. 0% rozwiązanych spraw. Jeżeli
+limit planu Free się wyczerpie, wykonaj diagnozę samodzielnie i opisz,
+jak ją sprawdziłeś.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> poprawiony kod zwraca średni czas
+34,4 minuty i 70,2% rozwiązanych spraw w grupie A (n = 57) oraz 25,6
+minuty i 87,2% w grupie B (n = 47); raport wymienia wszystkie pięć
+błędów i pokazuje niezależną kontrolę wyniku.</p>
+</div>
+</div>
+<div id="zadanie-6.7.-mini-raport-z-dziennikiem-użycia-si"
+class="section level3">
+<h3>Zadanie 6.7. Mini-raport z dziennikiem użycia SI</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Połączysz podsumowanie, wielkość efektu i
+interpretację w krótki raport dla decydenta i udokumentujesz użycie
+SI.</p>
+<p><strong>Polecenie:</strong> Napisz akapit (do 150 słów) dla
+kierownika obsługi: czy pilotażowa procedura B skraca czas obsługi i
+zwiększa odsetek spraw rozwiązanych przy pierwszym kontakcie. Podaj
+liczby z niepewnością i wielkością efektu z ćwiczeń 5.1, 5.2 i 6.3 oraz
+jedno ograniczenie. Dołącz tabelę dziennika użycia SI.</p>
+</div>
+<table style="width:100%;">
+<colgroup>
+<col width="14%" />
+<col width="18%" />
+<col width="11%" />
+<col width="32%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Narzędzie</th>
+<th align="left">Polecenie (skrót)</th>
+<th align="left">Sugestia</th>
+<th align="left">Jak sprawdziłem</th>
+<th align="left">Decyzja</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">np. Copilot CLI</td>
+<td align="left">wyjaśnienie d Cohena</td>
+<td align="left">„efekt mały”</td>
+<td align="left"><code>interpret_cohens_d()</code> z trzema
+konwencjami</td>
+<td align="left">przyjęta z podaniem konwencji</td>
+</tr>
+</tbody>
+</table>
+<p>Tabelę w R Markdown zapiszesz tak samo jak powyżej: wiersz nagłówka,
+wiersz z <code>|:---|</code> i kolejne wiersze. Każda liczba w akapicie
+musi pochodzić z bloku kodu w tym samym dokumencie.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> akapit ma najwyżej 150 słów,
+zawiera różnicę czasu z przedziałem ufności, odsetki rozwiązanych spraw
+w obu grupach, wielkość efektu z konwencją i ograniczenie; dziennik ma
+co najmniej dwa wpisy z opisem weryfikacji.</p>
+</div>
+</div>
+<div id="zadanie-6.8.-szkic-projektu-grupowego" class="section level3">
+<h3>Zadanie 6.8. Szkic projektu grupowego</h3>
+<div class="brief" szablon="tekst">
+<p><strong>Cel:</strong> Przygotujesz plan projektu, który omówisz na
+konsultacjach.</p>
+<p><strong>Polecenie:</strong> W porozumieniu z zespołem zapisz: pytanie
+badawcze, odbiorcę i decyzję, którą wynik może wspierać, zmienne i ich
+typy, metodę analizy (tabela z sekcji „Jak czytać wynik testu” na
+spotkaniu 5), dwa planowane wykresy i podział pracy.</p>
+</div>
+<p>Pytanie formułuj tak, aby dało się na nie odpowiedzieć danymi kursu
+lub innym zbiorem uzgodnionym z prowadzącym. Unikaj pytań o przyczynę,
+jeżeli dane jej nie pozwalają ustalić, np. o wpływ kanału. Sprawdź <a
+href="ocenianie.html">rubrykę</a> i <a
+href="materialy/szablon-projekt.Rmd">szablon projektu</a>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> szkic zawiera wszystkie wymienione
+elementy, a metoda odpowiada typom zmiennych; zespół przynosi go na <a
+href="konsultacje.html">konsultacje</a>.</p>
+</div>
+</div>
+</div>
+<div id="oddanie" class="section level2">
+<h2>Oddanie</h2>
+<div class="handin">
+<p>Wyrenderuj szablon do PDF i prześlij
+<code>nazwisko_imie_06.pdf</code> do zadania „Spotkanie 6” w MS Teams.
+Po tym spotkaniu zespół kończy <a href="ocenianie.html">projekt
+grupowy</a>; ostatnie 45 minut zajęć to <a
+href="konsultacje.html">konsultacje</a>.</p>
+</div>
+<div class="reading">
+<p><strong>Lektura:</strong> dokumentacja pakietów <a
+href="https://easystats.github.io/effectsize/">effectsize</a> i <a
+href="https://easystats.github.io/report/">report</a>; <a
+href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview">GitHub
+Copilot CLI</a>. R for Data Science — <a
+href="https://r4ds.had.co.nz/r-markdown.html">R Markdown</a> i <a
+href="https://r4ds.had.co.nz/communicate-intro.html">Communicate</a>.</p>
 </div>
 </div>
 

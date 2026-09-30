@@ -1,63 +1,101 @@
 ---
-title: "Spotkanie organizacyjne — moja praca"
+title: "Spotkanie organizacyjne: projekt R, R Markdown i asystent Copilot"
+subtitle: "Praca studenta"
 author: "Imię i nazwisko"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+lang: pl
+papersize: a4
+geometry: margin=2.5cm
 output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    dev: png
   html_document:
     toc: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-Instrukcja online: <https://marekdejauj.github.io/jezykr/organizacyjne.html>.
-
-## Start: projekt i dane
-
-Otwórz ten plik w folderze projektu. Uruchom blok poniżej, aby zainstalować brakujące pakiety i przygotować fikcyjne dane.
-
-```{r start, message=FALSE, warning=FALSE}
-source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```{r start, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-## Projekt, konsola i pliki
+Instrukcja: <https://marekdejauj.github.io/jezykr/organizacyjne.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.
 
-Sprawdź folder, pliki, liczbę wierszy oraz strukturę ramki. Zapisz wynik i wyjaśnij go.
+## Ćwiczenie 0.1. Projekt RStudio i porządek w folderze
 
-```{r projekt}
-getwd()
-list.files()
-list.files("dane")
-dim(zgloszenia)
-str(zgloszenia)
+**Polecenie:** Utwórz projekt `jezykr`, rozpoznaj panele IDE, sprawdź folder roboczy i przygotuj podfoldery `dane/` oraz `wyniki/`. Zapisz w szablonie, jaką ścieżkę zwróciło `getwd()` i co oznacza ścieżka względna.
+
+**Odpowiedź:** uzupełnij.
+
+## Ćwiczenie 0.2. Szablon R Markdown, blok startowy i pierwszy PDF
+
+**Polecenie:** Pobierz szablon spotkania, uzupełnij w nagłówku YAML swoje imię i nazwisko, uruchom blok `start` i wyrenderuj dokument do PDF. Zapisz, ile trwało pierwsze renderowanie i czy pojawił się komunikat, który wymagał reakcji.
+
+**Odpowiedź:** uzupełnij.
+
+## Ćwiczenie 0.3. Konsola, obiekty i wektory
+
+**Polecenie:** Utwórz trzy wektory różnych typów, sprawdź ich typ i długość, wybierz elementy pozycją oraz warunkiem i policz średnią z pominięciem braku.
+
+```{r c0-3, error=TRUE}
+# Twój kod
 ```
 
-## Typy i struktury
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-Utwórz własny wektor, macierz, listę i małą ramkę danych. Sprawdź ich typ oraz rozmiar.
+## Ćwiczenie 0.4. Czynniki, macierze, listy i ramki danych
 
-```{r struktury}
-# Wpisz i uruchom własny kod.
+**Polecenie:** Zbuduj czynnik, macierz, listę i ramkę danych, obejrzyj je funkcją `str()` i wybierz z każdej wskazane elementy. Na koniec opisz strukturę zbioru `zgloszenia`.
+
+```{r c0-4}
+# Twój kod
 ```
 
-## Wybrany prompt
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-Mój framework: **wpisz CO-STAR, RTF, AUTOMAT albo CRISPE**.
+## Ćwiczenie 0.5. Pakiety, pomoc i czysta sesja
 
-Asystenta uruchomiłem/am jako: **zapisany agent / Copilot Chat**.
+**Polecenie:** Sprawdź, czy pakiety kursu są zainstalowane i jakie mają wersje, użyj funkcji z pakietu bez jego ładowania, otwórz pomoc wybranej funkcji i odczytaj wartości domyślne jej argumentów.
 
-## Próba odpowiedzi asystenta
-
-Zapisz, jaki kod zaproponował asystent do policzenia braków `ocena`. Uruchom własną kontrolę:
-
-```{r kontrola}
-sum(is.na(zgloszenia$ocena))
+```{r c0-5}
+# Twój kod
 ```
 
-Moja interpretacja i sposób kontroli: **uzupełnij**.
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Kontrola końcowa
+## Zadanie 0.6. Własny agent w Microsoft 365 Copilot
 
-- [ ] Projekt otwiera się we właściwym folderze.
-- [ ] Skrypt startowy tworzy 240 fikcyjnych zgłoszeń.
-- [ ] Znam różnicę między instalacją pakietu a jego załadowaniem.
-- [ ] Wiem, jak usunąć wybrany obiekt i gdzie szukać pomocy.
-- [ ] Sprawdziłem/am odpowiedź asystenta własnym kodem.
+**Polecenie:** Utwórz agenta „Asystent języka R” z jednym z czterech promptów, dodaj trzy polecenia startowe i przetestuj go jednym pytaniem, którego odpowiedź sprawdzisz w R. W szablonie zapisz wybrany framework, uzasadnienie wyboru w jednym zdaniu, polecenia startowe i wynik testu.
 
-To ćwiczenie przygotowuje do sześciu plików `.Rmd` oddawanych w zadaniach MS Teams.
+**Odpowiedź:** uzupełnij.
+
+## Zadanie 0.7. Sprawdź odpowiedź asystenta w R
+
+**Polecenie:** Zadaj agentowi pytanie z ramki, uruchom zaproponowany kod na zbiorze `zgloszenia` i porównaj wyniki z kodem kontrolnym. Zapisz, co asystent zaproponował, jakie wyniki uzyskałeś i czy asystent próbował podać liczby bez dostępu do danych.
+
+```{r c0-7}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 0.8. Mała ramka danych z Twojej dziedziny
+
+**Polecenie:** Utwórz ramkę `zbiory` z co najmniej sześcioma wierszami opisującymi obiekty informacyjne (książki, czasopisma, zbiory cyfrowe). Użyj co najmniej czterech typów danych, jednego braku `NA` i wykonaj obliczenia wymienione niżej.
+
+```{r c0-8}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Kontrola przed oddaniem
+
+- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.
+- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.
+- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.
+- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_00.pdf`.

@@ -4,24 +4,24 @@ title: "Zaliczenie i rubryka oceny"
 
 <div class="hero"><h2>Projekt grupowy</h2><p>Jedno pytanie, odtwarzalna analiza w R i wniosek oparty na sprawdzonych wynikach.</p></div>
 
-Warunkiem zaliczenia jest pozytywna ocena projektu grupowego oraz udział w zajęciach zgodny z sylabusem (dopuszczalna jedna nieobecność). Sześć plików z ćwiczeń służy bieżącej informacji zwrotnej i przygotowaniu do projektu. Każdy plik oddajesz osobno w zadaniu MS Teams. W przypadku dodatkowej usprawiedliwionej nieobecności skontaktuj się z prowadzącym w sprawie osiągnięcia brakujących efektów.
+Warunkiem zaliczenia jest pozytywna ocena projektu grupowego oraz udział w zajęciach zgodny z sylabusem (dopuszczalna jest jedna nieobecność). Pliki PDF przesyłane po spotkaniach — próbny po spotkaniu organizacyjnym i sześć po spotkaniach roboczych — służą bieżącej informacji zwrotnej i przygotowaniu do projektu. Każdy plik oddajesz osobno w zadaniu MS Teams. W przypadku dodatkowej usprawiedliwionej nieobecności skontaktuj się z prowadzącym w sprawie osiągnięcia brakujących efektów.
 
-**Termin projektu** zostanie podany w zadaniu MS Teams po ogłoszeniu przez rektora harmonogramu sesji. Ostatnie spotkanie, trwające 45 minut, służy konsultacji i kontroli projektu; plik można przekazać wtedy albo później, w terminie wskazanym w Teams.
+**Termin projektu** zostanie podany w zadaniu MS Teams po ogłoszeniu harmonogramu sesji. Ostatnie spotkanie, trwające 45 minut, służy konsultacji i kontroli projektu; pliki można przekazać wtedy albo później, w terminie wskazanym w Teams.
 
 ## Polecenie projektu
 
-Pracujcie w zespole 2–4 osób. Pobierzcie [szablon projektu](materialy/szablon-projekt.Rmd). Zadajcie jedno pytanie o obsługę zgłoszeń w instytucji informacyjnej. Użyjcie fikcyjnych danych kursowych lub innego, jawnie opisanego zbioru uzgodnionego z prowadzącym. W jednym pliku `.Rmd` pokażcie kod od pobrania danych po końcowy wniosek. Wynik powinien zawierać kontrolę jakości, tabelę, co najmniej dwa wykresy, odpowiedni test lub model, interpretację miary efektu i ograniczenia. Wskażcie podział pracy i sposób sprawdzenia ewentualnych sugestii SI.
+Pracujcie w zespole 2–4 osób. Pobierzcie szablon projektu poleceniem `pobierz_szablon("projekt", "projekt_nazwiska.Rmd")` albo ze strony [Materiały](materialy.html). Zadajcie jedno pytanie o obsługę zgłoszeń w instytucji informacyjnej. Użyjcie fikcyjnych danych kursowych lub innego, jawnie opisanego zbioru uzgodnionego z prowadzącym. W jednym pliku `.Rmd` pokażcie kod od pobrania danych po końcowy wniosek. Raport powinien zawierać kontrolę jakości danych, tabelę, co najmniej dwa wykresy, odpowiedni test lub model, interpretację miary efektu i ograniczenia. Wskażcie podział pracy i sposób sprawdzenia ewentualnych sugestii SI.
 
-Przekażcie **jeden plik źródłowy `.Rmd` na zespół** w zadaniu MS Teams. Raport musi renderować się na innym komputerze po uruchomieniu bloku startowego. Nie dołączajcie folderu projektu, lokalnych danych, HTML ani plików z hasłami.
+Przekażcie w zadaniu MS Teams **dwa pliki na zespół**: raport `projekt_nazwiska.pdf` i jego źródło `projekt_nazwiska.Rmd`. PDF służy do oceny i komentarzy, a `.Rmd` do sprawdzenia, czy raport renderuje się na innym komputerze po uruchomieniu bloku startowego. Nie dołączajcie folderu projektu, danych odtwarzanych przez skrypt, raportów HTML ani plików z hasłami.
 
 ## Rubryka — 20 punktów
 
 | Kryterium | 4 pkt | 2–3 pkt | 0–1 pkt |
-|:---|:---|:---|:---|
-| Pytanie i dane | Jasne pytanie, jednostka obserwacji, źródło oraz ograniczenia. | Pytanie i dane są opisane, lecz część założeń pozostaje niejasna. | Brakuje pytania lub wiarygodnego opisu danych. |
-| Odtwarzalność i jakość | `.Rmd` renderuje się od początku, zachowuje surowe dane i jawnie czyści błędy oraz braki. | Kod działa po drobnej korekcie lub opis czyszczenia jest niepełny. | Wynik zależy od ręcznych kroków albo kod nie działa. |
+|:-------|:-----------------------------|:--------------------------|:------------------|
+| Pytanie i dane | Jasne pytanie, odbiorca, jednostka obserwacji, źródło oraz ograniczenia danych. | Pytanie i dane są opisane, lecz część założeń pozostaje niejasna. | Brakuje pytania lub wiarygodnego opisu danych. |
+| Odtwarzalność i jakość | `.Rmd` renderuje się od początku do PDF, zachowuje surowe dane i jawnie opisuje reguły czyszczenia błędów oraz braków. | Kod działa po drobnej korekcie lub opis czyszczenia jest niepełny. | Wynik zależy od ręcznych kroków albo kod nie działa. |
 | Tabela i wykresy | Tabela i dwa czytelne, trafne wykresy mają opis osi, jednostki i komentarz. | Część wyników jest nieczytelna lub słabo odpowiada pytaniu. | Brakuje wymaganych wyników albo są błędne. |
-| Analiza i interpretacja | Test lub model odpowiada pytaniu; liczebności, efekt i ograniczenia są poprawnie zinterpretowane. | Metoda jest zasadniczo trafna, lecz interpretacja lub kontrola założeń jest niepełna. | Metoda jest nieadekwatna albo wniosek nie wynika z obliczeń. |
-| Wniosek i praca zespołu | Wniosek wynika z liczb, wskazano podział pracy i zweryfikowano użycie SI. | Wniosek jest zbyt ogólny lub dokumentacja współpracy i kontroli jest niepełna. | Brak wniosku, wkładu osób albo kontroli wyniku. |
+| Analiza i interpretacja | Test lub model odpowiada pytaniu; liczebności, wielkość efektu z niepewnością i ograniczenia są poprawnie zinterpretowane. | Metoda jest zasadniczo trafna, lecz interpretacja lub kontrola założeń jest niepełna. | Metoda jest nieadekwatna albo wniosek nie wynika z obliczeń. |
+| Wniosek i praca zespołu | Wniosek wynika z liczb, wskazano podział pracy, a użycie SI jest opisane i zweryfikowane w R. | Wniosek jest zbyt ogólny lub dokumentacja współpracy i kontroli jest niepełna. | Brak wniosku, wkładu osób albo kontroli wyniku. |
 
-**Pozytywna ocena:** co najmniej 11 z 20 punktów oraz renderujący się raport, który zawiera pytanie, własny kod analizy i wniosek. Punktacja szczegółowa i informacja zwrotna pojawią się w MS Teams. Błędy można omówić podczas [konsultacji](konsultacje.html).
+**Pozytywna ocena:** co najmniej 11 z 20 punktów oraz raport, który renderuje się z pliku `.Rmd` i zawiera pytanie, własny kod analizy i wniosek. Punktacja szczegółowa i informacja zwrotna pojawią się w MS Teams. Błędy można omówić podczas [konsultacji](konsultacje.html).

@@ -13,7 +13,7 @@
 
 <title>Materiały do pobrania</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -391,101 +391,115 @@ div.tocify {
 <h2>Dokumenty i skrypt startowy</h2>
 <table>
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col width="15%" />
+<col width="84%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Materiał</th>
-<th>Zastosowanie</th>
+<th align="left">Materiał</th>
+<th align="left">Zastosowanie</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">Sylabus
-PDF</a></td>
-<td>Treści, efekty i formalne warunki zaliczenia</td>
+<td align="left"><a
+href="materialy/jezyk-r-uj-wzzins-24-17358-26.pdf">Sylabus PDF</a></td>
+<td align="left">Treści, efekty uczenia się i formalne warunki
+zaliczenia</td>
 </tr>
 <tr class="even">
-<td><a href="materialy/init-v1.R"><code>init-v1.R</code></a></td>
-<td>Instalacja pakietów i odtwarzanie fikcyjnych danych CSV/XLSX</td>
+<td align="left"><a
+href="materialy/init-v2.R"><code>init-v2.R</code></a></td>
+<td align="left">Skrypt startowy: pakiety, fikcyjne dane CSV i XLSX,
+obiekty <code>zgloszenia</code> i <code>zgloszenia_analiza</code>,
+funkcja <code>pobierz_szablon()</code></td>
 </tr>
 <tr class="odd">
-<td><a href="materialy/szablon-projekt.Rmd">Szablon projektu</a></td>
-<td>Grupowy raport zaliczeniowy</td>
+<td align="left"><a href="materialy/szablon-projekt.Rmd">Szablon
+projektu</a></td>
+<td align="left">Grupowy raport zaliczeniowy</td>
 </tr>
 <tr class="even">
-<td><a href="prompty.html">Cztery prompty</a></td>
-<td>Wybór ramy asystenta Microsoft Copilot</td>
+<td align="left"><a href="prompty.html">Cztery prompty</a></td>
+<td align="left">Instrukcje agenta Microsoft 365 Copilot</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="szablony-spotkań" class="section level2">
 <h2>Szablony spotkań</h2>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="23%" />
-<col width="30%" />
-<col width="23%" />
-<col width="23%" />
+<col width="26%" />
+<col width="10%" />
+<col width="21%" />
+<col width="41%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Spotkanie</th>
+<th align="left">Spotkanie</th>
 <th align="right">Czas</th>
-<th>Szablon</th>
-<th>Rezultat</th>
+<th align="left">Szablon</th>
+<th align="left">Oddajesz</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Organizacyjne</td>
+<td align="left">Organizacyjne</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-00.Rmd">szablon-00.Rmd</a></td>
-<td>Próba R Markdown i test asystenta</td>
+<td align="left"><a
+href="materialy/szablon-00.Rmd">szablon-00.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_00.pdf</code> (oddanie próbne)</td>
 </tr>
 <tr class="even">
-<td>1. Import i czyszczenie</td>
+<td align="left">1. Import i porządkowanie</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-01.Rmd">szablon-01.Rmd</a></td>
-<td>Raport jakości danych</td>
+<td align="left"><a
+href="materialy/szablon-01.Rmd">szablon-01.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_01.pdf</code></td>
 </tr>
 <tr class="odd">
-<td>2. Operacje i funkcje</td>
+<td align="left">2. Operacje i funkcje</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-02.Rmd">szablon-02.Rmd</a></td>
-<td>Transformacja i własna funkcja</td>
+<td align="left"><a
+href="materialy/szablon-02.Rmd">szablon-02.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_02.pdf</code></td>
 </tr>
 <tr class="even">
-<td>3. Wizualizacja</td>
+<td align="left">3. Wizualizacja</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-03.Rmd">szablon-03.Rmd</a></td>
-<td>Wykresy ggplot2</td>
+<td align="left"><a
+href="materialy/szablon-03.Rmd">szablon-03.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_03.pdf</code></td>
 </tr>
 <tr class="odd">
-<td>4. Eksploracja</td>
+<td align="left">4. Eksploracja</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-04.Rmd">szablon-04.Rmd</a></td>
-<td>Audyt raportu automatycznego</td>
+<td align="left"><a
+href="materialy/szablon-04.Rmd">szablon-04.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_04.pdf</code></td>
 </tr>
 <tr class="even">
-<td>5. Testy i modele</td>
+<td align="left">5. Testy i modele</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-05.Rmd">szablon-05.Rmd</a></td>
-<td>Testy, lm() i glm()</td>
+<td align="left"><a
+href="materialy/szablon-05.Rmd">szablon-05.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_05.pdf</code></td>
 </tr>
 <tr class="odd">
-<td>6. R i Copilot CLI</td>
+<td align="left">6. Biblioteki R i SI</td>
 <td align="right">90 min</td>
-<td><a href="materialy/szablon-06.Rmd">szablon-06.Rmd</a></td>
-<td>Raport liczbowy z kontrolą SI</td>
+<td align="left"><a
+href="materialy/szablon-06.Rmd">szablon-06.Rmd</a></td>
+<td align="left"><code>nazwisko_imie_06.pdf</code></td>
 </tr>
 <tr class="even">
-<td>Konsultacje projektu</td>
+<td align="left">Konsultacje projektu</td>
 <td align="right">45 min</td>
-<td><a href="materialy/szablon-projekt.Rmd">szablon-projekt.Rmd</a></td>
-<td>Przegląd raportu grupowego</td>
+<td align="left"><a
+href="materialy/szablon-projekt.Rmd">szablon-projekt.Rmd</a></td>
+<td align="left"><code>projekt_nazwiska.pdf</code> i
+<code>projekt_nazwiska.Rmd</code></td>
 </tr>
 </tbody>
 </table>
@@ -493,42 +507,83 @@ PDF</a></td>
 <div id="sposób-użycia" class="section level2">
 <h2>Sposób użycia</h2>
 <ol style="list-style-type: decimal">
-<li>Pobierz jeden szablon <code>.Rmd</code> do folderu swojego projektu.
-W RStudio otwórz projekt, a w Positronie jego folder.</li>
-<li>Wykonaj blok <strong>start</strong>. Przy pierwszym uruchomieniu
-potrzebny jest internet do pobrania skryptu i brakujących pakietów.</li>
-<li>Przykłady z instrukcji wpisuj lub modyfikuj w miejscach
-<strong>Twoja praca</strong>. Polecenia GitHub Copilot CLI wpisuj w
-Terminalu, nie w blokach R. Część <strong>Challenge</strong> wykonaj
-samodzielnie.</li>
-<li>Wyrenderuj cały dokument od początku. Zmień nazwę na
-<code>nazwisko_imie_NN.Rmd</code> i dołącz tylko ten plik do zadania w
-MS Teams.</li>
+<li>Utwórz lub otwórz projekt <code>jezykr</code> (RStudio) albo folder
+<code>jezykr</code> (Positron).</li>
+<li>W konsoli uruchom skrypt startowy i pobierz szablon, podając numer
+spotkania i nazwę pliku:
+<code>source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")</code>,
+a potem np. <code>pobierz_szablon(3, "kowalska_anna_03.Rmd")</code>. Na
+spotkaniach 4 i 6 przed skryptem ustaw pakiety dodatkowe — polecenie
+znajdziesz na stronie spotkania.</li>
+<li>Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami, a
+interpretacje zapisuj w polach <strong>Wynik i
+interpretacja</strong>.</li>
+<li>Zrestartuj R i wyrenderuj dokument do PDF przyciskiem
+<strong>Knit</strong>. Prześlij PDF do zadania w MS Teams; plik
+<code>.Rmd</code> zapisz w OneDrive.</li>
 </ol>
-<p>Pliki <code>dane/</code>, <code>wyniki/</code> i HTML służą do pracy
-lokalnej. Wersjonowany skrypt startowy odtwarza dane przy ponownym
-uruchomieniu raportu, dlatego nie trzeba przesyłać projektu. Raport
-grupowy składa się osobno w terminie ogłoszonym w Teams po komunikacie
-rektora o sesji.</p>
+<p>W pracowni R, RStudio, Positron, pakiety kursu i TinyTeX są
+zainstalowane na stałe, a pliki użytkownika znikają po wyłączeniu
+komputera. Skrypt startowy przy każdym uruchomieniu odtwarza identyczne
+dane w folderze <code>dane/</code>, więc żadne spotkanie nie wymaga
+plików z poprzednich zajęć. Na własnym komputerze skrypt doinstaluje
+brakujące pakiety, a TinyTeX zainstalujesz raz według <a
+href="organizacyjne.html#%C4%87wiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf">ćwiczenia
+0.2</a>. Jeżeli PDF nie powstaje, wybierz <strong>Knit to HTML</strong>
+i zapisz wynik z przeglądarki jako PDF.</p>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="80%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Plik w folderze <code>dane/</code></th>
+<th align="left">Zawartość</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>zgloszenia.csv</code></td>
+<td align="left">240 zgłoszeń, CSV w UTF-8, przecinek jako
+separator</td>
+</tr>
+<tr class="even">
+<td align="left"><code>zgloszenia_pl.csv</code></td>
+<td align="left">te same dane zapisane jak w polskim Excelu: średnik,
+przecinek dziesiętny, Windows-1250, braki jako „brak”</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>zgloszenia.xlsx</code></td>
+<td align="left">arkusze <code>zgloszenia</code>, <code>dzialy</code>
+(słownik działów) i <code>opis</code> (słownik zmiennych)</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="pomoc-i-lektury" class="section level2">
 <h2>Pomoc i lektury</h2>
 <ul>
 <li>H. Wickham, G. Grolemund, <em>R for Data Science</em> (2016) —
 lektura obowiązkowa w sylabusie; <a
-href="https://r4ds.had.co.nz/">wersja internetowa</a>.</li>
+href="https://r4ds.had.co.nz/">wersja internetowa</a>. Rozdziały
+odpowiadające spotkaniom znajdziesz na końcu każdej strony.</li>
 <li>P. Teetor, M. Loukides, <em>R Cookbook</em> (2011) — lektura
 obowiązkowa w sylabusie.</li>
+<li>F. Lennert, <a
+href="https://bookdown.org/f_lennert/introduction-to-r/">An(other)
+introduction to R</a> — lektura dodatkowa.</li>
+<li><a href="https://bookdown.org/yihui/rmarkdown/pdf-document.html">R
+Markdown: The Definitive Guide — dokumenty PDF</a> i <a
+href="https://yihui.org/tinytex/">TinyTeX</a>.</li>
 <li><a href="https://docs.posit.co/ide/user/">RStudio User Guide</a> —
-projekty, konsola i debugowanie.</li>
-<li><a href="https://rmarkdown.rstudio.com/">R Markdown</a> — raporty z
-kodem i tekstem.</li>
-<li><a href="https://dplyr.tidyverse.org/">dplyr</a> i <a
-href="https://ggplot2.tidyverse.org/">ggplot2</a> — praca z danymi i
-wykresami.</li>
-<li><a
+projekty, konsola i debugowanie; <a
 href="https://positron.posit.co/quarto.html#support-for-r-markdown">R
 Markdown w Positronie</a>.</li>
+<li><a href="https://dplyr.tidyverse.org/">dplyr</a>, <a
+href="https://ggplot2.tidyverse.org/">ggplot2</a>, <a
+href="https://readxl.tidyverse.org/">readxl</a> — dokumentacja
+pakietów.</li>
 <li><a
 href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli">GitHub
 Copilot CLI</a> — instrukcja instalacji na spotkanie 6.</li>

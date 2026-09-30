@@ -11,9 +11,9 @@
 
 
 
-<title>Spotkanie 1: import, pliki i czyszczenie danych</title>
+<title>Spotkanie 1: import, braki i porządkowanie danych</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -382,7 +382,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Spotkanie 1: import, pliki i czyszczenie
+<h1 class="title toc-ignore">Spotkanie 1: import, braki i porządkowanie
 danych</h1>
 
 </div>
@@ -390,194 +390,923 @@ danych</h1>
 
 <div class="hero">
 <h2>
-Spotkanie 1 z 6 · treść programowa 2
+Spotkanie 1 z 6 · 90 minut · treść programowa 2
 </h2>
 <p>
-Odczytujesz CSV i Excel, rozpoznajesz braki oraz zapisujesz
-uporządkowany plik bez zmiany surowych danych.
+Wczytasz dane z CSV i Excela, rozpoznasz braki i wartości podejrzane,
+wybierzesz i posortujesz rekordy, uporządkujesz dane w nowej ramce,
+zagregujesz je i zapiszesz wynik.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 10 min powtórka projektu i plików, 25
-min import, 25 min kontrola i czyszczenie, 25 min własny eksport, 5 min
-kontrola raportu.
+<strong>Plan 90 minut:</strong> 5 min start · 12 min ćwiczenie 1.1 · 12
+min ćwiczenie 1.2 · 10 min ćwiczenie 1.3 · 12 min ćwiczenie 1.4 · 12 min
+ćwiczenie 1.5 · 25 min zadania 1.6–1.8 · 2 min oddanie. Zadania, których
+nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.
 </div>
-<p>Pobierz <a href="materialy/szablon-01.Rmd">szablon 01</a> do
-projektu. Jego pierwszy blok pobiera skrypt startowy i tworzy fikcyjne
-pliki w <code>dane/</code>. Nie wpisuj do raportu pełnej ścieżki z
-własnego komputera.</p>
-<div id="learn-z-prowadzącym" class="section level2">
-<h2>Learn — z prowadzącym</h2>
-<div id="ćwiczenie-1.-dwa-formaty-te-same-rekordy"
+<div class="start">
+<p><strong>Start:</strong> otwórz projekt <code>jezykr</code>, uruchom w
+konsoli skrypt startowy i pobierz szablon spotkania 1. Pliki w folderze
+<code>dane/</code> odtwarza skrypt; nie zmieniaj ich ręcznie, bo to dane
+surowe.</p>
+</div>
+<pre class="r bez-uruchamiania"><code>source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
+pobierz_szablon(1, &quot;nazwisko_imie_01.Rmd&quot;)</code></pre>
+<div id="dane-kursu" class="section level2">
+<h2>Dane kursu</h2>
+<p>Wszystkie spotkania korzystają z fikcyjnego rejestru 240 zgłoszeń
+użytkowników instytucji informacyjnej z pierwszego półrocza 2027 roku.
+Jeden wiersz to jedno zgłoszenie. Skrypt startowy zapisuje te same dane
+w trzech plikach: <code>dane/zgloszenia.csv</code> (CSV w UTF-8),
+<code>dane/zgloszenia_pl.csv</code> (CSV zapisany jak w polskim Excelu)
+i <code>dane/zgloszenia.xlsx</code> (arkusze <code>zgloszenia</code>,
+<code>dzialy</code> i <code>opis</code>).</p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="42%" />
+<col width="44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Zmienna</th>
+<th align="left">Opis</th>
+<th align="left">Jednostka lub wartości</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>id</code></td>
+<td align="left">identyfikator zgłoszenia</td>
+<td align="left">Z0001–Z0240</td>
+</tr>
+<tr class="even">
+<td align="left"><code>data</code></td>
+<td align="left">data wpłynięcia</td>
+<td align="left">1 stycznia – 29 czerwca 2027</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>kanal</code></td>
+<td align="left">kanał kontaktu</td>
+<td align="left">Online, Telefon, Na miejscu</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dzial</code></td>
+<td align="left">dział obsługujący</td>
+<td align="left">w danych surowych zapisy są niespójne</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>typ_sprawy</code></td>
+<td align="left">rodzaj sprawy</td>
+<td align="left">Wyszukiwanie, Dostęp, Opis metadanych</td>
+</tr>
+<tr class="even">
+<td align="left"><code>grupa</code></td>
+<td align="left">losowo przydzielony wariant procedury</td>
+<td align="left">A — dotychczasowy, B — pilotażowy</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>czas_min</code></td>
+<td align="left">czas obsługi</td>
+<td align="left">minuty</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ocena</code></td>
+<td align="left">ocena satysfakcji</td>
+<td align="left">1–5 punktów</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>koszt</code></td>
+<td align="left">koszt obsługi</td>
+<td align="left">zł</td>
+</tr>
+<tr class="even">
+<td align="left"><code>rozwiazano</code></td>
+<td align="left">rozwiązanie przy pierwszym kontakcie</td>
+<td align="left">Tak, Nie</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="learn-ćwiczenia-z-prowadzącym" class="section level2">
+<h2>Learn — ćwiczenia z prowadzącym</h2>
+<div id="ćwiczenie-1.1.-import-csv-i-argumenty-read.csv"
 class="section level3">
-<h3>Ćwiczenie 1. Dwa formaty, te same rekordy</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Zaimportujesz CSV i XLSX oraz sprawdzisz strukturę danych.
-</p>
+<h3>Ćwiczenie 1.1. Import CSV i argumenty read.csv()</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Wczytasz plik CSV, świadomie dobierając
+argumenty, i sprawdzisz, czy R poprawnie rozpoznał typy kolumn oraz
+braki.</p>
+<p><strong>Polecenie:</strong> Wczytaj <code>dane/zgloszenia.csv</code>
+najpierw z ustawieniami domyślnymi, a potem z
+<code>na.strings = ""</code>. Porównaj liczbę braków w kolumnie
+<code>dzial</code>, zamień kolumnę <code>data</code> na typ
+<code>Date</code> i policz zgłoszenia w kolejnych miesiącach.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Odczytaj dwa pliki z folderu projektu. Porównaj rozmiar ramek i typ
-kolumny data.
-</p>
-</div>
-<pre class="r"><code>list.files(&quot;dane&quot;)
-csv &lt;- read.csv(&quot;dane/zgloszenia.csv&quot;, na.strings = &quot;&quot;,
-                fileEncoding = &quot;UTF-8&quot;, stringsAsFactors = FALSE)
-xlsx &lt;- readxl::read_excel(&quot;dane/zgloszenia.xlsx&quot;)
-dim(csv)
-dim(xlsx)
+<p>CSV to zwykły plik tekstowy: każdy wiersz danych jest linią, kolumny
+oddziela przecinek, a pierwsza linia zawiera nazwy kolumn. Plik nie
+przechowuje typów danych, więc <code>read.csv()</code> zgaduje je na
+podstawie wartości: liczby stają się typem <code>integer</code> lub
+<code>double</code>, a wszystko inne tekstem. Puste pole w kolumnie
+tekstowej zostaje pustym napisem <code>""</code>, a nie brakiem
+<code>NA</code>; o tym, co jest brakiem, decyduje argument
+<code>na.strings</code>. Daty trafiają do R jako tekst i trzeba je
+jawnie zamienić.</p>
+<pre class="r"><code>podglad &lt;- read.csv(&quot;dane/zgloszenia.csv&quot;, nrows = 5)   # szybki podgląd 5 wierszy
+podglad
+csv_domyslnie &lt;- read.csv(&quot;dane/zgloszenia.csv&quot;)
+csv &lt;- read.csv(&quot;dane/zgloszenia.csv&quot;, na.strings = &quot;&quot;, fileEncoding = &quot;UTF-8&quot;)
+sum(is.na(csv_domyslnie$dzial))            # pusty tekst nie jest brakiem
+sum(csv_domyslnie$dzial == &quot;&quot;)
+sum(is.na(csv$dzial))                      # teraz brak jest rozpoznany
+str(csv)
+csv$data &lt;- as.Date(csv$data)              # tekst RRRR-MM-DD zamieniony na datę
 class(csv$data)
+range(csv$data)
+table(format(csv$data, &quot;%m&quot;))              # liczba zgłoszeń w miesiącach</code></pre>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="15%" />
+<col width="66%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Argument <code>read.csv()</code></th>
+<th align="left">Domyślnie</th>
+<th align="left">Znaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>file</code></td>
+<td align="left">—</td>
+<td align="left">ścieżka do pliku, najlepiej względna</td>
+</tr>
+<tr class="even">
+<td align="left"><code>header</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left">pierwsza linia zawiera nazwy kolumn</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>sep</code></td>
+<td align="left"><code>","</code></td>
+<td align="left">separator kolumn</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dec</code></td>
+<td align="left"><code>"."</code></td>
+<td align="left">separator dziesiętny</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>na.strings</code></td>
+<td align="left"><code>"NA"</code></td>
+<td align="left">napisy oznaczające brak; tu pusty napis
+<code>""</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>fileEncoding</code></td>
+<td align="left">kodowanie systemu</td>
+<td align="left">kodowanie pliku, np. <code>"UTF-8"</code> albo
+<code>"CP1250"</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>colClasses</code></td>
+<td align="left">zgadywanie</td>
+<td align="left">typy kolumn narzucone przy imporcie, np.
+<code>c(data = "Date")</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>nrows</code>, <code>skip</code></td>
+<td align="left">wszystkie, <code>0</code></td>
+<td align="left">liczba wczytywanych wierszy; liczba linii pomijanych na
+początku pliku</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>stringsAsFactors</code></td>
+<td align="left"><code>FALSE</code></td>
+<td align="left">czy zamieniać tekst na czynniki</td>
+</tr>
+</tbody>
+</table>
+<p><code>as.Date(x, format = "%Y-%m-%d")</code> zamienia tekst na datę.
+Kody formatu: <code>%d</code> dzień, <code>%m</code> miesiąc,
+<code>%Y</code> rok czterocyfrowy, <code>%y</code> rok dwucyfrowy. Ta
+sama notacja działa w odwrotną stronę: <code>format(data, "%m")</code>
+wyciąga numer miesiąca, a <code>format(data, "%d.%m.%Y")</code> zapisuje
+datę po polsku.</p>
+<p><strong>Sprawdź i zmień.</strong> Wczytaj plik ponownie z
+<code>colClasses = c(data = "Date")</code> i sprawdź <code>str()</code>:
+data ma właściwy typ już przy imporcie. Wczytaj trzy wiersze z
+<code>header = FALSE</code> i wyjaśnij, dlaczego wszystkie kolumny stały
+się tekstem. Uruchom <code>as.Date("14.03.2027")</code>, przeczytaj
+komunikat błędu i popraw wywołanie argumentem <code>format</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> ramka <code>csv</code> ma 240
+wierszy i 10 kolumn; kolumna <code>dzial</code> ma 1 brak dopiero po
+ustawieniu <code>na.strings = ""</code>; <code>data</code> ma typ
+<code>Date</code> i obejmuje okres od 1 stycznia do 29 czerwca 2027;
+najwięcej zgłoszeń (54) wpłynęło w maju.</p>
+</div>
+</div>
+<div
+id="ćwiczenie-1.2.-csv-z-polskiego-excela-średnik-przecinek-i-kodowanie"
+class="section level3">
+<h3>Ćwiczenie 1.2. CSV z polskiego Excela: średnik, przecinek i
+kodowanie</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Rozpoznasz typowe problemy plików CSV
+zapisanych w polskich ustawieniach regionalnych.</p>
+<p><strong>Polecenie:</strong> Wczytaj
+<code>dane/zgloszenia_pl.csv</code>, dodając kolejno argumenty
+<code>sep</code>, <code>dec</code>, <code>na.strings</code> i
+<code>fileEncoding</code>. Po każdym kroku sprawdź <code>dim()</code>
+lub <code>str()</code> i zapisz, który problem rozwiązał dany argument.
+Na koniec porównaj wynik z <code>read.csv2()</code> i z ramką
+<code>csv</code>.</p>
+</div>
+<p>Excel w polskich ustawieniach regionalnych zapisuje CSV ze średnikiem
+jako separatorem kolumn, bo przecinek jest separatorem dziesiętnym. Plik
+często ma kodowanie Windows-1250, a daty zapisane jako DD.MM.RRRR. Plik
+kursu dodatkowo oznacza braki słowem „brak”. Wczytanie z ustawieniami
+domyślnymi nie kończy się błędem, ale daje błędną ramkę, dlatego po
+każdym imporcie sprawdzaj wymiary i typy.</p>
+<pre class="r"><code>krok1 &lt;- read.csv(&quot;dane/zgloszenia_pl.csv&quot;)
+dim(krok1)                                     # jedna kolumna: zły separator
+krok2 &lt;- read.csv(&quot;dane/zgloszenia_pl.csv&quot;, sep = &quot;;&quot;)
+str(krok2)                                     # ocena i koszt jako tekst
+unique(krok2$typ_sprawy)                       # zniekształcona litera ę
+krok3 &lt;- read.csv(&quot;dane/zgloszenia_pl.csv&quot;, sep = &quot;;&quot;, dec = &quot;,&quot;,
+                  na.strings = &quot;brak&quot;, fileEncoding = &quot;CP1250&quot;)
+str(krok3)
+unique(krok3$typ_sprawy)
+pl &lt;- read.csv2(&quot;dane/zgloszenia_pl.csv&quot;, na.strings = &quot;brak&quot;,
+                fileEncoding = &quot;CP1250&quot;)       # sep = &quot;;&quot; i dec = &quot;,&quot; są domyślne
+identical(pl, krok3)
+pl$data &lt;- as.Date(pl$data, format = &quot;%d.%m.%Y&quot;)
+all.equal(pl, csv)                             # czy oba pliki niosą te same dane?</code></pre>
+<table>
+<colgroup>
+<col width="39%" />
+<col width="32%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Objaw po imporcie</th>
+<th align="left">Przyczyna</th>
+<th align="left">Rozwiązanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">jedna kolumna o nazwie
+<code>id.data.kanal...</code></td>
+<td align="left">kolumny oddziela średnik</td>
+<td align="left"><code>sep = ";"</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>koszt</code> jako tekst <code>"58,1"</code></td>
+<td align="left">przecinek dziesiętny</td>
+<td align="left"><code>dec = ","</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>ocena</code> i <code>koszt</code> nadal jako
+tekst</td>
+<td align="left">słowo „brak” w kolumnie liczbowej</td>
+<td align="left"><code>na.strings = "brak"</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>"Dost\xeap"</code> zamiast „Dostęp”</td>
+<td align="left">kodowanie Windows-1250</td>
+<td align="left"><code>fileEncoding = "CP1250"</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>data</code> jako tekst
+<code>"29.01.2027"</code></td>
+<td align="left">polski format daty</td>
+<td align="left"><code>as.Date(x, format = "%d.%m.%Y")</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>read.csv2()</code> to <code>read.csv()</code> z innymi
+wartościami domyślnymi: <code>sep = ";"</code> i <code>dec = ","</code>.
+Funkcja <code>identical()</code> sprawdza, czy obiekty są dokładnie
+takie same, a <code>all.equal()</code> porównuje je z tolerancją dla
+liczb i wypisuje różnice, gdy je znajdzie.</p>
+<p><strong>Sprawdź i zmień.</strong> Dodawaj argumenty po jednym:
+wczytaj plik z <code>sep = ";", dec = ","</code> i wyjaśnij, dlaczego
+<code>koszt</code> nadal jest tekstem. Wczytaj plik z błędnym
+<code>fileEncoding = "UTF-8"</code> i sprawdź <code>dim()</code>:
+ostrzeżenie łatwo przeoczyć, a ramka ma 0 wierszy. W pomocy
+<code>?read.csv2</code> odczytaj wartości domyślne <code>sep</code> i
+<code>dec</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> ramka <code>pl</code> ma 240
+wierszy i 10 kolumn, <code>ocena</code> i <code>koszt</code> są
+liczbami, <code>typ_sprawy</code> zawiera poprawne „Dostęp”, a
+<code>all.equal(pl, csv)</code> zwraca <code>TRUE</code>. W szablonie
+opisujesz rolę każdego argumentu.</p>
+</div>
+</div>
+<div id="ćwiczenie-1.3.-excel-arkusze-zakresy-i-typy-kolumn"
+class="section level3">
+<h3>Ćwiczenie 1.3. Excel: arkusze, zakresy i typy kolumn</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Wczytasz wybrane arkusze i zakresy pliku XLSX i
+porównasz wynik z danymi z CSV.</p>
+<p><strong>Polecenie:</strong> Wypisz arkusze pliku
+<code>dane/zgloszenia.xlsx</code>, wczytaj arkusz
+<code>zgloszenia</code>, słownik zmiennych <code>opis</code> i tabelę
+<code>dzialy</code>. Sprawdź typ kolumny <code>data</code> i porównaj
+zapisy działów z danymi z CSV.</p>
+</div>
+<p>Pakiet <code>readxl</code> czyta pliki <code>.xlsx</code> i
+<code>.xls</code> bez Excela. Excel przechowuje typ każdej komórki, a
+<code>read_excel()</code> ustala typ kolumny na podstawie pierwszych
+1000 wierszy. Daty trafiają do R jako data z godziną
+(<code>POSIXct</code>, w wydruku <code>&lt;dttm&gt;</code>). Wynik jest
+tibble — ramką danych, która przy wydruku pokazuje typy kolumn i tylko
+pierwsze wiersze. Domyślnie <code>read_excel()</code> usuwa też spacje z
+początku i końca tekstów (<code>trim_ws = TRUE</code>), więc już przy
+imporcie zmienia zapis <code>" katalog "</code>.</p>
+<pre class="r"><code>excel_sheets(&quot;dane/zgloszenia.xlsx&quot;)
+xlsx &lt;- read_excel(&quot;dane/zgloszenia.xlsx&quot;, sheet = &quot;zgloszenia&quot;)
+xlsx                                              # typy kolumn pod nazwami
 class(xlsx$data)
-csv$data &lt;- as.Date(csv$data)
-head(csv[, c(&quot;id&quot;, &quot;data&quot;, &quot;dzial&quot;)], 3)</code></pre>
-<p>Wyjaśnij, dlaczego przy imporcie CSV trzeba sprawdzić datę i braki.
-Obejrzyj pomoc <code>?read.csv</code> oraz nazwy kolumn przez
-<code>names(csv)</code>. Zapisz, co oznacza jeden wiersz danych.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Oba pliki mają 240 wierszy i 10 kolumn. Kolumna data w CSV została
-jawnie zamieniona na datę, a raport podaje jednostkę obserwacji.
-</p>
+opis &lt;- read_excel(&quot;dane/zgloszenia.xlsx&quot;, sheet = &quot;opis&quot;)
+opis                                              # słownik zmiennych
+dzialy &lt;- read_excel(&quot;dane/zgloszenia.xlsx&quot;, sheet = &quot;dzialy&quot;)
+dzialy
+read_excel(&quot;dane/zgloszenia.xlsx&quot;, sheet = &quot;dzialy&quot;, range = &quot;A1:B3&quot;)
+read_excel(&quot;dane/zgloszenia.xlsx&quot;, n_max = 2, col_types = &quot;text&quot;)
+table(xlsx$dzial, useNA = &quot;ifany&quot;)                # porównaj z table(csv$dzial)
+xlsx$data &lt;- as.Date(xlsx$data)</code></pre>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="14%" />
+<col width="67%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Argument <code>read_excel()</code></th>
+<th align="left">Domyślnie</th>
+<th align="left">Znaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>path</code></td>
+<td align="left">—</td>
+<td align="left">ścieżka do pliku</td>
+</tr>
+<tr class="even">
+<td align="left"><code>sheet</code></td>
+<td align="left">pierwszy arkusz</td>
+<td align="left">nazwa albo numer arkusza</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>range</code></td>
+<td align="left">cały arkusz</td>
+<td align="left">zakres komórek, np. <code>"A1:C10"</code> albo
+<code>"dzialy!A1:C4"</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>col_names</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left">pierwszy wiersz zawiera nazwy kolumn</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>col_types</code></td>
+<td align="left">zgadywanie</td>
+<td align="left"><code>"text"</code>, <code>"numeric"</code>,
+<code>"date"</code>, <code>"logical"</code>, <code>"skip"</code> albo
+wektor dla każdej kolumny</td>
+</tr>
+<tr class="even">
+<td align="left"><code>na</code></td>
+<td align="left"><code>""</code></td>
+<td align="left">napisy oznaczające brak</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>skip</code>, <code>n_max</code></td>
+<td align="left"><code>0</code>, wszystkie</td>
+<td align="left">pomijane wiersze na początku; maksymalna liczba wierszy
+danych</td>
+</tr>
+<tr class="even">
+<td align="left"><code>trim_ws</code></td>
+<td align="left"><code>TRUE</code></td>
+<td align="left">usuwanie spacji z brzegów tekstu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>guess_max</code></td>
+<td align="left"><code>1000</code></td>
+<td align="left">liczba wierszy, na podstawie których zgadywany jest
+typ</td>
+</tr>
+</tbody>
+</table>
+<p><code>excel_sheets(path)</code> zwraca nazwy arkuszy. Do obejrzenia
+długich tekstów, np. słownika zmiennych, użyj w RStudio
+<code>View(opis)</code>.</p>
+<p><strong>Sprawdź i zmień.</strong> Wczytaj arkusz ponownie z
+<code>trim_ws = FALSE</code> i porównaj <code>table(xlsx$dzial)</code>.
+Wybierz arkusz numerem, <code>sheet = 2</code>, zamiast nazwy. Przy
+<code>col_types = "text"</code> data wygląda jak liczba
+<code>46416</code>: Excel przechowuje daty jako liczbę dni od 30 grudnia
+1899 roku; sprawdź
+<code>as.Date(46416, origin = "1899-12-30")</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> plik ma trzy arkusze; arkusz
+<code>dzialy</code> ma 4 wiersze i 3 kolumny; <code>data</code> z Excela
+ma klasę <code>POSIXct</code>; w danych z Excela 20 rekordów ma zapis
+<code>"katalog"</code> bez spacji, bo zadziałał <code>trim_ws</code>.
+Umiesz wyjaśnić, czym tibble różni się od zwykłej ramki przy
+wydruku.</p>
 </div>
 </div>
-<div id="ćwiczenie-2.-brak-błąd-i-wartość-skrajna"
+<div id="ćwiczenie-1.4.-braki-danych-i-wartości-podejrzane"
 class="section level3">
-<h3>Ćwiczenie 2. Brak, błąd i wartość skrajna</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Rozdzielisz diagnozę braków od decyzji o wartości podejrzanej.
-</p>
+<h3>Ćwiczenie 1.4. Braki danych i wartości podejrzane</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Oddzielisz diagnozę braków od decyzji o
+wartościach podejrzanych.</p>
+<p><strong>Polecenie:</strong> Policz braki w każdej kolumnie i wiersze
+kompletne, znajdź czasy obsługi spoza zakresu 0–120 minut, sprawdź
+wartości odstające i wszystkie zapisy nazwy działu. Surowej ramki
+<code>csv</code> nie zmieniaj.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Policz braki w każdej kolumnie, znajdź czas ujemny i czas powyżej 120
-minut. Surowego obiektu csv nie zmieniaj.
-</p>
-</div>
-<pre class="r"><code>colSums(is.na(csv))
+<p>W danych rozróżniamy cztery sytuacje. <strong>Brak</strong>
+(<code>NA</code>) — wartość nieznana. <strong>Wartość
+niemożliwa</strong> — np. czas −5 minut. <strong>Wartość
+nietypowa</strong> — np. 190 minut: możliwa, ale wymaga sprawdzenia w
+źródle. <strong>Niespójny zapis</strong> — np. „REPOZYTORIUM” i
+„Repozytorium”. Tylko pierwszą sytuację R rozpoznaje sam; pozostałe są
+dla niego zwykłymi wartościami. Decyzję o nich podejmuje analityk, a
+regułę zapisuje w kodzie. Oznaczenie wartości jako brak jest zwykle
+lepsze niż usunięcie całego wiersza, bo pozostałe pola zgłoszenia są
+nadal wiarygodne.</p>
+<pre class="r"><code>colSums(is.na(csv))                            # braki w każdej kolumnie
+anyNA(csv$czas_min)
+sum(complete.cases(csv))                       # wiersze bez żadnego braku
+csv[!complete.cases(csv), c(&quot;id&quot;, &quot;dzial&quot;, &quot;ocena&quot;, &quot;koszt&quot;)]
+which(is.na(csv$ocena))                        # numery wierszy z brakiem oceny
 summary(csv$czas_min)
-csv[csv$czas_min &lt; 0 | csv$czas_min &gt; 120,
-    c(&quot;id&quot;, &quot;czas_min&quot;, &quot;kanal&quot;)]
+podejrzane &lt;- which(csv$czas_min &lt; 0 | csv$czas_min &gt; 120)
+podejrzane
+csv[podejrzane, c(&quot;id&quot;, &quot;kanal&quot;, &quot;czas_min&quot;, &quot;koszt&quot;)]
+boxplot.stats(csv$czas_min)$out                # reguła 1,5 IQR
+unique(csv$dzial)
 table(csv$dzial, useNA = &quot;ifany&quot;)</code></pre>
-<p>W tekście rozróżnij niemożliwy czas -5 minut od nietypowych 190
-minut. Ustal z prowadzącym regułę ćwiczeniową: oba czasy oznacz jako
-brak w <strong>nowej</strong> ramce i pokaż, ile rekordów to dotyczy. W
-rzeczywistej instytucji wartość 190 minut wymagałaby sprawdzenia w
-źródle.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Widzisz trzy braki oceny, jeden brak działu i jeden brak kosztu oraz dwa
-podejrzane czasy. Uzasadniasz regułę zamiast bez wyjaśnienia usuwać
-wiersze.
-</p>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="40%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Wynik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>is.na(x)</code></td>
+<td align="left">wektor lub ramka</td>
+<td align="left"><code>TRUE</code> w miejscach braków</td>
+</tr>
+<tr class="even">
+<td align="left"><code>colSums(x)</code></td>
+<td align="left">macierz lub ramka liczb albo wartości logicznych;
+<code>na.rm = FALSE</code></td>
+<td align="left">sumy kolumn; na wyniku <code>is.na()</code> — liczba
+braków</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>anyNA(x)</code></td>
+<td align="left">wektor</td>
+<td align="left"><code>TRUE</code>, gdy jest choć jeden brak</td>
+</tr>
+<tr class="even">
+<td align="left"><code>complete.cases(...)</code></td>
+<td align="left">ramka lub kilka wektorów</td>
+<td align="left"><code>TRUE</code> dla wierszy bez braków</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>which(x)</code></td>
+<td align="left">wektor logiczny</td>
+<td align="left">numery pozycji z wartością <code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>boxplot.stats(x, coef = 1.5)$out</code></td>
+<td align="left"><code>coef</code> — mnożnik rozstępu
+międzykwartylowego</td>
+<td align="left">wartości poza granicami Q1 − 1,5·IQR i Q3 +
+1,5·IQR</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>unique(x)</code>,
+<code>table(x, useNA)</code></td>
+<td align="left"><code>useNA = "no"</code>, <code>"ifany"</code> albo
+<code>"always"</code></td>
+<td align="left">różne wartości; liczności, opcjonalnie z brakami</td>
+</tr>
+</tbody>
+</table>
+<p>Reguła 1,5 IQR jest statystyczna: dla czasu obsługi Q1 = 25 i Q3 =
+44, więc IQR = 19, a granice to −3,5 i 72,5 minuty. Reguła wskazuje −5 i
+190 minut, ale także 75 minut, które jest wartością rzadką, lecz
+całkowicie możliwą. Statystyka wskazuje kandydatów do sprawdzenia;
+decyzję podejmujesz na podstawie wiedzy o procesie.</p>
+<p><strong>Sprawdź i zmień.</strong> Uruchom
+<code>boxplot.stats(csv$czas_min, coef = 3)$out</code> i porównaj listę
+wartości. Policz średni czas z wartościami podejrzanymi i bez nich:
+<code>mean(csv$czas_min[-podejrzane])</code>. Ile wierszy ma
+przynajmniej jeden brak? Sprawdź, czy to te same wiersze, które widać w
+<code>colSums(is.na(csv))</code>.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> widzisz 3 braki oceny, 1 brak
+działu i 1 brak kosztu, 235 wierszy kompletnych i 2 czasy spoza zakresu
+(wiersze 11 i 79: −5 i 190 minut). Wymieniasz pięć zapisów działu oraz
+brak i wyjaśniasz, dlaczego 75 minut nie jest błędem, choć wskazuje je
+reguła 1,5 IQR.</p>
 </div>
 </div>
-<div id="ćwiczenie-3.-nowa-ramka-po-czyszczeniu" class="section level3">
-<h3>Ćwiczenie 3. Nowa ramka po czyszczeniu</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Zapiszesz reguły porządkowania w kodzie, zachowując wersję surową.
-</p>
-</div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Ujednolić nazwy działów i oznaczyć podejrzane czasy. Porównaj obiekt
-przed zmianą i po niej.
-</p>
-</div>
-<pre class="r"><code>dane_czyste &lt;- csv |&gt;
-  dplyr::mutate(
-    dzial = trimws(dzial),
-    dzial = dplyr::case_when(
-      tolower(dzial) == &quot;katalog&quot; ~ &quot;Katalog&quot;,
-      tolower(dzial) == &quot;repozytorium&quot; ~ &quot;Repozytorium&quot;,
-      TRUE ~ dzial
-    ),
-    czas_min = ifelse(czas_min &lt; 0 | czas_min &gt; 120, NA, czas_min)
-  )
-table(dane_czyste$dzial, useNA = &quot;ifany&quot;)
-sum(is.na(dane_czyste$czas_min))
-nrow(dane_czyste)</code></pre>
-<p>Sprawdź <code>csv[c(11, 79), "czas_min"]</code>: surowe wartości
-nadal muszą być dostępne. Wyjaśnij, dlaczego brak czasu nie musi
-oznaczać usunięcia całego zgłoszenia.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Nowa ramka ma 240 wierszy, trzy spójne nazwy działów i dwa braki czasu;
-surowe dane pozostają bez zmian.
-</p>
-</div>
-</div>
-</div>
-<div id="challenge-samodzielnie" class="section level2">
-<h2>Challenge — samodzielnie</h2>
-<div id="ćwiczenie-4.-eksport-i-ponowna-kontrola"
+<div id="ćwiczenie-1.5.-wybór-wierszy-i-kolumn-operatory-i-sortowanie"
 class="section level3">
-<h3>Ćwiczenie 4. Eksport i ponowna kontrola</h3>
-<div class="tilt-card purpose">
-<h3>
-Cel
-</h3>
-<p>
-Samodzielnie zapiszesz CSV, odczytasz je ponownie i sprawdzisz jakość
-wyniku.
-</p>
+<h3>Ćwiczenie 1.5. Wybór wierszy i kolumn, operatory i sortowanie</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Wybierzesz rekordy warunkami logicznymi i
+posortujesz wynik, unikając pułapki braków danych.</p>
+<p><strong>Polecenie:</strong> Wybierz zgłoszenia telefoniczne dłuższe
+niż 60 minut i posortuj je malejąco według czasu. Następnie znajdź
+zgłoszenia droższe niż 120 zł i porównaj wynik wyboru warunkiem z
+wynikiem <code>which()</code> oraz <code>subset()</code>.</p>
 </div>
-<div class="tilt-card task">
-<h3>
-Zadanie
-</h3>
-<p>
-Utwórz folder wyniki/, zapisz dane_czyste do
-wyniki/zgloszenia_czyste.csv z row.names = FALSE i na = ““. Ponownie
-wczytaj ten plik. Sprawdź liczbę wierszy, kolumn, braków czasu i brak
-niepotrzebnej kolumny numerującej wiersze.
-</p>
+<p>Zapis <code>ramka[wiersze, kolumny]</code> wybiera fragment ramki.
+Wiersze i kolumny możesz wskazać numerami, nazwami albo wektorem
+logicznym; puste miejsce oznacza „wszystkie”. Warunek budujesz z
+operatorów porównania i łączysz operatorami logicznymi. Uwaga na braki:
+porównanie <code>NA &gt; 120</code> daje <code>NA</code>, a wybór
+wiersza numerem <code>NA</code> zwraca wiersz pełen braków.
+<code>which()</code> i <code>subset()</code> pomijają takie
+przypadki.</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="30%" />
+<col width="54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Operator</th>
+<th align="left">Znaczenie</th>
+<th align="left">Przykład</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>==</code>, <code>!=</code></td>
+<td align="left">równe, różne</td>
+<td align="left"><code>kanal == "Telefon"</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>&lt;</code>, <code>&lt;=</code>,
+<code>&gt;</code>, <code>&gt;=</code></td>
+<td align="left">porównania liczb i dat</td>
+<td align="left"><code>czas_min &gt; 60</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&amp;</code>, <code>|</code>, <code>!</code></td>
+<td align="left">i, lub, zaprzeczenie</td>
+<td
+align="left"><code>kanal == "Telefon" &amp; czas_min &gt; 60</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>%in%</code></td>
+<td align="left">należy do zbioru</td>
+<td
+align="left"><code>typ_sprawy %in% c("Dostęp", "Opis metadanych")</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>is.na()</code></td>
+<td align="left">czy brak</td>
+<td align="left"><code>!is.na(koszt)</code></td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>csv[1:3, c(&quot;id&quot;, &quot;kanal&quot;, &quot;czas_min&quot;)]          # wiersze 1–3, trzy kolumny
+dlugie_tel &lt;- csv[csv$kanal == &quot;Telefon&quot; &amp; csv$czas_min &gt; 60,
+                  c(&quot;id&quot;, &quot;dzial&quot;, &quot;czas_min&quot;)]
+nrow(dlugie_tel)
+dlugie_tel[order(dlugie_tel$czas_min, decreasing = TRUE), ]
+drogie &lt;- csv[csv$koszt &gt; 120, c(&quot;id&quot;, &quot;koszt&quot;)]
+drogie                                          # wiersz z NA: skutek braku kosztu
+csv[which(csv$koszt &gt; 120), c(&quot;id&quot;, &quot;koszt&quot;)]   # which() pomija NA
+subset(csv, koszt &gt; 120, select = c(id, koszt)) # subset() także pomija NA
+nrow(csv[csv$typ_sprawy %in% c(&quot;Dostęp&quot;, &quot;Opis metadanych&quot;), ])
+head(csv[order(csv$kanal, -csv$czas_min), c(&quot;id&quot;, &quot;kanal&quot;, &quot;czas_min&quot;)])</code></pre>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="48%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>order(...)</code></td>
+<td align="left">jeden lub więcej wektorów sortujących;
+<code>decreasing = FALSE</code>; <code>na.last = TRUE</code> (braki na
+końcu, <code>NA</code> — usunięte)</td>
+<td align="left">zwraca kolejność wierszy; minus przed liczbą odwraca
+kierunek dla tej zmiennej</td>
+</tr>
+<tr class="even">
+<td align="left"><code>subset(x, subset, select)</code></td>
+<td align="left"><code>subset</code> — warunek; <code>select</code> —
+kolumny bez cudzysłowów</td>
+<td align="left">wiersze spełniające warunek, bez wierszy z
+<code>NA</code> w warunku</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>head(x, n = 6)</code></td>
+<td align="left"><code>n</code> — liczba wierszy</td>
+<td align="left">pierwsze wiersze wyniku</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Znajdź nierozwiązane zgłoszenia
+działu „Wsparcie” (w surowych danych zapis jest spójny). Wybierz
+zgłoszenia z pierwszego kwartału:
+<code>csv$data &lt; as.Date("2027-04-01")</code>. Posortuj ramkę tak,
+aby wiersze z brakiem oceny znalazły się na początku
+(<code>na.last = FALSE</code>). Wyjaśnij, dlaczego
+<code>csv[csv$kanal = "Telefon", ]</code> kończy się błędem.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> znajdujesz 6 zgłoszeń
+telefonicznych dłuższych niż 60 minut, z najdłuższym Z0173 (75 minut);
+wybór warunkiem daje 6 wierszy dla kosztu powyżej 120 zł, w tym jeden
+pusty, a <code>which()</code> i <code>subset()</code> dają 5; zgłoszeń
+typu Dostęp lub Opis metadanych jest 107.</p>
 </div>
-<p>Dodaj własną regułę kontroli, np. porównanie liczby rekordów przed
-eksportem i po nim. Wyjaśnij, kiedy przy ponownym odczycie CSV trzeba
-znowu ustawić typ daty. Raport musi działać po usunięciu folderu
-<code>wyniki/</code>.</p>
-<div class="tilt-card criteria">
-<h3>
-Kryteria sukcesu
-</h3>
-<p>
-Plik wynikowy ma 240 wierszy i 10 kolumn, dwa braki czasu i spójne
-działy. Kod odtwarza folder i eksport bez ręcznych kroków.
-</p>
 </div>
-<p>Oddaj <code>nazwisko_imie_01.Rmd</code> do zadania spotkania 1 w MS
-Teams. Prześlij tylko plik źródłowy.</p>
+</div>
+<div id="challenge-zadania-samodzielne" class="section level2">
+<h2>Challenge — zadania samodzielne</h2>
+<div id="zadanie-1.6.-nowa-ramka-po-czyszczeniu" class="section level3">
+<h3>Zadanie 1.6. Nowa ramka po czyszczeniu</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Zapiszesz reguły porządkowania w kodzie,
+zachowując dane surowe.</p>
+<p><strong>Polecenie:</strong> Utwórz <code>dane_czyste</code> jako
+kopię <code>csv</code>. Ujednolić nazwy działów, oznacz czasy spoza
+0–120 minut jako brak i zamień <code>kanal</code> na czynnik z poziomami
+Online, Telefon, Na miejscu. Porównaj obiekt przed zmianą i po niej oraz
+uzasadnij regułę dla czasu.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><code>dane_czyste &lt;- csv</code> tworzy kopię; wszystkie zmiany
+wykonuj na kopii.</li>
+<li>Działy: <code>trimws()</code> usuwa spacje z brzegów,
+<code>tolower()</code> zamienia litery na małe, a
+<code>tools::toTitleCase()</code> zamienia pierwszą literę na wielką.
+Złóż te funkcje w jednym wywołaniu.</li>
+<li>Czas: przypisz brak tylko wybranym elementom, np.
+<code>dane_czyste$czas_min[warunek] &lt;- NA</code>, albo użyj
+<code>ifelse(warunek, NA, dane_czyste$czas_min)</code>.</li>
+<li>Kanał:
+<code>factor(..., levels = c("Online", "Telefon", "Na miejscu"))</code>.</li>
+<li>Kontrola: <code>table(dane_czyste$dzial, useNA = "ifany")</code>,
+<code>sum(is.na(dane_czyste$czas_min))</code>,
+<code>nrow(dane_czyste)</code>, <code>levels(dane_czyste$kanal)</code>
+oraz <code>csv$czas_min[c(11, 79)]</code> jako dowód, że surowe wartości
+pozostały bez zmian.</li>
+</ol>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="37%" />
+<col width="36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>trimws(x, which = "both")</code></td>
+<td align="left"><code>which</code> — <code>"left"</code>,
+<code>"right"</code> albo <code>"both"</code></td>
+<td align="left">usuwa spacje z brzegów tekstu</td>
+</tr>
+<tr class="even">
+<td align="left"><code>tolower(x)</code>, <code>toupper(x)</code></td>
+<td align="left">tekst</td>
+<td align="left">zamiana na małe lub wielkie litery</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>tools::toTitleCase(x)</code></td>
+<td align="left">tekst</td>
+<td align="left">pierwsza litera słowa wielka</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ifelse(test, yes, no)</code></td>
+<td align="left">warunek; wartość dla <code>TRUE</code>; wartość dla
+<code>FALSE</code></td>
+<td align="left">wybór wartości dla każdego elementu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>x[warunek] &lt;- wartość</code></td>
+<td align="left">wektor, warunek logiczny</td>
+<td align="left">zastępuje tylko wskazane elementy</td>
+</tr>
+</tbody>
+</table>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> <code>dane_czyste</code> ma 240
+wierszy; działy to Katalog (92), Repozytorium (76) i Wsparcie (71) oraz
+1 brak; czas ma 2 braki; <code>csv$czas_min[c(11, 79)]</code> nadal
+zwraca −5 i 190; poziomy kanału są w zadanej kolejności. Uzasadnienie
+wyjaśnia, dlaczego nie usuwasz całych wierszy.</p>
+</div>
+</div>
+<div id="zadanie-1.7.-agregacja-w-bazowym-r-i-pierwsza-funkcja"
+class="section level3">
+<h3>Zadanie 1.7. Agregacja w bazowym R i pierwsza funkcja</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Streścisz dane w tabelach i napiszesz pierwszą
+własną funkcję.</p>
+<p><strong>Polecenie:</strong> Na danych <code>dane_czyste</code> zbuduj
+tabelę kanału i rozwiązania sprawy z odsetkami w wierszach, policz
+średni czas obsługi według kanału funkcjami <code>tapply()</code> i
+<code>aggregate()</code>, a następnie napisz funkcję
+<code>procent_brakow(x, cyfry = 1)</code> i zastosuj ją do wszystkich
+kolumn przez <code>sapply()</code>.</p>
+</div>
+<p>Funkcja ma nazwę, argumenty (z wartościami domyślnymi lub bez nich) i
+ciało w nawiasach klamrowych. Zwraca wynik ostatniego wyrażenia.
+Uzupełnij szkielet:</p>
+<pre class="r bez-uruchamiania"><code>procent_brakow &lt;- function(x, cyfry = 1) {
+  # 1. mean(is.na(x)) daje udział braków, bo TRUE liczy się jako 1
+  # 2. pomnóż wynik przez 100 i zaokrąglij do `cyfry` miejsc po przecinku
+}</code></pre>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="38%" />
+<col width="43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Działanie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>table(...)</code></td>
+<td align="left">jeden lub dwa wektory kategorii</td>
+<td align="left">tabela liczności, także krzyżowa</td>
+</tr>
+<tr class="even">
+<td align="left"><code>prop.table(x, margin)</code></td>
+<td align="left"><code>margin = NULL</code> — udział w całości;
+<code>1</code> — w wierszach; <code>2</code> — w kolumnach</td>
+<td align="left">tabela udziałów</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>addmargins(x)</code></td>
+<td align="left">tabela</td>
+<td align="left">dodaje sumy wierszy i kolumn</td>
+</tr>
+<tr class="even">
+<td align="left"><code>tapply(X, INDEX, FUN, ...)</code></td>
+<td align="left">wartości; grupy; funkcja; dodatkowe argumenty, np.
+<code>na.rm = TRUE</code></td>
+<td align="left">wynik funkcji w każdej grupie</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>aggregate(formula, data, FUN)</code></td>
+<td align="left"><code>czas_min ~ kanal</code>; ramka; funkcja</td>
+<td align="left">ramka z wynikami w grupach; wiersze z <code>NA</code>
+pomija domyślnie (<code>na.action = na.omit</code>)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>sapply(X, FUN, ...)</code></td>
+<td align="left">lista lub ramka; funkcja; jej argumenty</td>
+<td align="left">stosuje funkcję do każdego elementu lub kolumny</td>
+</tr>
+</tbody>
+</table>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> odsetek spraw rozwiązanych wynosi
+77,9% dla Online, 85,2% dla Telefonu i 87,3% dla kanału Na miejscu;
+średni czas to 30,5, 42,8 i 30,5 minuty w obu metodach;
+<code>procent_brakow(dane_czyste$ocena)</code> zwraca 1,2, a z
+<code>cyfry = 2</code> — 1,25. Opis wyjaśnia znaczenie
+<code>margin = 1</code>.</p>
+</div>
+</div>
+<div id="zadanie-1.8.-eksport-i-ponowna-kontrola"
+class="section level3">
+<h3>Zadanie 1.8. Eksport i ponowna kontrola</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Samodzielnie zapiszesz wynik do CSV i XLSX,
+wczytasz go ponownie i sprawdzisz, czy nic nie zginęło.</p>
+<p><strong>Polecenie:</strong> Zapisz <code>dane_czyste</code> do
+<code>wyniki/zgloszenia_czyste.csv</code> oraz do pliku
+<code>wyniki/zgloszenia_czyste.xlsx</code> z dwoma arkuszami: danymi i
+tabelą braków. Wczytaj CSV ponownie i porównaj wymiary, braki oraz typy
+kolumn z obiektem przed eksportem.</p>
+</div>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Argumenty</th>
+<th align="left">Uwagi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>write.csv(x, file, ...)</code></td>
+<td align="left"><code>row.names = TRUE</code> — domyślnie zapisuje
+numery wierszy; <code>na = "NA"</code> — zapis braków;
+<code>fileEncoding</code></td>
+<td align="left">ustaw <code>row.names = FALSE</code> i
+<code>na = ""</code>, zgodnie z późniejszym importem</td>
+</tr>
+<tr class="even">
+<td align="left"><code>writexl::write_xlsx(x, path)</code></td>
+<td align="left">ramka albo nazwana lista ramek — każda lista tworzy
+arkusz</td>
+<td
+align="left"><code>list(czyste = dane_czyste, braki = tabela_brakow)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>stopifnot(...)</code></td>
+<td align="left">warunki logiczne</td>
+<td align="left">przerywa renderowanie, gdy któryś warunek jest
+fałszywy</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>dir.create("wyniki", showWarnings = FALSE)</code></td>
+<td align="left">—</td>
+<td align="left">zapewnia folder także po jego usunięciu</td>
+</tr>
+</tbody>
+</table>
+<p>Dodaj kontrolę
+<code>stopifnot(nrow(spr) == nrow(dane_czyste), ncol(spr) == ncol(dane_czyste))</code>.
+Sprawdź, co się stanie z nazwami kolumn, gdy zapiszesz plik bez
+<code>row.names = FALSE</code>. Po ponownym wczytaniu CSV sprawdź typy
+<code>data</code> i <code>kanal</code>: plik tekstowy nie przechowuje
+informacji o typach.</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> CSV ma 240 wierszy i 10 kolumn bez
+dodatkowej kolumny <code>X</code>, 2 braki czasu i 1 brak działu; XLSX
+ma arkusze <code>czyste</code> i <code>braki</code>; kod odtwarza folder
+i pliki bez ręcznych kroków; opis wskazuje, które typy trzeba odtworzyć
+po imporcie.</p>
+</div>
+</div>
+</div>
+<div id="oddanie" class="section level2">
+<h2>Oddanie</h2>
+<div class="handin">
+<p>Wyrenderuj szablon do PDF i prześlij
+<code>nazwisko_imie_01.pdf</code> do zadania „Spotkanie 1” w MS Teams.
+Plik <code>.Rmd</code> zapisz w OneDrive, jeżeli chcesz dokończyć
+zadania w domu.</p>
+</div>
+<div class="reading">
+<p><strong>Lektura:</strong> R for Data Science — <a
+href="https://r4ds.had.co.nz/tibbles.html">Tibbles</a>, <a
+href="https://r4ds.had.co.nz/data-import.html">Data import</a> i <a
+href="https://r4ds.had.co.nz/dates-and-times.html">Dates and times</a>.
+Dokumentacja <a href="https://readxl.tidyverse.org/">readxl</a>. W <em>R
+Cookbook</em> rozdziały o wczytywaniu danych i ramkach danych.</p>
 </div>
 </div>
 

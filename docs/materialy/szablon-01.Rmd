@@ -1,135 +1,113 @@
 ---
-title: "Spotkanie 1: import, pliki i czyszczenie danych — praca studenta"
+title: "Spotkanie 1: import, braki i porządkowanie danych"
+subtitle: "Praca studenta"
 author: "Imię i nazwisko"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+lang: pl
+papersize: a4
+geometry: margin=2.5cm
 output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    dev: png
   html_document:
     toc: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>.
-Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
-
-```{r start, message=FALSE, warning=FALSE}
-source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```{r start, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-## Learn — z prowadzącym
+Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.
 
-### Ćwiczenie 1. Dwa formaty, te same rekordy
+## Ćwiczenie 1.1. Import CSV i argumenty read.csv()
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Zaimportujesz CSV i XLSX oraz sprawdzisz strukturę danych.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Odczytaj dwa pliki z folderu projektu. Porównaj rozmiar ramek i typ kolumny data.</p></div>
+**Polecenie:** Wczytaj `dane/zgloszenia.csv` najpierw z ustawieniami domyślnymi, a potem z `na.strings = ""`. Porównaj liczbę braków w kolumnie `dzial`, zamień kolumnę `data` na typ `Date` i policz zgłoszenia w kolejnych miesiącach.
 
-~~~r
-list.files("dane")
-csv <- read.csv("dane/zgloszenia.csv", na.strings = "",
-                fileEncoding = "UTF-8", stringsAsFactors = FALSE)
-xlsx <- readxl::read_excel("dane/zgloszenia.xlsx")
-dim(csv)
-dim(xlsx)
-class(csv$data)
-class(xlsx$data)
-csv$data <- as.Date(csv$data)
-head(csv[, c("id", "data", "dzial")], 3)
-~~~
-
-Wyjaśnij, dlaczego przy imporcie CSV trzeba sprawdzić datę i braki. Obejrzyj pomoc `?read.csv` oraz nazwy kolumn przez `names(csv)`. Zapisz, co oznacza jeden wiersz danych.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Oba pliki mają 240 wierszy i 10 kolumn. Kolumna data w CSV została jawnie zamieniona na datę, a raport podaje jednostkę obserwacji.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw1}
-# Wpisz i uruchom własny kod.
+```{r c1-1}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 1.2. CSV z polskiego Excela: średnik, przecinek i kodowanie
 
-### Ćwiczenie 2. Brak, błąd i wartość skrajna
+**Polecenie:** Wczytaj `dane/zgloszenia_pl.csv`, dodając kolejno argumenty `sep`, `dec`, `na.strings` i `fileEncoding`. Po każdym kroku sprawdź `dim()` lub `str()` i zapisz, który problem rozwiązał dany argument. Na koniec porównaj wynik z `read.csv2()` i z ramką `csv`.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Rozdzielisz diagnozę braków od decyzji o wartości podejrzanej.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz braki w każdej kolumnie, znajdź czas ujemny i czas powyżej 120 minut. Surowego obiektu csv nie zmieniaj.</p></div>
-
-~~~r
-colSums(is.na(csv))
-summary(csv$czas_min)
-csv[csv$czas_min < 0 | csv$czas_min > 120,
-    c("id", "czas_min", "kanal")]
-table(csv$dzial, useNA = "ifany")
-~~~
-
-W tekście rozróżnij niemożliwy czas -5 minut od nietypowych 190 minut. Ustal z prowadzącym regułę ćwiczeniową: oba czasy oznacz jako brak w **nowej** ramce i pokaż, ile rekordów to dotyczy. W rzeczywistej instytucji wartość 190 minut wymagałaby sprawdzenia w źródle.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Widzisz trzy braki oceny, jeden brak działu i jeden brak kosztu oraz dwa podejrzane czasy. Uzasadniasz regułę zamiast bez wyjaśnienia usuwać wiersze.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw2}
-# Wpisz i uruchom własny kod.
+```{r c1-2}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 1.3. Excel: arkusze, zakresy i typy kolumn
 
-### Ćwiczenie 3. Nowa ramka po czyszczeniu
+**Polecenie:** Wypisz arkusze pliku `dane/zgloszenia.xlsx`, wczytaj arkusz `zgloszenia`, słownik zmiennych `opis` i tabelę `dzialy`. Sprawdź typ kolumny `data` i porównaj zapisy działów z danymi z CSV.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Zapiszesz reguły porządkowania w kodzie, zachowując wersję surową.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Ujednolić nazwy działów i oznaczyć podejrzane czasy. Porównaj obiekt przed zmianą i po niej.</p></div>
-
-~~~r
-dane_czyste <- csv |>
-  dplyr::mutate(
-    dzial = trimws(dzial),
-    dzial = dplyr::case_when(
-      tolower(dzial) == "katalog" ~ "Katalog",
-      tolower(dzial) == "repozytorium" ~ "Repozytorium",
-      TRUE ~ dzial
-    ),
-    czas_min = ifelse(czas_min < 0 | czas_min > 120, NA, czas_min)
-  )
-table(dane_czyste$dzial, useNA = "ifany")
-sum(is.na(dane_czyste$czas_min))
-nrow(dane_czyste)
-~~~
-
-Sprawdź `csv[c(11, 79), "czas_min"]`: surowe wartości nadal muszą być dostępne. Wyjaśnij, dlaczego brak czasu nie musi oznaczać usunięcia całego zgłoszenia.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Nowa ramka ma 240 wierszy, trzy spójne nazwy działów i dwa braki czasu; surowe dane pozostają bez zmian.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw3}
-# Wpisz i uruchom własny kod.
+```{r c1-3}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 1.4. Braki danych i wartości podejrzane
 
-## Challenge — samodzielnie
+**Polecenie:** Policz braki w każdej kolumnie i wiersze kompletne, znajdź czasy obsługi spoza zakresu 0–120 minut, sprawdź wartości odstające i wszystkie zapisy nazwy działu. Surowej ramki `csv` nie zmieniaj.
 
-### Ćwiczenie 4. Eksport i ponowna kontrola
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Samodzielnie zapiszesz CSV, odczytasz je ponownie i sprawdzisz jakość wyniku.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder wyniki/, zapisz dane_czyste do wyniki/zgloszenia_czyste.csv z row.names = FALSE i na = "". Ponownie wczytaj ten plik. Sprawdź liczbę wierszy, kolumn, braków czasu i brak niepotrzebnej kolumny numerującej wiersze.</p></div>
-
-Dodaj własną regułę kontroli, np. porównanie liczby rekordów przed eksportem i po nim. Wyjaśnij, kiedy przy ponownym odczycie CSV trzeba znowu ustawić typ daty. Raport musi działać po usunięciu folderu `wyniki/`.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Plik wynikowy ma 240 wierszy i 10 kolumn, dwa braki czasu i spójne działy. Kod odtwarza folder i eksport bez ręcznych kroków.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw4}
-# Wpisz i uruchom własny kod.
+```{r c1-4}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 1.5. Wybór wierszy i kolumn, operatory i sortowanie
 
+**Polecenie:** Wybierz zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je malejąco według czasu. Następnie znajdź zgłoszenia droższe niż 120 zł i porównaj wynik wyboru warunkiem z wynikiem `which()` oraz `subset()`.
+
+```{r c1-5}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 1.6. Nowa ramka po czyszczeniu
+
+**Polecenie:** Utwórz `dane_czyste` jako kopię `csv`. Ujednolić nazwy działów, oznacz czasy spoza 0–120 minut jako brak i zamień `kanal` na czynnik z poziomami Online, Telefon, Na miejscu. Porównaj obiekt przed zmianą i po niej oraz uzasadnij regułę dla czasu.
+
+```{r c1-6}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 1.7. Agregacja w bazowym R i pierwsza funkcja
+
+**Polecenie:** Na danych `dane_czyste` zbuduj tabelę kanału i rozwiązania sprawy z odsetkami w wierszach, policz średni czas obsługi według kanału funkcjami `tapply()` i `aggregate()`, a następnie napisz funkcję `procent_brakow(x, cyfry = 1)` i zastosuj ją do wszystkich kolumn przez `sapply()`.
+
+```{r c1-7}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 1.8. Eksport i ponowna kontrola
+
+**Polecenie:** Zapisz `dane_czyste` do `wyniki/zgloszenia_czyste.csv` oraz do pliku `wyniki/zgloszenia_czyste.xlsx` z dwoma arkuszami: danymi i tabelą braków. Wczytaj CSV ponownie i porównaj wymiary, braki oraz typy kolumn z obiektem przed eksportem.
+
+```{r c1-8}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 ## Kontrola przed oddaniem
 
-- [ ] Dokument renderuje się od początku w czystej sesji R.
-- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.
-- [ ] Część Challenge jest samodzielnym rozwiązaniem.
-- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.
+- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.
+- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.
+- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.
+- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_01.pdf`.

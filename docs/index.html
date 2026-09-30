@@ -13,7 +13,7 @@
 
 <title>Język R</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -392,27 +392,38 @@ div.tocify {
 Od pierwszego polecenia do raportu badawczego
 </h2>
 <p>
-Siedem spotkań po 90 minut oraz 45 minut konsultacji projektu. Łącznie
-15 godzin lekcyjnych: środowisko R, dane, wizualizacja, modele i
-odpowiedzialna praca z SI.
+Siedem spotkań po 90 minut oraz 45 minut konsultacji projektu — łącznie
+15 godzin lekcyjnych: środowisko R, import i porządkowanie danych,
+przekształcenia, wizualizacja, eksploracja, testy i modele oraz
+odpowiedzialna praca z generatywną SI.
 </p>
 </div>
 <div id="jak-pracujemy" class="section level2">
 <h2>Jak pracujemy</h2>
-<p>Zaczynamy od spotkania organizacyjnego: projekt RStudio lub folder
-Positrona, pierwszy dokument R Markdown oraz własny asystent w Microsoft
-Copilot Chat. Na sześciu spotkaniach roboczych rozwiązujemy zadania w
-kolejności <strong>Learn</strong> (z prowadzącym) i
-<strong>Challenge</strong> (samodzielnie). Każde ćwiczenie zawiera cel,
-kroki i kryteria sukcesu TILT. Ostatnie 45 minut przeznaczamy na
-konsultacje projektu grupowego.</p>
+<p>Zaczynamy od spotkania organizacyjnego: poznasz zasady kursu,
+utworzysz projekt RStudio lub folder Positrona, wyrenderujesz pierwszy
+dokument R Markdown do PDF i skonfigurujesz własnego agenta w Microsoft
+365 Copilot. Każde z sześciu spotkań roboczych składa się z pięciu
+ćwiczeń z prowadzącym (<strong>Learn</strong>) i trzech zadań
+samodzielnych (<strong>Challenge</strong>). Każde ćwiczenie ma cel,
+polecenie i kryteria sukcesu, objaśnienie najważniejszych funkcji wraz z
+ich argumentami oraz propozycje zmian do samodzielnego sprawdzenia. Po
+każdym spotkaniu przesyłasz jeden plik PDF do zadania w MS Teams.
+Ostatnie 45 minut przeznaczamy na konsultacje projektu grupowego.</p>
+<p>Każde spotkanie zaczyna się tak samo: nowy projekt, dwie linie w
+konsoli i praca w szablonie. Skrypt startowy za każdym razem odtwarza
+identyczne dane, więc żadne spotkanie nie zależy od plików z poprzednich
+zajęć. Szczegóły opisuje sekcja <a
+href="organizacyjne.html#kazde-spotkanie">Jak wygląda każde
+spotkanie</a>.</p>
 <div class="quick-grid">
 <div class="quick-card">
 <h3>
 Podstawy R
 </h3>
 <p>
-Konsola, projekt, pakiety, typy, struktury, funkcje i pętle.
+Projekt, R Markdown, typy i struktury danych, pakiety, pomoc, funkcje,
+warunki i pętle.
 </p>
 </div>
 <div class="quick-card">
@@ -420,7 +431,8 @@ Konsola, projekt, pakiety, typy, struktury, funkcje i pętle.
 Dane
 </h3>
 <p>
-CSV, Excel, braki, filtrowanie, agregacja, dplyr i tidyr.
+CSV i Excel, braki i wartości podejrzane, dplyr, tidyr, łączenie tabel,
+próby losowe.
 </p>
 </div>
 <div class="quick-card">
@@ -428,7 +440,8 @@ CSV, Excel, braki, filtrowanie, agregacja, dplyr i tidyr.
 Analiza
 </h3>
 <p>
-ggplot2, eksploracja pakietowa, testy, modele lm() i glm().
+ggplot2, dlookr, explore i ggstatsplot, testy, lm() i glm(), wielkość
+efektu.
 </p>
 </div>
 <div class="quick-card">
@@ -436,89 +449,95 @@ ggplot2, eksploracja pakietowa, testy, modele lm() i glm().
 Raport
 </h3>
 <p>
-R Markdown, interpretacja, kontrola kodu i projekt grupowy.
+PDF z R Markdown, interpretacja, kontrola sugestii SI i projekt grupowy.
 </p>
 </div>
 </div>
 </div>
 <div id="plan-15-godzin-lekcyjnych" class="section level2">
 <h2>Plan 15 godzin lekcyjnych</h2>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="23%" />
-<col width="30%" />
-<col width="23%" />
-<col width="23%" />
+<col width="7%" />
+<col width="7%" />
+<col width="34%" />
+<col width="51%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Spotkanie</th>
+<th align="left">Spotkanie</th>
 <th align="right">Czas</th>
-<th>Treść sylabusa</th>
-<th>Rezultat</th>
+<th align="left">Treść sylabusa</th>
+<th align="left">Rezultat</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Organizacyjne</td>
+<td align="left"><a href="organizacyjne.html">Organizacyjne</a></td>
 <td align="right">90 min</td>
-<td>1. Środowisko R, typy i pakiety; wprowadzenie do SI z treści 7</td>
-<td>Projekt, pierwszy <code>.Rmd</code> i asystent Microsoft
-Copilot</td>
+<td align="left">1. Środowisko R, typy danych i pakiety; wstęp do SI z
+treści 7</td>
+<td align="left">Projekt, pierwszy PDF, agent Microsoft 365 Copilot</td>
 </tr>
 <tr class="even">
-<td>1</td>
+<td align="left"><a href="spotkanie-1.html">1</a></td>
 <td align="right">90 min</td>
-<td>2. Organizowanie i czyszczenie danych</td>
-<td>Import CSV/XLSX i kontrolowany zbiór roboczy</td>
+<td align="left">2. Organizowanie i czyszczenie danych</td>
+<td align="left">Import CSV i XLSX, diagnoza braków, uporządkowana
+ramka, pierwsza funkcja</td>
 </tr>
 <tr class="odd">
-<td>2</td>
+<td align="left"><a href="spotkanie-2.html">2</a></td>
 <td align="right">90 min</td>
-<td>3. Operacje na danych</td>
-<td>Transformacja z dplyr i tidyr, własna funkcja</td>
+<td align="left">3. Operacje na danych</td>
+<td align="left">Przekształcenia dplyr i tidyr, łączenie tabel, próby
+losowe, funkcje i pętle</td>
 </tr>
 <tr class="even">
-<td>3</td>
+<td align="left"><a href="spotkanie-3.html">3</a></td>
 <td align="right">90 min</td>
-<td>4. Wizualizacja danych</td>
-<td>Wykresy ggplot2 i ich interpretacja</td>
+<td align="left">4. Wizualizacja danych</td>
+<td align="left">Wykresy bazowe i ggplot2, wykres do raportu, krytyka
+wykresu</td>
 </tr>
 <tr class="odd">
-<td>4</td>
+<td align="left"><a href="spotkanie-4.html">4</a></td>
 <td align="right">90 min</td>
-<td>5. Eksploracyjna analiza danych</td>
-<td>Diagnoza dlookr, explore i ggstatsplot</td>
+<td align="left">5. Eksploracyjna analiza danych</td>
+<td align="left">Diagnoza dlookr, przegląd explore, porównania
+ggstatsplot, audyt raportu</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left"><a href="spotkanie-5.html">5</a></td>
 <td align="right">90 min</td>
-<td>6. Dane jakościowe i modele liniowe</td>
-<td>Testy, lm() i glm()</td>
+<td align="left">6. Dane jakościowe i modele liniowe</td>
+<td align="left">Chi-kwadrat, testy t i Wilcoxona, korelacja, lm() i
+glm()</td>
 </tr>
 <tr class="odd">
-<td>6</td>
+<td align="left"><a href="spotkanie-6.html">6</a></td>
 <td align="right">90 min</td>
-<td>7. Biblioteki R i generatywna SI</td>
-<td>Podsumowanie, wielkość efektu, korekta kodu z Copilot CLI</td>
+<td align="left">7. Biblioteki R i generatywna SI</td>
+<td align="left">Podsumowania, wielkość efektu, tekst z pakietu report,
+korekta kodu z Copilot CLI</td>
 </tr>
 <tr class="even">
-<td>Konsultacje</td>
+<td align="left"><a href="konsultacje.html">Konsultacje</a></td>
 <td align="right">45 min</td>
-<td>Projekt grupowy i omówienie wyników</td>
-<td>Przegląd raportu i plan złożenia</td>
+<td align="left">Projekt grupowy i omówienie wyników</td>
+<td align="left">Przegląd raportu i plan złożenia</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Razem: 7 × 90 + 45 = 675 minut = 15 godzin
-lekcyjnych.</strong> Szczegółowy termin złożenia projektu zostanie
-podany w MS Teams po ogłoszeniu harmonogramu sesji przez rektora.</p>
+lekcyjnych.</strong> Termin złożenia projektu zostanie podany w MS Teams
+po ogłoszeniu harmonogramu sesji.</p>
 </div>
 <div id="rozpocznij" class="section level2">
 <h2>Rozpocznij</h2>
 <p><a class="btn-course" href="organizacyjne.html">Spotkanie
-organizacyjne</a> <a class="btn-course" href="prompty.html">Wybierz ramę
-promptu</a> <a class="btn-course" href="materialy.html">Pobierz
+organizacyjne</a> <a class="btn-course" href="prompty.html">Wybierz
+prompt asystenta</a> <a class="btn-course" href="materialy.html">Pobierz
 szablony</a> <a class="btn-course" href="ocenianie.html">Sprawdź
 ocenianie</a></p>
 </div>

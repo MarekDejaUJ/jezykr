@@ -13,7 +13,7 @@
 
 <title>Zaliczenie i rubryka oceny</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -334,10 +334,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="spotkanie-1.html">1. Import i czyszczenie</a>
+      <a href="spotkanie-1.html">1. Import i porządkowanie</a>
     </li>
     <li>
-      <a href="spotkanie-2.html">2. Operacje i funkcje</a>
+      <a href="spotkanie-2.html">2. Operacje, funkcje i pętle</a>
     </li>
     <li>
       <a href="spotkanie-3.html">3. Wizualizacja</a>
@@ -346,10 +346,10 @@ div.tocify {
       <a href="spotkanie-4.html">4. Eksploracja danych</a>
     </li>
     <li>
-      <a href="spotkanie-5.html">5. Testy i modele</a>
+      <a href="spotkanie-5.html">5. Testy i modele liniowe</a>
     </li>
     <li>
-      <a href="spotkanie-6.html">6. R i Copilot CLI</a>
+      <a href="spotkanie-6.html">6. Biblioteki R i generatywna SI</a>
     </li>
   </ul>
 </li>
@@ -397,39 +397,45 @@ wynikach.
 </p>
 </div>
 <p>Warunkiem zaliczenia jest pozytywna ocena projektu grupowego oraz
-udział w zajęciach zgodny z sylabusem (dopuszczalna jedna nieobecność).
-Sześć plików z ćwiczeń służy bieżącej informacji zwrotnej i
-przygotowaniu do projektu. Każdy plik oddajesz osobno w zadaniu MS
-Teams. W przypadku dodatkowej usprawiedliwionej nieobecności skontaktuj
-się z prowadzącym w sprawie osiągnięcia brakujących efektów.</p>
+udział w zajęciach zgodny z sylabusem (dopuszczalna jest jedna
+nieobecność). Pliki PDF przesyłane po spotkaniach — próbny po spotkaniu
+organizacyjnym i sześć po spotkaniach roboczych — służą bieżącej
+informacji zwrotnej i przygotowaniu do projektu. Każdy plik oddajesz
+osobno w zadaniu MS Teams. W przypadku dodatkowej usprawiedliwionej
+nieobecności skontaktuj się z prowadzącym w sprawie osiągnięcia
+brakujących efektów.</p>
 <p><strong>Termin projektu</strong> zostanie podany w zadaniu MS Teams
-po ogłoszeniu przez rektora harmonogramu sesji. Ostatnie spotkanie,
-trwające 45 minut, służy konsultacji i kontroli projektu; plik można
-przekazać wtedy albo później, w terminie wskazanym w Teams.</p>
+po ogłoszeniu harmonogramu sesji. Ostatnie spotkanie, trwające 45 minut,
+służy konsultacji i kontroli projektu; pliki można przekazać wtedy albo
+później, w terminie wskazanym w Teams.</p>
 <div id="polecenie-projektu" class="section level2">
 <h2>Polecenie projektu</h2>
-<p>Pracujcie w zespole 2–4 osób. Pobierzcie <a
-href="materialy/szablon-projekt.Rmd">szablon projektu</a>. Zadajcie
-jedno pytanie o obsługę zgłoszeń w instytucji informacyjnej. Użyjcie
-fikcyjnych danych kursowych lub innego, jawnie opisanego zbioru
-uzgodnionego z prowadzącym. W jednym pliku <code>.Rmd</code> pokażcie
-kod od pobrania danych po końcowy wniosek. Wynik powinien zawierać
-kontrolę jakości, tabelę, co najmniej dwa wykresy, odpowiedni test lub
-model, interpretację miary efektu i ograniczenia. Wskażcie podział pracy
-i sposób sprawdzenia ewentualnych sugestii SI.</p>
-<p>Przekażcie <strong>jeden plik źródłowy <code>.Rmd</code> na
-zespół</strong> w zadaniu MS Teams. Raport musi renderować się na innym
+<p>Pracujcie w zespole 2–4 osób. Pobierzcie szablon projektu poleceniem
+<code>pobierz_szablon("projekt", "projekt_nazwiska.Rmd")</code> albo ze
+strony <a href="materialy.html">Materiały</a>. Zadajcie jedno pytanie o
+obsługę zgłoszeń w instytucji informacyjnej. Użyjcie fikcyjnych danych
+kursowych lub innego, jawnie opisanego zbioru uzgodnionego z
+prowadzącym. W jednym pliku <code>.Rmd</code> pokażcie kod od pobrania
+danych po końcowy wniosek. Raport powinien zawierać kontrolę jakości
+danych, tabelę, co najmniej dwa wykresy, odpowiedni test lub model,
+interpretację miary efektu i ograniczenia. Wskażcie podział pracy i
+sposób sprawdzenia ewentualnych sugestii SI.</p>
+<p>Przekażcie w zadaniu MS Teams <strong>dwa pliki na zespół</strong>:
+raport <code>projekt_nazwiska.pdf</code> i jego źródło
+<code>projekt_nazwiska.Rmd</code>. PDF służy do oceny i komentarzy, a
+<code>.Rmd</code> do sprawdzenia, czy raport renderuje się na innym
 komputerze po uruchomieniu bloku startowego. Nie dołączajcie folderu
-projektu, lokalnych danych, HTML ani plików z hasłami.</p>
+projektu, danych odtwarzanych przez skrypt, raportów HTML ani plików z
+hasłami.</p>
 </div>
 <div id="rubryka-20-punktów" class="section level2">
 <h2>Rubryka — 20 punktów</h2>
 <table>
 <colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
+<col width="9%" />
+<col width="35%" />
+<col width="32%" />
+<col width="22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -442,16 +448,17 @@ projektu, lokalnych danych, HTML ani plików z hasłami.</p>
 <tbody>
 <tr class="odd">
 <td align="left">Pytanie i dane</td>
-<td align="left">Jasne pytanie, jednostka obserwacji, źródło oraz
-ograniczenia.</td>
+<td align="left">Jasne pytanie, odbiorca, jednostka obserwacji, źródło
+oraz ograniczenia danych.</td>
 <td align="left">Pytanie i dane są opisane, lecz część założeń pozostaje
 niejasna.</td>
 <td align="left">Brakuje pytania lub wiarygodnego opisu danych.</td>
 </tr>
 <tr class="even">
 <td align="left">Odtwarzalność i jakość</td>
-<td align="left"><code>.Rmd</code> renderuje się od początku, zachowuje
-surowe dane i jawnie czyści błędy oraz braki.</td>
+<td align="left"><code>.Rmd</code> renderuje się od początku do PDF,
+zachowuje surowe dane i jawnie opisuje reguły czyszczenia błędów oraz
+braków.</td>
 <td align="left">Kod działa po drobnej korekcie lub opis czyszczenia
 jest niepełny.</td>
 <td align="left">Wynik zależy od ręcznych kroków albo kod nie
@@ -467,8 +474,8 @@ pytaniu.</td>
 </tr>
 <tr class="even">
 <td align="left">Analiza i interpretacja</td>
-<td align="left">Test lub model odpowiada pytaniu; liczebności, efekt i
-ograniczenia są poprawnie zinterpretowane.</td>
+<td align="left">Test lub model odpowiada pytaniu; liczebności, wielkość
+efektu z niepewnością i ograniczenia są poprawnie zinterpretowane.</td>
 <td align="left">Metoda jest zasadniczo trafna, lecz interpretacja lub
 kontrola założeń jest niepełna.</td>
 <td align="left">Metoda jest nieadekwatna albo wniosek nie wynika z
@@ -476,8 +483,8 @@ obliczeń.</td>
 </tr>
 <tr class="odd">
 <td align="left">Wniosek i praca zespołu</td>
-<td align="left">Wniosek wynika z liczb, wskazano podział pracy i
-zweryfikowano użycie SI.</td>
+<td align="left">Wniosek wynika z liczb, wskazano podział pracy, a
+użycie SI jest opisane i zweryfikowane w R.</td>
 <td align="left">Wniosek jest zbyt ogólny lub dokumentacja współpracy i
 kontroli jest niepełna.</td>
 <td align="left">Brak wniosku, wkładu osób albo kontroli wyniku.</td>
@@ -485,9 +492,9 @@ kontroli jest niepełna.</td>
 </tbody>
 </table>
 <p><strong>Pozytywna ocena:</strong> co najmniej 11 z 20 punktów oraz
-renderujący się raport, który zawiera pytanie, własny kod analizy i
-wniosek. Punktacja szczegółowa i informacja zwrotna pojawią się w MS
-Teams. Błędy można omówić podczas <a
+raport, który renderuje się z pliku <code>.Rmd</code> i zawiera pytanie,
+własny kod analizy i wniosek. Punktacja szczegółowa i informacja zwrotna
+pojawią się w MS Teams. Błędy można omówić podczas <a
 href="konsultacje.html">konsultacji</a>.</p>
 </div>
 

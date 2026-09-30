@@ -1,81 +1,97 @@
 ---
 title: "Projekt grupowy — Język R"
-author: "Imiona i nazwiska członków grupy"
+subtitle: "Tytuł projektu"
+author: "Imiona i nazwiska członków zespołu"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+lang: pl
+papersize: a4
+geometry: margin=2.5cm
 output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    number_sections: true
+    dev: png
   html_document:
     toc: true
     number_sections: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-## Skład grupy i podział pracy
-
-Wpisz imię i nazwisko każdej osoby oraz jej wkład: przygotowanie danych, kod, wizualizacje, analiza, redakcja i kontrola. Każdy członek grupy powinien umieć wyjaśnić wszystkie wyniki.
-
-## Pytanie i uzasadnienie
-
-Zapisz jedno konkretne pytanie dotyczące obsługi zapytań w instytucji informacyjnej. Wskaż odbiorcę raportu i decyzję, którą wyniki mogą wspierać. Unikaj pytań o przyczynę, jeśli dane nie pozwalają jej ustalić.
-
-## Dane i odtwarzalność
-
-Poniższy blok odtwarza fikcyjne dane kursowe. Jeżeli po uzgodnieniu z prowadzącym używasz innego zbioru, podaj jego źródło, prawo do wykorzystania i sposób pobrania w jednym pliku `.Rmd`.
-
-```{r start, message=FALSE, warning=FALSE}
-source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```{r start, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-Opisz jednostkę obserwacji, liczbę rekordów, pola użyte w analizie oraz ograniczenia. Nie umieszczaj danych osobowych.
+# Skład zespołu i podział pracy
+
+Wpisz imię i nazwisko każdej osoby oraz jej wkład: przygotowanie danych, kod, wizualizacje, analiza, redakcja i kontrola. Każda osoba w zespole powinna umieć wyjaśnić wszystkie wyniki.
+
+# Pytanie i uzasadnienie
+
+Zapisz jedno konkretne pytanie dotyczące obsługi zgłoszeń w instytucji informacyjnej. Wskaż odbiorcę raportu i decyzję, którą wyniki mogą wspierać. Unikaj pytań o przyczynę, jeśli dane nie pozwalają jej ustalić.
+
+# Dane i odtwarzalność
+
+Blok `start` odtwarza fikcyjne dane kursowe. Jeżeli po uzgodnieniu z prowadzącym używacie innego zbioru, podajcie jego źródło, prawo do wykorzystania i sposób pobrania w tym pliku `.Rmd`. Opiszcie jednostkę obserwacji, liczbę rekordów, pola użyte w analizie oraz ograniczenia. Nie umieszczajcie danych osobowych.
 
 ```{r opis-danych}
 # Wyświetl rozmiar, typy i kilka przykładowych wierszy.
 ```
 
-## Przygotowanie i kontrola jakości
+# Przygotowanie i kontrola jakości
 
-Zachowaj surowe dane. W nowym obiekcie zapisz wszystkie reguły czyszczenia. Wykaż liczbę braków i rekordów wykluczonych z analizy. Uzasadnij sposób postępowania z czasem -5 i 190 minut oraz niespójnymi nazwami działów.
+Zachowajcie surowe dane. W nowym obiekcie zapiszcie wszystkie reguły czyszczenia. Wykażcie liczbę braków i rekordów wykluczonych z analizy. Uzasadnijcie sposób postępowania z wartościami niemożliwymi, nietypowymi i niespójnymi zapisami.
 
 ```{r czyszczenie}
-# Wpisz odtwarzalny kod czyszczenia.
+# Wpisz odtwarzalny kod czyszczenia i kontrolę jego wyniku.
 ```
 
-## Tabela i wizualizacje
+# Tabela i wizualizacje
 
-Zbuduj tabelę podsumowującą oraz co najmniej dwa wykresy odpowiadające pytaniu. Każdy wykres ma tytuł, opis osi, jednostkę i krótki komentarz. Sprawdź liczebność porównywanych grup.
+Zbudujcie tabelę podsumowującą oraz co najmniej dwa wykresy odpowiadające pytaniu. Każdy wykres ma tytuł, opis osi z jednostką, podpis (`fig.cap`) i krótki komentarz. Sprawdźcie liczebność porównywanych grup.
 
 ```{r tabela}
 # Wpisz kod tabeli.
 ```
 
-```{r wykres-1}
+```{r wykres-1, fig.cap="Podpis pierwszego wykresu"}
 # Wpisz kod pierwszego wykresu.
 ```
 
-```{r wykres-2}
+```{r wykres-2, fig.cap="Podpis drugiego wykresu"}
 # Wpisz kod drugiego wykresu.
 ```
 
-## Analiza i interpretacja
+# Analiza i interpretacja
 
-Wybierz test statystyczny albo model `lm()` lub `glm()` adekwatny do pytania. Podaj wynik, jednostkę lub miarę efektu, przedział niepewności tam, gdzie jest dostępny, oraz ograniczenie metody. Nie utożsamiaj korelacji z przyczynowością.
+Wybierzcie test statystyczny albo model `lm()` lub `glm()` adekwatny do pytania i typów zmiennych. Podajcie wynik, wielkość efektu z przedziałem ufności, liczebność oraz ograniczenie metody. Nie utożsamiajcie korelacji z przyczynowością. Liczby w tekście możecie wstawiać automatycznie, np. `` `r knitr::inline_expr("round(mean(zgloszenia_analiza$czas_min, na.rm = TRUE), 1)")` ``.
 
 ```{r analiza}
 # Wpisz kod analizy i sprawdzenie założeń.
 ```
 
-## Wniosek i rekomendacja
+# Wniosek i rekomendacja
 
-Napisz krótki wniosek oparty na liczbach i jedną praktyczną rekomendację. Wyjaśnij, co trzeba zbadać przed podjęciem decyzji w rzeczywistej instytucji.
+Napiszcie krótki wniosek oparty na liczbach i jedną praktyczną rekomendację. Wyjaśnijcie, co trzeba zbadać przed podjęciem decyzji w rzeczywistej instytucji.
 
-## Korzystanie z narzędzi SI
+# Korzystanie z narzędzi SI
 
-Jeżeli grupa użyła Microsoft Copilot Chat albo GitHub Copilot CLI, podaj do czego, jaką sugestię otrzymała i jak sprawdziła wynik w R. Nie wklejaj danych osobowych, haseł ani tokenów.
+Jeżeli zespół użył Microsoft 365 Copilot albo GitHub Copilot CLI, uzupełnijcie dziennik. Nie wklejajcie danych osobowych, haseł ani tokenów.
 
-## Kontrola końcowa
+| Narzędzie | Polecenie (skrót) | Sugestia | Jak sprawdziliśmy | Decyzja |
+|:---|:---|:---|:---|:---|
+|  |  |  |  |  |
 
-- [ ] Raport renderuje się od początku w czystej sesji R.
+# Kontrola końcowa
+
+- [ ] Po restarcie R raport renderuje się do PDF od początku.
 - [ ] Pytanie, dane, kod, tabela, dwa wykresy i analiza tworzą spójną całość.
 - [ ] Wyniki liczbowe w tekście zgadzają się z wynikami kodu.
 - [ ] Podano ograniczenia danych i metod.
-- [ ] Podział pracy grupy jest jawny.
-- [ ] Do zadania w MS Teams przekazujemy jeden plik `.Rmd`.
+- [ ] Podział pracy zespołu jest jawny.
+- [ ] Do zadania w MS Teams przekazujemy dwa pliki: `projekt_nazwiska.pdf` i `projekt_nazwiska.Rmd`.
 
-Termin przekazania projektu podaje prowadzący w zadaniu MS Teams po komunikacie rektora o harmonogramie sesji.
+Termin przekazania projektu podaje prowadzący w zadaniu MS Teams po ogłoszeniu harmonogramu sesji.

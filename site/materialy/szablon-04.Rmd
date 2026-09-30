@@ -1,105 +1,114 @@
 ---
-title: "Spotkanie 4: automatyczna eksploracja danych — praca studenta"
+title: "Spotkanie 4: eksploracyjna analiza danych"
+subtitle: "Praca studenta"
 author: "Imię i nazwisko"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+lang: pl
+papersize: a4
+geometry: margin=2.5cm
 output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    dev: png
   html_document:
     toc: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-4.html>.
-Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
-
-```{r start, message=FALSE, warning=FALSE}
+```{r start, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
 options(jezykr.pakiety = c("dlookr", "explore", "ggstatsplot"))
-source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-## Learn — z prowadzącym
+Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-4.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.
 
-### Ćwiczenie 13. Diagnoza jakości z dlookr
+## Ćwiczenie 4.1. Diagnoza jakości z dlookr
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Porównasz automatyczną diagnozę braków z własną regułą jakości.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom diagnose() dla surowych i oczyszczonych danych. Znajdź różnicę w czas_min.</p></div>
+**Polecenie:** Uruchom `diagnose()` dla danych surowych i oczyszczonych, a następnie `diagnose_category()`, `diagnose_numeric()` i `diagnose_outlier()` dla danych surowych. Wskaż, które problemy wykryła diagnoza automatyczna, a których nie.
 
-~~~r
-pakiety_kursu(c("dlookr", "explore", "ggstatsplot"))
-diag_surowe <- dlookr::diagnose(zgloszenia)
-diag_czyste <- dlookr::diagnose(zgloszenia_analiza)
-diag_surowe
-diag_czyste
-~~~
-
-Porównaj liczbę braków `czas_min`. Czy sama diagnoza wykryła, że -5 i 190 minut są problemem? Wyjaśnij, skąd pochodzi reguła jakości i kiedy należałoby sprawdzić źródło.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>W oczyszczonym obiekcie są dwa dodatkowe braki czasu; wiesz, że profil statystyczny nie zastępuje oceny sensu wartości.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw1}
-# Wpisz i uruchom własny kod.
+```{r c4-1}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 4.2. Rozkłady, normalność i wartości odstające
 
-### Ćwiczenie 14. Opis i wykres z dwóch pakietów
+**Polecenie:** Uruchom `describe()` dla wszystkich zmiennych liczbowych i dla czasu w podziale na kanały, sprawdź normalność testem Shapiro–Wilka i narysuj wykresy normalności oraz wartości odstających.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Odczytasz wyniki automatyczne bez oddawania narzędziu interpretacji pytania.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Uruchom describe_all() i ggbetweenstats() dla czasu w grupach A i B.</p></div>
-
-~~~r
-explore::describe_all(zgloszenia_analiza)
-dane_test <- zgloszenia_analiza |>
-  dplyr::filter(!is.na(czas_min))
-ggstatsplot::ggbetweenstats(data = dane_test,
-                            x = grupa, y = czas_min,
-                            type = "parametric")
-~~~
-
-Odczytaj liczebności, kierunek różnicy i informację o teście. Porównaj liczebności z `table(dane_test$grupa)`. Zapisz, jakie założenie lub ograniczenie trzeba uwzględnić przed interpretacją.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Raport zawiera opis zmiennych, wykres grup i niezależną kontrolę liczebności; komentarz oddziela wynik automatyczny od własnego wniosku.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw2}
-# Wpisz i uruchom własny kod.
+```{r c4-2}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 4.3. Szybki przegląd zmiennych z explore
 
-## Challenge — samodzielnie
+**Polecenie:** Obejrzyj przegląd typów i braków, opis wszystkich zmiennych, opis czasu i kanału, a następnie wykresy czasu w grupach procedury i rozwiązania sprawy w kanałach.
 
-### Ćwiczenie 15. Raport EDA i jego audyt
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Wygenerujesz lokalny raport HTML i wskażesz, co potwierdza oraz czego nie wyjaśnia.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz folder wyniki/ i wygeneruj raport przez dlookr::eda_web_report(zgloszenia_analiza, output_file = "eda.html", output_dir = normalizePath("wyniki", winslash = "/"), browse = FALSE). W oddawanym .Rmd pokaż ten kod w bloku z eval=FALSE. Podaj dwa ustalenia zgodne z własną kontrolą i jedną rzecz, której raport nie wyjaśnia.</p></div>
-
-Raport EDA utwórz jednorazowo w konsoli. Dokument `.Rmd` ma renderować się bez ponownego tworzenia drugiego HTML. W jego treści podaj nazwę pliku, jedną sprawdzoną liczbę, wynik niezależnego sprawdzenia i ograniczenie raportu. Nie dołączaj `wyniki/eda.html` do MS Teams.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Lokalny plik wyniki/eda.html powstaje; oddany raport zawiera kod generowania, sprawdzoną liczbę i krytyczny komentarz.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw3, eval=FALSE}
-# Wpisz i uruchom własny kod.
+```{r c4-3}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 4.4. Porównanie grup z ggstatsplot
 
-**Moja niezależna kontrola liczb w R:**
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu statystykę testu, wartość p, wielkość efektu z przedziałem ufności i liczność. Pobierz te same liczby funkcją `extract_stats()` i porównaj je z wynikiem `t.test()`.
 
-```{r kontrola-eda}
-# Wpisz kod kontroli jednej liczby z raportu.
+```{r c4-4}
+# Twój kod
 ```
 
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 4.5. Raport automatyczny
+
+**Polecenie:** W konsoli wygeneruj raport `dlookr::eda_web_report()` do pliku `wyniki/eda.html` i otwórz go w przeglądarce. W szablonie pokaż kod w bloku z `eval=FALSE` i wypisz nazwy głównych sekcji raportu.
+
+```{r c4-5, eval=FALSE}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 4.6. Audyt raportu EDA
+
+**Polecenie:** Wybierz z raportu `wyniki/eda.html` dwie liczby lub obserwacje i sprawdź każdą niezależnym kodem R (np. `mean()`, `table()`, `cor()`). Wskaż jedną rzecz, której raport nie wyjaśnia, i jedną decyzję, której nie może podjąć za analityka.
+
+```{r c4-6}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 4.7. Porównanie trzech kanałów
+
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu według kanału w wariancie nieparametrycznym z porównaniami parami (`pairwise.display = "significant"`, `p.adjust.method = "holm"`). Sprawdź mediany i liczności w `group_by()` i `summarise()`, a następnie opisz, które pary kanałów się różnią.
+
+```{r c4-7}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 4.8. Zależności między zmiennymi
+
+**Polecenie:** Narysuj macierz korelacji czasu, oceny i kosztu (`ggcorrmat()`), wykres punktowy czasu i oceny z testem Spearmana (`ggscatterstats()`) oraz wykres rozwiązania sprawy w kanałach (`ggbarstats()`). Dla każdego wykresu zapisz jedną liczbę i jedno zdanie interpretacji.
+
+```{r c4-8}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 ## Kontrola przed oddaniem
 
-- [ ] Dokument renderuje się od początku w czystej sesji R.
-- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.
-- [ ] Część Challenge jest samodzielnym rozwiązaniem.
-- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.
+- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.
+- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.
+- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.
+- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_04.pdf`.

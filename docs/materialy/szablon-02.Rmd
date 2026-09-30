@@ -1,137 +1,113 @@
 ---
-title: "Spotkanie 2: operacje, funkcje i przekształcenia — praca studenta"
+title: "Spotkanie 2: operacje na danych, funkcje i pętle"
+subtitle: "Praca studenta"
 author: "Imię i nazwisko"
+date: "`r format(Sys.Date(), '%d.%m.%Y')`"
+lang: pl
+papersize: a4
+geometry: margin=2.5cm
 output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    dev: png
   html_document:
     toc: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-Instrukcja online: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>.
-Przykładowy kod z ramek poniżej wpisz lub zmodyfikuj w bloku **Twoja praca**. Dodaj własne rozwiązanie części Challenge.
-
-```{r start, message=FALSE, warning=FALSE}
-source(url("https://marekdejauj.github.io/jezykr/materialy/init-v1.R"), local = TRUE)
+```{r start, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-## Learn — z prowadzącym
+Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.
 
-### Ćwiczenie 5. Wektor, warunek i próbka
+## Ćwiczenie 2.1. Potok, select(), filter() i arrange()
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz operację na całym wektorze, wartości brakujące i powtarzalne losowanie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wektor, policz średnią z pominięciem braku i wylosuj 12 identyfikatorów zgłoszeń.</p></div>
+**Polecenie:** W jednym potoku wybierz kolumny, odfiltruj zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je malejąco. Następnie wypróbuj wybór kolumn według nazwy i typu oraz filtry z `%in%`, `between()` i `is.na()`.
 
-~~~r
-czasy <- c(12, 18, NA, 30)
-czasy > 15
-mean(czasy)
-mean(czasy, na.rm = TRUE)
-sum(is.na(czasy))
-set.seed(17358)
-proba_id <- sample(zgloszenia$id, size = 12, replace = FALSE)
-proba_id
-~~~
-
-Sprawdź `typeof(czasy)` i `length(proba_id)`. Ponownie uruchom blok po `set.seed()` i wyjaśnij, dlaczego próba się nie zmienia. W pomocy `?sample` odszukaj znaczenie `replace`.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Średnia z trzech dostępnych czasów wynosi 20; próba ma 12 unikalnych ID i jest powtarzalna.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw1}
-# Wpisz i uruchom własny kod.
+```{r c2-1}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 2.2. Nowe zmienne: mutate(), if_else(), case_when() i cut()
 
-### Ćwiczenie 6. Filtrowanie, agregacja i układ tabeli
+**Polecenie:** Dodaj do danych czas w godzinach, koszt minuty, pełne godziny i resztę minut, miesiąc, kwartał, znacznik długiej obsługi, kategorię czasu oraz opis oceny. Sprawdź nowe zmienne funkcją `count()`.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Zmienisz dane jednostkowe w zestawienie według kanału i grupy.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Użyj select(), filter(), arrange(), group_by(), summarise() oraz pivot_wider().</p></div>
-
-~~~r
-online <- zgloszenia_analiza |>
-  dplyr::select(id, kanal, grupa, czas_min) |>
-  dplyr::filter(kanal == "Online") |>
-  dplyr::arrange(dplyr::desc(czas_min))
-head(online)
-podsumowanie <- zgloszenia_analiza |>
-  dplyr::group_by(kanal, grupa) |>
-  dplyr::summarise(
-    liczba = dplyr::n(),
-    sredni_czas = mean(czas_min, na.rm = TRUE),
-    .groups = "drop"
-  )
-podsumowanie
-sum(podsumowanie$liczba)
-tidyr::pivot_wider(podsumowanie, names_from = grupa,
-                   values_from = sredni_czas)
-~~~
-
-Zbuduj również wersję długą przez `tidyr::pivot_longer()` dla dwóch kolumn tabeli szerokiej. Opisz, czym różni się liczba obserwacji od średniej. Sprawdź pomoc `?dplyr::summarise`.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Zestawienie ma sześć kombinacji, liczności sumują się do 240, a tabela szeroka ma osobne kolumny A i B.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw2}
-# Wpisz i uruchom własny kod.
+```{r c2-2}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 2.3. Grupowanie i podsumowania: group_by(), summarise(), count() i across()
 
-### Ćwiczenie 7. Własna funkcja i diagnoza błędu
+**Polecenie:** Dla każdego kanału policz liczbę zgłoszeń, braki czasu, średnią, medianę i odchylenie standardowe czasu oraz odsetek spraw rozwiązanych. Policz kombinacje kanału i działu, średnie kilku zmiennych naraz według grupy procedury oraz różnicę czasu każdego zgłoszenia od średniej jego kanału.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Napiszesz funkcję wielokrotnego użytku i sprawdzisz jej zachowanie w typowym i skrajnym przypadku.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz odsetek braków dla dowolnego wektora. Przetestuj także pusty wektor i celowo błędną nazwę kolumny.</p></div>
-
-~~~r
-odsetek_brakow <- function(x) {
-  if (length(x) == 0L) stop("Wektor nie może być pusty.")
-  100 * sum(is.na(x)) / length(x)
-}
-odsetek_brakow(zgloszenia$ocena)
-odsetek_brakow(c(1, NA, 3, NA))
-~~~
-
-W konsoli uruchom `odsetek_brakow(numeric(0))` i odczytaj komunikat, potem popraw wywołanie. Sprawdź `?is.na`, `str(zgloszenia)` i `traceback()` po błędzie. W oddawanym raporcie pokaż kod błędnego wywołania w bloku z `eval=FALSE`, aby dokument nadal się renderował.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja zwraca 50 dla przykładu z dwoma brakami, odrzuca pusty wektor i działa zarówno dla liczb, jak i tekstu.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw3}
-# Wpisz i uruchom własny kod.
+```{r c2-3}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 2.4. Dane uporządkowane, tidyr i łączenie tabel
 
-## Challenge — samodzielnie
+**Polecenie:** Zamień zestawienie kanału i grupy na tabelę szeroką i z powrotem na długą, zbuduj tabelę działów według miesięcy, porównaj `drop_na()` z `replace_na()`, a następnie połącz zgłoszenia z arkuszem `dzialy` i znajdź dział, który nie ma zgłoszeń.
 
-### Ćwiczenie 8. Program kontroli jakości
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz funkcję, warunek, pętlę i wynikową ramkę danych.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Napisz funkcję ocen_kolumne(x, prog_brakow), która zwraca „sprawdź”, gdy procent braków przekracza próg, a „OK” w przeciwnym razie. Odrzuć próg spoza 0–100. Pętlą for oceń co najmniej cztery kolumny zbioru i zapisz wynik w ramce z nazwą, procentem braków i oceną.</p></div>
-
-Sprawdź funkcję na wektorze bez braków, z połową braków i na błędnym progu. Błędne wywołanie pokaż jako kod nieuruchamiany przy renderowaniu. Własnymi słowami wyjaśnij, dlaczego próg jest decyzją analityczną.
-
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja i pętla działają na różnych kolumnach, walidacja progu daje czytelny błąd, a trzy testy potwierdzają zachowanie programu.</p></div>
-
-**Twoja praca — kod:**
-
-```{r cw4}
-# Wpisz i uruchom własny kod.
+```{r c2-4}
+# Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
+## Ćwiczenie 2.5. Próby losowe i symulacja
 
+**Polecenie:** Po `set.seed()` wylosuj wartości funkcją `sample()`, pobierz próbę 24 zgłoszeń i próbę warstwową 10% z każdego kanału, wygeneruj dane z rozkładu normalnego i sprawdź na 500 próbach, jak bardzo średnia z próby różni się od średniej całego zbioru.
+
+```{r c2-5}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 2.6. Funkcja z walidacją i debugowanie
+
+**Polecenie:** Napisz funkcję `opisz(x, cyfry = 1)`, która dla wektora liczbowego zwraca nazwany wektor: liczbę elementów, liczbę braków, średnią, medianę i odchylenie standardowe. Funkcja ma zatrzymać się z czytelnym komunikatem, gdy `x` nie jest liczbowy. Następnie znajdź i popraw błąd w funkcji `srednia_bez_skrajnych()`.
+
+```{r c2-6, error=TRUE}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 2.7. Pętla i warunek: program kontroli jakości
+
+**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog_brakow = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i odrzuca próg spoza 0–100. Pętlą `for` oceń kolumny `dzial`, `czas_min`, `ocena`, `koszt` i `rozwiazano`, zapisując wynik w ramce z nazwą kolumny, procentem braków i oceną. Porównaj wynik z wersją bez pętli.
+
+```{r c2-7, error=TRUE}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
+
+## Zadanie 2.8. Zestawienie dla kierownika z pomocą dokumentacji
+
+**Polecenie:** Przygotuj tabelę dla kierownika: dla każdego działu liczba zgłoszeń, liczba etatów, liczba zgłoszeń na etat, odsetek spraw rozwiązanych i mediana czasu, posortowana malejąco według obciążenia etatu. Zgłoszenie bez działu oznacz jako „nieznany”. Dodaj drugą tabelę w układzie szerokim: działy w wierszach, kanały w kolumnach. Zapisz, z których stron pomocy korzystałeś i jaki argument tam sprawdziłeś.
+
+```{r c2-8}
+# Twój kod
+```
+
+**Wynik i interpretacja:** uzupełnij własnymi słowami.
 
 ## Kontrola przed oddaniem
 
-- [ ] Dokument renderuje się od początku w czystej sesji R.
-- [ ] Wszystkie ćwiczenia zawierają odpowiedź i interpretację.
-- [ ] Część Challenge jest samodzielnym rozwiązaniem.
-- [ ] Do zadania MS Teams dołączam tylko ten plik `.Rmd`.
+- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.
+- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.
+- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.
+- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_02.pdf`.

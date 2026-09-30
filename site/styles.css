@@ -7,10 +7,13 @@
   --beige-deep: #e7e0d3;
   --sans: "Segoe UI Variable Text", Aptos, "Segoe UI", Arial, sans-serif;
   --display: "Segoe UI Variable Display", Aptos, "Segoe UI", Arial, sans-serif;
-  --mono: "Courier New", Consolas, "Liberation Mono", monospace;
+  --mono: Consolas, "Cascadia Mono", Menlo, "SF Mono", "Liberation Mono", monospace;
+  --check: #2c5e4f;
 }
 
+/* Bootstrap 3 ustawia 10 px dla elementu html; jednostki rem liczymy od 16 px. */
 html {
+  font-size: 16px;
   scroll-padding-top: 72px;
 }
 
@@ -155,11 +158,11 @@ body,
   padding-right: 34px;
 }
 
+/* Akapity, listy i bloki mają wspólną szerokość kolumny treści. */
 p,
-.toc-content > ul,
-.toc-content > ol,
-.lead {
-  max-width: 46rem;
+li {
+  hyphens: manual;
+  overflow-wrap: break-word;
 }
 
 h1,
@@ -174,9 +177,8 @@ h6 {
 }
 
 h1 {
-  max-width: 46rem;
   margin: 0 0 1.25rem;
-  font-size: 2.45rem;
+  font-size: 2.2rem;
   font-weight: 350;
 }
 
@@ -189,9 +191,16 @@ h2 {
 }
 
 h3 {
-  margin-top: 2rem;
-  font-size: 1.05rem;
+  margin-top: 2.6rem;
+  padding-top: .9rem;
+  border-top: 1px solid var(--line);
+  font-size: 1.2rem;
   font-weight: 700;
+}
+
+h4 {
+  margin-top: 1.6rem;
+  font-size: 1rem;
 }
 
 h4,
@@ -227,7 +236,6 @@ button:focus-visible {
 
 /* Wprowadzenie */
 .hero {
-  max-width: 46rem;
   margin: 0 0 2.6rem;
   padding: 1.15rem 0 1.15rem 1.5rem;
   color: var(--ink);
@@ -330,7 +338,6 @@ button:focus-visible {
 
 .timebox,
 .note {
-  max-width: 46rem;
   margin: 1.2rem 0;
   padding: .8rem 1rem;
   color: var(--ink);
@@ -348,6 +355,59 @@ button:focus-visible {
 .timebox p:last-child,
 .note p:last-child {
   margin-bottom: 0;
+}
+
+/* Cel i polecenie, kryteria sukcesu, start spotkania, oddanie i lektura */
+.brief,
+.criteria,
+.start,
+.handin,
+.reading {
+  margin: 1.1rem 0 1.5rem;
+  padding: .85rem 1.1rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--ink);
+}
+
+.criteria {
+  background: #edf3ef;
+  border-color: #b9cfc4;
+  border-left-color: var(--check);
+}
+
+.start,
+.handin {
+  background: var(--beige-deep);
+  border-color: var(--beige-deep);
+}
+
+.reading {
+  border-left-width: 1px;
+}
+
+.brief p,
+.criteria p,
+.start p,
+.handin p,
+.reading p {
+  margin: 0 0 .5rem;
+}
+
+.brief p:last-child,
+.criteria p:last-child,
+.start p:last-child,
+.handin p:last-child,
+.reading p:last-child,
+.reading ul:last-child,
+.start ol:last-child {
+  margin-bottom: 0;
+}
+
+.brief + pre,
+.start + pre {
+  margin-top: -.6rem;
 }
 
 /* Formuły i bloki kodu */
@@ -375,8 +435,8 @@ pre {
   border-radius: 0;
   font-size: 14px;
   line-height: 1.5;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  white-space: pre;
+  overflow-x: auto;
 }
 
 pre code,
@@ -384,7 +444,16 @@ pre code.hljs,
 pre code * {
   color: var(--ink) !important;
   background: var(--beige) !important;
-  white-space: pre-wrap;
+  white-space: pre;
+}
+
+/* Prompty i teksty do skopiowania zawijają się do szerokości ramki. */
+pre.text,
+pre.text code {
+  white-space: pre-wrap !important;
+  word-break: normal;
+  overflow-wrap: break-word;
+  font-size: 15px;
 }
 
 .copy-code {
@@ -411,10 +480,14 @@ pre code * {
 .table,
 table {
   width: 100%;
-  margin: 1.4rem 0 2rem;
+  margin: 1rem 0 1.6rem;
   border-top: 2px solid var(--ink);
   border-bottom: 1px solid var(--ink);
   font-size: 15px;
+}
+
+td code {
+  white-space: nowrap;
 }
 
 .table > thead > tr > th,
@@ -545,9 +618,12 @@ td {
   pre {
     max-width: 100%;
     padding-right: 4.8rem;
-    white-space: pre;
     overflow-x: auto;
-    overflow-wrap: normal;
+  }
+
+  .main-container table {
+    display: block;
+    overflow-x: auto;
   }
 
   .course-footer {

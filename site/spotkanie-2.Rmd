@@ -1,90 +1,358 @@
 ---
-title: "Spotkanie 2: operacje, funkcje i przekształcenia"
+title: "Spotkanie 2: operacje na danych, funkcje i pętle"
 ---
 
-<div class="hero"><h2>Spotkanie 2 z 6 · treść programowa 3</h2><p>Operujesz na wektorach i próbach losowych, przekształcasz ramki oraz piszesz własną funkcję R.</p></div>
+<div class="hero"><h2>Spotkanie 2 z 6 · 90 minut · treść programowa 3</h2><p>Przekształcisz dane pakietami dplyr i tidyr, połączysz dwie tabele, wylosujesz powtarzalne próby, a następnie napiszesz własne funkcje z warunkami i pętlą oraz znajdziesz błąd w kodzie narzędziami debugowania.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 10 min operatory, 20 min próba losowa, 25 min dplyr i tidyr, 15 min funkcja z prowadzącym, 15 min samodzielny program, 5 min kontrola.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 12 min ćwiczenie 2.1 · 12 min ćwiczenie 2.2 · 12 min ćwiczenie 2.3 · 12 min ćwiczenie 2.4 · 10 min ćwiczenie 2.5 · 27 min zadania 2.6–2.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
 
-Pobierz [szablon 02](materialy/szablon-02.Rmd). Blok startowy udostępnia obiekty `zgloszenia` i `zgloszenia_analiza`. Skrypt startowy zawiera jawne reguły czyszczenia; nie nadpisuj surowego obiektu.
+::: {.start}
+**Start:** otwórz projekt `jezykr`, uruchom skrypt startowy i pobierz szablon spotkania 2. Od tego spotkania pracujesz głównie na obiekcie `zgloszenia_analiza`: skrypt startowy stosuje w nim reguły z zadania 1.6 (ujednolicone działy, czasy spoza 0–120 minut jako brak). Surowy obiekt `zgloszenia` pozostaje bez zmian.
+:::
 
-## Learn — z prowadzącym
-
-### Ćwiczenie 5. Wektor, warunek i próbka
-
-<div class="tilt-card purpose"><h3>Cel</h3><p>Rozpoznasz operację na całym wektorze, wartości brakujące i powtarzalne losowanie.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Utwórz wektor, policz średnią z pominięciem braku i wylosuj 12 identyfikatorów zgłoszeń.</p></div>
-
-~~~r
-czasy <- c(12, 18, NA, 30)
-czasy > 15
-mean(czasy)
-mean(czasy, na.rm = TRUE)
-sum(is.na(czasy))
-set.seed(17358)
-proba_id <- sample(zgloszenia$id, size = 12, replace = FALSE)
-proba_id
+~~~{.r .bez-uruchamiania}
+source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
+pobierz_szablon(2, "nazwisko_imie_02.Rmd")
 ~~~
 
-Sprawdź `typeof(czasy)` i `length(proba_id)`. Ponownie uruchom blok po `set.seed()` i wyjaśnij, dlaczego próba się nie zmienia. W pomocy `?sample` odszukaj znaczenie `replace`.
+## Learn — ćwiczenia z prowadzącym
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Średnia z trzech dostępnych czasów wynosi 20; próba ma 12 unikalnych ID i jest powtarzalna.</p></div>
+### Ćwiczenie 2.1. Potok, select(), filter() i arrange()
 
-### Ćwiczenie 6. Filtrowanie, agregacja i układ tabeli
+::: {.brief}
+**Cel:** Zapiszesz ciąg operacji na danych jako czytelny potok i poznasz pomocników wyboru kolumn.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Zmienisz dane jednostkowe w zestawienie według kanału i grupy.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Użyj select(), filter(), arrange(), group_by(), summarise() oraz pivot_wider().</p></div>
+**Polecenie:** W jednym potoku wybierz kolumny, odfiltruj zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je malejąco. Następnie wypróbuj wybór kolumn według nazwy i typu oraz filtry z `%in%`, `between()` i `is.na()`.
+:::
+
+Pakiet `dplyr` (ładuje go skrypt startowy) udostępnia funkcje-czasowniki: każda przyjmuje ramkę jako pierwszy argument i zwraca nową ramkę. Operator potoku `|>` przekazuje wynik z lewej strony jako pierwszy argument funkcji po prawej: `x |> f(y)` oznacza `f(x, y)`. Potok czyta się „weź dane, a następnie…”. W RStudio wstawisz go skrótem Ctrl+Shift+M (Cmd+Shift+M), jeśli w **Tools → Global Options → Code** zaznaczysz **Use native pipe operator**.
 
 ~~~r
-online <- zgloszenia_analiza |>
-  dplyr::select(id, kanal, grupa, czas_min) |>
-  dplyr::filter(kanal == "Online") |>
-  dplyr::arrange(dplyr::desc(czas_min))
-head(online)
-podsumowanie <- zgloszenia_analiza |>
-  dplyr::group_by(kanal, grupa) |>
-  dplyr::summarise(
-    liczba = dplyr::n(),
+zgloszenia_analiza |>
+  select(id, kanal, dzial, czas_min) |>
+  filter(kanal == "Telefon", czas_min > 60) |>
+  arrange(desc(czas_min))
+
+names(select(zgloszenia_analiza, where(is.numeric)))       # kolumny liczbowe
+names(select(zgloszenia_analiza, ends_with("_min"), starts_with("k")))
+# zmiana nazwy kolumny przy wyborze
+select(zgloszenia_analiza, identyfikator = id, kanal) |> head(3)
+filter(zgloszenia_analiza, typ_sprawy %in% c("Dostęp", "Opis metadanych"),
+       !is.na(ocena)) |> nrow()
+filter(zgloszenia_analiza, between(czas_min, 30, 40)) |> nrow()
+filter(zgloszenia_analiza, is.na(czas_min)) |> select(id, czas_min)
+distinct(zgloszenia_analiza, kanal, dzial) |> nrow()       # różne kombinacje
+slice_max(zgloszenia_analiza, czas_min, n = 3) |> select(id, czas_min)
+~~~
+
+| Funkcja | Najważniejsze argumenty | Działanie |
+|:-------------|:----------------------------------------|:---------------------------|
+| `select(.data, ...)` | nazwy kolumn; `-kolumna` usuwa; `nowa = stara` zmienia nazwę; pomocnicy `starts_with()`, `ends_with()`, `contains()`, `where(is.numeric)` | wybór i kolejność kolumn |
+| `filter(.data, ...)` | warunki logiczne; przecinek między warunkami działa jak `&` | wiersze spełniające wszystkie warunki; wiersze z `NA` w warunku są pomijane |
+| `arrange(.data, ...)` | kolumny sortujące; `desc(x)` — malejąco | kolejność wierszy; braki zawsze na końcu |
+| `between(x, left, right)` | granice włącznie | skrót dla `x >= left & x <= right` |
+| `distinct(.data, ...)` | kolumny | unikalne kombinacje wartości |
+| `slice_max(.data, order_by, n)` | kolumna; liczba wierszy; `with_ties = TRUE` | wiersze z największymi wartościami |
+| `slice_head(.data, n)`, `slice_min()` | liczba wierszy | pierwsze wiersze, najmniejsze wartości |
+
+W odróżnieniu od zapisu `ramka[warunek, ]` z ćwiczenia 1.5 funkcja `filter()` nie zwraca pustych wierszy dla braków: wiersz, dla którego warunek daje `NA`, zostaje pominięty. Jeżeli chcesz zachować braki, dopisz je jawnie, np. `czas_min > 60 | is.na(czas_min)`.
+
+**Sprawdź i zmień.** Na wzór ćwiczeń z R4DS znajdź: (1) nierozwiązane zgłoszenia działu Wsparcie, (2) zgłoszenia z marca, czyli `format(data, "%m") == "03"`, (3) zgłoszenia, w których czas jest znany, a ocena nie. Jak posortować ramkę tak, aby wiersze z brakiem czasu znalazły się na początku? Wskazówka: `arrange(desc(is.na(czas_min)))`.
+
+::: {.criteria}
+**Kryteria sukcesu:** potok zwraca 6 zgłoszeń telefonicznych, od Z0173 (75 minut) do Z0040 (61 minut); kolumny liczbowe to `czas_min`, `ocena` i `koszt`; między 30 a 40 minut trwa 73 zgłoszenia; kombinacji kanału i działu jest 10; nierozwiązanych zgłoszeń działu Wsparcie jest 18.
+:::
+
+### Ćwiczenie 2.2. Nowe zmienne: mutate(), if_else(), case_when() i cut()
+
+::: {.brief}
+**Cel:** Utworzysz nowe zmienne z działań arytmetycznych, warunków i przedziałów liczbowych.
+
+**Polecenie:** Dodaj do danych czas w godzinach, koszt minuty, pełne godziny i resztę minut, miesiąc, kwartał, znacznik długiej obsługi, kategorię czasu oraz opis oceny. Sprawdź nowe zmienne funkcją `count()`.
+:::
+
+`mutate()` dodaje nowe kolumny albo zastępuje istniejące, zachowując liczbę wierszy. Nowa kolumna może korzystać z kolumn utworzonych wcześniej w tym samym wywołaniu. Działania wykonują się na całych kolumnach naraz, tak jak na wektorach w ćwiczeniu 0.3.
+
+~~~r
+zgl <- zgloszenia_analiza |>
+  mutate(
+    czas_h = round(czas_min / 60, 2),
+    koszt_na_min = round(koszt / czas_min, 2),
+    godziny = czas_min %/% 60,                       # dzielenie całkowite
+    minuty = czas_min %% 60,                         # reszta z dzielenia
+    miesiac = as.integer(format(data, "%m")),
+    kwartal = if_else(miesiac <= 3, "I kwartał", "II kwartał"),
+    dlugie = czas_min > 45,
+    czas_kat = cut(czas_min, breaks = c(0, 20, 40, 60, Inf),
+                   labels = c("do 20", "21-40", "41-60", "ponad 60")),
+    ocena_opis = case_when(
+      ocena >= 4 ~ "zadowolony",
+      ocena == 3 ~ "neutralny",
+      ocena <= 2 ~ "niezadowolony",
+      .default = "brak oceny"
+    ),
+    czy_rozwiazano = rozwiazano == "Tak"
+  )
+count(zgl, czas_kat)
+count(zgl, ocena_opis)
+count(zgl, kwartal)
+mean(zgl$czy_rozwiazano)                             # udział spraw rozwiązanych
+zgl |> filter(czas_min >= 60) |> select(id, czas_min, godziny, minuty) |> head(3)
+if_else(c(1, NA, 5) > 2, "tak", "nie", missing = "brak")
+~~~
+
+| Funkcja | Argumenty | Działanie |
+|:-------------------|:-------------------------------------|:------------------------|
+| `mutate(.data, nazwa = wyrażenie, ...)` | nowe lub istniejące kolumny; `.before`, `.after` — miejsce nowej kolumny | dodaje lub zmienia kolumny |
+| `if_else(condition, true, false, missing)` | warunek; wartość dla `TRUE`; dla `FALSE`; dla `NA` | wybór z dwóch wartości; pilnuje, by obie miały ten sam typ |
+| `case_when(warunek ~ wartość, ..., .default)` | pary warunek–wartość sprawdzane po kolei; `.default` — gdy żaden warunek nie jest spełniony | wybór z wielu wartości |
+| `cut(x, breaks, labels, right = TRUE)` | granice przedziałów; etykiety; `right = TRUE` — przedziały domknięte z prawej, np. (20, 40] | zamienia liczby na czynnik przedziałów |
+| `%/%`, `%%` | dwie liczby | dzielenie całkowite i reszta z dzielenia |
+
+W `case_when()` kolejność warunków ma znaczenie: pierwszy spełniony warunek wygrywa. Braki trafiają do `.default`, bo `NA >= 4` nie jest ani prawdą, ani fałszem. W `cut()` wartość spoza wszystkich przedziałów oraz brak dają `NA`.
+
+**Sprawdź i zmień.** Zmień w `cut()` argument `right = FALSE` i porównaj liczności kategorii. Przestaw warunek `ocena <= 2` na pierwsze miejsce: czy wynik się zmienia i dlaczego? Dlaczego `koszt_na_min` ma 3 braki, choć `koszt` ma tylko 1? Dodaj kolumnę `koszt_godziny = koszt / czas_h` i porównaj ją z `koszt_na_min * 60`.
+
+::: {.criteria}
+**Kryteria sukcesu:** kategorie czasu mają liczności 39, 118, 73 i 8 oraz 2 braki; ocen „zadowolony” jest 113, „neutralny” 77, „niezadowolony” 47 i 3 braki oceny; w I kwartale wpłynęło 113 zgłoszeń, w II — 127; udział spraw rozwiązanych wynosi 0,825. Umiesz wyjaśnić, skąd biorą się braki w nowych zmiennych.
+:::
+
+### Ćwiczenie 2.3. Grupowanie i podsumowania: group_by(), summarise(), count() i across()
+
+::: {.brief}
+**Cel:** Zamienisz dane jednostkowe w zestawienia według grup i odróżnisz podsumowanie od przekształcenia w grupach.
+
+**Polecenie:** Dla każdego kanału policz liczbę zgłoszeń, braki czasu, średnią, medianę i odchylenie standardowe czasu oraz odsetek spraw rozwiązanych. Policz kombinacje kanału i działu, średnie kilku zmiennych naraz według grupy procedury oraz różnicę czasu każdego zgłoszenia od średniej jego kanału.
+:::
+
+`group_by()` nie zmienia wyglądu danych, lecz zapisuje, według których kolumn mają działać kolejne funkcje. `summarise()` zwraca jeden wiersz na grupę, a `mutate()` w grupach zachowuje wszystkie wiersze i liczy wartości w obrębie grupy. Argument `.groups = "drop"` usuwa grupowanie po podsumowaniu, dzięki czemu kolejne operacje nie działają niespodziewanie w grupach.
+
+~~~r
+zgloszenia_analiza |>
+  group_by(kanal) |>
+  summarise(
+    n = n(),
+    braki_czasu = sum(is.na(czas_min)),
     sredni_czas = mean(czas_min, na.rm = TRUE),
+    mediana = median(czas_min, na.rm = TRUE),
+    odch_std = sd(czas_min, na.rm = TRUE),
+    proc_rozw = 100 * mean(rozwiazano == "Tak"),
     .groups = "drop"
   )
-podsumowanie
-sum(podsumowanie$liczba)
-tidyr::pivot_wider(podsumowanie, names_from = grupa,
-                   values_from = sredni_czas)
+count(zgloszenia_analiza, kanal, dzial, sort = TRUE, name = "liczba") |> head(5)
+zgloszenia_analiza |>
+  group_by(grupa) |>
+  summarise(across(c(czas_min, koszt, ocena), \(x) mean(x, na.rm = TRUE)))
+zgloszenia_analiza |>
+  group_by(kanal) |>
+  mutate(roznica = czas_min - mean(czas_min, na.rm = TRUE)) |>
+  ungroup() |>
+  select(id, kanal, czas_min, roznica) |>
+  head(3)
 ~~~
 
-Zbuduj również wersję długą przez `tidyr::pivot_longer()` dla dwóch kolumn tabeli szerokiej. Opisz, czym różni się liczba obserwacji od średniej. Sprawdź pomoc `?dplyr::summarise`.
+| Funkcja | Argumenty | Działanie |
+|:--------------------|:--------------------------------------|:-----------------------|
+| `group_by(.data, ...)` | kolumny grupujące | zapisuje grupy dla kolejnych funkcji |
+| `summarise(.data, nazwa = funkcja(...), .groups)` | podsumowania; `.groups = "drop"`, `"keep"` albo `"drop_last"` | jeden wiersz na grupę |
+| `n()`, `n_distinct(x)` | brak; wektor | liczba wierszy w grupie; liczba różnych wartości |
+| `count(x, ..., sort, name)` | kolumny; `sort = TRUE` — malejąco; `name` — nazwa kolumny liczności | skrót `group_by() + summarise(n = n())` |
+| `across(.cols, .fns)` | kolumny, np. `c(czas_min, koszt)` albo `where(is.numeric)`; funkcja, np. `\(x) mean(x, na.rm = TRUE)` | ta sama funkcja dla wielu kolumn |
+| `ungroup(x)` | ramka | usuwa grupowanie |
+| `mean()`, `median()`, `sd()` | `x`; `na.rm = TRUE` | średnia, mediana, odchylenie standardowe |
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Zestawienie ma sześć kombinacji, liczności sumują się do 240, a tabela szeroka ma osobne kolumny A i B.</p></div>
+Zapis `\(x) mean(x, na.rm = TRUE)` to krótka funkcja anonimowa: `\(x)` oznacza „dla każdej kolumny `x` wykonaj…”. Średnia z wektora logicznego, np. `mean(rozwiazano == "Tak")`, to udział wartości `TRUE`.
 
-### Ćwiczenie 7. Własna funkcja i diagnoza błędu
+**Sprawdź i zmień.** Usuń z `summarise()` argument `.groups = "drop"`, pogrupuj jednocześnie według `kanal` i `grupa`, a potem sprawdź `group_vars()` na wyniku: które grupowanie zostało? Zamień `mean` na `median` w `across()`. Dodaj do pierwszego zestawienia `arrange(desc(sredni_czas))` i wyjaśnij, dlaczego kanały Online i Na miejscu mają niemal identyczną średnią, a różną medianę.
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Napiszesz funkcję wielokrotnego użytku i sprawdzisz jej zachowanie w typowym i skrajnym przypadku.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Policz odsetek braków dla dowolnego wektora. Przetestuj także pusty wektor i celowo błędną nazwę kolumny.</p></div>
+::: {.criteria}
+**Kryteria sukcesu:** zestawienie ma trzy wiersze, liczności 104, 81 i 55 sumują się do 240; średni czas wynosi 42,8 minuty dla Telefonu i 30,5 minuty dla pozostałych kanałów; grupa B ma średnio o 3,5 minuty krótszy czas (32,9 wobec 36,4). Wyjaśniasz różnicę między `summarise()` i `mutate()` w grupach.
+:::
+
+### Ćwiczenie 2.4. Dane uporządkowane, tidyr i łączenie tabel
+
+::: {.brief}
+**Cel:** Zmienisz układ tabeli między postacią długą i szeroką, obsłużysz braki funkcjami tidyr i połączysz rejestr zgłoszeń ze słownikiem działów.
+
+**Polecenie:** Zamień zestawienie kanału i grupy na tabelę szeroką i z powrotem na długą, zbuduj tabelę działów według miesięcy, porównaj `drop_na()` z `replace_na()`, a następnie połącz zgłoszenia z arkuszem `dzialy` i znajdź dział, który nie ma zgłoszeń.
+:::
+
+Dane są uporządkowane (ang. *tidy*), gdy każda zmienna jest kolumną, każda obserwacja wierszem, a każda wartość jedną komórką. Taki układ jest wygodny do obliczeń i wykresów. Tabela szeroka, z kategoriami w nagłówkach kolumn, jest czytelniejsza dla człowieka w raporcie. `pivot_wider()` i `pivot_longer()` zamieniają jeden układ w drugi bez utraty informacji. Połączenie tabel dopisuje do każdego wiersza informacje z drugiej tabeli na podstawie wspólnego klucza, tu nazwy działu.
 
 ~~~r
-odsetek_brakow <- function(x) {
-  if (length(x) == 0L) stop("Wektor nie może być pusty.")
-  100 * sum(is.na(x)) / length(x)
-}
-odsetek_brakow(zgloszenia$ocena)
-odsetek_brakow(c(1, NA, 3, NA))
+tab_dluga <- count(zgloszenia_analiza, kanal, grupa)
+tab_dluga
+tab_szeroka <- pivot_wider(tab_dluga, names_from = grupa, values_from = n,
+                           values_fill = 0)
+tab_szeroka
+pivot_longer(tab_szeroka, cols = c(A, B), names_to = "grupa", values_to = "n")
+zgloszenia_analiza |>
+  mutate(miesiac = format(data, "%m")) |>
+  count(dzial, miesiac) |>
+  pivot_wider(names_from = miesiac, values_from = n, values_fill = 0)
+nrow(drop_na(zgloszenia_analiza, czas_min, dzial))   # bez braków w 2 kolumnach
+zgloszenia_analiza |>
+  mutate(dzial = replace_na(dzial, "nieznany")) |>
+  count(dzial)
+
+dzialy <- read_excel("dane/zgloszenia.xlsx", sheet = "dzialy")
+polaczone <- left_join(zgloszenia_analiza, dzialy, by = "dzial")
+dim(polaczone)
+count(polaczone, dzial, budynek, etaty)
+anti_join(dzialy, zgloszenia_analiza, by = "dzial")  # działy bez zgłoszeń
 ~~~
 
-W konsoli uruchom `odsetek_brakow(numeric(0))` i odczytaj komunikat, potem popraw wywołanie. Sprawdź `?is.na`, `str(zgloszenia)` i `traceback()` po błędzie. W oddawanym raporcie pokaż kod błędnego wywołania w bloku z `eval=FALSE`, aby dokument nadal się renderował.
+| Funkcja | Argumenty | Działanie |
+|:------------------------|:-----------------------------------|:---------------------|
+| `pivot_wider(data, names_from, values_from, values_fill)` | kolumna z nazwami nowych kolumn; kolumna z wartościami; wartość dla pustych komórek | układ długi → szeroki |
+| `pivot_longer(data, cols, names_to, values_to)` | kolumny do złożenia; nazwa kolumny na dawne nagłówki; nazwa kolumny na wartości | układ szeroki → długi |
+| `drop_na(data, ...)` | kolumny; bez kolumn — wszystkie | usuwa wiersze z brakami |
+| `replace_na(x, replace)` | wektor; wartość zastępcza | zastępuje braki |
+| `left_join(x, y, by)` | tabela główna; tabela dopisywana; klucz | zachowuje wszystkie wiersze `x` |
+| `inner_join()`, `right_join()`, `full_join()` | jak wyżej | tylko pasujące; wszystkie z `y`; wszystkie z obu |
+| `anti_join(x, y, by)` | jak wyżej | wiersze `x` bez odpowiednika w `y` |
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja zwraca 50 dla przykładu z dwoma brakami, odrzuca pusty wektor i działa zarówno dla liczb, jak i tekstu.</p></div>
+**Sprawdź i zmień.** Porównaj liczbę wierszy wyniku `inner_join()` i `right_join()` z `left_join()` i wyjaśnij różnice na przykładzie zgłoszenia bez działu i działu Informacja. Sprawdź, ile wierszy zostaje po `drop_na(zgloszenia_analiza)` bez wskazania kolumn. W tabeli miesięcznej usuń `values_fill = 0` i zobacz, gdzie pojawiają się braki.
 
-## Challenge — samodzielnie
+::: {.criteria}
+**Kryteria sukcesu:** tabela szeroka ma 3 wiersze i kolumny A oraz B (np. Telefon: 34 i 47), a powrót do układu długiego daje 6 wierszy; `drop_na()` dla dwóch kolumn zostawia 237 wierszy; ramka `polaczone` ma 240 wierszy i 12 kolumn; bez zgłoszeń jest dział Informacja. Wyjaśniasz, dlaczego `inner_join()` zwraca 239 wierszy.
+:::
 
-### Ćwiczenie 8. Program kontroli jakości
+### Ćwiczenie 2.5. Próby losowe i symulacja
 
-<div class="tilt-card purpose"><h3>Cel</h3><p>Połączysz funkcję, warunek, pętlę i wynikową ramkę danych.</p></div>
-<div class="tilt-card task"><h3>Zadanie</h3><p>Napisz funkcję ocen_kolumne(x, prog_brakow), która zwraca „sprawdź”, gdy procent braków przekracza próg, a „OK” w przeciwnym razie. Odrzuć próg spoza 0–100. Pętlą for oceń co najmniej cztery kolumny zbioru i zapisz wynik w ramce z nazwą, procentem braków i oceną.</p></div>
+::: {.brief}
+**Cel:** Wylosujesz powtarzalne próby z danych i rozkładów oraz zobaczysz, jak zmienia się średnia z próby.
 
-Sprawdź funkcję na wektorze bez braków, z połową braków i na błędnym progu. Błędne wywołanie pokaż jako kod nieuruchamiany przy renderowaniu. Własnymi słowami wyjaśnij, dlaczego próg jest decyzją analityczną.
+**Polecenie:** Po `set.seed()` wylosuj wartości funkcją `sample()`, pobierz próbę 24 zgłoszeń i próbę warstwową 10% z każdego kanału, wygeneruj dane z rozkładu normalnego i sprawdź na 500 próbach, jak bardzo średnia z próby różni się od średniej całego zbioru.
+:::
 
-<div class="tilt-card criteria"><h3>Kryteria sukcesu</h3><p>Funkcja i pętla działają na różnych kolumnach, walidacja progu daje czytelny błąd, a trzy testy potwierdzają zachowanie programu.</p></div>
+Komputer losuje liczby pseudolosowe: ciąg wynika z punktu startowego. `set.seed()` ustala ten punkt, więc po nim kod daje za każdym razem te same wyniki; bez niego każde uruchomienie jest inne. Umieszczaj `set.seed()` w tym samym bloku co losowanie, aby raport był odtwarzalny. Skrypt startowy nie zmienia Twojego generatora, choć sam korzysta z losowania.
 
-Oddaj `nazwisko_imie_02.Rmd` do zadania spotkania 2 w MS Teams.
+~~~r
+set.seed(2027)
+sample(1:6, size = 10, replace = TRUE)                  # 10 rzutów kostką
+sample(zgloszenia_analiza$id, size = 5)                 # 5 różnych ID
+table(sample(c("A", "B"), size = 100, replace = TRUE, prob = c(0.7, 0.3)))
+proba <- slice_sample(zgloszenia_analiza, n = 24)
+mean(proba$czas_min, na.rm = TRUE)
+mean(zgloszenia_analiza$czas_min, na.rm = TRUE)         # średnia całego zbioru
+slice_sample(zgloszenia_analiza, prop = 0.1, by = kanal) |> count(kanal)
+sym <- rnorm(1000, mean = 35, sd = 12)
+round(c(srednia = mean(sym), sd = sd(sym)), 2)
+round(runif(3, min = 0, max = 1), 3)
+czasy <- na.omit(zgloszenia_analiza$czas_min)
+srednie <- replicate(500, mean(sample(czasy, size = 24)))
+summary(srednie)
+hist(srednie, main = "Średnie z 500 prób po 24 zgłoszenia",
+     xlab = "Średni czas [min]")
+~~~
+
+| Funkcja | Argumenty | Działanie |
+|:------------------------|:---------------------------------|:-----------------------|
+| `set.seed(seed)` | liczba całkowita | ustala punkt startowy losowania |
+| `sample(x, size, replace = FALSE, prob = NULL)` | zbiór; liczba losowań; ze zwracaniem lub bez; prawdopodobieństwa | losowanie elementów |
+| `slice_sample(.data, n, prop, by, replace)` | liczba albo odsetek wierszy; `by` — losowanie osobno w grupach | losowa próba wierszy ramki |
+| `rnorm(n, mean = 0, sd = 1)` | liczba wartości; średnia; odchylenie | rozkład normalny |
+| `runif(n, min = 0, max = 1)` | liczba wartości; granice | rozkład jednostajny |
+| `replicate(n, expr)` | liczba powtórzeń; wyrażenie | wielokrotne wykonanie tego samego losowania |
+| `na.omit(x)` | wektor | usuwa braki |
+
+**Sprawdź i zmień.** Uruchom blok dwa razy z `set.seed(2027)` i raz bez tej linii; porównaj wyniki. Zwiększ próbę w `replicate()` z 24 do 96 zgłoszeń i porównaj rozrzut średnich funkcją `sd(srednie)`. Wyjaśnij, dlaczego `sample(1:6, 10)` bez `replace = TRUE` kończy się błędem.
+
+::: {.criteria}
+**Kryteria sukcesu:** wyniki powtarzają się po `set.seed(2027)`; próba ma 24 wiersze, a próba warstwowa 23 wiersze (10, 8 i 5); średnia z próby różni się od średniej całego zbioru (34,7 minuty); średnie z 500 prób mieszczą się mniej więcej między 27 a 43 minutami, a przy większych próbach rozrzut maleje.
+:::
+
+## Challenge — zadania samodzielne
+
+### Zadanie 2.6. Funkcja z walidacją i debugowanie
+
+::: {.brief szablon="error=TRUE"}
+**Cel:** Napiszesz funkcję, która sprawdza poprawność argumentów, oraz znajdziesz błąd w cudzej funkcji narzędziami debugowania.
+
+**Polecenie:** Napisz funkcję `opisz(x, cyfry = 1)`, która dla wektora liczbowego zwraca nazwany wektor: liczbę elementów, liczbę braków, średnią, medianę i odchylenie standardowe. Funkcja ma zatrzymać się z czytelnym komunikatem, gdy `x` nie jest liczbowy. Następnie znajdź i popraw błąd w funkcji `srednia_bez_skrajnych()`.
+:::
+
+Funkcja z walidacją najpierw sprawdza argumenty, a dopiero potem liczy. `stop("komunikat")` przerywa działanie z Twoim opisem błędu; `stopifnot(warunek)` jest krótszą wersją dla prostych warunków. W bloku z opcją `error=TRUE` błąd zostanie pokazany w PDF, a renderowanie będzie kontynuowane — tak pokażesz, że walidacja działa.
+
+~~~{.r .bez-uruchamiania}
+opisz <- function(x, cyfry = 1) {
+  if (!is.numeric(x)) stop("Argument x musi być liczbowy.")
+  wynik <- c(n = length(x), braki = sum(is.na(x)),
+             srednia = mean(x, na.rm = TRUE))   # dopisz medianę i sd
+  round(wynik, cyfry)
+}
+~~~
+
+Poniższa funkcja ma usunąć czasy spoza przedziału i policzyć średnią. Dla surowych danych działa, ale dla `zgloszenia_analiza` zwraca `NA`.
+
+~~~r
+srednia_bez_skrajnych <- function(x, dolny = 0, gorny = 120) {
+  x <- x[x >= dolny & x <= gorny]
+  mean(x)
+}
+srednia_bez_skrajnych(zgloszenia$czas_min)
+srednia_bez_skrajnych(zgloszenia_analiza$czas_min)
+~~~
+
+| Narzędzie | Użycie | Co daje |
+|:----------------|:--------------------------|:-------------------------------------|
+| `traceback()` | w konsoli zaraz po błędzie | ciąg wywołań, które doprowadziły do błędu |
+| `debugonce(f)` | przed wywołaniem `f(...)` | przy następnym wywołaniu otwiera funkcję krok po kroku |
+| `browser()` | linia wpisana w ciało funkcji | zatrzymuje funkcję w tym miejscu; w konsoli możesz podglądać obiekty |
+| polecenia w trybie debugowania | `n` — następna linia, `c` — kontynuuj, `Q` — zakończ | sterowanie wykonaniem |
+| punkt przerwania w RStudio | kliknięcie na lewym marginesie skryptu `.R` | zatrzymanie w wybranej linii |
+
+W konsoli uruchom `debugonce(srednia_bez_skrajnych)`, a potem `srednia_bez_skrajnych(zgloszenia_analiza$czas_min)`. Po pierwszej linii ciała funkcji wpisz `sum(is.na(x))` i wyjaśnij, skąd biorą się braki po wyborze warunkiem (wróć do ćwiczenia 1.5). Popraw funkcję na dwa sposoby: przez `which()` i przez `mean(x, na.rm = TRUE)`.
+
+::: {.criteria}
+**Kryteria sukcesu:** `opisz(zgloszenia_analiza$czas_min)` zwraca n = 240, braki = 2, średnią 34,7, medianę 35 i sd 13,9; wywołanie dla `kanal` pokazuje w PDF Twój komunikat błędu; poprawiona `srednia_bez_skrajnych()` zwraca 34,7 dla obu zbiorów, a opis wskazuje przyczynę błędu.
+:::
+
+### Zadanie 2.7. Pętla i warunek: program kontroli jakości
+
+::: {.brief szablon="error=TRUE"}
+**Cel:** Połączysz funkcję, warunek, pętlę i wynikową ramkę danych w mały program.
+
+**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog_brakow = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i odrzuca próg spoza 0–100. Pętlą `for` oceń kolumny `dzial`, `czas_min`, `ocena`, `koszt` i `rozwiazano`, zapisując wynik w ramce z nazwą kolumny, procentem braków i oceną. Porównaj wynik z wersją bez pętli.
+:::
+
+Pętla `for (i in seq_along(kolumny))` wykonuje ciało dla każdej pozycji wektora. Wynik zapisuj w obiekcie przygotowanym przed pętlą, np. ramce z kolumnami wypełnionymi `NA`. Warunek `if (...) ... else ...` wybiera jedną z dwóch dróg dla pojedynczej wartości; dla całych wektorów używasz `ifelse()` lub `if_else()`.
+
+| Konstrukcja | Zapis | Uwagi |
+|:-------------|:--------------------------------|:-----------------------------------|
+| pętla | `for (i in seq_along(x)) { ... }` | `seq_along()` jest bezpieczniejsze niż `1:length(x)` dla pustego `x` |
+| warunek | `if (warunek) { ... } else { ... }` | warunek musi być pojedynczą wartością `TRUE` albo `FALSE` |
+| kilka warunków | `||`, `&&` | wersje „i/lub” dla pojedynczych wartości w `if` |
+| kolumna o nazwie z wektora | `ramka[[nazwa]]` | `ramka$nazwa` nie działa, gdy nazwa jest w zmiennej |
+| bez pętli | `vapply(ramka[kolumny], ocen_kolumne, character(1), prog_brakow = 1)` | ta sama operacja dla każdej kolumny |
+
+Przetestuj funkcję na wektorze bez braków, na wektorze `c(1, NA, 3, NA)` i na błędnym progu `150`; błędne wywołanie umieść w bloku z `error=TRUE`. Własnymi słowami wyjaśnij, dlaczego wartość progu jest decyzją analityczną.
+
+::: {.criteria}
+**Kryteria sukcesu:** przy progu 1% jedyną kolumną do sprawdzenia jest `ocena` (1,25% braków); przy progu 0,5% także `czas_min` (0,83%); wersja z `vapply()` daje ten sam wynik co pętla; błędny próg kończy się czytelnym komunikatem.
+:::
+
+### Zadanie 2.8. Zestawienie dla kierownika z pomocą dokumentacji
+
+::: {.brief}
+**Cel:** Samodzielnie połączysz poznane funkcje w jeden potok i sprawdzisz ich argumenty w dokumentacji.
+
+**Polecenie:** Przygotuj tabelę dla kierownika: dla każdego działu liczba zgłoszeń, liczba etatów, liczba zgłoszeń na etat, odsetek spraw rozwiązanych i mediana czasu, posortowana malejąco według obciążenia etatu. Zgłoszenie bez działu oznacz jako „nieznany”. Dodaj drugą tabelę w układzie szerokim: działy w wierszach, kanały w kolumnach. Zapisz, z których stron pomocy korzystałeś i jaki argument tam sprawdziłeś.
+:::
+
+Skorzystaj z `replace_na()`, `left_join()`, `group_by()`, `summarise()`, `arrange()`, `count()` i `pivot_wider()`. Liczbę etatów w grupie uzyskasz funkcją `first(etaty)`. Przed pisaniem kodu przeczytaj w pomocy `?left_join` opis argumentu `by`, a w `?pivot_wider` argument `values_fill`. W dwóch zdaniach zinterpretuj wynik: który dział jest najbardziej obciążony i czego ta tabela nie mówi o jakości obsługi.
+
+::: {.criteria}
+**Kryteria sukcesu:** najbardziej obciążone jest Repozytorium (76 zgłoszeń, 3 etaty, 25,3 zgłoszenia na etat), następnie Katalog (23,0) i Wsparcie (14,2); odsetek rozwiązanych wynosi odpowiednio 84,2%, 87,0% i 74,6%; tabela szeroka sumuje się do 240; interpretacja nie przypisuje różnic jednej przyczynie.
+:::
+
+## Oddanie
+
+::: {.handin}
+Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_02.pdf` do zadania „Spotkanie 2” w MS Teams. Bloki z zamierzonymi błędami mają opcję `error=TRUE`, dlatego nie zatrzymają renderowania.
+:::
+
+::: {.reading}
+**Lektura:** R for Data Science — [Data transformation](https://r4ds.had.co.nz/transform.html), [Pipes](https://r4ds.had.co.nz/pipes.html), [Tidy data](https://r4ds.had.co.nz/tidy-data.html), [Relational data](https://r4ds.had.co.nz/relational-data.html), [Functions](https://r4ds.had.co.nz/functions.html) i [Iteration](https://r4ds.had.co.nz/iteration.html). Debugowanie: [RStudio User Guide](https://docs.posit.co/ide/user/).
+:::
