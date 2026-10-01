@@ -436,9 +436,11 @@ z prowadzącym alternatywną formę osiągnięcia efektów.</td>
 </tr>
 <tr class="odd">
 <td align="left">Prace po spotkaniach</td>
-<td align="left">Po każdym spotkaniu przesyłasz jeden plik PDF
-wyrenderowany z szablonu <code>.Rmd</code> do zadania w MS Teams. Prace
-służą informacji zwrotnej i przygotowaniu do projektu.</td>
+<td align="left">Po każdym spotkaniu oddajesz jeden plik PDF
+wyrenderowany z szablonu <code>.Rmd</code>. Oddajesz go w konsoli R
+poleceniem <code>oddaj_zadanie()</code>, które wysyła plik do folderu
+spotkania na serwerze UJ (<a href="#oddanie">opis</a>). Prace służą
+informacji zwrotnej i przygotowaniu do projektu.</td>
 </tr>
 <tr class="even">
 <td align="left">Zaliczenie</td>
@@ -448,8 +450,9 @@ href="ocenianie.html">rubryka</a>.</td>
 </tr>
 <tr class="odd">
 <td align="left">Terminy</td>
-<td align="left">Termin każdej pracy widać w zadaniu MS Teams. Termin
-projektu zostanie podany po ogłoszeniu harmonogramu sesji.</td>
+<td align="left">Termin oddania pracy po spotkaniu podaje prowadzący.
+Termin projektu zostanie podany w MS Teams po ogłoszeniu harmonogramu
+sesji.</td>
 </tr>
 <tr class="even">
 <td align="left">Narzędzia SI</td>
@@ -477,28 +480,31 @@ identyczne dane.</p>
 <ol style="list-style-type: decimal">
 <li>Utwórz projekt <code>jezykr</code> (ćwiczenie 0.1). W domu możesz
 używać jednego projektu przez cały semestr.</li>
-<li>W konsoli uruchom skrypt startowy i pobierz szablon spotkania; w
-nazwie pliku wpisz swoje nazwisko, imię i numer spotkania.</li>
+<li>W konsoli uruchom skrypt startowy i pobierz szablon spotkania, a w
+jego nagłówku YAML, w polu <code>author</code>, wpisz swoje imię i
+nazwisko.</li>
 <li>Pracuj w szablonie: pod każdym poleceniem jest blok kodu z
 komentarzem <code># Twój kod</code> — tam wpisuj lub kopiuj przykłady ze
 strony — oraz pole <strong>Wynik i interpretacja</strong> na Twój
 opis.</li>
-<li>Na koniec wyrenderuj PDF (<strong>Knit</strong>), prześlij go do
-zadania w MS Teams, a plik <code>.Rmd</code> zapisz w OneDrive, jeżeli
-chcesz go dokończyć w domu.</li>
+<li>Na koniec oddaj pracę w konsoli poleceniem
+<code>oddaj_zadanie()</code> z numerem spotkania (<a
+href="#oddanie">opis</a>), a plik <code>.Rmd</code> zapisz w OneDrive,
+jeżeli chcesz go dokończyć w domu.</li>
 </ol>
 </div>
 <pre class="r bez-uruchamiania"><code>source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
-pobierz_szablon(0, &quot;kowalska_anna_00.Rmd&quot;)</code></pre>
+pobierz_szablon(0)</code></pre>
 <p>Pierwsza linia pobiera i wykonuje <a
 href="materialy/init-v2.R">skrypt startowy</a>: ładuje pakiety (a na
 własnym komputerze doinstalowuje brakujące), tworzy foldery
 <code>dane/</code> i <code>wyniki/</code>, zapisuje trzy pliki z
 fikcyjnymi danymi i tworzy w pamięci obiekty <code>zgloszenia</code>
 oraz <code>zgloszenia_analiza</code>. Druga linia pobiera szablon
-spotkania pod wskazaną nazwą i otwiera go w edytorze; istniejącego pliku
-nie nadpisze. Szablon zawiera ten sam skrypt w bloku <code>start</code>,
-więc renderowanie zawsze zaczyna się od świeżych danych.</p>
+spotkania do pliku <code>szablon-00.Rmd</code> i otwiera go w edytorze;
+istniejącego pliku nie nadpisze. Szablon zawiera ten sam skrypt w bloku
+<code>start</code>, więc renderowanie zawsze zaczyna się od świeżych
+danych.</p>
 <table>
 <colgroup>
 <col width="12%" />
@@ -538,7 +544,8 @@ skrypt</td>
 <td align="left"><code>.html</code></td>
 <td align="left">wynik renderowania zapasowego lub raport
 automatyczny</td>
-<td align="left">nie</td>
+<td align="left">tylko wtedy, gdy nie powstał PDF — wysyła go
+<code>oddaj_zadanie()</code></td>
 </tr>
 </tbody>
 </table>
@@ -856,22 +863,20 @@ a brakujące pakiety LaTeX doinstaluje przy pierwszym renderowaniu.</p>
 <pre class="r bez-uruchamiania"><code>install.packages(&quot;tinytex&quot;)
 tinytex::install_tinytex()     # jednorazowo, kilka minut
 tinytex::is_tinytex()          # TRUE oznacza gotową instalację</code></pre>
-<p>Jeżeli PDF nie powstaje, a do końca zajęć zostało mało czasu, wybierz
-z menu obok <strong>Knit</strong> polecenie <strong>Knit to
-HTML</strong>, otwórz wynik w przeglądarce i zapisz go jako PDF
-poleceniem <strong>Drukuj → Zapisz jako PDF</strong>. Komunikat błędu
-skopiuj do szablonu i pokaż prowadzącemu.</p>
+<p>Jeżeli PDF nie powstaje, przeczytaj pierwszy komunikat błędu, skopiuj
+go do szablonu i pokaż prowadzącemu. Gdy przyczyną jest LaTeX, a nie kod
+R, funkcja <code>oddaj_zadanie()</code> przygotuje i wyśle zamiast PDF
+wersję HTML, więc praca i tak dotrze do prowadzącego.</p>
 <p><strong>Sprawdź i zmień.</strong> Dodaj własny blok z
 <code>mean(c(12, 18, 30))</code> i wyrenderuj dokument dwa razy: z
 <code>echo=TRUE</code> i z <code>echo=FALSE</code>. Zamień w YAML
 kolejność formatów i sprawdź, jaki plik tworzy teraz
 <strong>Knit</strong>, a potem przywróć PDF na pierwsze miejsce.</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> plik
-<code>nazwisko_imie_00.pdf</code> powstaje, ma Twoje imię i nazwisko
-oraz spis treści, a blok <code>start</code> nie wypisuje komunikatów w
-raporcie. Umiesz wyjaśnić, dlaczego renderowanie jest kontrolą
-odtwarzalności.</p>
+<p><strong>Kryteria sukcesu:</strong> PDF powstaje, ma Twoje imię i
+nazwisko oraz spis treści, a blok <code>start</code> nie wypisuje
+komunikatów w raporcie. Umiesz wyjaśnić, dlaczego renderowanie jest
+kontrolą odtwarzalności.</p>
 </div>
 </div>
 <div id="ćwiczenie-0.3.-konsola-obiekty-i-wektory"
@@ -1463,12 +1468,64 @@ którą podjąłeś przy projektowaniu ramki.</p>
 <div id="oddanie" class="section level2">
 <h2>Oddanie</h2>
 <div class="handin">
-<p>Wyrenderuj szablon do PDF i prześlij plik
-<code>nazwisko_imie_00.pdf</code> do zadania „Spotkanie organizacyjne” w
-MS Teams. To oddanie próbne: sprawdza, czy projekt, skrypt startowy i
-renderowanie działają na Twoim komputerze. Plik <code>.Rmd</code> zapisz
-w OneDrive.</p>
+<p>Pracę oddajesz w konsoli jednym poleceniem z numerem spotkania.
+Dzisiejsze oddanie jest próbne: sprawdza, czy projekt, skrypt startowy,
+renderowanie i wysyłanie działają na Twoim komputerze. Plik
+<code>.Rmd</code> zapisz w OneDrive.</p>
 </div>
+<pre class="r bez-uruchamiania"><code>oddaj_zadanie(0)</code></pre>
+<p>Funkcję <code>oddaj_zadanie()</code> tworzy skrypt startowy. Po jej
+uruchomieniu:</p>
+<ol style="list-style-type: decimal">
+<li>Zapisuje otwarte pliki, odnajduje w folderze projektu szablon
+spotkania i sprawdza, czy w polu <code>author</code> jest imię i
+nazwisko oraz czy szablon pochodzi z tego spotkania. Wypisuje ćwiczenia,
+w których został komentarz <code># Twój kod</code> albo słowo
+„uzupełnij”.</li>
+<li>Renderuje szablon do PDF w nowej sesji R, tak jak
+<strong>Knit</strong> po restarcie R. Obiekty utworzone tylko w konsoli
+nie pomogą; błąd w kodzie zatrzymuje oddanie, a komunikat wskazuje blok
+do poprawienia.</li>
+<li>Zapisuje plik <code>wyniki/nazwisko_imie_00.pdf</code> i otwiera go
+do obejrzenia.</li>
+<li>Po potwierdzeniu literą <code>t</code> wysyła plik do folderu
+spotkania na serwerze UJ (nc.uj.edu.pl). Folder nie wymaga logowania i
+nie pokazuje prac innych osób.</li>
+</ol>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Znaczenie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>numer</code></td>
+<td align="left">numer spotkania od 0 do 6</td>
+</tr>
+<tr class="even">
+<td align="left"><code>plik</code></td>
+<td align="left">nazwa szablonu, jeśli chcesz oddać inny plik niż
+najnowszy szablon tego spotkania w folderze projektu</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>wyslij</code></td>
+<td align="left"><code>FALSE</code> wykonuje całą kontrolę i tworzy PDF,
+ale niczego nie wysyła</td>
+</tr>
+</tbody>
+</table>
+<p>Komunikat „Oddano plik …” potwierdza oddanie. Jeżeli poprawisz pracę
+przed terminem, uruchom polecenie ponownie: nowa wersja trafi do folderu
+obok poprzedniej. Jeżeli R nie zna funkcji <code>oddaj_zadanie</code>,
+uruchom jeszcze raz <code>source()</code> ze skryptem startowym. Gdy
+wysyłanie się nie powiedzie, funkcja poda link, pod którym wgrasz gotowy
+PDF przez przeglądarkę.</p>
 <div class="reading">
 <p><strong>Lektura:</strong> R for Data Science — <a
 href="https://r4ds.had.co.nz/workflow-basics.html">Workflow: basics</a>,

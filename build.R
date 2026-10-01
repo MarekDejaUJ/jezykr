@@ -49,7 +49,7 @@ for (numer in 0:6) {
     if (length(pakiety) > 0L) sprintf("options(jezykr.pakiety = c(%s))", paste0('"', pakiety, '"', collapse = ", ")),
     sprintf('source("%smaterialy/init-v2.R", local = TRUE)', adres),
     "```", "",
-    sprintf("Instrukcja: <%s%s.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.", adres, strona),
+    sprintf("Instrukcja: <%s%s.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. W trakcie pracy renderuj dokument do PDF przyciskiem **Knit**, a gotową pracę oddaj w konsoli poleceniem `oddaj_zadanie(%d)`.", adres, strona, numer),
     ""
   )
 
@@ -76,10 +76,10 @@ for (numer in 0:6) {
   }
 
   wynik <- c(wynik, "## Kontrola przed oddaniem", "",
-             "- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.",
+             "- [ ] W nagłówku YAML, w polu `author`, jest moje imię i nazwisko.",
              "- [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.",
              "- [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.",
-             sprintf("- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_%02d.pdf`.", numer))
+             sprintf("- [ ] Oddaję pracę w konsoli poleceniem `oddaj_zadanie(%d)`, które renderuje dokument w nowej sesji R i wysyła prowadzącemu plik `nazwisko_imie_%02d.pdf`.", numer, numer))
   writeLines(enc2utf8(wynik), sprintf("site/materialy/szablon-%02d.Rmd", numer), useBytes = TRUE)
 }
 

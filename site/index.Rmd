@@ -9,7 +9,7 @@ title: "Język R"
 
 ## Jak pracujemy
 
-Zaczynamy od spotkania organizacyjnego: poznasz zasady kursu, utworzysz projekt RStudio lub folder Positrona, wyrenderujesz pierwszy dokument R Markdown do PDF i skonfigurujesz własnego agenta w Microsoft 365 Copilot. Każde z sześciu spotkań roboczych składa się z pięciu ćwiczeń z prowadzącym (**Learn**) i trzech zadań samodzielnych (**Challenge**). Każde ćwiczenie ma cel, polecenie i kryteria sukcesu, objaśnienie najważniejszych funkcji wraz z ich argumentami oraz propozycje zmian do samodzielnego sprawdzenia. Po każdym spotkaniu przesyłasz jeden plik PDF do zadania w MS Teams. Ostatnie 45 minut przeznaczamy na konsultacje projektu grupowego.
+Zaczynamy od spotkania organizacyjnego: poznasz zasady kursu, utworzysz projekt RStudio lub folder Positrona, wyrenderujesz pierwszy dokument R Markdown do PDF i skonfigurujesz własnego agenta w Microsoft 365 Copilot. Każde z sześciu spotkań roboczych składa się z pięciu ćwiczeń z prowadzącym (**Learn**) i trzech zadań samodzielnych (**Challenge**). Każde ćwiczenie ma cel, polecenie i kryteria sukcesu, objaśnienie najważniejszych funkcji wraz z ich argumentami oraz propozycje zmian do samodzielnego sprawdzenia. Po każdym spotkaniu oddajesz jeden plik PDF poleceniem `oddaj_zadanie()` w konsoli R. Ostatnie 45 minut przeznaczamy na konsultacje projektu grupowego.
 
 Każde spotkanie zaczyna się tak samo: nowy projekt, dwie linie w konsoli i praca w szablonie. Skrypt startowy za każdym razem odtwarza identyczne dane, więc żadne spotkanie nie zależy od plików z poprzednich zajęć. Szczegóły opisuje sekcja [Jak wygląda każde spotkanie](organizacyjne.html#kazde-spotkanie).
 

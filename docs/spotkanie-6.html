@@ -403,7 +403,8 @@ pomocą asystenta, zawsze sprawdzając wynik w R.
 <strong>Plan 90 minut:</strong> 3 min start · 15 min ćwiczenie 6.1 · 10
 min ćwiczenie 6.2 · 14 min ćwiczenie 6.3 · 10 min ćwiczenie 6.4 · 10 min
 ćwiczenie 6.5 · 26 min zadania 6.6–6.8 · 2 min oddanie. Zadania, których
-nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.
+nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
+prowadzącego.
 </div>
 <div class="start">
 <p><strong>Start:</strong> skrypt startowy ładuje na tym spotkaniu dwa
@@ -413,7 +414,7 @@ spotkania 6 wskazuje je w bloku <code>start</code>.</p>
 </div>
 <pre class="r bez-uruchamiania"><code>options(jezykr.pakiety = c(&quot;effectsize&quot;, &quot;report&quot;))
 source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
-pobierz_szablon(6, &quot;nazwisko_imie_06.Rmd&quot;)</code></pre>
+pobierz_szablon(6)</code></pre>
 <p><strong>GitHub Copilot CLI</strong> to asystent SI działający w
 terminalu. Wymaga osobnego konta GitHub i jest innym narzędziem niż
 Microsoft 365 Copilot ze <a href="organizacyjne.html">spotkania
@@ -923,10 +924,11 @@ href="konsultacje.html">konsultacje</a>.</p>
 <div id="oddanie" class="section level2">
 <h2>Oddanie</h2>
 <div class="handin">
-<p>Wyrenderuj szablon do PDF i prześlij
-<code>nazwisko_imie_06.pdf</code> do zadania „Spotkanie 6” w MS Teams.
-Po tym spotkaniu zespół kończy <a href="ocenianie.html">projekt
-grupowy</a>; ostatnie 45 minut zajęć to <a
+<p>Oddaj pracę w konsoli poleceniem <code>oddaj_zadanie(6)</code>;
+funkcja wyrenderuje szablon i po potwierdzeniu wyśle
+<code>nazwisko_imie_06.pdf</code> do folderu „Spotkanie 6”. Po tym
+spotkaniu zespół kończy <a href="ocenianie.html">projekt grupowy</a>;
+ostatnie 45 minut zajęć to <a
 href="konsultacje.html">konsultacje</a>.</p>
 </div>
 <div class="reading">

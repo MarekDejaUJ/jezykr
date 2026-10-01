@@ -23,7 +23,7 @@ knitr::opts_chunk$set(dpi = 300)   # ostre wykresy PNG z polskimi znakami w PDF
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 ```
 
-Instrukcja: <https://marekdejauj.github.io/jezykr/organizacyjne.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. Dokument renderuj do PDF przyciskiem **Knit**.
+Instrukcja: <https://marekdejauj.github.io/jezykr/organizacyjne.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. W trakcie pracy renderuj dokument do PDF przyciskiem **Knit**, a gotową pracę oddaj w konsoli poleceniem `oddaj_zadanie(0)`.
 
 ## Ćwiczenie 0.1. Projekt RStudio i porządek w folderze
 
@@ -95,7 +95,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/organizacyjne.html>. Kod ze st
 
 ## Kontrola przed oddaniem
 
-- [ ] Po restarcie R (Session → Restart R) dokument renderuje się do PDF od początku.
+- [ ] W nagłówku YAML, w polu `author`, jest moje imię i nazwisko.
 - [ ] Każde ćwiczenie i zadanie ma kod albo odpowiedź oraz interpretację.
 - [ ] Zadania samodzielne są moim rozwiązaniem, a użycie SI jest opisane i sprawdzone w R.
-- [ ] Do zadania w MS Teams przesyłam tylko plik `nazwisko_imie_00.pdf`.
+- [ ] Oddaję pracę w konsoli poleceniem `oddaj_zadanie(0)`, które renderuje dokument w nowej sesji R i wysyła prowadzącemu plik `nazwisko_imie_00.pdf`.

@@ -402,7 +402,8 @@ warunkami i pętlą oraz znajdziesz błąd w kodzie narzędziami debugowania.
 <strong>Plan 90 minut:</strong> 3 min start · 12 min ćwiczenie 2.1 · 12
 min ćwiczenie 2.2 · 12 min ćwiczenie 2.3 · 12 min ćwiczenie 2.4 · 10 min
 ćwiczenie 2.5 · 27 min zadania 2.6–2.8 · 2 min oddanie. Zadania, których
-nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.
+nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
+prowadzącego.
 </div>
 <div class="start">
 <p><strong>Start:</strong> otwórz projekt <code>jezykr</code>, uruchom
@@ -413,7 +414,7 @@ spoza 0–120 minut jako brak). Surowy obiekt <code>zgloszenia</code>
 pozostaje bez zmian.</p>
 </div>
 <pre class="r bez-uruchamiania"><code>source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
-pobierz_szablon(2, &quot;nazwisko_imie_02.Rmd&quot;)</code></pre>
+pobierz_szablon(2)</code></pre>
 <div id="learn-ćwiczenia-z-prowadzącym" class="section level2">
 <h2>Learn — ćwiczenia z prowadzącym</h2>
 <div id="ćwiczenie-2.1.-potok-select-filter-i-arrange"
@@ -1190,10 +1191,11 @@ interpretacja nie przypisuje różnic jednej przyczynie.</p>
 <div id="oddanie" class="section level2">
 <h2>Oddanie</h2>
 <div class="handin">
-<p>Wyrenderuj szablon do PDF i prześlij
-<code>nazwisko_imie_02.pdf</code> do zadania „Spotkanie 2” w MS Teams.
-Bloki z zamierzonymi błędami mają opcję <code>error=TRUE</code>, dlatego
-nie zatrzymają renderowania.</p>
+<p>Oddaj pracę w konsoli poleceniem <code>oddaj_zadanie(2)</code>;
+funkcja wyrenderuje szablon i po potwierdzeniu wyśle
+<code>nazwisko_imie_02.pdf</code> do folderu „Spotkanie 2”. Bloki z
+zamierzonymi błędami mają opcję <code>error=TRUE</code>, dlatego nie
+zatrzymają renderowania.</p>
 </div>
 <div class="reading">
 <p><strong>Lektura:</strong> R for Data Science — <a

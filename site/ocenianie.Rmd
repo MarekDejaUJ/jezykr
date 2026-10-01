@@ -4,7 +4,7 @@ title: "Zaliczenie i rubryka oceny"
 
 <div class="hero"><h2>Projekt grupowy</h2><p>Jedno pytanie, odtwarzalna analiza w R i wniosek oparty na sprawdzonych wynikach.</p></div>
 
-Warunkiem zaliczenia jest pozytywna ocena projektu grupowego oraz udział w zajęciach zgodny z sylabusem (dopuszczalna jest jedna nieobecność). Pliki PDF przesyłane po spotkaniach — próbny po spotkaniu organizacyjnym i sześć po spotkaniach roboczych — służą bieżącej informacji zwrotnej i przygotowaniu do projektu. Każdy plik oddajesz osobno w zadaniu MS Teams. W przypadku dodatkowej usprawiedliwionej nieobecności skontaktuj się z prowadzącym w sprawie osiągnięcia brakujących efektów.
+Warunkiem zaliczenia jest pozytywna ocena projektu grupowego oraz udział w zajęciach zgodny z sylabusem (dopuszczalna jest jedna nieobecność). Pliki PDF przesyłane po spotkaniach — próbny po spotkaniu organizacyjnym i sześć po spotkaniach roboczych — służą bieżącej informacji zwrotnej i przygotowaniu do projektu. Każdy plik oddajesz osobno poleceniem `oddaj_zadanie()` z numerem spotkania ([opis](organizacyjne.html#oddanie)). W przypadku dodatkowej usprawiedliwionej nieobecności skontaktuj się z prowadzącym w sprawie osiągnięcia brakujących efektów.
 
 **Termin projektu** zostanie podany w zadaniu MS Teams po ogłoszeniu harmonogramu sesji. Ostatnie spotkanie, trwające 45 minut, służy konsultacji i kontroli projektu; pliki można przekazać wtedy albo później, w terminie wskazanym w Teams.
 

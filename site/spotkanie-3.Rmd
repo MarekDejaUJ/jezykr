@@ -4,7 +4,7 @@ title: "Spotkanie 3: wizualizacja danych"
 
 <div class="hero"><h2>Spotkanie 3 z 6 · 90 minut · treść programowa 4</h2><p>Porównasz szybkie wykresy bazowe z gramatyką ggplot2, zbudujesz histogram, wykres punktowy, słupkowy, pudełkowy, liniowy i mapę cieplną, przygotujesz wykres do raportu i poprawisz wykres, który wprowadza w błąd.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 8 min ćwiczenie 3.1 · 14 min ćwiczenie 3.2 · 12 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min ćwiczenie 3.5 · 27 min zadania 3.6–3.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 8 min ćwiczenie 3.1 · 14 min ćwiczenie 3.2 · 12 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min ćwiczenie 3.5 · 27 min zadania 3.6–3.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** otwórz projekt `jezykr`, uruchom skrypt startowy i pobierz szablon spotkania 3. Do wykresów używaj `zgloszenia_analiza`: dwa niemożliwe czasy są w nim oznaczone jako brak. Każdy wykres w raporcie ma odpowiadać na pytanie, mieć tytuł, opisane osie z jednostkami i jedno–dwa zdania komentarza.
@@ -12,7 +12,7 @@ title: "Spotkanie 3: wizualizacja danych"
 
 ~~~{.r .bez-uruchamiania}
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
-pobierz_szablon(3, "nazwisko_imie_03.Rmd")
+pobierz_szablon(3)
 ~~~
 
 ## Jak dobrać wykres
@@ -314,7 +314,7 @@ Zwróć uwagę na punkt początkowy osi słupków, skalę ocen (1–5), brak lic
 ## Oddanie
 
 ::: {.handin}
-Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_03.pdf` do zadania „Spotkanie 3” w MS Teams. Sprawdź w PDF, czy wszystkie wykresy mają czytelne osie i nie są ucięte.
+Oddaj pracę w konsoli poleceniem `oddaj_zadanie(3)`; funkcja wyrenderuje szablon i po potwierdzeniu wyśle `nazwisko_imie_03.pdf` do folderu „Spotkanie 3”. Zanim potwierdzisz wysłanie, sprawdź w otwartym PDF, czy wszystkie wykresy mają czytelne osie i nie są ucięte.
 :::
 
 ::: {.reading}

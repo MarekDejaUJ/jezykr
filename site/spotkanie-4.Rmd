@@ -4,7 +4,7 @@ title: "Spotkanie 4: eksploracyjna analiza danych"
 
 <div class="hero"><h2>Spotkanie 4 z 6 · 90 minut · treść programowa 5</h2><p>Zdiagnozujesz jakość danych pakietem dlookr, opiszesz rozkłady i wartości odstające, przejrzysz zmienne pakietem explore, porównasz grupy wykresami ggstatsplot i wygenerujesz raport automatyczny, którego wyniki sprawdzisz niezależnie w R.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start i pakiety · 12 min ćwiczenie 4.1 · 12 min ćwiczenie 4.2 · 10 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4 · 10 min ćwiczenie 4.5 · 25 min zadania 4.6–4.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start i pakiety · 12 min ćwiczenie 4.1 · 12 min ćwiczenie 4.2 · 10 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4 · 10 min ćwiczenie 4.5 · 25 min zadania 4.6–4.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** na tym spotkaniu skrypt startowy ładuje trzy dodatkowe pakiety. Przed jego uruchomieniem wskaż je opcją `jezykr.pakiety`; szablon spotkania 4 robi to w bloku `start`. Na własnym komputerze pierwsza instalacja może potrwać kilka minut, dlatego uruchom skrypt przed zajęciami.
@@ -13,7 +13,7 @@ title: "Spotkanie 4: eksploracyjna analiza danych"
 ~~~{.r .bez-uruchamiania}
 options(jezykr.pakiety = c("dlookr", "explore", "ggstatsplot"))
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
-pobierz_szablon(4, "nazwisko_imie_04.Rmd")
+pobierz_szablon(4)
 ~~~
 
 Eksploracyjna analiza danych (EDA) to systematyczne zadawanie pytań o dane: jak wygląda rozkład każdej zmiennej, gdzie są braki i wartości nietypowe, jak zmienne współzmieniają się ze sobą. Pakiety z tego spotkania przyspieszają pracę, ale niczego nie rozstrzygają za Ciebie. Każdą liczbę z raportu automatycznego, którą przytaczasz w tekście, sprawdź w R niezależnie. Skrypt startowy ładuje wskazane pakiety, a mimo to wywołujemy funkcje z przedrostkiem `pakiet::`, dzięki czemu widać, skąd pochodzą; ma to znaczenie, bo `dlookr` i `explore` mają funkcje o tej samej nazwie `describe()`.
@@ -192,7 +192,7 @@ explore::report(zgloszenia_analiza, output_file = "explore.html",
 | `title`, `subtitle`, `author` | opisy strony tytułowej |
 | `sample_percent` | odsetek wierszy użytych w raporcie, przydatny przy bardzo dużych zbiorach |
 
-**Sprawdź i zmień.** Wygeneruj także `diagnose_web_report()` dla danych surowych i porównaj sekcję ostrzeżeń z wynikami ćwiczenia 4.1. Sprawdź rozmiar plików funkcją `file.size()`: dlaczego raporty HTML są tak duże i dlaczego nie dołączasz ich do zadania w Teams?
+**Sprawdź i zmień.** Wygeneruj także `diagnose_web_report()` dla danych surowych i porównaj sekcję ostrzeżeń z wynikami ćwiczenia 4.1. Sprawdź rozmiar plików funkcją `file.size()`: dlaczego raporty HTML są tak duże i dlaczego nie oddajesz ich razem z pracą?
 
 ::: {.criteria}
 **Kryteria sukcesu:** plik `wyniki/eda.html` powstaje i otwiera się w przeglądarce; szablon zawiera kod generowania w bloku z `eval=FALSE` i listę sekcji raportu.
@@ -251,7 +251,7 @@ W wykresie `ggbarstats()` porównaj wynik testu z różnicami odsetków z ćwicz
 ## Oddanie
 
 ::: {.handin}
-Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_04.pdf` do zadania „Spotkanie 4” w MS Teams. Raportów HTML z folderu `wyniki/` nie dołączaj.
+Oddaj pracę w konsoli poleceniem `oddaj_zadanie(4)`; funkcja wyrenderuje szablon i po potwierdzeniu wyśle `nazwisko_imie_04.pdf` do folderu „Spotkanie 4”. Raporty HTML z folderu `wyniki/` zostają na Twoim komputerze; funkcja wysyła tylko PDF szablonu.
 :::
 
 ::: {.reading}

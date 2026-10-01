@@ -403,8 +403,8 @@ sprawdzisz niezależnie w R.
 <strong>Plan 90 minut:</strong> 5 min start i pakiety · 12 min ćwiczenie
 4.1 · 12 min ćwiczenie 4.2 · 10 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4
 · 10 min ćwiczenie 4.5 · 25 min zadania 4.6–4.8 · 2 min oddanie.
-Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS
-Teams.
+Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed
+terminem podanym przez prowadzącego.
 </div>
 <div class="start">
 <p><strong>Start:</strong> na tym spotkaniu skrypt startowy ładuje trzy
@@ -415,7 +415,7 @@ potrwać kilka minut, dlatego uruchom skrypt przed zajęciami.</p>
 </div>
 <pre class="r bez-uruchamiania"><code>options(jezykr.pakiety = c(&quot;dlookr&quot;, &quot;explore&quot;, &quot;ggstatsplot&quot;))
 source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
-pobierz_szablon(4, &quot;nazwisko_imie_04.Rmd&quot;)</code></pre>
+pobierz_szablon(4)</code></pre>
 <p>Eksploracyjna analiza danych (EDA) to systematyczne zadawanie pytań o
 dane: jak wygląda rozkład każdej zmiennej, gdzie są braki i wartości
 nietypowe, jak zmienne współzmieniają się ze sobą. Pakiety z tego
@@ -856,7 +856,7 @@ bardzo dużych zbiorach</td>
 <code>diagnose_web_report()</code> dla danych surowych i porównaj sekcję
 ostrzeżeń z wynikami ćwiczenia 4.1. Sprawdź rozmiar plików funkcją
 <code>file.size()</code>: dlaczego raporty HTML są tak duże i dlaczego
-nie dołączasz ich do zadania w Teams?</p>
+nie oddajesz ich razem z pracą?</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> plik <code>wyniki/eda.html</code>
 powstaje i otwiera się w przeglądarce; szablon zawiera kod generowania w
@@ -969,9 +969,11 @@ przypisuje przyczyn.</p>
 <div id="oddanie" class="section level2">
 <h2>Oddanie</h2>
 <div class="handin">
-<p>Wyrenderuj szablon do PDF i prześlij
-<code>nazwisko_imie_04.pdf</code> do zadania „Spotkanie 4” w MS Teams.
-Raportów HTML z folderu <code>wyniki/</code> nie dołączaj.</p>
+<p>Oddaj pracę w konsoli poleceniem <code>oddaj_zadanie(4)</code>;
+funkcja wyrenderuje szablon i po potwierdzeniu wyśle
+<code>nazwisko_imie_04.pdf</code> do folderu „Spotkanie 4”. Raporty HTML
+z folderu <code>wyniki/</code> zostają na Twoim komputerze; funkcja
+wysyła tylko PDF szablonu.</p>
 </div>
 <div class="reading">
 <p><strong>Lektura:</strong> R for Data Science — <a

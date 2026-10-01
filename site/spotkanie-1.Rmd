@@ -4,7 +4,7 @@ title: "Spotkanie 1: import, braki i porządkowanie danych"
 
 <div class="hero"><h2>Spotkanie 1 z 6 · 90 minut · treść programowa 2</h2><p>Wczytasz dane z CSV i Excela, rozpoznasz braki i wartości podejrzane, wybierzesz i posortujesz rekordy, uporządkujesz dane w nowej ramce, zagregujesz je i zapiszesz wynik.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start · 12 min ćwiczenie 1.1 · 12 min ćwiczenie 1.2 · 10 min ćwiczenie 1.3 · 12 min ćwiczenie 1.4 · 12 min ćwiczenie 1.5 · 25 min zadania 1.6–1.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start · 12 min ćwiczenie 1.1 · 12 min ćwiczenie 1.2 · 10 min ćwiczenie 1.3 · 12 min ćwiczenie 1.4 · 12 min ćwiczenie 1.5 · 25 min zadania 1.6–1.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** otwórz projekt `jezykr`, uruchom w konsoli skrypt startowy i pobierz szablon spotkania 1. Pliki w folderze `dane/` odtwarza skrypt; nie zmieniaj ich ręcznie, bo to dane surowe.
@@ -12,7 +12,7 @@ title: "Spotkanie 1: import, braki i porządkowanie danych"
 
 ~~~{.r .bez-uruchamiania}
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
-pobierz_szablon(1, "nazwisko_imie_01.Rmd")
+pobierz_szablon(1)
 ~~~
 
 ## Dane kursu
@@ -336,7 +336,7 @@ Dodaj kontrolę `stopifnot(nrow(spr) == nrow(dane_czyste), ncol(spr) == ncol(dan
 ## Oddanie
 
 ::: {.handin}
-Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_01.pdf` do zadania „Spotkanie 1” w MS Teams. Plik `.Rmd` zapisz w OneDrive, jeżeli chcesz dokończyć zadania w domu.
+Oddaj pracę w konsoli poleceniem `oddaj_zadanie(1)`. Funkcja wyrenderuje szablon w nowej sesji R, pokaże PDF i po potwierdzeniu wyśle plik `nazwisko_imie_01.pdf` do folderu „Spotkanie 1”; przebieg opisuje [spotkanie organizacyjne](organizacyjne.html#oddanie). Plik `.Rmd` zapisz w OneDrive, jeżeli chcesz dokończyć zadania w domu.
 :::
 
 ::: {.reading}

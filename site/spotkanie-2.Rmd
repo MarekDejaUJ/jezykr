@@ -4,7 +4,7 @@ title: "Spotkanie 2: operacje na danych, funkcje i pętle"
 
 <div class="hero"><h2>Spotkanie 2 z 6 · 90 minut · treść programowa 3</h2><p>Przekształcisz dane pakietami dplyr i tidyr, połączysz dwie tabele, wylosujesz powtarzalne próby, a następnie napiszesz własne funkcje z warunkami i pętlą oraz znajdziesz błąd w kodzie narzędziami debugowania.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 12 min ćwiczenie 2.1 · 12 min ćwiczenie 2.2 · 12 min ćwiczenie 2.3 · 12 min ćwiczenie 2.4 · 10 min ćwiczenie 2.5 · 27 min zadania 2.6–2.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 12 min ćwiczenie 2.1 · 12 min ćwiczenie 2.2 · 12 min ćwiczenie 2.3 · 12 min ćwiczenie 2.4 · 10 min ćwiczenie 2.5 · 27 min zadania 2.6–2.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** otwórz projekt `jezykr`, uruchom skrypt startowy i pobierz szablon spotkania 2. Od tego spotkania pracujesz głównie na obiekcie `zgloszenia_analiza`: skrypt startowy stosuje w nim reguły z zadania 1.6 (ujednolicone działy, czasy spoza 0–120 minut jako brak). Surowy obiekt `zgloszenia` pozostaje bez zmian.
@@ -12,7 +12,7 @@ title: "Spotkanie 2: operacje na danych, funkcje i pętle"
 
 ~~~{.r .bez-uruchamiania}
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
-pobierz_szablon(2, "nazwisko_imie_02.Rmd")
+pobierz_szablon(2)
 ~~~
 
 ## Learn — ćwiczenia z prowadzącym
@@ -350,7 +350,7 @@ Skorzystaj z `replace_na()`, `left_join()`, `group_by()`, `summarise()`, `arrang
 ## Oddanie
 
 ::: {.handin}
-Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_02.pdf` do zadania „Spotkanie 2” w MS Teams. Bloki z zamierzonymi błędami mają opcję `error=TRUE`, dlatego nie zatrzymają renderowania.
+Oddaj pracę w konsoli poleceniem `oddaj_zadanie(2)`; funkcja wyrenderuje szablon i po potwierdzeniu wyśle `nazwisko_imie_02.pdf` do folderu „Spotkanie 2”. Bloki z zamierzonymi błędami mają opcję `error=TRUE`, dlatego nie zatrzymają renderowania.
 :::
 
 ::: {.reading}

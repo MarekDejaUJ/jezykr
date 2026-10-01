@@ -412,7 +412,8 @@ zaliczenia</td>
 href="materialy/init-v2.R"><code>init-v2.R</code></a></td>
 <td align="left">Skrypt startowy: pakiety, fikcyjne dane CSV i XLSX,
 obiekty <code>zgloszenia</code> i <code>zgloszenia_analiza</code>,
-funkcja <code>pobierz_szablon()</code></td>
+funkcje <code>pobierz_szablon()</code> i
+<code>oddaj_zadanie()</code></td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="materialy/szablon-projekt.Rmd">Szablon
@@ -499,7 +500,7 @@ href="materialy/szablon-06.Rmd">szablon-06.Rmd</a></td>
 <td align="left"><a
 href="materialy/szablon-projekt.Rmd">szablon-projekt.Rmd</a></td>
 <td align="left"><code>projekt_nazwiska.pdf</code> i
-<code>projekt_nazwiska.Rmd</code></td>
+<code>projekt_nazwiska.Rmd</code> w MS Teams</td>
 </tr>
 </tbody>
 </table>
@@ -510,17 +511,21 @@ href="materialy/szablon-projekt.Rmd">szablon-projekt.Rmd</a></td>
 <li>Utwórz lub otwórz projekt <code>jezykr</code> (RStudio) albo folder
 <code>jezykr</code> (Positron).</li>
 <li>W konsoli uruchom skrypt startowy i pobierz szablon, podając numer
-spotkania i nazwę pliku:
+spotkania:
 <code>source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")</code>,
-a potem np. <code>pobierz_szablon(3, "kowalska_anna_03.Rmd")</code>. Na
-spotkaniach 4 i 6 przed skryptem ustaw pakiety dodatkowe — polecenie
-znajdziesz na stronie spotkania.</li>
+a potem np. <code>pobierz_szablon(3)</code>. W nagłówku szablonu, w polu
+<code>author</code>, wpisz swoje imię i nazwisko. Na spotkaniach 4 i 6
+przed skryptem ustaw pakiety dodatkowe — polecenie znajdziesz na stronie
+spotkania.</li>
 <li>Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami, a
 interpretacje zapisuj w polach <strong>Wynik i
 interpretacja</strong>.</li>
-<li>Zrestartuj R i wyrenderuj dokument do PDF przyciskiem
-<strong>Knit</strong>. Prześlij PDF do zadania w MS Teams; plik
-<code>.Rmd</code> zapisz w OneDrive.</li>
+<li>W trakcie pracy renderuj dokument przyciskiem <strong>Knit</strong>.
+Na koniec oddaj pracę w konsoli, np. <code>oddaj_zadanie(3)</code>:
+funkcja sprawdzi szablon, wyrenderuje go do PDF w nowej sesji R i po
+potwierdzeniu wyśle plik prowadzącemu (<a
+href="organizacyjne.html#oddanie">opis</a>). Plik <code>.Rmd</code>
+zapisz w OneDrive.</li>
 </ol>
 <p>W pracowni R, RStudio, Positron, pakiety kursu i TinyTeX są
 zainstalowane na stałe, a pliki użytkownika znikają po wyłączeniu
@@ -529,8 +534,8 @@ dane w folderze <code>dane/</code>, więc żadne spotkanie nie wymaga
 plików z poprzednich zajęć. Na własnym komputerze skrypt doinstaluje
 brakujące pakiety, a TinyTeX zainstalujesz raz według <a
 href="organizacyjne.html#%C4%87wiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf">ćwiczenia
-0.2</a>. Jeżeli PDF nie powstaje, wybierz <strong>Knit to HTML</strong>
-i zapisz wynik z przeglądarki jako PDF.</p>
+0.2</a>. Jeżeli PDF nie powstaje z powodu LaTeX-a,
+<code>oddaj_zadanie()</code> przygotuje i wyśle wersję HTML.</p>
 <table>
 <colgroup>
 <col width="19%" />

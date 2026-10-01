@@ -4,7 +4,7 @@ title: "Spotkanie 6: biblioteki R i generatywna SI"
 
 <div class="hero"><h2>Spotkanie 6 z 6 · 90 minut · treść programowa 7</h2><p>Uruchomisz GitHub Copilot CLI, wygenerujesz podsumowania statystyczne bibliotekami R, obliczysz i automatycznie zinterpretujesz wielkość efektu, ocenisz tekst wygenerowany przez pakiet report i poprawisz kod z pomocą asystenta, zawsze sprawdzając wynik w R.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 15 min ćwiczenie 6.1 · 10 min ćwiczenie 6.2 · 14 min ćwiczenie 6.3 · 10 min ćwiczenie 6.4 · 10 min ćwiczenie 6.5 · 26 min zadania 6.6–6.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 15 min ćwiczenie 6.1 · 10 min ćwiczenie 6.2 · 14 min ćwiczenie 6.3 · 10 min ćwiczenie 6.4 · 10 min ćwiczenie 6.5 · 26 min zadania 6.6–6.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** skrypt startowy ładuje na tym spotkaniu dwa dodatkowe pakiety: `effectsize` (wielkości efektu i ich interpretacja) oraz `report` (tekst opisujący wynik). Szablon spotkania 6 wskazuje je w bloku `start`.
@@ -13,7 +13,7 @@ title: "Spotkanie 6: biblioteki R i generatywna SI"
 ~~~{.r .bez-uruchamiania}
 options(jezykr.pakiety = c("effectsize", "report"))
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
-pobierz_szablon(6, "nazwisko_imie_06.Rmd")
+pobierz_szablon(6)
 ~~~
 
 **GitHub Copilot CLI** to asystent SI działający w terminalu. Wymaga osobnego konta GitHub i jest innym narzędziem niż Microsoft 365 Copilot ze [spotkania organizacyjnego](organizacyjne.html). [Plan Copilot Free obejmuje CLI](https://github.com/features/copilot/plans) z ograniczoną miesięczną pulą użycia; płatny plan nie jest potrzebny. Zasada tego spotkania: asystent może zaproponować kod lub wyjaśnienie, ale każda liczba w raporcie pochodzi z kodu uruchomionego w R, a każda sugestia jest opisana i sprawdzona.
@@ -250,7 +250,7 @@ Pytanie formułuj tak, aby dało się na nie odpowiedzieć danymi kursu lub inny
 ## Oddanie
 
 ::: {.handin}
-Wyrenderuj szablon do PDF i prześlij `nazwisko_imie_06.pdf` do zadania „Spotkanie 6” w MS Teams. Po tym spotkaniu zespół kończy [projekt grupowy](ocenianie.html); ostatnie 45 minut zajęć to [konsultacje](konsultacje.html).
+Oddaj pracę w konsoli poleceniem `oddaj_zadanie(6)`; funkcja wyrenderuje szablon i po potwierdzeniu wyśle `nazwisko_imie_06.pdf` do folderu „Spotkanie 6”. Po tym spotkaniu zespół kończy [projekt grupowy](ocenianie.html); ostatnie 45 minut zajęć to [konsultacje](konsultacje.html).
 :::
 
 ::: {.reading}

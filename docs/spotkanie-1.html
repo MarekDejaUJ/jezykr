@@ -402,7 +402,8 @@ zagregujesz je i zapiszesz wynik.
 <strong>Plan 90 minut:</strong> 5 min start · 12 min ćwiczenie 1.1 · 12
 min ćwiczenie 1.2 · 10 min ćwiczenie 1.3 · 12 min ćwiczenie 1.4 · 12 min
 ćwiczenie 1.5 · 25 min zadania 1.6–1.8 · 2 min oddanie. Zadania, których
-nie ukończysz na zajęciach, dokończ przed terminem w MS Teams.
+nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
+prowadzącego.
 </div>
 <div class="start">
 <p><strong>Start:</strong> otwórz projekt <code>jezykr</code>, uruchom w
@@ -411,7 +412,7 @@ konsoli skrypt startowy i pobierz szablon spotkania 1. Pliki w folderze
 surowe.</p>
 </div>
 <pre class="r bez-uruchamiania"><code>source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
-pobierz_szablon(1, &quot;nazwisko_imie_01.Rmd&quot;)</code></pre>
+pobierz_szablon(1)</code></pre>
 <div id="dane-kursu" class="section level2">
 <h2>Dane kursu</h2>
 <p>Wszystkie spotkania korzystają z fikcyjnego rejestru 240 zgłoszeń
@@ -1295,10 +1296,13 @@ po imporcie.</p>
 <div id="oddanie" class="section level2">
 <h2>Oddanie</h2>
 <div class="handin">
-<p>Wyrenderuj szablon do PDF i prześlij
-<code>nazwisko_imie_01.pdf</code> do zadania „Spotkanie 1” w MS Teams.
-Plik <code>.Rmd</code> zapisz w OneDrive, jeżeli chcesz dokończyć
-zadania w domu.</p>
+<p>Oddaj pracę w konsoli poleceniem <code>oddaj_zadanie(1)</code>.
+Funkcja wyrenderuje szablon w nowej sesji R, pokaże PDF i po
+potwierdzeniu wyśle plik <code>nazwisko_imie_01.pdf</code> do folderu
+„Spotkanie 1”; przebieg opisuje <a
+href="organizacyjne.html#oddanie">spotkanie organizacyjne</a>. Plik
+<code>.Rmd</code> zapisz w OneDrive, jeżeli chcesz dokończyć zadania w
+domu.</p>
 </div>
 <div class="reading">
 <p><strong>Lektura:</strong> R for Data Science — <a

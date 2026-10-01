@@ -16,9 +16,9 @@ Kurs realizuje kartę przedmiotu UJ.WZZINS.24.17358.26. Najważniejsze zasady ze
 |:-------------|:-------------------------------------------------------------------|
 | Wymiar zajęć | 15 godzin lekcyjnych: spotkanie organizacyjne i sześć spotkań roboczych po 90 minut oraz 45 minut konsultacji projektu. |
 | Obecność | Aktywne uczestnictwo; dopuszczalna jest jedna nieobecność. Przy większej liczbie usprawiedliwionych nieobecności ustal z prowadzącym alternatywną formę osiągnięcia efektów. |
-| Prace po spotkaniach | Po każdym spotkaniu przesyłasz jeden plik PDF wyrenderowany z szablonu `.Rmd` do zadania w MS Teams. Prace służą informacji zwrotnej i przygotowaniu do projektu. |
+| Prace po spotkaniach | Po każdym spotkaniu oddajesz jeden plik PDF wyrenderowany z szablonu `.Rmd`. Oddajesz go w konsoli R poleceniem `oddaj_zadanie()`, które wysyła plik do folderu spotkania na serwerze UJ ([opis](#oddanie)). Prace służą informacji zwrotnej i przygotowaniu do projektu. |
 | Zaliczenie | Pozytywna ocena grupowego projektu (2–4 osoby). Zespół oddaje PDF oraz plik źródłowy `.Rmd`; kryteria opisuje [rubryka](ocenianie.html). |
-| Terminy | Termin każdej pracy widać w zadaniu MS Teams. Termin projektu zostanie podany po ogłoszeniu harmonogramu sesji. |
+| Terminy | Termin oddania pracy po spotkaniu podaje prowadzący. Termin projektu zostanie podany w MS Teams po ogłoszeniu harmonogramu sesji. |
 | Narzędzia SI | Obowiązuje Zarządzenie nr 115 Rektora UJ z 27 listopada 2025 roku. Każde użycie SI opisujesz, a wynik sprawdzasz w R. |
 | Lektura | H. Wickham, G. Grolemund, [R for Data Science](https://r4ds.had.co.nz/) oraz P. Teetor, *R Cookbook*. Na końcu każdej strony znajdziesz rozdziały odpowiadające spotkaniu. |
 
@@ -28,17 +28,17 @@ Komputery w pracowni mają zainstalowane na stałe R, RStudio, Positron, pakiety
 
 ::: {.start}
 1. Utwórz projekt `jezykr` (ćwiczenie 0.1). W domu możesz używać jednego projektu przez cały semestr.
-2. W konsoli uruchom skrypt startowy i pobierz szablon spotkania; w nazwie pliku wpisz swoje nazwisko, imię i numer spotkania.
+2. W konsoli uruchom skrypt startowy i pobierz szablon spotkania, a w jego nagłówku YAML, w polu `author`, wpisz swoje imię i nazwisko.
 3. Pracuj w szablonie: pod każdym poleceniem jest blok kodu z komentarzem `# Twój kod` — tam wpisuj lub kopiuj przykłady ze strony — oraz pole **Wynik i interpretacja** na Twój opis.
-4. Na koniec wyrenderuj PDF (**Knit**), prześlij go do zadania w MS Teams, a plik `.Rmd` zapisz w OneDrive, jeżeli chcesz go dokończyć w domu.
+4. Na koniec oddaj pracę w konsoli poleceniem `oddaj_zadanie()` z numerem spotkania ([opis](#oddanie)), a plik `.Rmd` zapisz w OneDrive, jeżeli chcesz go dokończyć w domu.
 :::
 
 ~~~{.r .bez-uruchamiania}
 source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
-pobierz_szablon(0, "kowalska_anna_00.Rmd")
+pobierz_szablon(0)
 ~~~
 
-Pierwsza linia pobiera i wykonuje [skrypt startowy](materialy/init-v2.R): ładuje pakiety (a na własnym komputerze doinstalowuje brakujące), tworzy foldery `dane/` i `wyniki/`, zapisuje trzy pliki z fikcyjnymi danymi i tworzy w pamięci obiekty `zgloszenia` oraz `zgloszenia_analiza`. Druga linia pobiera szablon spotkania pod wskazaną nazwą i otwiera go w edytorze; istniejącego pliku nie nadpisze. Szablon zawiera ten sam skrypt w bloku `start`, więc renderowanie zawsze zaczyna się od świeżych danych.
+Pierwsza linia pobiera i wykonuje [skrypt startowy](materialy/init-v2.R): ładuje pakiety (a na własnym komputerze doinstalowuje brakujące), tworzy foldery `dane/` i `wyniki/`, zapisuje trzy pliki z fikcyjnymi danymi i tworzy w pamięci obiekty `zgloszenia` oraz `zgloszenia_analiza`. Druga linia pobiera szablon spotkania do pliku `szablon-00.Rmd` i otwiera go w edytorze; istniejącego pliku nie nadpisze. Szablon zawiera ten sam skrypt w bloku `start`, więc renderowanie zawsze zaczyna się od świeżych danych.
 
 | Plik | Zawartość | Oddajesz? |
 |:---------|:--------------------------------------------------|:---------------------|
@@ -46,7 +46,7 @@ Pierwsza linia pobiera i wykonuje [skrypt startowy](materialy/init-v2.R): ładuj
 | `.pdf` | wyrenderowany raport z kodem i wynikami | tak, po każdym spotkaniu |
 | `.R` | sam kod, np. skrypt startowy | nie |
 | `.csv`, `.xlsx` | dane w folderze `dane/`, odtwarzane przez skrypt | nie |
-| `.html` | wynik renderowania zapasowego lub raport automatyczny | nie |
+| `.html` | wynik renderowania zapasowego lub raport automatyczny | tylko wtedy, gdy nie powstał PDF — wysyła go `oddaj_zadanie()` |
 
 ## Learn — ćwiczenia z prowadzącym
 
@@ -162,12 +162,12 @@ tinytex::install_tinytex()     # jednorazowo, kilka minut
 tinytex::is_tinytex()          # TRUE oznacza gotową instalację
 ~~~
 
-Jeżeli PDF nie powstaje, a do końca zajęć zostało mało czasu, wybierz z menu obok **Knit** polecenie **Knit to HTML**, otwórz wynik w przeglądarce i zapisz go jako PDF poleceniem **Drukuj → Zapisz jako PDF**. Komunikat błędu skopiuj do szablonu i pokaż prowadzącemu.
+Jeżeli PDF nie powstaje, przeczytaj pierwszy komunikat błędu, skopiuj go do szablonu i pokaż prowadzącemu. Gdy przyczyną jest LaTeX, a nie kod R, funkcja `oddaj_zadanie()` przygotuje i wyśle zamiast PDF wersję HTML, więc praca i tak dotrze do prowadzącego.
 
 **Sprawdź i zmień.** Dodaj własny blok z `mean(c(12, 18, 30))` i wyrenderuj dokument dwa razy: z `echo=TRUE` i z `echo=FALSE`. Zamień w YAML kolejność formatów i sprawdź, jaki plik tworzy teraz **Knit**, a potem przywróć PDF na pierwsze miejsce.
 
 ::: {.criteria}
-**Kryteria sukcesu:** plik `nazwisko_imie_00.pdf` powstaje, ma Twoje imię i nazwisko oraz spis treści, a blok `start` nie wypisuje komunikatów w raporcie. Umiesz wyjaśnić, dlaczego renderowanie jest kontrolą odtwarzalności.
+**Kryteria sukcesu:** PDF powstaje, ma Twoje imię i nazwisko oraz spis treści, a blok `start` nie wypisuje komunikatów w raporcie. Umiesz wyjaśnić, dlaczego renderowanie jest kontrolą odtwarzalności.
 :::
 
 ### Ćwiczenie 0.3. Konsola, obiekty i wektory
@@ -450,8 +450,27 @@ Asystent może zaproponować inne, równie poprawne rozwiązanie, np. `colSums(i
 ## Oddanie
 
 ::: {.handin}
-Wyrenderuj szablon do PDF i prześlij plik `nazwisko_imie_00.pdf` do zadania „Spotkanie organizacyjne” w MS Teams. To oddanie próbne: sprawdza, czy projekt, skrypt startowy i renderowanie działają na Twoim komputerze. Plik `.Rmd` zapisz w OneDrive.
+Pracę oddajesz w konsoli jednym poleceniem z numerem spotkania. Dzisiejsze oddanie jest próbne: sprawdza, czy projekt, skrypt startowy, renderowanie i wysyłanie działają na Twoim komputerze. Plik `.Rmd` zapisz w OneDrive.
 :::
+
+~~~{.r .bez-uruchamiania}
+oddaj_zadanie(0)
+~~~
+
+Funkcję `oddaj_zadanie()` tworzy skrypt startowy. Po jej uruchomieniu:
+
+1. Zapisuje otwarte pliki, odnajduje w folderze projektu szablon spotkania i sprawdza, czy w polu `author` jest imię i nazwisko oraz czy szablon pochodzi z tego spotkania. Wypisuje ćwiczenia, w których został komentarz `# Twój kod` albo słowo „uzupełnij”.
+2. Renderuje szablon do PDF w nowej sesji R, tak jak **Knit** po restarcie R. Obiekty utworzone tylko w konsoli nie pomogą; błąd w kodzie zatrzymuje oddanie, a komunikat wskazuje blok do poprawienia.
+3. Zapisuje plik `wyniki/nazwisko_imie_00.pdf` i otwiera go do obejrzenia.
+4. Po potwierdzeniu literą `t` wysyła plik do folderu spotkania na serwerze UJ (nc.uj.edu.pl). Folder nie wymaga logowania i nie pokazuje prac innych osób.
+
+| Argument | Znaczenie |
+|:------------|:--------------------------------------------------------------------|
+| `numer` | numer spotkania od 0 do 6 |
+| `plik` | nazwa szablonu, jeśli chcesz oddać inny plik niż najnowszy szablon tego spotkania w folderze projektu |
+| `wyslij` | `FALSE` wykonuje całą kontrolę i tworzy PDF, ale niczego nie wysyła |
+
+Komunikat „Oddano plik …” potwierdza oddanie. Jeżeli poprawisz pracę przed terminem, uruchom polecenie ponownie: nowa wersja trafi do folderu obok poprzedniej. Jeżeli R nie zna funkcji `oddaj_zadanie`, uruchom jeszcze raz `source()` ze skryptem startowym. Gdy wysyłanie się nie powiedzie, funkcja poda link, pod którym wgrasz gotowy PDF przez przeglądarkę.
 
 ::: {.reading}
 **Lektura:** R for Data Science — [Workflow: basics](https://r4ds.had.co.nz/workflow-basics.html), [Workflow: scripts](https://r4ds.had.co.nz/workflow-scripts.html), [Workflow: projects](https://r4ds.had.co.nz/workflow-projects.html), [Vectors](https://r4ds.had.co.nz/vectors.html) i [R Markdown](https://r4ds.had.co.nz/r-markdown.html). Instalacja PDF: [TinyTeX](https://yihui.org/tinytex/).
