@@ -34,6 +34,15 @@ przygotuj_biblioteke <- function() {
   invisible(uzytkownika)
 }
 
+# Repozytorium CRAN: ustawione w sesji (RStudio ustawia cloud.r-project.org; na Linuxie
+# często repozytorium z gotowymi binariami), a gdy nie jest ustawione — cloud.r-project.org.
+repozytorium_cran <- function() {
+  repos <- getOption("repos")
+  cran <- if (!is.null(repos) && "CRAN" %in% names(repos)) unname(repos["CRAN"]) else ""
+  if (!nzchar(cran) || identical(cran, "@CRAN@")) cran <- "https://cloud.r-project.org"
+  c(CRAN = cran)
+}
+
 pakiety_kursu <- function(nazwy) {
   brakujace <- setdiff(nazwy, rownames(installed.packages()))
   if (length(brakujace) > 0L) {
@@ -42,8 +51,7 @@ pakiety_kursu <- function(nazwy) {
             paste(brakujace, collapse = ", "),
             "\nRazem z zależnościami może to potrwać kilka minut; wykonuje się tylko raz.")
     typ_pakietu <- if (.Platform$OS.type == "windows") "binary" else getOption("pkgType")
-    install.packages(brakujace, repos = "https://cloud.r-project.org",
-                     type = typ_pakietu, quiet = TRUE)
+    install.packages(brakujace, repos = repozytorium_cran(), type = typ_pakietu, quiet = TRUE)
   }
   # system.file() sprawdza obecność pakietu bez ładowania go (bez komunikatów startowych).
   nadal_brak <- nazwy[!nzchar(vapply(nazwy, function(n) system.file(package = n), character(1)))]
