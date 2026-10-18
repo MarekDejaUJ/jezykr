@@ -67,7 +67,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>. Kod ze stro
 
 ## Ćwiczenie 2.5. Funkcja z warunkiem, pętla i próba losowa
 
-**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i zatrzymuje się przy progu spoza 0–100. Zastosuj ją pętlą `for` i funkcją `vapply()` do czterech kolumn. Potem po `set.seed()` wylosuj identyfikatory, próbę 24 zgłoszeń i 500 średnich z prób.
+**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i zatrzymuje się przy progu spoza 0–100. Prześledź jej działanie dla kolumny `ocena`, wykonując polecenia z jej wnętrza osobno. Zastosuj funkcję pętlą `for` i funkcją `vapply()` do czterech kolumn. Potem po `set.seed()` wylosuj identyfikatory, próbę 24 zgłoszeń i 500 średnich z prób.
 
 ```{r c2-5, error=TRUE}
 # Twój kod

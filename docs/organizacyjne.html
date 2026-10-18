@@ -671,8 +671,8 @@ czyli bieżący); <code>pattern</code> — wzorzec nazwy;
 <td align="left"><code>path</code> — nazwa folderu;
 <code>showWarnings = FALSE</code> — bez ostrzeżenia, gdy folder już
 istnieje; <code>recursive = TRUE</code> — także foldery pośrednie</td>
-<td align="left"><code>TRUE</code> albo <code>FALSE</code>
-(niewidocznie)</td>
+<td align="left"><code>TRUE</code> albo <code>FALSE</code>; wynik nie
+jest wypisywany</td>
 </tr>
 <tr class="even">
 <td align="left"><code>file.exists()</code></td>
@@ -958,7 +958,7 @@ typeof(pilne)
 length(czasy)
 czasy * 60                                     # sekundy, dla każdego elementu
 czasy &gt; 20                                     # porównanie daje wektor logiczny
-mean(czasy)                                    # brak „zaraża” wynik
+mean(czasy)                                    # brak przenosi się na wynik
 mean(czasy, na.rm = TRUE)                      # średnia z 4 dostępnych wartości
 sum(pilne)                                     # liczba wartości TRUE
 czasy[2]                                       # drugi element

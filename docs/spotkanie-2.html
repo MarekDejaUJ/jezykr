@@ -423,7 +423,7 @@ class="section level3">
 <h3>Ćwiczenie 2.1. Potok, select(), filter() i arrange()</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Zapiszesz ciąg operacji na danych jako czytelny
-potok i poznasz pomocników wyboru kolumn.</p>
+potok i poznasz funkcje pomocnicze do wyboru kolumn.</p>
 <p><strong>Polecenie:</strong> W jednym potoku wybierz kolumny,
 odfiltruj zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je
 malejąco. Następnie wypróbuj wybór kolumn według nazwy i typu oraz
@@ -431,13 +431,14 @@ filtry z <code>%in%</code>, <code>between()</code> i
 <code>is.na()</code>.</p>
 </div>
 <p>Pakiet <code>dplyr</code> (ładuje go skrypt startowy) udostępnia
-funkcje-czasowniki: każda przyjmuje ramkę jako pierwszy argument i
-zwraca nową ramkę. Operator potoku <code>|&gt;</code> przekazuje wynik z
-lewej strony jako pierwszy argument funkcji po prawej:
-<code>x |&gt; f(y)</code> oznacza <code>f(x, y)</code>. Potok czyta się
-„weź dane, a następnie…”. W RStudio wstawisz go skrótem Ctrl+Shift+M
-(Cmd+Shift+M), jeśli w <strong>Tools → Global Options → Code</strong>
-zaznaczysz <strong>Use native pipe operator</strong>.</p>
+zestaw funkcji o nazwach będących czasownikami — wybierz, filtruj,
+uporządkuj: każda przyjmuje ramkę jako pierwszy argument, wykonuje jedną
+operację i zwraca nową ramkę. Operator potoku <code>|&gt;</code>
+przekazuje wynik z lewej strony jako pierwszy argument funkcji po
+prawej: <code>x |&gt; f(y)</code> oznacza <code>f(x, y)</code>. Potok
+czyta się „weź dane, a następnie…”. W RStudio wstawisz go skrótem
+Ctrl+Shift+M (Cmd+Shift+M), jeśli w <strong>Tools → Global Options →
+Code</strong> zaznaczysz <strong>Use native pipe operator</strong>.</p>
 <pre class="r"><code>zgloszenia_analiza |&gt;
   select(id, kanal, dzial, czas_min) |&gt;
   filter(kanal == &quot;Telefon&quot;, czas_min &gt; 60) |&gt;
@@ -609,8 +610,8 @@ align="left"><code>case_when(warunek ~ wartość, ..., .default)</code></td>
 </tr>
 </tbody>
 </table>
-<p>W <code>case_when()</code> kolejność warunków ma znaczenie: pierwszy
-spełniony warunek wygrywa. Braki trafiają do <code>.default</code>, bo
+<p>W <code>case_when()</code> kolejność warunków ma znaczenie: decyduje
+pierwszy spełniony warunek. Braki trafiają do <code>.default</code>, bo
 <code>NA &gt;= 4</code> nie jest ani prawdą, ani fałszem. W
 <code>cut()</code> wartość spoza wszystkich przedziałów oraz brak dają
 <code>NA</code>.</p>
@@ -854,28 +855,25 @@ class="section level3">
 <h3>Ćwiczenie 2.5. Funkcja z warunkiem, pętla i próba losowa</h3>
 <div class="brief" szablon="error=TRUE">
 <p><strong>Cel:</strong> Napiszesz funkcję, która sprawdza argument i
-wybiera jedną z dwóch odpowiedzi, zastosujesz ją w pętli i przez
-<code>vapply()</code>, a następnie wylosujesz powtarzalne próby i
-zobaczysz, jak zmienia się średnia z próby.</p>
+wybiera jedną z dwóch odpowiedzi, prześledzisz krok po kroku, co dzieje
+się w jej wnętrzu, zastosujesz ją w pętli i przez <code>vapply()</code>,
+a następnie wylosujesz powtarzalne próby i zobaczysz, jak zmienia się
+średnia z próby.</p>
 <p><strong>Polecenie:</strong> Napisz funkcję
 <code>ocen_kolumne(x, prog = 1)</code>, która zwraca „sprawdź”, gdy
 odsetek braków przekracza próg, a „OK” w przeciwnym razie, i zatrzymuje
-się przy progu spoza 0–100. Zastosuj ją pętlą <code>for</code> i funkcją
-<code>vapply()</code> do czterech kolumn. Potem po
-<code>set.seed()</code> wylosuj identyfikatory, próbę 24 zgłoszeń i 500
-średnich z prób.</p>
+się przy progu spoza 0–100. Prześledź jej działanie dla kolumny
+<code>ocena</code>, wykonując polecenia z jej wnętrza osobno. Zastosuj
+funkcję pętlą <code>for</code> i funkcją <code>vapply()</code> do
+czterech kolumn. Potem po <code>set.seed()</code> wylosuj
+identyfikatory, próbę 24 zgłoszeń i 500 średnich z prób.</p>
 </div>
-<p>Warunek <code>if (...) ... else ...</code> wybiera jedną z dwóch dróg
-dla pojedynczej wartości <code>TRUE</code> albo <code>FALSE</code>; dla
-całych wektorów używasz <code>ifelse()</code> lub
-<code>if_else()</code>. <code>stop("komunikat")</code> przerywa funkcję
-z Twoim opisem błędu. Pętla <code>for (k in kolumny)</code> wykonuje
-ciało dla każdego elementu wektora; <code>vapply()</code> robi to samo
-bez pętli i pilnuje typu wyniku. Komputer losuje liczby pseudolosowe:
-<code>set.seed()</code> ustala punkt startowy, więc po nim kod daje za
-każdym razem te same wyniki; umieszczaj go w tym samym bloku co
-losowanie. Skrypt startowy nie zmienia Twojego generatora, choć sam
-korzysta z losowania.</p>
+<p>Własna funkcja to przepis zapisany pod nazwą: podajesz jej dane
+wejściowe (argumenty), a ona wykonuje po kolei polecenia zapisane w
+nawiasach klamrowych i oddaje wynik. Raz napisaną funkcję wywołujesz
+wiele razy z różnymi danymi, zamiast kopiować ten sam kod. Najpierw
+przeczytaj definicję w całości, uruchom ją z trzema wywołaniami, a potem
+prześledź krok po kroku.</p>
 <pre class="r"><code>ocen_kolumne &lt;- function(x, prog = 1) {
   if (!is.numeric(prog) || prog &lt; 0 || prog &gt; 100) {
     stop(&quot;Próg musi być liczbą z przedziału 0-100.&quot;)
@@ -885,14 +883,145 @@ korzysta z losowania.</p>
 }
 ocen_kolumne(zgloszenia_analiza$ocena)
 ocen_kolumne(c(1, 2, 3))
-kolumny &lt;- c(&quot;dzial&quot;, &quot;czas_min&quot;, &quot;ocena&quot;, &quot;koszt&quot;)
+ocen_kolumne(zgloszenia_analiza$ocena, prog = 5)</code></pre>
+<p><strong>Co dzieje się w funkcji, krok po kroku.</strong> Prześledź
+wywołanie <code>ocen_kolumne(zgloszenia_analiza$ocena)</code>.</p>
+<ol style="list-style-type: decimal">
+<li><code>ocen_kolumne &lt;- function(x, prog = 1) {</code> — słowo
+<code>function</code> tworzy funkcję, a strzałka zapisuje ją pod nazwą
+<code>ocen_kolumne</code>; od tej chwili nazwa jest widoczna w panelu
+Environment. W nawiasach okrągłych są argumenty: <code>x</code> jest
+wymagany (bez niego funkcja zgłosi błąd), a <code>prog</code> ma wartość
+domyślną <code>1</code>, więc można go pominąć. W tym wywołaniu
+<code>x</code> to kolumna <code>ocena</code> (240 wartości), a
+<code>prog</code> równa się 1, bo nie podano innej wartości.</li>
+<li><code>if (!is.numeric(prog) || prog &lt; 0 || prog &gt; 100) {</code>
+— zanim funkcja cokolwiek policzy, sprawdza, czy próg ma sens.
+<code>is.numeric(prog)</code> pyta, czy próg jest liczbą; wykrzyknik
+odwraca odpowiedź, więc <code>!is.numeric(prog)</code> jest prawdą dla
+tekstu. Podwójne <code>||</code> oznacza „lub” dla pojedynczych
+wartości: wystarczy, że jeden z trzech warunków jest prawdziwy, aby cały
+warunek był prawdziwy. Dla <code>prog = 1</code> wszystkie trzy są
+fałszywe, więc R pomija polecenie w nawiasach klamrowych po
+<code>if</code> i przechodzi do kroku 4.</li>
+<li><code>stop("Próg musi być liczbą z przedziału 0-100.")</code> — to
+polecenie wykonuje się tylko wtedy, gdy warunek z kroku 2 jest
+prawdziwy. <code>stop()</code> natychmiast przerywa funkcję i wyświetla
+podany tekst jako błąd; nic poniżej już się nie wykonuje. Zobaczysz to w
+ostatnim wywołaniu tego ćwiczenia, z progiem 150.</li>
+<li><code>procent &lt;- 100 * mean(is.na(x))</code> — tu powstaje wynik
+pośredni, liczony od środka na zewnątrz: <code>is.na(x)</code> zamienia
+240 ocen na 240 wartości <code>TRUE</code>/<code>FALSE</code> (3 razy
+<code>TRUE</code>, bo tyle jest braków); <code>mean()</code> liczy
+średnią, a ponieważ <code>TRUE</code> liczy się jako 1, średnia to
+udział braków, 3/240 = 0,0125; mnożenie przez 100 daje 1,25 procent.
+Nazwa <code>procent</code> istnieje tylko wewnątrz funkcji: po jej
+zakończeniu znika i nie pojawia się w panelu Environment.</li>
+<li><code>if (procent &gt; prog) "sprawdź" else "OK"</code> — porównanie
+1,25 &gt; 1 jest prawdziwe, więc R wybiera napis <code>"sprawdź"</code>;
+gdyby było fałszywe, wybrałby <code>"OK"</code>. To ostatnie polecenie
+funkcji, a wartość ostatniego polecenia staje się jej wynikiem; nie
+trzeba pisać <code>return()</code>, choć wolno.</li>
+<li><code>}</code> zamyka treść funkcji. Wynik <code>"sprawdź"</code>
+wraca do miejsca wywołania: w konsoli zostaje wypisany, a w zapisie
+<code>wynik &lt;- ocen_kolumne(...)</code> trafiłby do obiektu
+<code>wynik</code>.</li>
+</ol>
+<p>Ten sam przebieg odtworzysz w konsoli, wykonując polecenia z wnętrza
+funkcji osobno:</p>
+<pre class="r"><code>x &lt;- zgloszenia_analiza$ocena
+prog &lt;- 1
+head(is.na(x), 20)                   # krok 4: wektor TRUE/FALSE
+sum(is.na(x)); length(x)             # 3 braki na 240 wartości
+mean(is.na(x))                       # udział braków
+procent &lt;- 100 * mean(is.na(x))
+procent
+procent &gt; prog                       # krok 5: warunek
+if (procent &gt; prog) &quot;sprawdź&quot; else &quot;OK&quot;</code></pre>
+<table>
+<colgroup>
+<col width="38%" />
+<col width="21%" />
+<col width="13%" />
+<col width="11%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Wywołanie</th>
+<th align="left"><code>x</code></th>
+<th align="left"><code>prog</code></th>
+<th align="left"><code>procent</code></th>
+<th align="left">Wynik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td
+align="left"><code>ocen_kolumne(zgloszenia_analiza$ocena)</code></td>
+<td align="left">240 ocen, 3 braki</td>
+<td align="left">1 (domyślny)</td>
+<td align="left">1,25</td>
+<td align="left">„sprawdź”</td>
+</tr>
+<tr class="even">
+<td align="left"><code>ocen_kolumne(c(1, 2, 3))</code></td>
+<td align="left">3 liczby bez braków</td>
+<td align="left">1 (domyślny)</td>
+<td align="left">0</td>
+<td align="left">„OK”</td>
+</tr>
+<tr class="odd">
+<td
+align="left"><code>ocen_kolumne(zgloszenia_analiza$ocena, prog = 5)</code></td>
+<td align="left">240 ocen, 3 braki</td>
+<td align="left">5</td>
+<td align="left">1,25</td>
+<td align="left">„OK”</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>ocen_kolumne(zgloszenia_analiza$ocena, prog = 150)</code></td>
+<td align="left">—</td>
+<td align="left">150</td>
+<td align="left">nie liczony</td>
+<td align="left">błąd z <code>stop()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Teraz zastosuj funkcję do kilku kolumn naraz. Pętla <code>for</code>
+wykonuje te same polecenia dla kolejnych elementów wektora, a
+<code>vapply()</code> robi to bez pętli i sprawdza, czy każdy wynik ma
+zapowiedziany typ.</p>
+<pre class="r"><code>kolumny &lt;- c(&quot;dzial&quot;, &quot;czas_min&quot;, &quot;ocena&quot;, &quot;koszt&quot;)
 for (k in kolumny) {
   cat(k, &quot;:&quot;, ocen_kolumne(zgloszenia_analiza[[k]]), &quot;\n&quot;)
 }
 vapply(zgloszenia_analiza[kolumny], ocen_kolumne, character(1))
-vapply(zgloszenia_analiza[kolumny], ocen_kolumne, character(1), prog = 0.5)
-
-set.seed(2027)
+vapply(zgloszenia_analiza[kolumny], ocen_kolumne, character(1), prog = 0.5)</code></pre>
+<p><strong>Co dzieje się w pętli, krok po kroku.</strong>
+<code>for (k in kolumny)</code> bierze pierwszy element wektora
+<code>kolumny</code>, czyli napis <code>"dzial"</code>, i zapisuje go
+pod nazwą <code>k</code>; wykonuje polecenia w nawiasach klamrowych;
+potem podstawia pod <code>k</code> kolejny element i powtarza to aż do
+ostatniego. Wewnątrz <code>zgloszenia_analiza[[k]]</code> pobiera
+kolumnę o nazwie zapisanej w <code>k</code>; zapis
+<code>zgloszenia_analiza$k</code> nie zadziałałby, bo szukałby kolumny o
+nazwie dosłownie „k”. <code>cat()</code> skleja i wypisuje: nazwę
+kolumny, dwukropek, wynik funkcji i znak nowej linii <code>"\n"</code>.
+W <code>vapply()</code> pierwszy argument to lista kolumn (ramka
+ograniczona do czterech kolumn), drugi to funkcja — bez nawiasów, bo
+przekazujesz samą funkcję, a nie jej wynik — a trzeci,
+<code>character(1)</code>, zapowiada, że każdy wynik ma być jednym
+napisem; dodatkowe argumenty, jak <code>prog = 0.5</code>,
+<code>vapply()</code> przekazuje dalej do funkcji.</p>
+<p>Druga część ćwiczenia to losowanie. Komputer losuje liczby
+pseudolosowe: ciąg wynika z ziarna, czyli punktu wyjścia.
+<code>set.seed()</code> ustala ziarno, więc po nim kod daje za każdym
+razem te same wyniki; umieszczaj je w tym samym bloku co losowanie.
+Skrypt startowy nie zmienia stanu generatora liczb losowych w Twojej
+sesji, choć sam korzysta z losowania.</p>
+<pre class="r"><code>set.seed(2027)
 sample(zgloszenia_analiza$id, size = 5)                 # 5 różnych ID
 proba &lt;- slice_sample(zgloszenia_analiza, n = 24)
 mean(proba$czas_min, na.rm = TRUE)
@@ -918,83 +1047,95 @@ ocen_kolumne(zgloszenia_analiza$ocena, prog = 150)      # celowy błąd: komunik
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left">definicja funkcji</td>
+<td
+align="left"><code>nazwa &lt;- function(a, b = 1) { ... }</code></td>
+<td align="left">argumenty w nawiasach okrągłych, treść w klamrowych;
+wynikiem jest wartość ostatniego polecenia</td>
+</tr>
+<tr class="even">
 <td align="left">warunek</td>
 <td align="left"><code>if (warunek) { ... } else { ... }</code></td>
 <td align="left">warunek musi być pojedynczą wartością <code>TRUE</code>
 albo <code>FALSE</code>; <code>||</code> i <code>&amp;&amp;</code> łączą
 pojedyncze warunki</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">zatrzymanie</td>
 <td align="left"><code>stop("komunikat")</code></td>
-<td align="left">przerywa funkcję z komunikatem; w szablonie blok ma
-opcję <code>error=TRUE</code>, więc PDF pokaże komunikat i renderowanie
-pójdzie dalej</td>
-</tr>
-<tr class="odd">
-<td align="left">pętla</td>
-<td align="left"><code>for (k in wektor) { ... }</code></td>
-<td align="left">wykonuje ciało dla każdego elementu; <code>cat()</code>
-wypisuje tekst bez cudzysłowów</td>
+<td align="left">przerywa funkcję i wyświetla komunikat jako błąd; w
+szablonie blok ma opcję <code>error=TRUE</code>, więc komunikat trafia
+do PDF, a renderowanie jest kontynuowane</td>
 </tr>
 <tr class="even">
+<td align="left">pętla</td>
+<td align="left"><code>for (k in wektor) { ... }</code></td>
+<td align="left">wykonuje polecenia w nawiasach klamrowych dla każdego
+elementu; <code>cat()</code> wypisuje tekst bez cudzysłowów</td>
+</tr>
+<tr class="odd">
 <td align="left">kolumna o nazwie z wektora</td>
 <td align="left"><code>ramka[[nazwa]]</code></td>
 <td align="left"><code>ramka$nazwa</code> nie działa, gdy nazwa jest w
 zmiennej</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>vapply(X, FUN, FUN.VALUE, ...)</code></td>
-<td align="left">lista lub ramka; funkcja; wzorzec wyniku, np.
-<code>character(1)</code> albo <code>numeric(1)</code>; dodatkowe
-argumenty</td>
+<td align="left">lista lub ramka; funkcja; przykład typu wyniku, np.
+<code>character(1)</code> (jeden napis) albo <code>numeric(1)</code>
+(jedna liczba); dodatkowe argumenty</td>
 <td align="left">ta sama operacja dla każdego elementu, wynik o
 sprawdzonym typie</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>set.seed(seed)</code></td>
 <td align="left">liczba całkowita</td>
-<td align="left">ustala punkt startowy losowania</td>
+<td align="left">ustala ziarno generatora liczb losowych</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sample(x, size, replace = FALSE)</code></td>
 <td align="left">zbiór; liczba losowań; ze zwracaniem lub bez</td>
 <td align="left">losowanie elementów</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>slice_sample(.data, n, prop, by)</code></td>
 <td align="left">liczba albo odsetek wierszy; <code>by</code> — osobno w
 grupach</td>
 <td align="left">losowa próba wierszy ramki</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>replicate(n, expr)</code></td>
 <td align="left">liczba powtórzeń; wyrażenie</td>
 <td align="left">wielokrotne wykonanie tego samego losowania</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>na.omit(x)</code></td>
 <td align="left">wektor</td>
 <td align="left">usuwa braki</td>
 </tr>
 </tbody>
 </table>
-<p>Gdy funkcja działa nie tak, jak oczekujesz, w konsoli uruchom
+<p>Gdy funkcja działa inaczej, niż oczekujesz, w konsoli uruchom
 <code>debugonce(ocen_kolumne)</code>, a potem wywołaj funkcję: R
-zatrzyma się na pierwszej linii ciała, a klawisz <code>n</code> wykona
-kolejne linie, <code>Q</code> kończy. <code>traceback()</code> zaraz po
-błędzie pokazuje, w której funkcji powstał.</p>
-<p><strong>Sprawdź i zmień.</strong> Uruchom blok dwa razy z
-<code>set.seed(2027)</code> i raz bez tej linii; porównaj wyniki.
+zatrzyma się przed jej pierwszym poleceniem i pokaże wartości
+argumentów; klawisz <code>n</code> wykonuje kolejne polecenie,
+<code>Q</code> kończy. <code>traceback()</code> uruchomione zaraz po
+błędzie pokazuje, w której funkcji błąd powstał.</p>
+<p><strong>Sprawdź i zmień.</strong> Uruchom blok z losowaniem dwa razy
+z <code>set.seed(2027)</code> i raz bez tej linii; porównaj wyniki.
 Zwiększ próbę w <code>replicate()</code> z 24 do 96 zgłoszeń i porównaj
 <code>sd(srednie)</code>. Wywołaj
-<code>ocen_kolumne(zgloszenia_analiza$ocena, prog = "1")</code> i
-wyjaśnij, który warunek zatrzymał funkcję.</p>
+<code>ocen_kolumne(zgloszenia_analiza$ocena, prog = "1")</code> i wskaż,
+który z trzech warunków w kroku 2 zatrzymał funkcję. Zmień w definicji
+wartość domyślną na <code>prog = 5</code> i sprawdź, które kolumny
+zmieniają odpowiedź.</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> przy progu 1% funkcja zwraca
-„sprawdź” tylko dla <code>ocena</code>, a przy progu 0,5% także dla
-<code>czas_min</code>; pętla i <code>vapply()</code> dają te same
-odpowiedzi; próg 150 kończy się Twoim komunikatem; po
+<p><strong>Kryteria sukcesu:</strong> trzy wywołania dają „sprawdź”,
+„OK” i „OK”, a prześledzenie kroków w konsoli pokazuje 3 braki, udział
+0,0125 i procent 1,25; przy progu 1% funkcja zwraca „sprawdź” tylko dla
+<code>ocena</code>, a przy progu 0,5% także dla <code>czas_min</code>;
+pętla i <code>vapply()</code> dają te same odpowiedzi; próg 150 kończy
+się komunikatem zapisanym w <code>stop()</code>; po
 <code>set.seed(2027)</code> losowanie zwraca identyfikatory od Z0200,
 średnia z próby 24 zgłoszeń wynosi 34,0 wobec 34,7 w całym zbiorze, a
 średnie z 500 prób mieszczą się między 27 a 43 minutami (sd ≈ 2,7).</p>
@@ -1005,7 +1146,12 @@ odpowiedzi; próg 150 kończy się Twoim komunikatem; po
 <h2>Challenge — zadania samodzielne</h2>
 <p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 2.1–2.5 i
 poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w
-którym się pojawiła, albo do jej pomocy <code>?funkcja</code>.</p>
+którym się pojawiła, albo do jej pomocy <code>?funkcja</code>. Pod
+każdym zadaniem jest szkielet kodu z lukami <code>___</code>: skopiuj go
+przyciskiem <strong>Kopiuj</strong> do bloku zadania w szablonie, zastąp
+każdą lukę własnym kodem (teksty w cudzysłowach, nazwy kolumn bez),
+uruchom blok i dopiero potem pisz interpretację. Komentarze ze szkieletu
+możesz usunąć.</p>
 <div id="zadanie-2.6.-potok-na-nowym-pytaniu" class="section level3">
 <h3>Zadanie 2.6. Potok na nowym pytaniu</h3>
 <div class="brief">
@@ -1023,9 +1169,31 @@ od 20 do 40 minut.</p>
 <p>Funkcje: <code>filter()</code>, <code>mutate()</code>,
 <code>case_when()</code>, <code>cut()</code>, <code>count()</code>,
 <code>arrange()</code>, <code>desc()</code>, <code>select()</code>,
-<code>head()</code> albo <code>slice_max()</code>,
-<code>between()</code>, <code>nrow()</code>. W jednym zdaniu opisz, czy
-wśród spraw typu Dostęp dominują oceny pozytywne.</p>
+<code>head()</code>, <code>between()</code>, <code>nrow()</code>. W
+jednym zdaniu opisz, czy wśród spraw typu Dostęp dominują oceny
+pozytywne.</p>
+<p>Szkielet do skopiowania:</p>
+<pre class="r bez-uruchamiania"><code>dostep &lt;- zgloszenia_analiza |&gt;
+  filter(typ_sprawy == &quot;___&quot;, !is.na(___)) |&gt;
+  mutate(
+    ocena_opis = case_when(
+      ocena &gt;= ___ ~ &quot;zadowolony&quot;,
+      ocena == ___ ~ &quot;neutralny&quot;,
+      .default = &quot;___&quot;
+    ),
+    koszt_kat = cut(koszt, breaks = c(0, ___, ___, Inf),
+                    labels = c(&quot;do 50&quot;, &quot;51-100&quot;, &quot;ponad 100&quot;))
+  )
+nrow(dostep)
+count(dostep, ___)
+count(dostep, ___)
+dostep |&gt;
+  arrange(desc(___)) |&gt;
+  select(id, koszt, ocena_opis) |&gt;
+  head(3)
+zgloszenia_analiza |&gt;
+  filter(grupa == &quot;___&quot;, between(czas_min, ___, ___)) |&gt;
+  nrow()</code></pre>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> wybór obejmuje 69 spraw; ocen
 „zadowolony” jest 29, „neutralny” 24, „niezadowolony” 16; kategorie
@@ -1053,6 +1221,25 @@ komórkach.</p>
 <code>pivot_wider()</code>. W dwóch zdaniach zinterpretuj wynik: który
 dział jest najbardziej obciążony i czego ta tabela nie mówi o jakości
 obsługi.</p>
+<p>Szkielet do skopiowania:</p>
+<pre class="r bez-uruchamiania"><code>dzialy &lt;- read_excel(&quot;dane/zgloszenia.xlsx&quot;, sheet = &quot;dzialy&quot;)
+dla_kierownika &lt;- zgloszenia_analiza |&gt;
+  mutate(dzial = replace_na(dzial, &quot;___&quot;)) |&gt;
+  left_join(dzialy, by = &quot;___&quot;) |&gt;
+  group_by(___) |&gt;
+  summarise(
+    zgloszenia = n(),
+    etaty = first(___),
+    na_etat = round(n() / first(etaty), 1),
+    proc_rozw = round(100 * mean(___ == &quot;Tak&quot;), 1),
+    mediana_czasu = median(___, na.rm = TRUE),
+    .groups = &quot;drop&quot;
+  ) |&gt;
+  arrange(desc(___))
+dla_kierownika
+zgloszenia_analiza |&gt;
+  count(___, ___) |&gt;
+  pivot_wider(names_from = ___, values_from = n, values_fill = 0)</code></pre>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> Repozytorium ma 25,3 zgłoszenia na
 etat, Katalog 23,0, Wsparcie 14,2; odsetek rozwiązanych wynosi
@@ -1081,12 +1268,39 @@ prób po 30 zgłoszeń.</p>
 </div>
 <p>Funkcje: <code>function</code>, <code>if</code>,
 <code>is.numeric()</code>, <code>stop()</code>, <code>mean()</code>,
-<code>round()</code>, <code>for</code>, <code>filter()</code> albo
-<code>[[ ]]</code>, <code>cat()</code>, <code>vapply()</code>,
-<code>set.seed()</code>, <code>slice_sample()</code>,
-<code>count()</code>, <code>na.omit()</code>, <code>replicate()</code>,
-<code>sample()</code>, <code>range()</code>. Wywołanie z argumentem
-tekstowym umieść na końcu bloku, aby PDF pokazał komunikat.</p>
+<code>round()</code>, <code>for</code>, <code>filter()</code>,
+<code>cat()</code>, <code>vapply()</code>, <code>set.seed()</code>,
+<code>slice_sample()</code>, <code>count()</code>,
+<code>na.omit()</code>, <code>replicate()</code>, <code>sample()</code>,
+<code>range()</code>. Wywołanie z argumentem tekstowym umieść na końcu
+bloku, aby PDF pokazał komunikat.</p>
+<p>Szkielet do skopiowania. Funkcja jest zbudowana tak samo jak
+<code>ocen_kolumne()</code> z ćwiczenia 2.5: najpierw kontrola
+argumentu, potem obliczenie wyniku pośredniego, na końcu polecenie,
+którego wartość staje się wynikiem funkcji. Komentarze przy lukach
+mówią, co ma się tam znaleźć.</p>
+<pre class="r bez-uruchamiania"><code>udzial_powyzej &lt;- function(x, prog = 45) {
+  if (!is.numeric(x)) {
+    stop(&quot;___&quot;)                              # komunikat dla użytkownika, np. jakiego typu ma być x
+  }
+  udzial &lt;- mean(x &gt; ___, na.rm = TRUE)       # porównanie daje TRUE/FALSE; średnia to udział TRUE
+  round(100 * ___, 1)                         # procent zaokrąglony do jednego miejsca = wynik funkcji
+}
+udzial_powyzej(zgloszenia_analiza$czas_min)
+udzial_powyzej(zgloszenia_analiza$czas_min, prog = ___)
+for (k in c(&quot;Online&quot;, &quot;Telefon&quot;, &quot;Na miejscu&quot;)) {
+  w_kanale &lt;- filter(zgloszenia_analiza, kanal == ___)   # w każdym obiegu pętli k to inny kanał
+  cat(k, &quot;:&quot;, udzial_powyzej(w_kanale$czas_min), &quot;\n&quot;)
+}
+vapply(zgloszenia_analiza[c(&quot;czas_min&quot;, &quot;koszt&quot;)], udzial_powyzej, numeric(1), prog = ___)
+set.seed(17358)
+proba &lt;- slice_sample(zgloszenia_analiza, n = ___)
+mean(proba$czas_min, na.rm = TRUE)
+count(proba, ___)
+czasy &lt;- na.omit(zgloszenia_analiza$czas_min)
+srednie &lt;- replicate(___, mean(sample(czasy, size = 30)))
+range(srednie)
+udzial_powyzej(&quot;tekst&quot;)                      # celowy błąd: PDF pokaże komunikat ze stop()</code></pre>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong>
 <code>udzial_powyzej(zgloszenia_analiza$czas_min)</code> zwraca 20,2, a
@@ -1094,7 +1308,8 @@ z progiem 60 — 3,4; w kanałach odsetek zgłoszeń dłuższych niż 45 minut
 wynosi 10,9 (Na miejscu), 10,8 (Online) i 38,3 (Telefon); próba 30
 zgłoszeń ma średni czas 32,3 minuty i 10, 15 oraz 5 zgłoszeń w kanałach;
 średnie z 200 prób mieszczą się mniej więcej między 27 a 42 minutami;
-wywołanie z tekstem kończy się Twoim komunikatem.</p>
+wywołanie z tekstem kończy się komunikatem zapisanym w
+<code>stop()</code>.</p>
 </div>
 </div>
 </div>

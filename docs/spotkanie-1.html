@@ -511,8 +511,8 @@ miesiącach. Następnie wypisz arkusze pliku
 </div>
 <p>CSV to zwykły plik tekstowy: każdy wiersz danych jest linią, kolumny
 oddziela przecinek, a pierwsza linia zawiera nazwy kolumn. Plik nie
-przechowuje typów danych, więc <code>read.csv()</code> zgaduje je z
-wartości: liczby stają się typem <code>integer</code> lub
+przechowuje typów danych, więc <code>read.csv()</code> ustala je na
+podstawie wartości: liczby stają się typem <code>integer</code> lub
 <code>double</code>, a wszystko inne tekstem. Puste pole w kolumnie
 tekstowej zostaje pustym napisem <code>""</code>, a nie brakiem
 <code>NA</code>; o tym, co jest brakiem, decyduje argument
@@ -1064,13 +1064,21 @@ argumentów. Zapisz <code>dane_czyste</code> do
 sprawdź wymiary, braki i typy; zapisz też XLSX z dwoma arkuszami.</p>
 </div>
 <p>Funkcja ma nazwę, argumenty (z wartościami domyślnymi lub bez nich) i
-ciało w nawiasach klamrowych; zwraca wynik ostatniego wyrażenia.
-<code>stopifnot()</code> na początku ciała przerywa działanie z
-czytelnym komunikatem, gdy argumenty są niepoprawne.
-<code>sapply()</code> stosuje funkcję do każdej kolumny ramki i składa
-wyniki w wektor. Plik CSV nie przechowuje typów, dlatego po ponownym
-wczytaniu daty i czynniki wracają jako tekst; <code>stopifnot()</code> w
-raporcie zatrzyma renderowanie, gdy kontrola się nie powiedzie.</p>
+treść w nawiasach klamrowych — polecenia wykonywane po kolei przy każdym
+wywołaniu; wynikiem funkcji jest wartość ostatniego polecenia. Prześledź
+<code>procent_brakow(dane_czyste$ocena)</code>: argument <code>x</code>
+to kolumna <code>ocena</code>, <code>is.na(x)</code> daje 240 wartości
+<code>TRUE</code>/<code>FALSE</code>, <code>mean()</code> zamienia je w
+udział braków (bo <code>TRUE</code> liczy się jako 1), mnożenie przez
+100 daje procent, a <code>round(..., digits = cyfry)</code> zaokrągla do
+liczby miejsc podanej w argumencie <code>cyfry</code>; ta liczba wraca
+do miejsca wywołania jako wynik. <code>stopifnot()</code> na początku
+treści funkcji przerywa działanie z czytelnym komunikatem, gdy argumenty
+są niepoprawne. <code>sapply()</code> stosuje funkcję do każdej kolumny
+ramki i składa wyniki w wektor. Plik CSV nie przechowuje typów, dlatego
+po ponownym wczytaniu daty i czynniki wracają jako tekst;
+<code>stopifnot()</code> w raporcie zatrzyma renderowanie, gdy kontrola
+się nie powiedzie.</p>
 <pre class="r"><code>procent_brakow &lt;- function(x, cyfry = 1) {
   round(100 * mean(is.na(x)), digits = cyfry)  # TRUE liczy się jako 1
 }
@@ -1113,7 +1121,8 @@ excel_sheets(&quot;wyniki/zgloszenia_czyste.xlsx&quot;)</code></pre>
 <td
 align="left"><code>nazwa &lt;- function(a, b = 1) { ... }</code></td>
 <td align="left">argumenty, wartości domyślne</td>
-<td align="left">definicja funkcji; wynik to ostatnie wyrażenie</td>
+<td align="left">definicja funkcji; wynikiem jest wartość ostatniego
+polecenia</td>
 </tr>
 <tr class="even">
 <td align="left"><code>stopifnot(...)</code></td>
@@ -1255,7 +1264,7 @@ kosztu.</p>
 <p><strong>Kryteria sukcesu:</strong> średnie wynoszą 34,70 minuty, 3,41
 punktu i 71,50 zł; kosztów powyżej 100 zł jest 35; plik
 <code>wyniki/drogie.csv</code> ma 35 wierszy i 10 kolumn bez kolumny
-<code>X</code>, a kontrola <code>stopifnot()</code> przechodzi przy
+<code>X</code>, a <code>stopifnot()</code> nie zgłasza błędu przy
 renderowaniu.</p>
 </div>
 </div>

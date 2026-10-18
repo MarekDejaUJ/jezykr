@@ -20,12 +20,12 @@ pobierz_szablon(2)
 ### Ćwiczenie 2.1. Potok, select(), filter() i arrange()
 
 ::: {.brief}
-**Cel:** Zapiszesz ciąg operacji na danych jako czytelny potok i poznasz pomocników wyboru kolumn.
+**Cel:** Zapiszesz ciąg operacji na danych jako czytelny potok i poznasz funkcje pomocnicze do wyboru kolumn.
 
 **Polecenie:** W jednym potoku wybierz kolumny, odfiltruj zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je malejąco. Następnie wypróbuj wybór kolumn według nazwy i typu oraz filtry z `%in%`, `between()` i `is.na()`.
 :::
 
-Pakiet `dplyr` (ładuje go skrypt startowy) udostępnia funkcje-czasowniki: każda przyjmuje ramkę jako pierwszy argument i zwraca nową ramkę. Operator potoku `|>` przekazuje wynik z lewej strony jako pierwszy argument funkcji po prawej: `x |> f(y)` oznacza `f(x, y)`. Potok czyta się „weź dane, a następnie…”. W RStudio wstawisz go skrótem Ctrl+Shift+M (Cmd+Shift+M), jeśli w **Tools → Global Options → Code** zaznaczysz **Use native pipe operator**.
+Pakiet `dplyr` (ładuje go skrypt startowy) udostępnia zestaw funkcji o nazwach będących czasownikami — wybierz, filtruj, uporządkuj: każda przyjmuje ramkę jako pierwszy argument, wykonuje jedną operację i zwraca nową ramkę. Operator potoku `|>` przekazuje wynik z lewej strony jako pierwszy argument funkcji po prawej: `x |> f(y)` oznacza `f(x, y)`. Potok czyta się „weź dane, a następnie…”. W RStudio wstawisz go skrótem Ctrl+Shift+M (Cmd+Shift+M), jeśli w **Tools → Global Options → Code** zaznaczysz **Use native pipe operator**.
 
 ~~~r
 zgloszenia_analiza |>
@@ -103,7 +103,7 @@ if_else(c(1, NA, 5) > 2, "tak", "nie", missing = "brak")
 | `cut(x, breaks, labels, right = TRUE)` | granice przedziałów; etykiety; `right = TRUE` — przedziały domknięte z prawej, np. (20, 40] | zamienia liczby na czynnik przedziałów |
 | `count(.data, ...)` | kolumny; `sort = TRUE` — malejąco | liczności kombinacji wartości |
 
-W `case_when()` kolejność warunków ma znaczenie: pierwszy spełniony warunek wygrywa. Braki trafiają do `.default`, bo `NA >= 4` nie jest ani prawdą, ani fałszem. W `cut()` wartość spoza wszystkich przedziałów oraz brak dają `NA`.
+W `case_when()` kolejność warunków ma znaczenie: decyduje pierwszy spełniony warunek. Braki trafiają do `.default`, bo `NA >= 4` nie jest ani prawdą, ani fałszem. W `cut()` wartość spoza wszystkich przedziałów oraz brak dają `NA`.
 
 **Sprawdź i zmień.** Zmień w `cut()` argument `right = FALSE` i porównaj liczności kategorii. Przestaw warunek `ocena <= 2` na pierwsze miejsce: czy wynik się zmienia i dlaczego? Dlaczego `koszt_na_min` ma 3 braki, choć `koszt` ma tylko 1?
 
@@ -210,12 +210,12 @@ anti_join(dzialy, zgloszenia_analiza, by = "dzial")  # działy bez zgłoszeń
 ### Ćwiczenie 2.5. Funkcja z warunkiem, pętla i próba losowa
 
 ::: {.brief szablon="error=TRUE"}
-**Cel:** Napiszesz funkcję, która sprawdza argument i wybiera jedną z dwóch odpowiedzi, zastosujesz ją w pętli i przez `vapply()`, a następnie wylosujesz powtarzalne próby i zobaczysz, jak zmienia się średnia z próby.
+**Cel:** Napiszesz funkcję, która sprawdza argument i wybiera jedną z dwóch odpowiedzi, prześledzisz krok po kroku, co dzieje się w jej wnętrzu, zastosujesz ją w pętli i przez `vapply()`, a następnie wylosujesz powtarzalne próby i zobaczysz, jak zmienia się średnia z próby.
 
-**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i zatrzymuje się przy progu spoza 0–100. Zastosuj ją pętlą `for` i funkcją `vapply()` do czterech kolumn. Potem po `set.seed()` wylosuj identyfikatory, próbę 24 zgłoszeń i 500 średnich z prób.
+**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i zatrzymuje się przy progu spoza 0–100. Prześledź jej działanie dla kolumny `ocena`, wykonując polecenia z jej wnętrza osobno. Zastosuj funkcję pętlą `for` i funkcją `vapply()` do czterech kolumn. Potem po `set.seed()` wylosuj identyfikatory, próbę 24 zgłoszeń i 500 średnich z prób.
 :::
 
-Warunek `if (...) ... else ...` wybiera jedną z dwóch dróg dla pojedynczej wartości `TRUE` albo `FALSE`; dla całych wektorów używasz `ifelse()` lub `if_else()`. `stop("komunikat")` przerywa funkcję z Twoim opisem błędu. Pętla `for (k in kolumny)` wykonuje ciało dla każdego elementu wektora; `vapply()` robi to samo bez pętli i pilnuje typu wyniku. Komputer losuje liczby pseudolosowe: `set.seed()` ustala punkt startowy, więc po nim kod daje za każdym razem te same wyniki; umieszczaj go w tym samym bloku co losowanie. Skrypt startowy nie zmienia Twojego generatora, choć sam korzysta z losowania.
+Własna funkcja to przepis zapisany pod nazwą: podajesz jej dane wejściowe (argumenty), a ona wykonuje po kolei polecenia zapisane w nawiasach klamrowych i oddaje wynik. Raz napisaną funkcję wywołujesz wiele razy z różnymi danymi, zamiast kopiować ten sam kod. Najpierw przeczytaj definicję w całości, uruchom ją z trzema wywołaniami, a potem prześledź krok po kroku.
 
 ~~~r
 ocen_kolumne <- function(x, prog = 1) {
@@ -227,13 +227,55 @@ ocen_kolumne <- function(x, prog = 1) {
 }
 ocen_kolumne(zgloszenia_analiza$ocena)
 ocen_kolumne(c(1, 2, 3))
+ocen_kolumne(zgloszenia_analiza$ocena, prog = 5)
+~~~
+
+**Co dzieje się w funkcji, krok po kroku.** Prześledź wywołanie `ocen_kolumne(zgloszenia_analiza$ocena)`.
+
+1. `ocen_kolumne <- function(x, prog = 1) {` — słowo `function` tworzy funkcję, a strzałka zapisuje ją pod nazwą `ocen_kolumne`; od tej chwili nazwa jest widoczna w panelu Environment. W nawiasach okrągłych są argumenty: `x` jest wymagany (bez niego funkcja zgłosi błąd), a `prog` ma wartość domyślną `1`, więc można go pominąć. W tym wywołaniu `x` to kolumna `ocena` (240 wartości), a `prog` równa się 1, bo nie podano innej wartości.
+2. `if (!is.numeric(prog) || prog < 0 || prog > 100) {` — zanim funkcja cokolwiek policzy, sprawdza, czy próg ma sens. `is.numeric(prog)` pyta, czy próg jest liczbą; wykrzyknik odwraca odpowiedź, więc `!is.numeric(prog)` jest prawdą dla tekstu. Podwójne `||` oznacza „lub” dla pojedynczych wartości: wystarczy, że jeden z trzech warunków jest prawdziwy, aby cały warunek był prawdziwy. Dla `prog = 1` wszystkie trzy są fałszywe, więc R pomija polecenie w nawiasach klamrowych po `if` i przechodzi do kroku 4.
+3. `stop("Próg musi być liczbą z przedziału 0-100.")` — to polecenie wykonuje się tylko wtedy, gdy warunek z kroku 2 jest prawdziwy. `stop()` natychmiast przerywa funkcję i wyświetla podany tekst jako błąd; nic poniżej już się nie wykonuje. Zobaczysz to w ostatnim wywołaniu tego ćwiczenia, z progiem 150.
+4. `procent <- 100 * mean(is.na(x))` — tu powstaje wynik pośredni, liczony od środka na zewnątrz: `is.na(x)` zamienia 240 ocen na 240 wartości `TRUE`/`FALSE` (3 razy `TRUE`, bo tyle jest braków); `mean()` liczy średnią, a ponieważ `TRUE` liczy się jako 1, średnia to udział braków, 3/240 = 0,0125; mnożenie przez 100 daje 1,25 procent. Nazwa `procent` istnieje tylko wewnątrz funkcji: po jej zakończeniu znika i nie pojawia się w panelu Environment.
+5. `if (procent > prog) "sprawdź" else "OK"` — porównanie 1,25 > 1 jest prawdziwe, więc R wybiera napis `"sprawdź"`; gdyby było fałszywe, wybrałby `"OK"`. To ostatnie polecenie funkcji, a wartość ostatniego polecenia staje się jej wynikiem; nie trzeba pisać `return()`, choć wolno.
+6. `}` zamyka treść funkcji. Wynik `"sprawdź"` wraca do miejsca wywołania: w konsoli zostaje wypisany, a w zapisie `wynik <- ocen_kolumne(...)` trafiłby do obiektu `wynik`.
+
+Ten sam przebieg odtworzysz w konsoli, wykonując polecenia z wnętrza funkcji osobno:
+
+~~~r
+x <- zgloszenia_analiza$ocena
+prog <- 1
+head(is.na(x), 20)                   # krok 4: wektor TRUE/FALSE
+sum(is.na(x)); length(x)             # 3 braki na 240 wartości
+mean(is.na(x))                       # udział braków
+procent <- 100 * mean(is.na(x))
+procent
+procent > prog                       # krok 5: warunek
+if (procent > prog) "sprawdź" else "OK"
+~~~
+
+| Wywołanie | `x` | `prog` | `procent` | Wynik |
+|:---------------------------------|:------------------|:-----------|:---------|:-------------|
+| `ocen_kolumne(zgloszenia_analiza$ocena)` | 240 ocen, 3 braki | 1 (domyślny) | 1,25 | „sprawdź” |
+| `ocen_kolumne(c(1, 2, 3))` | 3 liczby bez braków | 1 (domyślny) | 0 | „OK” |
+| `ocen_kolumne(zgloszenia_analiza$ocena, prog = 5)` | 240 ocen, 3 braki | 5 | 1,25 | „OK” |
+| `ocen_kolumne(zgloszenia_analiza$ocena, prog = 150)` | — | 150 | nie liczony | błąd z `stop()` |
+
+Teraz zastosuj funkcję do kilku kolumn naraz. Pętla `for` wykonuje te same polecenia dla kolejnych elementów wektora, a `vapply()` robi to bez pętli i sprawdza, czy każdy wynik ma zapowiedziany typ.
+
+~~~r
 kolumny <- c("dzial", "czas_min", "ocena", "koszt")
 for (k in kolumny) {
   cat(k, ":", ocen_kolumne(zgloszenia_analiza[[k]]), "\n")
 }
 vapply(zgloszenia_analiza[kolumny], ocen_kolumne, character(1))
 vapply(zgloszenia_analiza[kolumny], ocen_kolumne, character(1), prog = 0.5)
+~~~
 
+**Co dzieje się w pętli, krok po kroku.** `for (k in kolumny)` bierze pierwszy element wektora `kolumny`, czyli napis `"dzial"`, i zapisuje go pod nazwą `k`; wykonuje polecenia w nawiasach klamrowych; potem podstawia pod `k` kolejny element i powtarza to aż do ostatniego. Wewnątrz `zgloszenia_analiza[[k]]` pobiera kolumnę o nazwie zapisanej w `k`; zapis `zgloszenia_analiza$k` nie zadziałałby, bo szukałby kolumny o nazwie dosłownie „k”. `cat()` skleja i wypisuje: nazwę kolumny, dwukropek, wynik funkcji i znak nowej linii `"\n"`. W `vapply()` pierwszy argument to lista kolumn (ramka ograniczona do czterech kolumn), drugi to funkcja — bez nawiasów, bo przekazujesz samą funkcję, a nie jej wynik — a trzeci, `character(1)`, zapowiada, że każdy wynik ma być jednym napisem; dodatkowe argumenty, jak `prog = 0.5`, `vapply()` przekazuje dalej do funkcji.
+
+Druga część ćwiczenia to losowanie. Komputer losuje liczby pseudolosowe: ciąg wynika z ziarna, czyli punktu wyjścia. `set.seed()` ustala ziarno, więc po nim kod daje za każdym razem te same wyniki; umieszczaj je w tym samym bloku co losowanie. Skrypt startowy nie zmienia stanu generatora liczb losowych w Twojej sesji, choć sam korzysta z losowania.
+
+~~~r
 set.seed(2027)
 sample(zgloszenia_analiza$id, size = 5)                 # 5 różnych ID
 proba <- slice_sample(zgloszenia_analiza, n = 24)
@@ -249,28 +291,29 @@ ocen_kolumne(zgloszenia_analiza$ocena, prog = 150)      # celowy błąd: komunik
 
 | Konstrukcja lub funkcja | Zapis | Uwagi |
 |:-------------|:--------------------------------|:-----------------------------------|
+| definicja funkcji | `nazwa <- function(a, b = 1) { ... }` | argumenty w nawiasach okrągłych, treść w klamrowych; wynikiem jest wartość ostatniego polecenia |
 | warunek | `if (warunek) { ... } else { ... }` | warunek musi być pojedynczą wartością `TRUE` albo `FALSE`; `||` i `&&` łączą pojedyncze warunki |
-| zatrzymanie | `stop("komunikat")` | przerywa funkcję z komunikatem; w szablonie blok ma opcję `error=TRUE`, więc PDF pokaże komunikat i renderowanie pójdzie dalej |
-| pętla | `for (k in wektor) { ... }` | wykonuje ciało dla każdego elementu; `cat()` wypisuje tekst bez cudzysłowów |
+| zatrzymanie | `stop("komunikat")` | przerywa funkcję i wyświetla komunikat jako błąd; w szablonie blok ma opcję `error=TRUE`, więc komunikat trafia do PDF, a renderowanie jest kontynuowane |
+| pętla | `for (k in wektor) { ... }` | wykonuje polecenia w nawiasach klamrowych dla każdego elementu; `cat()` wypisuje tekst bez cudzysłowów |
 | kolumna o nazwie z wektora | `ramka[[nazwa]]` | `ramka$nazwa` nie działa, gdy nazwa jest w zmiennej |
-| `vapply(X, FUN, FUN.VALUE, ...)` | lista lub ramka; funkcja; wzorzec wyniku, np. `character(1)` albo `numeric(1)`; dodatkowe argumenty | ta sama operacja dla każdego elementu, wynik o sprawdzonym typie |
-| `set.seed(seed)` | liczba całkowita | ustala punkt startowy losowania |
+| `vapply(X, FUN, FUN.VALUE, ...)` | lista lub ramka; funkcja; przykład typu wyniku, np. `character(1)` (jeden napis) albo `numeric(1)` (jedna liczba); dodatkowe argumenty | ta sama operacja dla każdego elementu, wynik o sprawdzonym typie |
+| `set.seed(seed)` | liczba całkowita | ustala ziarno generatora liczb losowych |
 | `sample(x, size, replace = FALSE)` | zbiór; liczba losowań; ze zwracaniem lub bez | losowanie elementów |
 | `slice_sample(.data, n, prop, by)` | liczba albo odsetek wierszy; `by` — osobno w grupach | losowa próba wierszy ramki |
 | `replicate(n, expr)` | liczba powtórzeń; wyrażenie | wielokrotne wykonanie tego samego losowania |
 | `na.omit(x)` | wektor | usuwa braki |
 
-Gdy funkcja działa nie tak, jak oczekujesz, w konsoli uruchom `debugonce(ocen_kolumne)`, a potem wywołaj funkcję: R zatrzyma się na pierwszej linii ciała, a klawisz `n` wykona kolejne linie, `Q` kończy. `traceback()` zaraz po błędzie pokazuje, w której funkcji powstał.
+Gdy funkcja działa inaczej, niż oczekujesz, w konsoli uruchom `debugonce(ocen_kolumne)`, a potem wywołaj funkcję: R zatrzyma się przed jej pierwszym poleceniem i pokaże wartości argumentów; klawisz `n` wykonuje kolejne polecenie, `Q` kończy. `traceback()` uruchomione zaraz po błędzie pokazuje, w której funkcji błąd powstał.
 
-**Sprawdź i zmień.** Uruchom blok dwa razy z `set.seed(2027)` i raz bez tej linii; porównaj wyniki. Zwiększ próbę w `replicate()` z 24 do 96 zgłoszeń i porównaj `sd(srednie)`. Wywołaj `ocen_kolumne(zgloszenia_analiza$ocena, prog = "1")` i wyjaśnij, który warunek zatrzymał funkcję.
+**Sprawdź i zmień.** Uruchom blok z losowaniem dwa razy z `set.seed(2027)` i raz bez tej linii; porównaj wyniki. Zwiększ próbę w `replicate()` z 24 do 96 zgłoszeń i porównaj `sd(srednie)`. Wywołaj `ocen_kolumne(zgloszenia_analiza$ocena, prog = "1")` i wskaż, który z trzech warunków w kroku 2 zatrzymał funkcję. Zmień w definicji wartość domyślną na `prog = 5` i sprawdź, które kolumny zmieniają odpowiedź.
 
 ::: {.criteria}
-**Kryteria sukcesu:** przy progu 1% funkcja zwraca „sprawdź” tylko dla `ocena`, a przy progu 0,5% także dla `czas_min`; pętla i `vapply()` dają te same odpowiedzi; próg 150 kończy się Twoim komunikatem; po `set.seed(2027)` losowanie zwraca identyfikatory od Z0200, średnia z próby 24 zgłoszeń wynosi 34,0 wobec 34,7 w całym zbiorze, a średnie z 500 prób mieszczą się między 27 a 43 minutami (sd ≈ 2,7).
+**Kryteria sukcesu:** trzy wywołania dają „sprawdź”, „OK” i „OK”, a prześledzenie kroków w konsoli pokazuje 3 braki, udział 0,0125 i procent 1,25; przy progu 1% funkcja zwraca „sprawdź” tylko dla `ocena`, a przy progu 0,5% także dla `czas_min`; pętla i `vapply()` dają te same odpowiedzi; próg 150 kończy się komunikatem zapisanym w `stop()`; po `set.seed(2027)` losowanie zwraca identyfikatory od Z0200, średnia z próby 24 zgłoszeń wynosi 34,0 wobec 34,7 w całym zbiorze, a średnie z 500 prób mieszczą się między 27 a 43 minutami (sd ≈ 2,7).
 :::
 
 ## Challenge — zadania samodzielne
 
-W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 2.1–2.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`.
+W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 2.1–2.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`. Pod każdym zadaniem jest szkielet kodu z lukami `___`: skopiuj go przyciskiem **Kopiuj** do bloku zadania w szablonie, zastąp każdą lukę własnym kodem (teksty w cudzysłowach, nazwy kolumn bez), uruchom blok i dopiero potem pisz interpretację. Komentarze ze szkieletu możesz usunąć.
 
 ### Zadanie 2.6. Potok na nowym pytaniu
 
@@ -280,7 +323,33 @@ W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 2.1–2.5 i poprzednich
 **Polecenie:** Ze zbioru `zgloszenia_analiza` wybierz sprawy typu Dostęp z niebrakującą oceną. Dodaj kolumnę `ocena_opis` (zadowolony dla oceny 4–5, neutralny dla 3, niezadowolony dla 1–2) i kolumnę `koszt_kat` z przedziałami do 50, 51–100 i ponad 100 zł. Policz liczności obu nowych zmiennych i wypisz trzy najdroższe sprawy (`id`, `koszt`, `ocena_opis`). Na koniec policz zgłoszenia grupy B trwające od 20 do 40 minut.
 :::
 
-Funkcje: `filter()`, `mutate()`, `case_when()`, `cut()`, `count()`, `arrange()`, `desc()`, `select()`, `head()` albo `slice_max()`, `between()`, `nrow()`. W jednym zdaniu opisz, czy wśród spraw typu Dostęp dominują oceny pozytywne.
+Funkcje: `filter()`, `mutate()`, `case_when()`, `cut()`, `count()`, `arrange()`, `desc()`, `select()`, `head()`, `between()`, `nrow()`. W jednym zdaniu opisz, czy wśród spraw typu Dostęp dominują oceny pozytywne.
+
+Szkielet do skopiowania:
+
+~~~{.r .bez-uruchamiania}
+dostep <- zgloszenia_analiza |>
+  filter(typ_sprawy == "___", !is.na(___)) |>
+  mutate(
+    ocena_opis = case_when(
+      ocena >= ___ ~ "zadowolony",
+      ocena == ___ ~ "neutralny",
+      .default = "___"
+    ),
+    koszt_kat = cut(koszt, breaks = c(0, ___, ___, Inf),
+                    labels = c("do 50", "51-100", "ponad 100"))
+  )
+nrow(dostep)
+count(dostep, ___)
+count(dostep, ___)
+dostep |>
+  arrange(desc(___)) |>
+  select(id, koszt, ocena_opis) |>
+  head(3)
+zgloszenia_analiza |>
+  filter(grupa == "___", between(czas_min, ___, ___)) |>
+  nrow()
+~~~
 
 ::: {.criteria}
 **Kryteria sukcesu:** wybór obejmuje 69 spraw; ocen „zadowolony” jest 29, „neutralny” 24, „niezadowolony” 16; kategorie kosztu mają liczności 14, 42 i 13; najdroższa sprawa to Z0040 (120,82 zł); zgłoszeń grupy B trwających 20–40 minut jest 58.
@@ -296,6 +365,29 @@ Funkcje: `filter()`, `mutate()`, `case_when()`, `cut()`, `count()`, `arrange()`,
 
 Funkcje: `replace_na()`, `left_join()`, `group_by()`, `summarise()` z `n()`, `first()`, `mean()` i `median()`, `arrange()`, `count()`, `pivot_wider()`. W dwóch zdaniach zinterpretuj wynik: który dział jest najbardziej obciążony i czego ta tabela nie mówi o jakości obsługi.
 
+Szkielet do skopiowania:
+
+~~~{.r .bez-uruchamiania}
+dzialy <- read_excel("dane/zgloszenia.xlsx", sheet = "dzialy")
+dla_kierownika <- zgloszenia_analiza |>
+  mutate(dzial = replace_na(dzial, "___")) |>
+  left_join(dzialy, by = "___") |>
+  group_by(___) |>
+  summarise(
+    zgloszenia = n(),
+    etaty = first(___),
+    na_etat = round(n() / first(etaty), 1),
+    proc_rozw = round(100 * mean(___ == "Tak"), 1),
+    mediana_czasu = median(___, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(___))
+dla_kierownika
+zgloszenia_analiza |>
+  count(___, ___) |>
+  pivot_wider(names_from = ___, values_from = n, values_fill = 0)
+~~~
+
 ::: {.criteria}
 **Kryteria sukcesu:** Repozytorium ma 25,3 zgłoszenia na etat, Katalog 23,0, Wsparcie 14,2; odsetek rozwiązanych wynosi odpowiednio 84,2%, 87,0% i 74,6%, a mediany czasu 33,5, 37 i 34,5 minuty; tabela szeroka ma kolumny Na miejscu, Online i Telefon, a jej liczności sumują się do 240; interpretacja nie przypisuje różnic jednej przyczynie.
 :::
@@ -308,10 +400,37 @@ Funkcje: `replace_na()`, `left_join()`, `group_by()`, `summarise()` z `n()`, `fi
 **Polecenie:** Napisz funkcję `udzial_powyzej(x, prog = 45)`, która zwraca odsetek wartości większych niż próg (z pominięciem braków, zaokrąglony do jednego miejsca) i zatrzymuje się z komunikatem, gdy `x` nie jest liczbowy. Pętlą `for` policz odsetek zgłoszeń dłuższych niż 45 minut w każdym kanale, a funkcją `vapply()` odsetek wartości powyżej 60 dla kolumn `czas_min` i `koszt`. Po `set.seed(17358)` wylosuj 30 zgłoszeń, policz w nich średni czas i liczności kanałów, a potem 200 średnich z prób po 30 zgłoszeń.
 :::
 
-Funkcje: `function`, `if`, `is.numeric()`, `stop()`, `mean()`, `round()`, `for`, `filter()` albo `[[ ]]`, `cat()`, `vapply()`, `set.seed()`, `slice_sample()`, `count()`, `na.omit()`, `replicate()`, `sample()`, `range()`. Wywołanie z argumentem tekstowym umieść na końcu bloku, aby PDF pokazał komunikat.
+Funkcje: `function`, `if`, `is.numeric()`, `stop()`, `mean()`, `round()`, `for`, `filter()`, `cat()`, `vapply()`, `set.seed()`, `slice_sample()`, `count()`, `na.omit()`, `replicate()`, `sample()`, `range()`. Wywołanie z argumentem tekstowym umieść na końcu bloku, aby PDF pokazał komunikat.
+
+Szkielet do skopiowania. Funkcja jest zbudowana tak samo jak `ocen_kolumne()` z ćwiczenia 2.5: najpierw kontrola argumentu, potem obliczenie wyniku pośredniego, na końcu polecenie, którego wartość staje się wynikiem funkcji. Komentarze przy lukach mówią, co ma się tam znaleźć.
+
+~~~{.r .bez-uruchamiania}
+udzial_powyzej <- function(x, prog = 45) {
+  if (!is.numeric(x)) {
+    stop("___")                              # komunikat dla użytkownika, np. jakiego typu ma być x
+  }
+  udzial <- mean(x > ___, na.rm = TRUE)       # porównanie daje TRUE/FALSE; średnia to udział TRUE
+  round(100 * ___, 1)                         # procent zaokrąglony do jednego miejsca = wynik funkcji
+}
+udzial_powyzej(zgloszenia_analiza$czas_min)
+udzial_powyzej(zgloszenia_analiza$czas_min, prog = ___)
+for (k in c("Online", "Telefon", "Na miejscu")) {
+  w_kanale <- filter(zgloszenia_analiza, kanal == ___)   # w każdym obiegu pętli k to inny kanał
+  cat(k, ":", udzial_powyzej(w_kanale$czas_min), "\n")
+}
+vapply(zgloszenia_analiza[c("czas_min", "koszt")], udzial_powyzej, numeric(1), prog = ___)
+set.seed(17358)
+proba <- slice_sample(zgloszenia_analiza, n = ___)
+mean(proba$czas_min, na.rm = TRUE)
+count(proba, ___)
+czasy <- na.omit(zgloszenia_analiza$czas_min)
+srednie <- replicate(___, mean(sample(czasy, size = 30)))
+range(srednie)
+udzial_powyzej("tekst")                      # celowy błąd: PDF pokaże komunikat ze stop()
+~~~
 
 ::: {.criteria}
-**Kryteria sukcesu:** `udzial_powyzej(zgloszenia_analiza$czas_min)` zwraca 20,2, a z progiem 60 — 3,4; w kanałach odsetek zgłoszeń dłuższych niż 45 minut wynosi 10,9 (Na miejscu), 10,8 (Online) i 38,3 (Telefon); próba 30 zgłoszeń ma średni czas 32,3 minuty i 10, 15 oraz 5 zgłoszeń w kanałach; średnie z 200 prób mieszczą się mniej więcej między 27 a 42 minutami; wywołanie z tekstem kończy się Twoim komunikatem.
+**Kryteria sukcesu:** `udzial_powyzej(zgloszenia_analiza$czas_min)` zwraca 20,2, a z progiem 60 — 3,4; w kanałach odsetek zgłoszeń dłuższych niż 45 minut wynosi 10,9 (Na miejscu), 10,8 (Online) i 38,3 (Telefon); próba 30 zgłoszeń ma średni czas 32,3 minuty i 10, 15 oraz 5 zgłoszeń w kanałach; średnie z 200 prób mieszczą się mniej więcej między 27 a 42 minutami; wywołanie z tekstem kończy się komunikatem zapisanym w `stop()`.
 :::
 
 ## Oddanie

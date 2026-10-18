@@ -92,7 +92,7 @@ report::report_sample(zgloszenia_analiza, by = "grupa",
 **Sprawdź i zmień.** Czy propozycja CLI użyła `na.rm = TRUE` we wszystkich funkcjach? Czy `n - braki` odpowiada liczbie obserwacji użytych do średniej? Porównaj `report_sample()` z tabelą `statystyki`: tabela automatyczna podaje dla grupy B n = 119, choć średnią czasu liczy ze 117 wartości — czy gdziekolwiek o tym informuje? Dodaj `centrality = "median"` do `report_sample()`.
 
 ::: {.criteria}
-**Kryteria sukcesu:** tabela ma dwa wiersze, n = 121 i 119, 2 braki w grupie B, średnie 36,4 i 32,9 minuty; kontrola `stopifnot()` przechodzi; w szablonie zaznaczasz, która część kodu pochodzi z CLI, i wyjaśniasz, dlaczego liczność grupy w `report_sample()` nie jest liczbą wartości użytych do średniej.
+**Kryteria sukcesu:** tabela ma dwa wiersze, n = 121 i 119, 2 braki w grupie B, średnie 36,4 i 32,9 minuty; kontrola `stopifnot()` nie zgłasza błędu; w szablonie zaznaczasz, która część kodu pochodzi z CLI, i wyjaśniasz, dlaczego liczność grupy w `report_sample()` nie jest liczbą wartości użytych do średniej.
 :::
 
 ### Ćwiczenie 6.3. Wielkość efektu i jej automatyczna interpretacja

@@ -520,7 +520,8 @@ plot(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
 <td align="left"><code>hist(x, breaks, ...)</code></td>
 <td align="left"><code>breaks</code> — liczba lub granice przedziałów;
 <code>main</code>, <code>xlab</code>, <code>col</code></td>
-<td align="left">liczba przedziałów jest tylko sugestią dla R</td>
+<td align="left">R traktuje tę liczbę jako wskazówkę i dobiera równe
+granice</td>
 </tr>
 <tr class="even">
 <td align="left"><code>boxplot(formula, data, ...)</code></td>
@@ -723,7 +724,7 @@ rozrzutu w poziomie i pionie</td>
 <td align="left"><code>geom_smooth()</code></td>
 <td align="left"><code>method = "lm"</code> — prosta,
 <code>"loess"</code> — krzywa; <code>formula</code>;
-<code>se = TRUE</code> — pas niepewności</td>
+<code>se = TRUE</code> — pas przedziału ufności wokół linii</td>
 <td align="left">linia trendu</td>
 </tr>
 <tr class="even">
@@ -1020,7 +1021,12 @@ legendę pod wykresem, suma komórek wynosi 240, a plik
 <h2>Challenge — zadania samodzielne</h2>
 <p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 3.1–3.5 i
 poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w
-którym się pojawiła, albo do jej pomocy <code>?funkcja</code>.</p>
+którym się pojawiła, albo do jej pomocy <code>?funkcja</code>. Pod
+każdym zadaniem jest szkielet kodu z lukami <code>___</code>: skopiuj go
+przyciskiem <strong>Kopiuj</strong> do bloku zadania w szablonie, zastąp
+każdą lukę własnym kodem (teksty w cudzysłowach, nazwy kolumn bez),
+uruchom blok i dopiero potem pisz interpretację. Komentarze ze szkieletu
+możesz usunąć.</p>
 <div id="zadanie-3.6.-rozkład-kosztu-w-grupach-procedury"
 class="section level3">
 <h3>Zadanie 3.6. Rozkład kosztu w grupach procedury</h3>
@@ -1040,7 +1046,28 @@ grupie, aby skomentować wykres.</p>
 <code>geom_vline()</code>, <code>facet_wrap()</code>,
 <code>labs()</code>, <code>theme_minimal()</code>,
 <code>ggsave()</code>, <code>file.exists()</code>,
-<code>group_by()</code>, <code>summarise()</code>.</p>
+<code>group_by()</code>, <code>summarise()</code>. W nagłówku bloku w
+szablonie dopisz rozmiar i podpis, np.
+<code>{r c3-6, fig.width=7, fig.height=5, fig.cap="Koszt obsługi w grupach procedury"}</code>.</p>
+<p>Szkielet do skopiowania:</p>
+<pre class="r bez-uruchamiania"><code>mediana_kosztu &lt;- median(zgloszenia_analiza$___, na.rm = TRUE)
+wykres_koszt &lt;- ggplot(zgloszenia_analiza, aes(x = ___)) +
+  geom_histogram(binwidth = ___, boundary = 0, fill = &quot;#2b6d73&quot;, colour = &quot;white&quot;,
+                 na.rm = TRUE) +
+  geom_vline(xintercept = ___, linetype = &quot;dashed&quot;) +
+  facet_wrap(~ ___, ncol = 1) +
+  labs(title = &quot;___&quot;,
+       subtitle = &quot;Linia przerywana: mediana kosztu w całym zbiorze&quot;,
+       x = &quot;___ [zł]&quot;, y = &quot;___&quot;,
+       caption = &quot;___&quot;) +
+  theme_minimal()
+wykres_koszt
+ggsave(&quot;wyniki/koszt_grupy.png&quot;, wykres_koszt, width = ___, height = ___,
+       units = &quot;cm&quot;, dpi = ___)
+file.exists(&quot;wyniki/koszt_grupy.png&quot;)
+zgloszenia_analiza |&gt;
+  group_by(___) |&gt;
+  summarise(mediana = median(koszt, na.rm = TRUE), n = sum(!is.na(koszt)))</code></pre>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> mediana kosztu całego zbioru to
 69,7 zł, a w grupach 72,7 zł (A, n = 120) i 67,8 zł (B, n = 119); wykres
@@ -1068,6 +1095,20 @@ decyzję.</p>
 <code>scale_fill_gradient(limits = c(0, 100))</code>,
 <code>labs()</code>. Dodaj jedno zdanie o tym, dlaczego różnica kilku
 punktów procentowych w grupie 15–20 zgłoszeń może być przypadkowa.</p>
+<p>Szkielet do skopiowania (pierwsza linia potoku to Twoja decyzja o
+braku działu — zostaw <code>replace_na()</code> albo zamień na
+<code>filter(!is.na(dzial))</code>):</p>
+<pre class="r bez-uruchamiania"><code>odsetki &lt;- zgloszenia_analiza |&gt;
+  mutate(dzial = replace_na(dzial, &quot;___&quot;)) |&gt;
+  group_by(kanal, dzial) |&gt;
+  summarise(n = n(), proc = 100 * mean(___ == &quot;Tak&quot;), .groups = &quot;drop&quot;)
+odsetki
+ggplot(odsetki, aes(x = ___, y = ___, fill = ___)) +
+  geom_tile(colour = &quot;white&quot;) +
+  geom_text(aes(label = paste0(round(proc), &quot;% (n = &quot;, ___, &quot;)&quot;))) +
+  scale_fill_gradient(low = &quot;#f1ece2&quot;, high = &quot;#2b6d73&quot;, limits = c(___, ___)) +
+  labs(title = &quot;___&quot;, x = &quot;Kanał&quot;, y = &quot;Dział&quot;, fill = &quot;Odsetek [%]&quot;) +
+  theme_minimal()</code></pre>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> kolor oznacza odsetek, a nie
 liczbę zgłoszeń; skala obejmuje 0–100%; odsetki mieszczą się między
@@ -1103,6 +1144,25 @@ Funkcje do wersji poprawionej: <code>group_by()</code>,
 <code>geom_text()</code> z <code>paste0()</code>,
 <code>coord_cartesian(ylim = c(0, ...))</code>, <code>labs()</code>,
 <code>theme_minimal()</code>.</p>
+<p>Szkielet wersji poprawionej (kolejność w <code>summarise()</code> ma
+znaczenie: <code>n</code> i <code>se</code> liczysz, zanim utworzysz
+kolumnę ze średnią):</p>
+<pre class="r bez-uruchamiania"><code>srednie_czasy &lt;- zgloszenia_analiza |&gt;
+  group_by(___) |&gt;
+  summarise(
+    n = sum(!is.na(czas_min)),
+    se = sd(czas_min, na.rm = TRUE) / sqrt(___),
+    czas = mean(czas_min, na.rm = TRUE)
+  )
+srednie_czasy
+ggplot(srednie_czasy, aes(x = ___, y = ___)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = czas - 2 * ___, ymax = czas + 2 * ___), width = 0.1) +
+  geom_text(aes(label = paste0(&quot;n = &quot;, ___)), vjust = -2.5, size = 3) +
+  coord_cartesian(ylim = c(0, ___)) +
+  labs(title = &quot;___&quot;, x = &quot;Typ sprawy&quot;, y = &quot;Średni czas [min]&quot;,
+       caption = &quot;Słupki: ± 2 błędy standardowe&quot;) +
+  theme_minimal()</code></pre>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> wskazujesz co najmniej trzy
 problemy; poprawiony wykres pokazuje średnie 35,3 (Dostęp, n = 70), 36,9

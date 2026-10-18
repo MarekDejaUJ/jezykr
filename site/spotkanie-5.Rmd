@@ -269,7 +269,7 @@ Funkcje: `lm()`, `summary()`, `confint()`, `nobs()`, `predict()` z `interval = "
 **Polecenie:** Dopasuj model logistyczny rozwiązania sprawy od czasu, grupy i kanału. Podaj ilorazy szans z przedziałami ufności i liczbę obserwacji, porównaj AIC tego modelu z modelem z ćwiczenia 5.5 i oblicz prawdopodobieństwo rozwiązania dla siatki profili: czas 30 minut, obie grupy, trzy kanały.
 :::
 
-Funkcje: `mutate()`, `glm()`, `summary()`, `exp()`, `coef()`, `confint.default()`, `nobs()`, `AIC()`, `expand.grid()`, `predict()` z `type = "response"`. W dwóch zdaniach napisz, czy kanał wnosi coś do modelu i dlaczego iloraz szans grupy B jest podobny w obu modelach.
+Funkcje: `mutate()`, `glm()`, `summary()`, `exp()`, `coef()`, `confint.default()`, `nobs()`, `AIC()`, `expand.grid()`, `predict()` z `type = "response"`. W dwóch zdaniach napisz, czy dodanie kanału poprawia model i dlaczego iloraz szans grupy B jest podobny w obu modelach.
 
 ::: {.criteria}
 **Kryteria sukcesu:** iloraz szans grupy B wynosi 2,50 (95% CI 1,18–5,31), a ilorazy dla kanałów Online (0,53) i Telefon (0,91) mają przedziały obejmujące 1; model obejmuje 238 zgłoszeń, a jego AIC (217,3) jest wyższe niż modelu z typem sprawy (215,8); siatka ma sześć profili z prawdopodobieństwami od 0,73 (Online, A) do 0,93 (Na miejscu, B).

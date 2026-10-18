@@ -88,7 +88,7 @@ list.files(pattern = "\\.Rproj$")        # tylko pliki kończące się na .Rproj
 |:-------|:------------------------------------------------|:-------------------------|
 | `getwd()` | brak | ścieżka folderu roboczego jako tekst |
 | `list.files()` | `path` — folder (domyślnie `"."`, czyli bieżący); `pattern` — wzorzec nazwy; `recursive = TRUE` — także podfoldery; `full.names = TRUE` — pełne ścieżki | wektor nazw plików |
-| `dir.create()` | `path` — nazwa folderu; `showWarnings = FALSE` — bez ostrzeżenia, gdy folder już istnieje; `recursive = TRUE` — także foldery pośrednie | `TRUE` albo `FALSE` (niewidocznie) |
+| `dir.create()` | `path` — nazwa folderu; `showWarnings = FALSE` — bez ostrzeżenia, gdy folder już istnieje; `recursive = TRUE` — także foldery pośrednie | `TRUE` albo `FALSE`; wynik nie jest wypisywany |
 | `file.exists()` | jedna lub wiele ścieżek | wektor `TRUE`/`FALSE` |
 | `file.path()` | kolejne części ścieżki | ścieżka połączona znakiem `/`, poprawna w każdym systemie |
 
@@ -200,7 +200,7 @@ typeof(pilne)
 length(czasy)
 czasy * 60                                     # sekundy, dla każdego elementu
 czasy > 20                                     # porównanie daje wektor logiczny
-mean(czasy)                                    # brak „zaraża” wynik
+mean(czasy)                                    # brak przenosi się na wynik
 mean(czasy, na.rm = TRUE)                      # średnia z 4 dostępnych wartości
 sum(pilne)                                     # liczba wartości TRUE
 czasy[2]                                       # drugi element

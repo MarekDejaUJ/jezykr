@@ -42,7 +42,7 @@ Wszystkie spotkania korzystają z fikcyjnego rejestru 240 zgłoszeń użytkownik
 **Polecenie:** Wczytaj `dane/zgloszenia.csv` z argumentem `na.strings = ""`, porównaj liczbę braków w kolumnie `dzial` z importem bez tego argumentu, zamień kolumnę `data` na typ `Date` i policz zgłoszenia w miesiącach. Następnie wypisz arkusze pliku `dane/zgloszenia.xlsx` i wczytaj arkusze `zgloszenia` oraz `dzialy`.
 :::
 
-CSV to zwykły plik tekstowy: każdy wiersz danych jest linią, kolumny oddziela przecinek, a pierwsza linia zawiera nazwy kolumn. Plik nie przechowuje typów danych, więc `read.csv()` zgaduje je z wartości: liczby stają się typem `integer` lub `double`, a wszystko inne tekstem. Puste pole w kolumnie tekstowej zostaje pustym napisem `""`, a nie brakiem `NA`; o tym, co jest brakiem, decyduje argument `na.strings`. Daty trafiają do R jako tekst i trzeba je jawnie zamienić. Excel przechowuje typ każdej komórki, dlatego `read_excel()` z pakietu `readxl` rozpoznaje daty sam, ale zapisuje je jako datę z godziną (`POSIXct`). Wynik `read_excel()` to tibble — ramka danych, która przy wydruku pokazuje typy kolumn i tylko pierwsze wiersze.
+CSV to zwykły plik tekstowy: każdy wiersz danych jest linią, kolumny oddziela przecinek, a pierwsza linia zawiera nazwy kolumn. Plik nie przechowuje typów danych, więc `read.csv()` ustala je na podstawie wartości: liczby stają się typem `integer` lub `double`, a wszystko inne tekstem. Puste pole w kolumnie tekstowej zostaje pustym napisem `""`, a nie brakiem `NA`; o tym, co jest brakiem, decyduje argument `na.strings`. Daty trafiają do R jako tekst i trzeba je jawnie zamienić. Excel przechowuje typ każdej komórki, dlatego `read_excel()` z pakietu `readxl` rozpoznaje daty sam, ale zapisuje je jako datę z godziną (`POSIXct`). Wynik `read_excel()` to tibble — ramka danych, która przy wydruku pokazuje typy kolumn i tylko pierwsze wiersze.
 
 ~~~r
 csv <- read.csv("dane/zgloszenia.csv", na.strings = "", fileEncoding = "UTF-8")
@@ -237,7 +237,7 @@ aggregate(cbind(czas_min, koszt) ~ kanal + grupa, data = dane_czyste, FUN = medi
 **Polecenie:** Napisz funkcję `procent_brakow(x, cyfry = 1)` i zastosuj ją do wszystkich kolumn `dane_czyste` przez `sapply()`. Napisz funkcję `poza_zakresem(x, dolny, gorny)` z kontrolą argumentów. Zapisz `dane_czyste` do `wyniki/zgloszenia_czyste.csv`, wczytaj plik ponownie i sprawdź wymiary, braki i typy; zapisz też XLSX z dwoma arkuszami.
 :::
 
-Funkcja ma nazwę, argumenty (z wartościami domyślnymi lub bez nich) i ciało w nawiasach klamrowych; zwraca wynik ostatniego wyrażenia. `stopifnot()` na początku ciała przerywa działanie z czytelnym komunikatem, gdy argumenty są niepoprawne. `sapply()` stosuje funkcję do każdej kolumny ramki i składa wyniki w wektor. Plik CSV nie przechowuje typów, dlatego po ponownym wczytaniu daty i czynniki wracają jako tekst; `stopifnot()` w raporcie zatrzyma renderowanie, gdy kontrola się nie powiedzie.
+Funkcja ma nazwę, argumenty (z wartościami domyślnymi lub bez nich) i treść w nawiasach klamrowych — polecenia wykonywane po kolei przy każdym wywołaniu; wynikiem funkcji jest wartość ostatniego polecenia. Prześledź `procent_brakow(dane_czyste$ocena)`: argument `x` to kolumna `ocena`, `is.na(x)` daje 240 wartości `TRUE`/`FALSE`, `mean()` zamienia je w udział braków (bo `TRUE` liczy się jako 1), mnożenie przez 100 daje procent, a `round(..., digits = cyfry)` zaokrągla do liczby miejsc podanej w argumencie `cyfry`; ta liczba wraca do miejsca wywołania jako wynik. `stopifnot()` na początku treści funkcji przerywa działanie z czytelnym komunikatem, gdy argumenty są niepoprawne. `sapply()` stosuje funkcję do każdej kolumny ramki i składa wyniki w wektor. Plik CSV nie przechowuje typów, dlatego po ponownym wczytaniu daty i czynniki wracają jako tekst; `stopifnot()` w raporcie zatrzyma renderowanie, gdy kontrola się nie powiedzie.
 
 ~~~r
 procent_brakow <- function(x, cyfry = 1) {
@@ -268,7 +268,7 @@ excel_sheets("wyniki/zgloszenia_czyste.xlsx")
 
 | Funkcja lub zapis | Argumenty | Działanie |
 |:-----------------|:----------------------------------|:-----------------------------|
-| `nazwa <- function(a, b = 1) { ... }` | argumenty, wartości domyślne | definicja funkcji; wynik to ostatnie wyrażenie |
+| `nazwa <- function(a, b = 1) { ... }` | argumenty, wartości domyślne | definicja funkcji; wynikiem jest wartość ostatniego polecenia |
 | `stopifnot(...)` | warunki logiczne | przerywa działanie, gdy któryś warunek jest fałszywy |
 | `sapply(X, FUN, ...)` | ramka lub lista; funkcja; jej dodatkowe argumenty | stosuje funkcję do każdej kolumny |
 | `write.csv(x, file, row.names, na, fileEncoding)` | ramka; ścieżka; `row.names = FALSE` — bez numerów wierszy; `na = ""` — zapis braków | zapis CSV |
@@ -324,7 +324,7 @@ Funkcje: `trimws()`, `tolower()`, `tools::toTitleCase()`, `ifelse()`, `factor()`
 Funkcje: `function`, `mean()`, `round()`, `sapply()`, `which()`, `write.csv()`, `read.csv()`, `nrow()`, `stopifnot()`. Przy wyborze wierszy pamiętaj o braku kosztu.
 
 ::: {.criteria}
-**Kryteria sukcesu:** średnie wynoszą 34,70 minuty, 3,41 punktu i 71,50 zł; kosztów powyżej 100 zł jest 35; plik `wyniki/drogie.csv` ma 35 wierszy i 10 kolumn bez kolumny `X`, a kontrola `stopifnot()` przechodzi przy renderowaniu.
+**Kryteria sukcesu:** średnie wynoszą 34,70 minuty, 3,41 punktu i 71,50 zł; kosztów powyżej 100 zł jest 35; plik `wyniki/drogie.csv` ma 35 wierszy i 10 kolumn bez kolumny `X`, a `stopifnot()` nie zgłasza błędu przy renderowaniu.
 :::
 
 ## Oddanie

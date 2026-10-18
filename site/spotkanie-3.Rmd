@@ -52,7 +52,7 @@ plot(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
 
 | Funkcja | Najważniejsze argumenty | Uwagi |
 |:-------------|:-------------------------------------|:------------------------------|
-| `hist(x, breaks, ...)` | `breaks` — liczba lub granice przedziałów; `main`, `xlab`, `col` | liczba przedziałów jest tylko sugestią dla R |
+| `hist(x, breaks, ...)` | `breaks` — liczba lub granice przedziałów; `main`, `xlab`, `col` | R traktuje tę liczbę jako wskazówkę i dobiera równe granice |
 | `boxplot(formula, data, ...)` | `y ~ grupa`; `horizontal = TRUE`; `varwidth = TRUE` | punkty poza „wąsami” to wartości odstające według reguły 1,5 IQR |
 | `barplot(height, ...)` | tabela liczności; `horiz = TRUE`; `las = 1` | wymaga gotowych liczności z `table()` |
 | `plot(x, y, ...)` | `pch` — kształt punktu; `cex` — wielkość; `col` | dla dwóch wektorów liczb daje wykres punktowy |
@@ -140,7 +140,7 @@ ggplot(zgloszenia_analiza, aes(x = ocena, y = czas_min)) +
 |:--------------|:------------------------------------------------|:------------------|
 | `geom_point()` | `alpha` — przezroczystość 0–1; `size`; `shape`; `colour` | punkty |
 | `geom_jitter()` | `width`, `height` — zakres rozrzutu w poziomie i pionie | punkty lekko przesunięte losowo |
-| `geom_smooth()` | `method = "lm"` — prosta, `"loess"` — krzywa; `formula`; `se = TRUE` — pas niepewności | linia trendu |
+| `geom_smooth()` | `method = "lm"` — prosta, `"loess"` — krzywa; `formula`; `se = TRUE` — pas przedziału ufności wokół linii | linia trendu |
 | `scale_colour_brewer()` | `palette`, np. `"Dark2"`, `"Set2"` | paleta kolorów dla kategorii |
 | `cor(x, y, use, method)` | `use = "complete.obs"` — tylko pełne pary; `method = "pearson"` albo `"spearman"` | współczynnik korelacji |
 
@@ -268,7 +268,7 @@ file.exists("wyniki/mapa_zgloszen.png")
 
 ## Challenge — zadania samodzielne
 
-W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 3.1–3.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`.
+W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 3.1–3.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`. Pod każdym zadaniem jest szkielet kodu z lukami `___`: skopiuj go przyciskiem **Kopiuj** do bloku zadania w szablonie, zastąp każdą lukę własnym kodem (teksty w cudzysłowach, nazwy kolumn bez), uruchom blok i dopiero potem pisz interpretację. Komentarze ze szkieletu możesz usunąć.
 
 ### Zadanie 3.6. Rozkład kosztu w grupach procedury
 
@@ -278,7 +278,30 @@ W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 3.1–3.5 i poprzednich
 **Polecenie:** Narysuj histogram kosztu obsługi (przedziały po 10 zł) w dwóch panelach według grupy procedury, z pionową linią mediany kosztu całego zbioru, tytułem, podpisanymi osiami z jednostką i podpisem źródła. Zapisz wykres w obiekcie, wyeksportuj do `wyniki/koszt_grupy.png` (16 × 10 cm, 300 dpi) i ustaw w nagłówku bloku `fig.cap`. Policz medianę kosztu w każdej grupie, aby skomentować wykres.
 :::
 
-Funkcje: `median()`, `ggplot()`, `aes()`, `geom_histogram()`, `geom_vline()`, `facet_wrap()`, `labs()`, `theme_minimal()`, `ggsave()`, `file.exists()`, `group_by()`, `summarise()`.
+Funkcje: `median()`, `ggplot()`, `aes()`, `geom_histogram()`, `geom_vline()`, `facet_wrap()`, `labs()`, `theme_minimal()`, `ggsave()`, `file.exists()`, `group_by()`, `summarise()`. W nagłówku bloku w szablonie dopisz rozmiar i podpis, np. `{r c3-6, fig.width=7, fig.height=5, fig.cap="Koszt obsługi w grupach procedury"}`.
+
+Szkielet do skopiowania:
+
+~~~{.r .bez-uruchamiania}
+mediana_kosztu <- median(zgloszenia_analiza$___, na.rm = TRUE)
+wykres_koszt <- ggplot(zgloszenia_analiza, aes(x = ___)) +
+  geom_histogram(binwidth = ___, boundary = 0, fill = "#2b6d73", colour = "white",
+                 na.rm = TRUE) +
+  geom_vline(xintercept = ___, linetype = "dashed") +
+  facet_wrap(~ ___, ncol = 1) +
+  labs(title = "___",
+       subtitle = "Linia przerywana: mediana kosztu w całym zbiorze",
+       x = "___ [zł]", y = "___",
+       caption = "___") +
+  theme_minimal()
+wykres_koszt
+ggsave("wyniki/koszt_grupy.png", wykres_koszt, width = ___, height = ___,
+       units = "cm", dpi = ___)
+file.exists("wyniki/koszt_grupy.png")
+zgloszenia_analiza |>
+  group_by(___) |>
+  summarise(mediana = median(koszt, na.rm = TRUE), n = sum(!is.na(koszt)))
+~~~
 
 ::: {.criteria}
 **Kryteria sukcesu:** mediana kosztu całego zbioru to 69,7 zł, a w grupach 72,7 zł (A, n = 120) i 67,8 zł (B, n = 119); wykres ma dwa panele, linię mediany, jednostkę na osi i podpis `fig.cap` w PDF; plik `wyniki/koszt_grupy.png` istnieje.
@@ -293,6 +316,22 @@ Funkcje: `median()`, `ggplot()`, `aes()`, `geom_histogram()`, `geom_vline()`, `f
 :::
 
 Funkcje: `group_by()`, `summarise()` z `n()` i `mean()`, `replace_na()` albo `filter()`, `geom_tile()`, `geom_text()` z `paste0()` i `round()`, `scale_fill_gradient(limits = c(0, 100))`, `labs()`. Dodaj jedno zdanie o tym, dlaczego różnica kilku punktów procentowych w grupie 15–20 zgłoszeń może być przypadkowa.
+
+Szkielet do skopiowania (pierwsza linia potoku to Twoja decyzja o braku działu — zostaw `replace_na()` albo zamień na `filter(!is.na(dzial))`):
+
+~~~{.r .bez-uruchamiania}
+odsetki <- zgloszenia_analiza |>
+  mutate(dzial = replace_na(dzial, "___")) |>
+  group_by(kanal, dzial) |>
+  summarise(n = n(), proc = 100 * mean(___ == "Tak"), .groups = "drop")
+odsetki
+ggplot(odsetki, aes(x = ___, y = ___, fill = ___)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = paste0(round(proc), "% (n = ", ___, ")"))) +
+  scale_fill_gradient(low = "#f1ece2", high = "#2b6d73", limits = c(___, ___)) +
+  labs(title = "___", x = "Kanał", y = "Dział", fill = "Odsetek [%]") +
+  theme_minimal()
+~~~
 
 ::: {.criteria}
 **Kryteria sukcesu:** kolor oznacza odsetek, a nie liczbę zgłoszeń; skala obejmuje 0–100%; odsetki mieszczą się między 67,7% (Online, Wsparcie) a 90,3% (Telefon, Repozytorium); każda komórka pokazuje liczność, a decyzja o braku działu jest opisana.
@@ -317,6 +356,27 @@ ggplot(srednie_czasy, aes(x = typ_sprawy, y = czas, fill = typ_sprawy)) +
 ~~~
 
 Zwróć uwagę na punkt początkowy osi słupków, brak liczności i niepewności, zbędną legendę oraz tytuł, który przesądza o wniosku. Funkcje do wersji poprawionej: `group_by()`, `summarise()` z `sum(!is.na())`, `sd()`, `sqrt()` i `mean()`, `geom_point()`, `geom_errorbar()`, `geom_text()` z `paste0()`, `coord_cartesian(ylim = c(0, ...))`, `labs()`, `theme_minimal()`.
+
+Szkielet wersji poprawionej (kolejność w `summarise()` ma znaczenie: `n` i `se` liczysz, zanim utworzysz kolumnę ze średnią):
+
+~~~{.r .bez-uruchamiania}
+srednie_czasy <- zgloszenia_analiza |>
+  group_by(___) |>
+  summarise(
+    n = sum(!is.na(czas_min)),
+    se = sd(czas_min, na.rm = TRUE) / sqrt(___),
+    czas = mean(czas_min, na.rm = TRUE)
+  )
+srednie_czasy
+ggplot(srednie_czasy, aes(x = ___, y = ___)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = czas - 2 * ___, ymax = czas + 2 * ___), width = 0.1) +
+  geom_text(aes(label = paste0("n = ", ___)), vjust = -2.5, size = 3) +
+  coord_cartesian(ylim = c(0, ___)) +
+  labs(title = "___", x = "Typ sprawy", y = "Średni czas [min]",
+       caption = "Słupki: ± 2 błędy standardowe") +
+  theme_minimal()
+~~~
 
 ::: {.criteria}
 **Kryteria sukcesu:** wskazujesz co najmniej trzy problemy; poprawiony wykres pokazuje średnie 35,3 (Dostęp, n = 70), 36,9 (Opis metadanych, n = 36) i 33,8 minuty (Wyszukiwanie, n = 132) ze słupkami błędów, które się nakładają; oś zaczyna się od zera, a tytuł opisuje wynik bez przesądzania o różnicy.
