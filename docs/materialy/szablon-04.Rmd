@@ -56,9 +56,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-4.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 4.4. Porównanie grup z ggstatsplot
+## Ćwiczenie 4.4. Porównania i zależności z ggstatsplot
 
-**Polecenie:** Narysuj `ggbetweenstats()` dla czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu statystykę testu, wartość p, wielkość efektu z przedziałem ufności i liczność. Pobierz te same liczby funkcją `extract_stats()` i porównaj je z wynikiem `t.test()`.
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu statystykę testu, wartość p, wielkość efektu z przedziałem ufności i liczność, pobierz te liczby funkcją `extract_stats()` i porównaj z `t.test()`. Następnie narysuj `ggbarstats()` dla rozwiązania sprawy w kanałach i `ggscatterstats()` dla czasu i kosztu.
 
 ```{r c4-4}
 # Twój kod
@@ -76,9 +76,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-4.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 4.6. Audyt raportu EDA
+## Zadanie 4.6. Diagnoza kosztu i audyt raportu
 
-**Polecenie:** Wybierz z raportu `wyniki/eda.html` dwie liczby lub obserwacje i sprawdź każdą niezależnym kodem R (np. `mean()`, `table()`, `cor()`). Wskaż jedną rzecz, której raport nie wyjaśnia, i jedną decyzję, której nie może podjąć za analityka.
+**Polecenie:** Dla kolumny `koszt` w `zgloszenia_analiza` uruchom `diagnose_outlier()`, `describe()` w podziale na grupy procedury, `normality()` oraz `plot_normality()`; dla `typ_sprawy` uruchom `diagnose_category()`. Następnie wybierz z raportu `wyniki/eda.html` dwie liczby dotyczące kosztu lub typu sprawy i sprawdź je własnym kodem (`mean()`, `median()`, `table()` albo `cor()`). Wskaż jedną rzecz, której raport nie wyjaśnia.
 
 ```{r c4-6}
 # Twój kod
@@ -88,7 +88,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-4.html>. Kod ze stro
 
 ## Zadanie 4.7. Porównanie trzech kanałów
 
-**Polecenie:** Narysuj `ggbetweenstats()` dla czasu według kanału w wariancie nieparametrycznym z porównaniami parami (`pairwise.display = "significant"`, `p.adjust.method = "holm"`). Sprawdź mediany i liczności w `group_by()` i `summarise()`, a następnie opisz, które pary kanałów się różnią.
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu według kanału w wariancie nieparametrycznym z porównaniami parami (`pairwise.display = "significant"`, `p.adjust.method = "holm"`). Pobierz tabelę porównań funkcją `extract_stats()`, sprawdź mediany i liczności kanałów przez `group_by()` i `summarise()`, a następnie opisz, które pary kanałów się różnią.
 
 ```{r c4-7}
 # Twój kod
@@ -96,9 +96,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-4.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 4.8. Zależności między zmiennymi
+## Zadanie 4.8. Zależności dla typu sprawy i oceny
 
-**Polecenie:** Narysuj macierz korelacji czasu, oceny i kosztu (`ggcorrmat()`), wykres punktowy czasu i oceny z testem Spearmana (`ggscatterstats()`) oraz wykres rozwiązania sprawy w kanałach (`ggbarstats()`). Dla każdego wykresu zapisz jedną liczbę i jedno zdanie interpretacji.
+**Polecenie:** Narysuj `ggbarstats()` dla rozwiązania sprawy według typu sprawy oraz `ggscatterstats()` dla czasu i oceny z korelacją Spearmana. Z obu wykresów pobierz statystyki funkcją `extract_stats()` i sprawdź je niezależnie: odsetki rozwiązanych spraw przez `prop.table(table(...))`, a korelację przez `cor(..., method = "spearman")`. Dla każdego wykresu zapisz jedną liczbę i jedno zdanie interpretacji.
 
 ```{r c4-8}
 # Twój kod

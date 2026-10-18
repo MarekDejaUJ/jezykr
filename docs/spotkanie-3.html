@@ -13,7 +13,7 @@
 
 <title>Spotkanie 3: wizualizacja danych</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -393,16 +393,17 @@ Spotkanie 3 z 6 · 90 minut · treść programowa 4
 </h2>
 <p>
 Porównasz szybkie wykresy bazowe z gramatyką ggplot2, zbudujesz
-histogram, wykres punktowy, słupkowy, pudełkowy, liniowy i mapę cieplną,
-przygotujesz wykres do raportu i poprawisz wykres, który wprowadza w
-błąd.
+histogram, wykres punktowy, słupkowy, pudełkowy, słupki błędów, linię w
+czasie i mapę cieplną, zapiszesz wykres do pliku, a potem samodzielnie
+przygotujesz trzy wykresy do raportu.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 3 min start · 8 min ćwiczenie 3.1 · 14
-min ćwiczenie 3.2 · 12 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min
-ćwiczenie 3.5 · 27 min zadania 3.6–3.8 · 2 min oddanie. Zadania, których
-nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
+<strong>Plan 90 minut:</strong> 3 min start · 7 min ćwiczenie 3.1 · 10
+min ćwiczenie 3.2 · 9 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min
+ćwiczenie 3.5 · 30 min zadania 3.6–3.8 · 5 min oddanie. Zadania używają
+wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to, czego nie
+skończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
 prowadzącego.
 </div>
 <div class="start">
@@ -448,9 +449,9 @@ pobierz_szablon(3)</code></pre>
 <tr class="odd">
 <td align="left">Czy wartości różnią się między grupami?</td>
 <td align="left">liczbowa i kategorialna</td>
-<td align="left">pudełkowy, punkty z rozrzutem</td>
+<td align="left">pudełkowy, średnie ze słupkami błędów</td>
 <td align="left"><code>geom_boxplot()</code>,
-<code>geom_jitter()</code></td>
+<code>geom_errorbar()</code></td>
 </tr>
 <tr class="even">
 <td align="left">Czy dwie zmienne liczbowe współzmieniają się?</td>
@@ -518,37 +519,34 @@ plot(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
 <tr class="odd">
 <td align="left"><code>hist(x, breaks, ...)</code></td>
 <td align="left"><code>breaks</code> — liczba lub granice przedziałów;
-<code>main</code>, <code>xlab</code>, <code>col</code>,
-<code>border</code></td>
+<code>main</code>, <code>xlab</code>, <code>col</code></td>
 <td align="left">liczba przedziałów jest tylko sugestią dla R</td>
 </tr>
 <tr class="even">
 <td align="left"><code>boxplot(formula, data, ...)</code></td>
 <td align="left"><code>y ~ grupa</code>; <code>horizontal = TRUE</code>;
-<code>varwidth = TRUE</code> — szerokość zależna od liczności</td>
+<code>varwidth = TRUE</code></td>
 <td align="left">punkty poza „wąsami” to wartości odstające według
 reguły 1,5 IQR</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>barplot(height, ...)</code></td>
 <td align="left">tabela liczności; <code>horiz = TRUE</code>;
-<code>las = 1</code> — poziome etykiety osi</td>
+<code>las = 1</code></td>
 <td align="left">wymaga gotowych liczności z <code>table()</code></td>
 </tr>
 <tr class="even">
 <td align="left"><code>plot(x, y, ...)</code></td>
 <td align="left"><code>pch</code> — kształt punktu; <code>cex</code> —
 wielkość; <code>col</code></td>
-<td align="left">ogólna funkcja: dla dwóch wektorów liczb daje wykres
-punktowy</td>
+<td align="left">dla dwóch wektorów liczb daje wykres punktowy</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Sprawdź i zmień.</strong> Porównaj histogram dla
 <code>breaks = 5</code> i <code>breaks = 40</code>. Dodaj do wykresu
 pudełkowego <code>varwidth = TRUE</code> i wyjaśnij, co oznacza
-szerokość pudełka. Na wykresie punktowym narysuj linię trendu:
-<code>abline(lm(koszt ~ czas_min, data = zgloszenia_analiza), lwd = 2)</code>.</p>
+szerokość pudełka.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> cztery wykresy mają tytuły i
 opisane osie; w szablonie zapisujesz trzy obserwacje, np. który kanał ma
@@ -563,9 +561,9 @@ class="section level3">
 <p><strong>Cel:</strong> Poznasz budowę wykresu ggplot2 z warstw i
 dobierzesz szerokość przedziałów histogramu.</p>
 <p><strong>Polecenie:</strong> Zbuduj histogram czasu obsługi warstwa po
-warstwie: dane i estetyki, geometria, etykiety, motyw. Porównaj trzy
-szerokości przedziałów, dodaj linię mediany i podziel wykres na panele
-według kanału.</p>
+warstwie: dane i estetyki, geometria, linia mediany, etykiety, motyw.
+Porównaj trzy szerokości przedziałów i podziel wykres na panele według
+kanału.</p>
 </div>
 <p>Wykres ggplot2 składa się z warstw łączonych znakiem <code>+</code>.
 <code>ggplot(dane, aes(...))</code> wskazuje dane i
@@ -617,9 +615,8 @@ ggplot(zgloszenia_analiza, aes(x = czas_min)) +
 <tr class="even">
 <td align="left"><code>geom_histogram()</code></td>
 <td align="left"><code>binwidth</code> — szerokość przedziału albo
-<code>bins</code> — ich liczba; <code>boundary</code> — punkt
-początkowy; <code>fill</code>, <code>colour</code>;
-<code>na.rm</code></td>
+<code>bins</code> — ich liczba; <code>boundary</code>;
+<code>fill</code>, <code>colour</code>; <code>na.rm</code></td>
 <td align="left">histogram</td>
 </tr>
 <tr class="odd">
@@ -651,12 +648,11 @@ początkowy; <code>fill</code>, <code>colour</code>;
 </tbody>
 </table>
 <p><strong>Sprawdź i zmień.</strong> Zmień <code>binwidth</code> na 2 i
-na 20: dane się nie zmieniają, zmienia się sposób ich grupowania. Na
-wzór pytania z R4DS wyjaśnij, dlaczego kod
+na 20: dane się nie zmieniają, zmienia się sposób ich grupowania.
+Wyjaśnij, dlaczego kod
 <code>ggplot(zgloszenia_analiza, aes(x = czas_min, fill = "blue")) + geom_histogram()</code>
 nie daje niebieskich słupków. Zastąp histogram warstwą
-<code>geom_density(aes(colour = kanal), na.rm = TRUE)</code> i porównaj
-kształty rozkładów kanałów.</p>
+<code>geom_density(aes(colour = kanal), na.rm = TRUE)</code>.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> histogram ma tytuł, osie z
 jednostką i linię mediany (35 minut); w opisie porównujesz trzy
@@ -690,8 +686,6 @@ rangach i jest odporna na wartości skrajne.</p>
   labs(title = &quot;Czas a koszt obsługi&quot;, x = &quot;Czas [min]&quot;, y = &quot;Koszt [zł]&quot;,
        colour = &quot;Kanał&quot;) +
   theme_minimal()
-pary &lt;- complete.cases(zgloszenia_analiza[, c(&quot;czas_min&quot;, &quot;koszt&quot;)])
-sum(pary)
 cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt, use = &quot;complete.obs&quot;)
 cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt, use = &quot;complete.obs&quot;,
     method = &quot;spearman&quot;)
@@ -751,25 +745,24 @@ rozrzutu w poziomie i pionie</td>
 <code>aes()</code> w <code>ggplot()</code> i sprawdź, ile linii trendu
 powstało. Zmień <code>method = "lm"</code> na <code>"loess"</code>.
 Wyjaśnij, dlaczego silna korelacja czasu i kosztu nie oznacza, że
-skrócenie rozmowy samo obniży koszt, i czego potrzebowałbyś, aby to
-sprawdzić.</p>
+skrócenie rozmowy samo obniży koszt.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> wykres ma jednostki obu osi i
 legendę kanału; korelacja czasu i kosztu wynosi 0,96 (Pearson) i 0,95
-(Spearman) dla 237 pełnych par; korelacja czasu i oceny jest ujemna
-(około −0,51); komentarz nie myli współzmienności z przyczyną.</p>
+(Spearman); komentarz nie myli współzmienności z przyczyną.</p>
 </div>
 </div>
-<div id="ćwiczenie-3.4.-kategorie-wykresy-słupkowe-i-pudełkowe"
+<div id="ćwiczenie-3.4.-kategorie-słupki-pudełka-i-słupki-błędów"
 class="section level3">
-<h3>Ćwiczenie 3.4. Kategorie: wykresy słupkowe i pudełkowe</h3>
+<h3>Ćwiczenie 3.4. Kategorie: słupki, pudełka i słupki błędów</h3>
 <div class="brief">
-<p><strong>Cel:</strong> Porównasz liczności i rozkłady w kategoriach
-oraz dobierzesz układ słupków do pytania.</p>
-<p><strong>Polecenie:</strong> Narysuj liczbę zgłoszeń w kanałach dwiema
-geometriami, porównaj udział spraw rozwiązanych w kanałach trzema
-ustawieniami <code>position</code> i zbuduj wykres pudełkowy czasu
-według kanału z zaznaczoną średnią.</p>
+<p><strong>Cel:</strong> Porównasz liczności, udziały i rozkłady w
+kategoriach oraz pokażesz średnie z niepewnością.</p>
+<p><strong>Polecenie:</strong> Narysuj liczbę zgłoszeń według typu
+sprawy posortowanymi słupkami, udział spraw rozwiązanych w kanałach
+słupkami do 100%, wykres pudełkowy czasu według kanału z zaznaczoną
+średnią, a na koniec średnią ocenę w kanałach jako punkty ze słupkami
+błędów na pełnej skali 1–5.</p>
 </div>
 <p><code>geom_bar()</code> sam liczy wiersze w każdej kategorii, a
 <code>geom_col()</code> rysuje gotowe wartości z kolumny <code>y</code>.
@@ -777,12 +770,13 @@ Gdy kolor słupka oznacza drugą zmienną, argument <code>position</code>
 decyduje o układzie: <code>"stack"</code> — słupki na sobie,
 <code>"dodge"</code> — obok siebie, <code>"fill"</code> — udziały do
 100%. Wykres pudełkowy pokazuje medianę (kreska), kwartyle (pudełko),
-zakres typowych wartości (wąsy) i wartości odstające (punkty).</p>
-<pre class="r"><code>ggplot(zgloszenia_analiza, aes(x = kanal)) +
-  geom_bar(fill = &quot;#2b6d73&quot;) +
-  labs(x = &quot;Kanał&quot;, y = &quot;Liczba zgłoszeń&quot;) +
-  theme_minimal()
-zgloszenia_analiza |&gt;
+zakres typowych wartości (wąsy) i wartości odstające (punkty). Średnią z
+grupy pokazuj z niepewnością: błąd standardowy to odchylenie standardowe
+podzielone przez pierwiastek z liczności, a słupek ± 2 błędy to
+przybliżony 95-procentowy przedział ufności.
+<code>coord_cartesian()</code> ustala zakres osi bez usuwania danych —
+tu służy do pokazania pełnej skali ocen.</p>
+<pre class="r"><code>zgloszenia_analiza |&gt;
   count(typ_sprawy) |&gt;
   ggplot(aes(x = reorder(typ_sprawy, n), y = n)) +
   geom_col(fill = &quot;#2b6d73&quot;) +
@@ -798,6 +792,20 @@ ggplot(zgloszenia_analiza, aes(x = kanal, y = czas_min)) +
   geom_boxplot(fill = &quot;grey90&quot;, outlier.colour = &quot;#b23b3b&quot;, na.rm = TRUE) +
   stat_summary(fun = mean, geom = &quot;point&quot;, shape = 4, size = 3, na.rm = TRUE) +
   labs(x = &quot;Kanał&quot;, y = &quot;Czas [min]&quot;, caption = &quot;Krzyżyk: średnia&quot;) +
+  theme_minimal()
+srednie_oceny &lt;- zgloszenia_analiza |&gt;
+  group_by(kanal) |&gt;
+  summarise(n = sum(!is.na(ocena)),
+            se = sd(ocena, na.rm = TRUE) / sqrt(n),
+            ocena = mean(ocena, na.rm = TRUE))
+srednie_oceny
+ggplot(srednie_oceny, aes(x = kanal, y = ocena)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = ocena - 2 * se, ymax = ocena + 2 * se), width = 0.1) +
+  geom_text(aes(label = paste0(&quot;n = &quot;, n)), vjust = -2.5, size = 3) +
+  coord_cartesian(ylim = c(1, 5)) +
+  labs(x = &quot;Kanał&quot;, y = &quot;Średnia ocena [1–5]&quot;,
+       caption = &quot;Słupki: ± 2 błędy standardowe&quot;) +
   theme_minimal()</code></pre>
 <table>
 <colgroup>
@@ -843,8 +851,7 @@ albo <code>"fill"</code>; <code>fill</code></td>
 </tr>
 <tr class="even">
 <td align="left"><code>geom_boxplot()</code></td>
-<td align="left"><code>outlier.colour</code>,
-<code>outlier.shape</code>; <code>varwidth</code>;
+<td align="left"><code>outlier.colour</code>; <code>varwidth</code>;
 <code>notch</code></td>
 <td align="left">wykres pudełkowy</td>
 </tr>
@@ -853,40 +860,66 @@ albo <code>"fill"</code>; <code>fill</code></td>
 <td align="left">funkcja podsumowania; geometria wyniku</td>
 <td align="left">dodaje np. średnią do wykresu</td>
 </tr>
+<tr class="even">
+<td align="left"><code>geom_errorbar()</code></td>
+<td align="left"><code>aes(ymin, ymax)</code>; <code>width</code></td>
+<td align="left">słupki błędów lub przedziały</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>geom_text()</code></td>
+<td align="left"><code>aes(label)</code>; <code>vjust</code>,
+<code>hjust</code>, <code>size</code></td>
+<td align="left">tekst w miejscu danych; <code>paste0()</code> skleja
+napisy</td>
+</tr>
+<tr class="even">
+<td align="left"><code>coord_cartesian(ylim)</code></td>
+<td align="left">zakres osi</td>
+<td align="left">przycina widok bez usuwania danych; dla słupków zawsze
+zaczynaj od zera</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Sprawdź i zmień.</strong> Zmień
-<code>position = "fill"</code> na <code>"dodge"</code> i na
-<code>"stack"</code>: który wariant najlepiej odpowiada na pytanie o
-udział rozwiązanych spraw, a który o ich liczbę? Usuń
-<code>reorder()</code> i porównaj czytelność. Porównaj medianę i średnią
-w wykresie pudełkowym Online: co oznacza ich różnica?</p>
+<code>position = "fill"</code> na <code>"dodge"</code>: który wariant
+odpowiada na pytanie o udział, a który o liczbę? W ostatnim wykresie
+zmień <code>ylim = c(1, 5)</code> na <code>c(3, 3.8)</code> i opisz, jak
+zmienia się wrażenie różnicy między kanałami, choć dane są te same.
+Dlaczego w <code>summarise()</code> liczysz <code>n</code> i
+<code>se</code>, zanim nadpiszesz kolumnę <code>ocena</code>
+średnią?</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> wykresy liczności pokazują 104, 81
-i 55 zgłoszeń w kanałach; wykres udziałów ma oś w procentach i pokazuje
-najniższy udział rozwiązanych spraw w kanale Online (77,9%); wykres
-pudełkowy ma opis znaczenia krzyżyka; w komentarzu wskazujesz, który
-wariant <code>position</code> odpowiada na które pytanie.</p>
+<p><strong>Kryteria sukcesu:</strong> wykres udziałów ma oś w procentach
+i pokazuje najniższy udział rozwiązanych spraw w kanale Online (77,9%);
+wykres pudełkowy ma opis znaczenia krzyżyka; średnie oceny wynoszą 3,73
+(Na miejscu, n = 55), 3,48 (Online, n = 101) i 3,12 (Telefon, n = 81), a
+słupki błędów Telefonu i kanału Na miejscu nie nakładają się.</p>
 </div>
 </div>
-<div id="ćwiczenie-3.5.-linia-w-czasie-i-mapa-cieplna"
+<div id="ćwiczenie-3.5.-linia-w-czasie-mapa-cieplna-i-zapis-wykresu"
 class="section level3">
-<h3>Ćwiczenie 3.5. Linia w czasie i mapa cieplna</h3>
+<h3>Ćwiczenie 3.5. Linia w czasie, mapa cieplna i zapis wykresu</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Przygotujesz dane zagregowane do wykresu
-liniowego i mapy cieplnej.</p>
+liniowego i mapy cieplnej, dopracujesz motyw i zapiszesz wykres do pliku
+o zadanych wymiarach.</p>
 <p><strong>Polecenie:</strong> Policz zgłoszenia według miesiąca i
 kanału i narysuj je jako linie z datami na osi. Policz zgłoszenia w
-kombinacjach kanału i działu i pokaż je na mapie cieplnej z liczbami w
-komórkach.</p>
+kombinacjach kanału i działu, pokaż je na mapie cieplnej z etykietami,
+przesuń legendę pod wykres i zapisz mapę do
+<code>wyniki/mapa_zgloszen.png</code> (16 × 10 cm, 300 dpi).</p>
 </div>
 <p>Wykres liniowy łączy punkty w kolejności osi <code>x</code>, dlatego
-rysuje się go z agregatów (np. liczby zgłoszeń w miesiącu), a nie z
-pojedynczych rekordów. Datę miesiąca najlepiej zapisać jako typ
-<code>Date</code> (np. pierwszy dzień miesiąca): oś będzie wtedy
+rysuje się go z agregatów, a nie z pojedynczych rekordów. Datę miesiąca
+zapisz jako typ <code>Date</code> (pierwszy dzień miesiąca): oś będzie
 uporządkowana chronologicznie, a etykiety ustawisz funkcją
 <code>scale_x_date()</code>. Mapa cieplna koduje wartość kolorem
-komórki; dopisanie liczb ułatwia dokładny odczyt.</p>
+komórki; dopisanie liczb ułatwia odczyt. Wykres zapisany w obiekcie
+można modyfikować dalszymi warstwami i zapisać funkcją
+<code>ggsave()</code>; w szablonie wygląd wykresu w PDF ustalasz opcjami
+bloku <code>fig.width</code>, <code>fig.height</code> (w calach) i
+<code>fig.cap</code> (podpis), np.
+<code>{r c3-5, fig.width=7, fig.height=4, fig.cap="Zgłoszenia w miesiącach"}</code>.</p>
 <pre class="r"><code>miesiace &lt;- zgloszenia_analiza |&gt;
   mutate(miesiac = as.Date(format(data, &quot;%Y-%m-01&quot;))) |&gt;
   count(miesiac, kanal)
@@ -900,14 +933,18 @@ ggplot(miesiace, aes(x = miesiac, y = n, colour = kanal)) +
 komorki &lt;- zgloszenia_analiza |&gt;
   mutate(dzial = replace_na(dzial, &quot;brak danych&quot;)) |&gt;
   count(kanal, dzial)
-ggplot(komorki, aes(x = kanal, y = dzial, fill = n)) +
+mapa &lt;- ggplot(komorki, aes(x = kanal, y = dzial, fill = n)) +
   geom_tile(colour = &quot;white&quot;) +
-  geom_text(aes(label = n)) +
-  scale_fill_gradient(low = &quot;#f1ece2&quot;, high = &quot;#2b6d73&quot;) +
-  labs(title = &quot;Natężenie zgłoszeń&quot;, x = &quot;Kanał&quot;, y = &quot;Dział&quot;,
-       fill = &quot;Liczba&quot;) +
-  theme_minimal()
-sum(komorki$n)</code></pre>
+  geom_text(aes(label = paste0(n, &quot; zgł.&quot;))) +
+  scale_fill_gradient(low = &quot;#f1ece2&quot;, high = &quot;#2b6d73&quot;, limits = c(0, 50)) +
+  labs(title = &quot;Natężenie zgłoszeń&quot;, x = &quot;Kanał&quot;, y = &quot;Dział&quot;, fill = &quot;Liczba&quot;) +
+  theme_minimal() +
+  theme(legend.position = &quot;bottom&quot;, plot.title = element_text(face = &quot;bold&quot;))
+mapa
+sum(komorki$n)
+ggsave(&quot;wyniki/mapa_zgloszen.png&quot;, mapa, width = 16, height = 10, units = &quot;cm&quot;,
+       dpi = 300)
+file.exists(&quot;wyniki/mapa_zgloszen.png&quot;)</code></pre>
 <table>
 <colgroup>
 <col width="16%" />
@@ -926,13 +963,12 @@ sum(komorki$n)</code></pre>
 <td align="left"><code>geom_line()</code></td>
 <td align="left"><code>linewidth</code>; <code>linetype</code>; estetyka
 <code>group</code></td>
-<td align="left">linia łącząca punkty; każda grupa lub kolor to osobna
-linia</td>
+<td align="left">linia łącząca punkty; każdy kolor to osobna linia</td>
 </tr>
 <tr class="even">
 <td align="left"><code>scale_x_date()</code></td>
 <td align="left"><code>date_breaks = "1 month"</code>;
-<code>date_labels = "%m.%Y"</code>; <code>limits</code></td>
+<code>date_labels = "%m.%Y"</code></td>
 <td align="left">podziałka i opis osi dat</td>
 </tr>
 <tr class="odd">
@@ -942,106 +978,75 @@ komórki</td>
 <td align="left">prostokątne komórki</td>
 </tr>
 <tr class="even">
-<td align="left"><code>geom_text()</code></td>
-<td align="left"><code>aes(label = ...)</code>; <code>size</code>;
-<code>colour</code></td>
-<td align="left">tekst w miejscu danych</td>
-</tr>
-<tr class="odd">
 <td align="left"><code>scale_fill_gradient()</code></td>
 <td align="left"><code>low</code>, <code>high</code> — kolory końców
-skali; <code>limits</code></td>
+skali; <code>limits</code> — zakres skali</td>
 <td align="left">ciągła skala koloru</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>theme()</code></td>
+<td align="left"><code>legend.position = "bottom"</code>;
+<code>plot.title = element_text(face = "bold")</code>;
+<code>axis.text.x = element_text(angle = 45, hjust = 1)</code>;
+<code>panel.grid.minor = element_blank()</code></td>
+<td align="left">szczegóły wyglądu</td>
+</tr>
+<tr class="even">
+<td
+align="left"><code>ggsave(filename, plot, width, height, units, dpi)</code></td>
+<td align="left">nazwa pliku (<code>.png</code>, <code>.pdf</code>);
+obiekt wykresu; wymiary; <code>units = "cm"</code>;
+<code>dpi = 300</code></td>
+<td align="left">zapis wykresu do pliku</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Sprawdź i zmień.</strong> Zamień <code>miesiac</code> na
 tekst <code>format(data, "%m")</code> i sprawdź, dlaczego
 <code>geom_line()</code> wymaga wtedy <code>aes(group = kanal)</code>.
-Usuń <code>replace_na()</code> i zobacz, jak mapa przedstawia brak
-działu. Zastąp <code>scale_fill_gradient()</code> paletą
-<code>scale_fill_viridis_c()</code> i oceń czytelność.</p>
+Usuń <code>limits = c(0, 50)</code> ze skali i porównaj kolory. Zmień
+<code>legend.position</code> na <code>"none"</code> i oceń, czy mapa
+pozostaje czytelna dzięki etykietom.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> wykres liniowy ma sześć miesięcy w
 kolejności chronologicznej i pokazuje szczyt zgłoszeń Online w maju
-(29); mapa ma liczby w komórkach, osobny wiersz „brak danych”, a suma
-komórek wynosi 240.</p>
+(29); mapa ma etykiety w komórkach, osobny wiersz „brak danych” i
+legendę pod wykresem, suma komórek wynosi 240, a plik
+<code>wyniki/mapa_zgloszen.png</code> istnieje.</p>
 </div>
 </div>
 </div>
 <div id="challenge-zadania-samodzielne" class="section level2">
 <h2>Challenge — zadania samodzielne</h2>
-<div
-id="zadanie-3.6.-wykres-gotowy-do-raportu-theme-opcje-bloku-i-ggsave"
+<p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 3.1–3.5 i
+poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w
+którym się pojawiła, albo do jej pomocy <code>?funkcja</code>.</p>
+<div id="zadanie-3.6.-rozkład-kosztu-w-grupach-procedury"
 class="section level3">
-<h3>Zadanie 3.6. Wykres gotowy do raportu: theme(), opcje bloku i
-ggsave()</h3>
+<h3>Zadanie 3.6. Rozkład kosztu w grupach procedury</h3>
 <div class="brief">
-<p><strong>Cel:</strong> Przygotujesz jeden wykres w wersji do raportu i
-zapiszesz go do pliku o zadanych wymiarach.</p>
-<p><strong>Polecenie:</strong> Wybierz jeden wykres z ćwiczeń 3.2–3.5,
-zapisz go w obiekcie <code>p</code>, dopracuj motyw funkcją
-<code>theme()</code> i zapisz do <code>wyniki/wykres_3_6.png</code> o
-wymiarach 16 × 10 cm i rozdzielczości 300 dpi. W nagłówku bloku ustaw
-rozmiar wykresu i podpis, a na koniec sprawdź, czy plik istnieje.</p>
+<p><strong>Cel:</strong> Samodzielnie zbudujesz histogram z panelami,
+linią odniesienia i opisem oraz zapiszesz go do pliku.</p>
+<p><strong>Polecenie:</strong> Narysuj histogram kosztu obsługi
+(przedziały po 10 zł) w dwóch panelach według grupy procedury, z pionową
+linią mediany kosztu całego zbioru, tytułem, podpisanymi osiami z
+jednostką i podpisem źródła. Zapisz wykres w obiekcie, wyeksportuj do
+<code>wyniki/koszt_grupy.png</code> (16 × 10 cm, 300 dpi) i ustaw w
+nagłówku bloku <code>fig.cap</code>. Policz medianę kosztu w każdej
+grupie, aby skomentować wykres.</p>
 </div>
-<p>Wykres zapisany w obiekcie (<code>p &lt;- ggplot(...)</code>) można
-modyfikować dalszymi warstwami, np. <code>p + theme(...)</code>, i
-zapisać do pliku. Wygląd w PDF ustalasz opcjami bloku:
-<code>fig.width</code> i <code>fig.height</code> (w calach) oraz
-<code>fig.cap</code> (podpis pod wykresem). Nagłówek bloku w szablonie
-może wyglądać tak:
-<code>{r c3-6, fig.width=7, fig.height=4, fig.cap="Czas obsługi według kanału"}</code>.</p>
-<table>
-<colgroup>
-<col width="25%" />
-<col width="52%" />
-<col width="22%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Funkcja</th>
-<th align="left">Najważniejsze argumenty</th>
-<th align="left">Działanie</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><code>theme()</code></td>
-<td align="left"><code>legend.position = "bottom"</code>;
-<code>plot.title = element_text(face = "bold")</code>;
-<code>panel.grid.minor = element_blank()</code>;
-<code>axis.text.x = element_text(angle = 45, hjust = 1)</code></td>
-<td align="left">szczegóły wyglądu</td>
-</tr>
-<tr class="even">
-<td align="left"><code>element_text()</code>,
-<code>element_blank()</code></td>
-<td align="left"><code>size</code>, <code>face</code>,
-<code>colour</code>, <code>angle</code>, <code>hjust</code></td>
-<td align="left">opis elementu tekstowego; usunięcie elementu</td>
-</tr>
-<tr class="odd">
-<td
-align="left"><code>ggsave(filename, plot, width, height, units, dpi)</code></td>
-<td align="left">nazwa pliku z rozszerzeniem (<code>.png</code>,
-<code>.pdf</code>); obiekt wykresu; wymiary; <code>units = "cm"</code>;
-<code>dpi = 300</code></td>
-<td align="left">zapis wykresu do pliku</td>
-</tr>
-<tr class="even">
-<td align="left"><code>file.exists()</code>,
-<code>file.size()</code></td>
-<td align="left">ścieżka</td>
-<td align="left">kontrola zapisu</td>
-</tr>
-</tbody>
-</table>
+<p>Funkcje: <code>median()</code>, <code>ggplot()</code>,
+<code>aes()</code>, <code>geom_histogram()</code>,
+<code>geom_vline()</code>, <code>facet_wrap()</code>,
+<code>labs()</code>, <code>theme_minimal()</code>,
+<code>ggsave()</code>, <code>file.exists()</code>,
+<code>group_by()</code>, <code>summarise()</code>.</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> plik
-<code>wyniki/wykres_3_6.png</code> powstaje przy renderowaniu; wykres w
-PDF ma podpis i zadany rozmiar; zmiany w <code>theme()</code> służą
-czytelności, a opis wyjaśnia każdą z nich.</p>
+<p><strong>Kryteria sukcesu:</strong> mediana kosztu całego zbioru to
+69,7 zł, a w grupach 72,7 zł (A, n = 120) i 67,8 zł (B, n = 119); wykres
+ma dwa panele, linię mediany, jednostkę na osi i podpis
+<code>fig.cap</code> w PDF; plik <code>wyniki/koszt_grupy.png</code>
+istnieje.</p>
 </div>
 </div>
 <div id="zadanie-3.7.-mapa-odsetka-rozwiązanych-spraw"
@@ -1056,12 +1061,13 @@ każdej kombinacji kanału i działu i pokaż go na mapie cieplnej ze skalą
 Zdecyduj, jak potraktujesz zgłoszenie bez działu, i zapisz tę
 decyzję.</p>
 </div>
-<p>Użyj <code>group_by(kanal, dzial)</code>,
-<code>summarise(n = n(), proc = 100 * mean(rozwiazano == "Tak"))</code>
-oraz <code>scale_fill_gradient(limits = c(0, 100))</code>. Etykietę
-złożysz funkcją <code>paste0(round(proc), "% (n = ", n, ")")</code>.
-Dodaj jedno zdanie o tym, dlaczego różnica kilku punktów procentowych w
-grupie 15–20 zgłoszeń może być przypadkowa.</p>
+<p>Funkcje: <code>group_by()</code>, <code>summarise()</code> z
+<code>n()</code> i <code>mean()</code>, <code>replace_na()</code> albo
+<code>filter()</code>, <code>geom_tile()</code>,
+<code>geom_text()</code> z <code>paste0()</code> i <code>round()</code>,
+<code>scale_fill_gradient(limits = c(0, 100))</code>,
+<code>labs()</code>. Dodaj jedno zdanie o tym, dlaczego różnica kilku
+punktów procentowych w grupie 15–20 zgłoszeń może być przypadkowa.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> kolor oznacza odsetek, a nie
 liczbę zgłoszeń; skala obejmuje 0–100%; odsetki mieszczą się między
@@ -1076,32 +1082,33 @@ class="section level3">
 <p><strong>Cel:</strong> Rozpoznasz zabiegi, które zniekształcają odbiór
 wykresu, i przygotujesz rzetelną wersję (efekt K1).</p>
 <p><strong>Polecenie:</strong> Uruchom poniższy kod i wskaż co najmniej
-trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję, która
-pokazuje średnią ocenę w kanałach wraz z niepewnością i licznością oraz
-ma neutralny tytuł.</p>
+trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję:
+średni czas według typu sprawy jako punkty ze słupkami ± 2 błędy
+standardowe, z licznościami w etykietach, osią zaczynającą się od zera i
+neutralnym tytułem.</p>
 </div>
-<pre class="r"><code>srednie_oceny &lt;- zgloszenia_analiza |&gt;
-  group_by(kanal) |&gt;
-  summarise(ocena = mean(ocena, na.rm = TRUE))
-ggplot(srednie_oceny, aes(x = kanal, y = ocena, fill = kanal)) +
+<pre class="r"><code>srednie_czasy &lt;- zgloszenia_analiza |&gt;
+  group_by(typ_sprawy) |&gt;
+  summarise(czas = mean(czas_min, na.rm = TRUE))
+ggplot(srednie_czasy, aes(x = typ_sprawy, y = czas, fill = typ_sprawy)) +
   geom_col() +
-  coord_cartesian(ylim = c(3, 3.8)) +
-  labs(title = &quot;Kanał Na miejscu zdecydowanie najlepszy!&quot;)</code></pre>
-<p>Zwróć uwagę na punkt początkowy osi słupków, skalę ocen (1–5), brak
-liczności i rozrzutu, zbędną legendę oraz tytuł, który przesądza o
-przyczynie. W poprawionej wersji policz w <code>summarise()</code> także
-<code>n = sum(!is.na(ocena))</code> i błąd standardowy
-<code>se = sd(ocena, na.rm = TRUE) / sqrt(n)</code>, zanim nadpiszesz
-kolumnę <code>ocena</code> średnią — kolejność wyrażeń w
-<code>summarise()</code> ma znaczenie. Pokaż średnie punktami z
-<code>geom_errorbar(aes(ymin = ocena - 2 * se, ymax = ocena + 2 * se), width = 0.1)</code>
-na osi obejmującej skalę 1–5.</p>
+  coord_cartesian(ylim = c(33, 37.5)) +
+  labs(title = &quot;Opis metadanych trwa zdecydowanie najdłużej!&quot;)</code></pre>
+<p>Zwróć uwagę na punkt początkowy osi słupków, brak liczności i
+niepewności, zbędną legendę oraz tytuł, który przesądza o wniosku.
+Funkcje do wersji poprawionej: <code>group_by()</code>,
+<code>summarise()</code> z <code>sum(!is.na())</code>,
+<code>sd()</code>, <code>sqrt()</code> i <code>mean()</code>,
+<code>geom_point()</code>, <code>geom_errorbar()</code>,
+<code>geom_text()</code> z <code>paste0()</code>,
+<code>coord_cartesian(ylim = c(0, ...))</code>, <code>labs()</code>,
+<code>theme_minimal()</code>.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> wskazujesz co najmniej trzy
-problemy; poprawiony wykres ma pełną skalę ocen, pokazuje średnie 3,73
-(Na miejscu), 3,48 (Online) i 3,12 (Telefon) z niepewnością oraz
-liczności 55, 101 i 81; tytuł opisuje wynik bez przesądzania o
-przyczynie.</p>
+problemy; poprawiony wykres pokazuje średnie 35,3 (Dostęp, n = 70), 36,9
+(Opis metadanych, n = 36) i 33,8 minuty (Wyszukiwanie, n = 132) ze
+słupkami błędów, które się nakładają; oś zaczyna się od zera, a tytuł
+opisuje wynik bez przesądzania o różnicy.</p>
 </div>
 </div>
 </div>

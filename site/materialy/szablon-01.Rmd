@@ -25,9 +25,9 @@ source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 
 Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami i modyfikuj go według wskazówek „Sprawdź i zmień”. Wyniki opisuj własnymi słowami. W trakcie pracy renderuj dokument do PDF przyciskiem **Knit**, a gotową pracę oddaj w konsoli poleceniem `oddaj_zadanie(1)`.
 
-## Ćwiczenie 1.1. Import CSV i argumenty read.csv()
+## Ćwiczenie 1.1. Import z CSV i Excela: read.csv(), as.Date(), read_excel()
 
-**Polecenie:** Wczytaj `dane/zgloszenia.csv` najpierw z ustawieniami domyślnymi, a potem z `na.strings = ""`. Porównaj liczbę braków w kolumnie `dzial`, zamień kolumnę `data` na typ `Date` i policz zgłoszenia w kolejnych miesiącach.
+**Polecenie:** Wczytaj `dane/zgloszenia.csv` z argumentem `na.strings = ""`, porównaj liczbę braków w kolumnie `dzial` z importem bez tego argumentu, zamień kolumnę `data` na typ `Date` i policz zgłoszenia w miesiącach. Następnie wypisz arkusze pliku `dane/zgloszenia.xlsx` i wczytaj arkusze `zgloszenia` oraz `dzialy`.
 
 ```{r c1-1}
 # Twój kod
@@ -35,9 +35,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 1.2. CSV z polskiego Excela: średnik, przecinek i kodowanie
+## Ćwiczenie 1.2. CSV z polskiego Excela: read.csv2()
 
-**Polecenie:** Wczytaj `dane/zgloszenia_pl.csv`, dodając kolejno argumenty `sep`, `dec`, `na.strings` i `fileEncoding`. Po każdym kroku sprawdź `dim()` lub `str()` i zapisz, który problem rozwiązał dany argument. Na koniec porównaj wynik z `read.csv2()` i z ramką `csv`.
+**Polecenie:** Wczytaj `dane/zgloszenia_pl.csv` najpierw bez argumentów, potem z samym `sep = ";"`, a na koniec funkcją `read.csv2()` z argumentami `na.strings` i `fileEncoding`. Po każdym kroku sprawdź `dim()` lub `str()`. Zamień datę zapisaną jako DD.MM.RRRR i porównaj wynik z ramką `csv`.
 
 ```{r c1-2}
 # Twój kod
@@ -45,9 +45,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 1.3. Excel: arkusze, zakresy i typy kolumn
+## Ćwiczenie 1.3. Braki, wartości podejrzane, wybór i sortowanie
 
-**Polecenie:** Wypisz arkusze pliku `dane/zgloszenia.xlsx`, wczytaj arkusz `zgloszenia`, słownik zmiennych `opis` i tabelę `dzialy`. Sprawdź typ kolumny `data` i porównaj zapisy działów z danymi z CSV.
+**Polecenie:** Policz braki w każdej kolumnie i wiersze kompletne, znajdź czasy spoza zakresu 0–120 minut i wartości odstające według reguły 1,5 IQR, wypisz wszystkie zapisy działu. Potem wybierz zgłoszenia telefoniczne dłuższe niż 60 minut posortowane malejąco oraz zgłoszenia droższe niż 120 zł — warunkiem i przez `which()`.
 
 ```{r c1-3}
 # Twój kod
@@ -55,9 +55,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 1.4. Braki danych i wartości podejrzane
+## Ćwiczenie 1.4. Czyszczenie w nowej ramce i zestawienia
 
-**Polecenie:** Policz braki w każdej kolumnie i wiersze kompletne, znajdź czasy obsługi spoza zakresu 0–120 minut, sprawdź wartości odstające i wszystkie zapisy nazwy działu. Surowej ramki `csv` nie zmieniaj.
+**Polecenie:** Utwórz `dane_czyste` jako kopię `csv`: ujednolić nazwy działów, oznacz czasy spoza 0–120 minut jako brak i zamień `kanal` na czynnik z poziomami Online, Telefon, Na miejscu. Następnie zbuduj tabelę kanału i rozwiązania sprawy z sumami i odsetkami w wierszach oraz policz średni czas według kanału funkcjami `tapply()` i `aggregate()`.
 
 ```{r c1-4}
 # Twój kod
@@ -65,9 +65,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 1.5. Wybór wierszy i kolumn, operatory i sortowanie
+## Ćwiczenie 1.5. Własna funkcja, sapply() i eksport z kontrolą
 
-**Polecenie:** Wybierz zgłoszenia telefoniczne dłuższe niż 60 minut i posortuj je malejąco według czasu. Następnie znajdź zgłoszenia droższe niż 120 zł i porównaj wynik wyboru warunkiem z wynikiem `which()` oraz `subset()`.
+**Polecenie:** Napisz funkcję `procent_brakow(x, cyfry = 1)` i zastosuj ją do wszystkich kolumn `dane_czyste` przez `sapply()`. Napisz funkcję `poza_zakresem(x, dolny, gorny)` z kontrolą argumentów. Zapisz `dane_czyste` do `wyniki/zgloszenia_czyste.csv`, wczytaj plik ponownie i sprawdź wymiary, braki i typy; zapisz też XLSX z dwoma arkuszami.
 
 ```{r c1-5}
 # Twój kod
@@ -75,9 +75,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 1.6. Nowa ramka po czyszczeniu
+## Zadanie 1.6. Import i kontrola pliku z polskiego Excela
 
-**Polecenie:** Utwórz `dane_czyste` jako kopię `csv`. Ujednolić nazwy działów, oznacz czasy spoza 0–120 minut jako brak i zamień `kanal` na czynnik z poziomami Online, Telefon, Na miejscu. Porównaj obiekt przed zmianą i po niej oraz uzasadnij regułę dla czasu.
+**Polecenie:** Wczytaj `dane/zgloszenia_pl.csv` do ramki `pl` funkcją `read.csv2()` z właściwymi argumentami i zamień datę na typ `Date`. Policz braki w każdej kolumnie i wiersze kompletne. Wypisz zgłoszenia o koszcie powyżej 130 zł posortowane malejąco według kosztu (tylko `id`, `czas_min`, `koszt`) i policz zgłoszenia z oceną nie wyższą niż 2, które nie zostały rozwiązane. Sprawdź regułą 1,5 IQR, czy koszt ma wartości odstające.
 
 ```{r c1-6}
 # Twój kod
@@ -85,9 +85,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 1.7. Agregacja w bazowym R i pierwsza funkcja
+## Zadanie 1.7. Porządek w typie sprawy i zestawienia
 
-**Polecenie:** Na danych `dane_czyste` zbuduj tabelę kanału i rozwiązania sprawy z odsetkami w wierszach, policz średni czas obsługi według kanału funkcjami `tapply()` i `aggregate()`, a następnie napisz funkcję `procent_brakow(x, cyfry = 1)` i zastosuj ją do wszystkich kolumn przez `sapply()`.
+**Polecenie:** Utwórz `pl_czyste` jako kopię `pl`. Ujednolić nazwy działów, oznacz czasy spoza 0–120 minut jako brak i zamień `typ_sprawy` na czynnik z poziomami Wyszukiwanie, Dostęp, Opis metadanych. Zbuduj tabelę typu sprawy i rozwiązania z sumami i odsetkami w wierszach. Policz medianę kosztu według typu sprawy funkcją `aggregate()` i średnią ocenę według typu sprawy funkcją `tapply()`.
 
 ```{r c1-7}
 # Twój kod
@@ -95,9 +95,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-1.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 1.8. Eksport i ponowna kontrola
+## Zadanie 1.8. Własna funkcja i eksport wybranych rekordów
 
-**Polecenie:** Zapisz `dane_czyste` do `wyniki/zgloszenia_czyste.csv` oraz do pliku `wyniki/zgloszenia_czyste.xlsx` z dwoma arkuszami: danymi i tabelą braków. Wczytaj CSV ponownie i porównaj wymiary, braki oraz typy kolumn z obiektem przed eksportem.
+**Polecenie:** Napisz funkcję `srednia_bez_brakow(x)`, która zwraca średnią z pominięciem braków zaokrągloną do dwóch miejsc, i zastosuj ją przez `sapply()` do kolumn `czas_min`, `ocena` i `koszt` ramki `pl_czyste`. Użyj funkcji `poza_zakresem()` z ćwiczenia 1.5, aby policzyć koszty powyżej 100 zł. Zapisz zgłoszenia o koszcie powyżej 100 zł do `wyniki/drogie.csv` bez numerów wierszy, wczytaj plik ponownie i sprawdź funkcją `stopifnot()`, że liczba wierszy zgadza się z liczbą z `poza_zakresem()`.
 
 ```{r c1-8}
 # Twój kod

@@ -13,7 +13,7 @@
 
 <title>Spotkanie organizacyjne: projekt R, R Markdown i asystent Copilot</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -471,11 +471,18 @@ odpowiadające spotkaniu.</td>
 </div>
 <div id="kazde-spotkanie" class="section level2">
 <h2>Jak wygląda każde spotkanie</h2>
-<p>Komputery w pracowni mają zainstalowane na stałe R, RStudio,
-Positron, pakiety kursu i TinyTeX, ale po wyłączeniu usuwają pliki
-użytkownika. Dlatego każde spotkanie zaczyna się tak samo i nie zależy
-od plików z poprzednich zajęć: skrypt startowy za każdym razem odtwarza
-identyczne dane.</p>
+<p>Komputery w pracowni mają zainstalowane na stałe R, RStudio, pakiety
+kursu i TinyTeX, ale po wyłączeniu usuwają pliki użytkownika. Dlatego
+każde spotkanie zaczyna się tak samo i nie zależy od plików z
+poprzednich zajęć: skrypt startowy za każdym razem odtwarza identyczne
+dane. Na własnym komputerze ten sam skrypt przygotowuje środowisko do
+końca: przy pierwszym uruchomieniu instaluje brakujące pakiety R, a gdy
+nie ma LaTeX-a — także TinyTeX; trwa to łącznie kilka minut i wykonuje
+się raz.</p>
+<p>Każde spotkanie robocze ma pięć ćwiczeń z prowadzącym i trzy zadania
+samodzielne. W zadaniach używasz wyłącznie funkcji, które pojawiły się w
+ćwiczeniach tego lub wcześniejszych spotkań; zadanie polega na tym, by
+samodzielnie złożyć z nich rozwiązanie nowego pytania.</p>
 <div class="start">
 <ol style="list-style-type: decimal">
 <li>Utwórz projekt <code>jezykr</code> (ćwiczenie 0.1). W domu możesz
@@ -497,14 +504,16 @@ jeżeli chcesz go dokończyć w domu.</li>
 pobierz_szablon(0)</code></pre>
 <p>Pierwsza linia pobiera i wykonuje <a
 href="materialy/init-v2.R">skrypt startowy</a>: ładuje pakiety (a na
-własnym komputerze doinstalowuje brakujące), tworzy foldery
-<code>dane/</code> i <code>wyniki/</code>, zapisuje trzy pliki z
+własnym komputerze doinstalowuje brakujące pakiety R i TinyTeX), tworzy
+foldery <code>dane/</code> i <code>wyniki/</code>, zapisuje trzy pliki z
 fikcyjnymi danymi i tworzy w pamięci obiekty <code>zgloszenia</code>
-oraz <code>zgloszenia_analiza</code>. Druga linia pobiera szablon
-spotkania do pliku <code>szablon-00.Rmd</code> i otwiera go w edytorze;
-istniejącego pliku nie nadpisze. Szablon zawiera ten sam skrypt w bloku
-<code>start</code>, więc renderowanie zawsze zaczyna się od świeżych
-danych.</p>
+oraz <code>zgloszenia_analiza</code>. Polecenie
+<code>sprawdz_srodowisko()</code> wypisuje listę kontrolną (R, Pandoc,
+pakiety, LaTeX); pokaż ją prowadzącemu, gdy coś nie działa. Druga linia
+pobiera szablon spotkania do pliku <code>szablon-00.Rmd</code> i otwiera
+go w edytorze; istniejącego pliku nie nadpisze. Szablon zawiera ten sam
+skrypt w bloku <code>start</code>, więc renderowanie zawsze zaczyna się
+od świeżych danych.</p>
 <table>
 <colgroup>
 <col width="12%" />
@@ -858,8 +867,9 @@ albo <code>rmarkdown::render("plik.Rmd")</code></td>
 </tbody>
 </table>
 <p>W pracowni TinyTeX jest zainstalowany. Na własnym komputerze
-zainstaluj go jeden raz; <code>rmarkdown</code> użyje go automatycznie,
-a brakujące pakiety LaTeX doinstaluje przy pierwszym renderowaniu.</p>
+instaluje go skrypt startowy przy pierwszym uruchomieniu w konsoli,
+razem z pakietami LaTeX dla polskich dokumentów; możesz też zrobić to
+ręcznie:</p>
 <pre class="r bez-uruchamiania"><code>install.packages(&quot;tinytex&quot;)
 tinytex::install_tinytex()     # jednorazowo, kilka minut
 tinytex::is_tinytex()          # TRUE oznacza gotową instalację</code></pre>

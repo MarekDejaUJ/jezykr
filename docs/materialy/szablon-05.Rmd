@@ -55,9 +55,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-5.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 5.4. Model liniowy: lm()
+## Ćwiczenie 5.4. Model liniowy: lm(), predict() i porównanie modeli
 
-**Polecenie:** Dopasuj model kosztu od czasu, a potem model czasu od kanału i grupy. Odczytaj współczynniki z przedziałami ufności, zmień kategorię odniesienia kanału, oblicz przewidywany czas dla profilu zgłoszenia i obejrzyj wykresy diagnostyczne.
+**Polecenie:** Dopasuj model kosztu od czasu, a potem model czasu od kanału i grupy. Odczytaj współczynniki z przedziałami ufności, zmień kategorię odniesienia kanału, oblicz przewidywany czas dla profilu zgłoszenia, obejrzyj wykresy diagnostyczne i porównaj model z wersją rozszerzoną o typ sprawy.
 
 ```{r c5-4}
 # Twój kod
@@ -65,9 +65,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-5.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 5.5. Model logistyczny: glm()
+## Ćwiczenie 5.5. Model logistyczny: glm() i profile
 
-**Polecenie:** Utwórz zmienną zero-jedynkową rozwiązania sprawy i dopasuj model logistyczny od czasu, grupy i typu sprawy. Przelicz współczynniki na ilorazy szans z przedziałami ufności, sprawdź liczbę obserwacji i oblicz prawdopodobieństwo rozwiązania dla dwóch profili.
+**Polecenie:** Utwórz zmienną zero-jedynkową rozwiązania sprawy i dopasuj model logistyczny od czasu, grupy i typu sprawy. Przelicz współczynniki na ilorazy szans z przedziałami ufności, sprawdź liczbę obserwacji i oblicz prawdopodobieństwo rozwiązania dla siatki profili utworzonej funkcją `expand.grid()`.
 
 ```{r c5-5}
 # Twój kod
@@ -75,9 +75,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-5.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 5.6. Profile zgłoszeń i krzywa prawdopodobieństwa
+## Zadanie 5.6. Trzy pytania, trzy testy
 
-**Polecenie:** Zdefiniuj trzy profile zgłoszeń typu Dostęp: 20 minut w grupie A, 60 minut w grupie A i 60 minut w grupie B. Oblicz dla nich prawdopodobieństwo rozwiązania i pokaż je w tabeli. Następnie narysuj przewidywane prawdopodobieństwo w funkcji czasu (3–75 minut) dla obu grup.
+**Polecenie:** Odpowiedz na trzy pytania: (1) czy koszt obsługi różni się między grupami A i B — testem t i testem Wilcoxona; (2) czy typ sprawy jest związany z rozwiązaniem sprawy — tabelą z odsetkami w wierszach, testem chi-kwadrat i kontrolą liczności oczekiwanych; (3) czy ocena satysfakcji jest związana z kosztem — testem korelacji Spearmana. Każdy wynik zapisz jednym zdaniem z liczbami: różnicą lub współczynnikiem, przedziałem ufności, wartością p i liczebnością.
 
 ```{r c5-6}
 # Twój kod
@@ -85,9 +85,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-5.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 5.7. Od pytania do metody
+## Zadanie 5.7. Model liniowy czasu od typu sprawy i grupy
 
-**Polecenie:** Dla każdego z czterech pytań wskaż zmienne, ich typy i metodę z tabeli „Jak czytać wynik testu”. Dwa wybrane pytania rozwiąż w R i zapisz wynik jednym zdaniem z liczbami: wielkością efektu, przedziałem ufności lub statystyką testu, wartością p i liczebnością.
+**Polecenie:** Dopasuj model `czas_min ~ typ_sprawy + grupa`. Odczytaj współczynniki z przedziałami ufności i wskaż kategorię odniesienia, podaj liczbę obserwacji i R², oblicz przewidywany średni czas dla sprawy typu Opis metadanych w grupie B z przedziałem ufności. Następnie porównaj model `czas_min ~ kanal + grupa` z ćwiczenia 5.4 z modelem z interakcją `kanal * grupa` testem `anova()` i kryterium AIC.
 
 ```{r c5-7}
 # Twój kod
@@ -95,9 +95,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-5.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 5.8. Porównanie modeli liniowych
+## Zadanie 5.8. Model logistyczny z kanałem
 
-**Polecenie:** Porównaj model `czas_min ~ kanal + grupa` z modelem rozszerzonym o `typ_sprawy` oraz z modelem z interakcją `kanal * grupa`. Użyj `anova()` dla modeli zagnieżdżonych, `AIC()` i skorygowanego R². Wybierz model i uzasadnij wybór.
+**Polecenie:** Dopasuj model logistyczny rozwiązania sprawy od czasu, grupy i kanału. Podaj ilorazy szans z przedziałami ufności i liczbę obserwacji, porównaj AIC tego modelu z modelem z ćwiczenia 5.5 i oblicz prawdopodobieństwo rozwiązania dla siatki profili: czas 30 minut, obie grupy, trzy kanały.
 
 ```{r c5-8}
 # Twój kod

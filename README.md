@@ -4,13 +4,15 @@ Materiały do ćwiczeń prowadzonych przez dr. Marka Deję. Sylabus: `UJ.WZZINS.
 
 Strona kursu: <https://marekdejauj.github.io/jezykr/>
 
-Program obejmuje **siedem spotkań po 90 minut i konsultacje projektu trwające 45 minut** — łącznie 15 godzin lekcyjnych. Spotkanie organizacyjne wprowadza projekt R, R Markdown z wynikiem w PDF, typy i struktury danych oraz agenta Microsoft 365 Copilot. Sześć spotkań roboczych realizuje pozostałe treści sylabusa; każde ma pięć ćwiczeń z prowadzącym i trzy zadania samodzielne, a ostatnie obejmuje pracę z GitHub Copilot CLI.
+Program obejmuje **siedem spotkań po 90 minut i konsultacje projektu trwające 45 minut** — łącznie 15 godzin lekcyjnych. Spotkanie organizacyjne wprowadza projekt R, R Markdown z wynikiem w PDF, typy i struktury danych oraz agenta Microsoft 365 Copilot. Sześć spotkań roboczych realizuje pozostałe treści sylabusa, a ostatnie obejmuje pracę z GitHub Copilot CLI.
 
 ## Praca na kursie
 
 Każde spotkanie zaczyna się tak samo: projekt `jezykr`, skrypt startowy `init-v2.R` i szablon pobrany funkcją `pobierz_szablon()`. Skrypt ładuje pakiety (brakujące doinstalowuje), odtwarza identyczne fikcyjne dane CSV i XLSX oraz tworzy obiekty `zgloszenia` i `zgloszenia_analiza`, dlatego żadne spotkanie nie zależy od plików z poprzednich zajęć. Po spotkaniu student oddaje **jeden plik PDF** poleceniem `oddaj_zadanie(numer)` ze skryptu startowego: funkcja sprawdza szablon, renderuje go w nowej sesji R i wysyła `nazwisko_imie_NN.pdf` do folderu spotkania na nc.uj.edu.pl (udostępnienie „File drop”, bez logowania, bez podglądu cudzych plików; ponowne oddanie dodaje nową wersję obok poprzedniej). Adresy siedmiu folderów są zapisane w `site/materialy/init-v2.R`; po wygaśnięciu udziału w Nextcloud funkcja informuje studenta, że folder nie przyjmuje już plików. Projekt grupowy zespół oddaje w MS Teams jako **PDF oraz `.Rmd`**; termin zostanie podany w MS Teams po ogłoszeniu harmonogramu sesji.
 
-W pracowni powinny być zainstalowane na stałe: R, RStudio lub Positron, pakiety `dplyr`, `tidyr`, `ggplot2`, `readxl`, `writexl`, `rmarkdown`, `dlookr`, `explore`, `ggstatsplot`, `effectsize`, `report` oraz TinyTeX. Domyślna instalacja TinyTeX nie zawiera czterech pakietów LaTeX używanych przez szablony; w pracowni należy je doinstalować raz: `tinytex::tlmgr_install(c("babel-polish", "hyphen-polish", "fvextra", "xurl"))`. Na komputerach z dostępem do internetu TinyTeX doinstaluje je sam przy pierwszym renderowaniu.
+Skrypt startowy przygotowuje całe środowisko: przy pierwszym uruchomieniu instaluje brakujące pakiety R razem z zależnościami (`dplyr`, `tidyr`, `ggplot2`, `readxl`, `writexl`, `rmarkdown`, `knitr`, `dlookr`, `explore`, `ggstatsplot`, `effectsize`, `report`, `parameters`, `tinytex`, `curl`, `rstudioapi`; zależności, m.in. `shiny`, dochodzą same), a w sesji interaktywnej bez LaTeX-a instaluje TinyTeX z pakietami `babel-polish`, `hyphen-polish`, `fvextra` i `xurl`. Funkcja `sprawdz_srodowisko()` wypisuje listę kontrolną. W pracowni te same elementy powinny być zainstalowane systemowo (poza profilem użytkownika), bo profile są czyszczone; wtedy skrypt niczego nie instaluje.
+
+Każde spotkanie robocze ma pięć ćwiczeń z prowadzącym i trzy zadania samodzielne. Zadania używają wyłącznie funkcji wprowadzonych w ćwiczeniach tego lub wcześniejszych spotkań.
 
 ## Aktualizacja strony
 

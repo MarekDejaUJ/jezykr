@@ -2,30 +2,125 @@
 # Uruchomienie w konsoli i w bloku start każdego szablonu:
 # source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R", local = TRUE)
 #
-# Skrypt:
-# 1. instaluje brakujące pakiety i ładuje pakiety podstawowe,
-# 2. odtwarza fikcyjne pliki w folderze dane/ (CSV, CSV z polskiego Excela, XLSX),
-# 3. tworzy folder wyniki/,
-# 4. tworzy obiekty zgloszenia (dane surowe) i zgloszenia_analiza (po czyszczeniu),
-# 5. udostępnia funkcję pobierz_szablon() do pobierania szablonu spotkania,
-# 6. udostępnia funkcję oddaj_zadanie() do sprawdzenia i oddania pracy po spotkaniu.
+# Skrypt przygotowuje całe środowisko pracy na kursie:
+# 1. instaluje brakujące pakiety R (wszystkie używane na kursie, razem z zależnościami)
+#    i ładuje pakiety podstawowe oraz wskazane w opcji jezykr.pakiety,
+# 2. w konsoli sprawdza, czy jest LaTeX do tworzenia PDF; gdy go nie ma, instaluje TinyTeX
+#    z pakietami potrzebnymi do polskich dokumentów,
+# 3. odtwarza fikcyjne pliki w folderze dane/ (CSV, CSV z polskiego Excela, XLSX),
+# 4. tworzy folder wyniki/,
+# 5. tworzy obiekty zgloszenia (dane surowe) i zgloszenia_analiza (po czyszczeniu),
+# 6. udostępnia funkcje pobierz_szablon(), oddaj_zadanie() i sprawdz_srodowisko().
+# Na komputerze, na którym wszystko jest już zainstalowane, kroki 1 i 2 trwają ułamek sekundy.
 
 adres_kursu <- "https://marekdejauj.github.io/jezykr/materialy/"
+
+# Pakiety używane na kursie. Instalowane są od razu wszystkie, żeby na spotkaniach 4 i 6
+# nie czekać na instalację; zależności (m.in. shiny dla dlookr i explore) dochodzą same.
+pakiety_podstawowe <- c("dplyr", "tidyr", "ggplot2", "readxl", "writexl", "rmarkdown", "knitr")
+pakiety_spotkan <- c("dlookr", "explore", "ggstatsplot", "effectsize", "report", "parameters")
+pakiety_narzedzia <- c("tinytex", "curl", "rstudioapi")
+pakiety_latex <- c("babel-polish", "hyphen-polish", "fvextra", "xurl")
+
+# Gdy biblioteka systemowa R jest tylko do odczytu (typowe w pracowni i na Windows),
+# pakiety trafiają do biblioteki użytkownika; tworzymy ją, zanim R zapyta o to w okienku.
+przygotuj_biblioteke <- function() {
+  if (file.access(.libPaths()[1], mode = 2) == 0L) return(invisible(.libPaths()[1]))
+  uzytkownika <- strsplit(Sys.getenv("R_LIBS_USER"), .Platform$path.sep, fixed = TRUE)[[1]][1]
+  if (is.na(uzytkownika) || !nzchar(uzytkownika)) return(invisible(.libPaths()[1]))
+  uzytkownika <- path.expand(uzytkownika)
+  if (!dir.exists(uzytkownika)) dir.create(uzytkownika, recursive = TRUE, showWarnings = FALSE)
+  .libPaths(c(uzytkownika, .libPaths()))
+  invisible(uzytkownika)
+}
 
 pakiety_kursu <- function(nazwy) {
   brakujace <- setdiff(nazwy, rownames(installed.packages()))
   if (length(brakujace) > 0L) {
-    message("Instaluję brakujące pakiety: ", paste(brakujace, collapse = ", "))
+    przygotuj_biblioteke()
+    message("Instaluję brakujące pakiety R (", length(brakujace), "): ",
+            paste(brakujace, collapse = ", "),
+            "\nRazem z zależnościami może to potrwać kilka minut; wykonuje się tylko raz.")
     typ_pakietu <- if (.Platform$OS.type == "windows") "binary" else getOption("pkgType")
     install.packages(brakujace, repos = "https://cloud.r-project.org",
                      type = typ_pakietu, quiet = TRUE)
   }
-  nadal_brak <- nazwy[!vapply(nazwy, requireNamespace, logical(1), quietly = TRUE)]
+  # system.file() sprawdza obecność pakietu bez ładowania go (bez komunikatów startowych).
+  nadal_brak <- nazwy[!nzchar(vapply(nazwy, function(n) system.file(package = n), character(1)))]
   if (length(nadal_brak) > 0L) {
     stop("Nie udało się zainstalować: ", paste(nadal_brak, collapse = ", "),
          ". Uruchom nową sesję R, sprawdź internet i uprawnienia do biblioteki R.")
   }
   invisible(nazwy)
+}
+
+# LaTeX jest potrzebny do PDF. Instalacja TinyTeX wykonuje się tylko w konsoli (nie podczas
+# renderowania), raz na komputerze; pakiety LaTeX dla polskich dokumentów są dodawane od razu.
+latex_dostepny <- function() {
+  nzchar(Sys.which("xelatex")) || nzchar(tinytex::tinytex_root(error = FALSE))
+}
+
+przygotuj_latex <- function() {
+  if (!interactive()) return(invisible(latex_dostepny()))
+  if (!latex_dostepny()) {
+    message("Nie znalazłem LaTeX-a do tworzenia PDF. Instaluję TinyTeX (ok. 150 MB); ",
+            "to jednorazowe i trwa zwykle 2-5 minut...")
+    wynik <- tryCatch({
+      tinytex::install_tinytex(extra_packages = pakiety_latex)
+      TRUE
+    }, error = function(e) {
+      message("Instalacja TinyTeX nie powiodła się: ", conditionMessage(e),
+              "\nSpróbuj ponownie z dostępem do internetu albo uruchom w konsoli: ",
+              "tinytex::install_tinytex()")
+      FALSE
+    })
+    if (!wynik) return(invisible(FALSE))
+    message("TinyTeX zainstalowany. Jeżeli pierwsze renderowanie PDF nie zadziała, zrestartuj RStudio.")
+  }
+  if (tinytex::is_tinytex()) {
+    brak <- tryCatch(pakiety_latex[!tinytex::check_installed(pakiety_latex)],
+                     error = function(e) character())
+    if (length(brak) > 0L) {
+      message("Doinstalowuję pakiety LaTeX: ", paste(brak, collapse = ", "))
+      tryCatch(tinytex::tlmgr_install(brak), error = function(e) {
+        message("Nie udało się doinstalować pakietów LaTeX: ", conditionMessage(e))
+      })
+    }
+  }
+  invisible(latex_dostepny())
+}
+
+# Lista kontrolna środowiska: do pokazania prowadzącemu albo informatykowi, gdy coś nie działa.
+sprawdz_srodowisko <- function() {
+  wszystkie <- c(pakiety_podstawowe, pakiety_spotkan, pakiety_narzedzia)
+  brak_pakietow <- setdiff(wszystkie, rownames(installed.packages()))
+  tinytex_jest <- tinytex::is_tinytex()
+  brak_latex <- if (tinytex_jest) {
+    tryCatch(pakiety_latex[!tinytex::check_installed(pakiety_latex)], error = function(e) pakiety_latex)
+  } else character()
+  pandoc <- rmarkdown::pandoc_available("2.0")
+  ide <- if (nzchar(Sys.getenv("RSTUDIO"))) "RStudio" else if (nzchar(Sys.getenv("POSITRON"))) "Positron" else "inny"
+  internet <- tryCatch({
+    con <- url(paste0(adres_kursu, "init-v2.R")); open(con, "r"); close(con); TRUE
+  }, error = function(e) FALSE, warning = function(w) FALSE)
+  wiersze <- data.frame(
+    element = c("R", "IDE", "Pandoc (RStudio/Positron)", "Pakiety R kursu", "LaTeX (xelatex)",
+                "Pakiety LaTeX dla polskich dokumentów", "Biblioteka pakietów z prawem zapisu",
+                "Połączenie ze stroną kursu"),
+    stan = c(
+      paste(R.version$major, R.version$minor, sep = "."),
+      ide,
+      if (pandoc) paste("OK,", as.character(rmarkdown::pandoc_version())) else "BRAK",
+      if (length(brak_pakietow) == 0L) "OK" else paste("BRAK:", paste(brak_pakietow, collapse = ", ")),
+      if (latex_dostepny()) paste("OK", if (tinytex_jest) "(TinyTeX)" else "(inna dystrybucja)") else "BRAK",
+      if (!tinytex_jest) "nie dotyczy" else if (length(brak_latex) == 0L) "OK" else paste("BRAK:", paste(brak_latex, collapse = ", ")),
+      if (file.access(.libPaths()[1], mode = 2) == 0L) .libPaths()[1] else paste("tylko odczyt:", .libPaths()[1]),
+      if (internet) "OK" else "BRAK"
+    ),
+    stringsAsFactors = FALSE
+  )
+  print(wiersze, row.names = FALSE, right = FALSE)
+  invisible(wiersze)
 }
 
 pobierz_szablon <- function(numer, plik = NULL, nadpisz = FALSE) {
@@ -45,11 +140,11 @@ pobierz_szablon <- function(numer, plik = NULL, nadpisz = FALSE) {
   invisible(plik)
 }
 
-pakiety_podstawowe <- c("dplyr", "tidyr", "ggplot2", "readxl", "writexl", "rmarkdown")
 pakiety_dodatkowe <- getOption("jezykr.pakiety", character())
-pakiety_kursu(unique(c(pakiety_podstawowe, pakiety_dodatkowe)))
-# Pakiety dodatkowe też są ładowane, bo część z nich (np. dlookr) konfiguruje wykresy dopiero przy załadowaniu.
-invisible(lapply(unique(c(pakiety_dodatkowe, pakiety_podstawowe)), function(nazwa) {
+pakiety_kursu(unique(c(pakiety_podstawowe, pakiety_spotkan, pakiety_narzedzia, pakiety_dodatkowe)))
+# Ładowane są pakiety podstawowe i wskazane w opcji jezykr.pakiety; te drugie też, bo część z nich
+# (np. dlookr) konfiguruje wykresy dopiero przy załadowaniu.
+invisible(lapply(unique(c(pakiety_dodatkowe, setdiff(pakiety_podstawowe, "knitr"))), function(nazwa) {
   suppressPackageStartupMessages(library(nazwa, character.only = TRUE))
 }))
 
@@ -341,7 +436,8 @@ oddaj_zadanie <- local({
     }
     if (!wynik$ok) {
       message("Nie powstał PDF, prawdopodobnie z powodu LaTeX-a:\n\n", fragment_logu(wynik$log), "\n\n",
-              "Jeśli nie masz TinyTeX, zainstaluj go: tinytex::install_tinytex() i zrestartuj RStudio.\n",
+              "Sprawdź środowisko poleceniem sprawdz_srodowisko(). Jeśli brakuje LaTeX-a, uruchom ponownie ",
+              "skrypt startowy w konsoli (zainstaluje TinyTeX) i zrestartuj RStudio.\n",
               "Teraz przygotowuję wersję HTML, aby praca mogła zostać oddana.")
       wynik_pdf <- wynik
       wynik <- renderuj(plik, paste0(nazwa, ".html"), "html_document")
@@ -382,5 +478,8 @@ oddaj_zadanie <- local({
   }
 })
 
+przygotuj_latex()
+
 message("Dane gotowe: ", nrow(zgloszenia), " fikcyjnych zgłoszeń w folderze ",
-        normalizePath("dane", winslash = "/", mustWork = TRUE))
+        normalizePath("dane", winslash = "/", mustWork = TRUE),
+        if (interactive() && !latex_dostepny()) "\nUwaga: bez LaTeX-a nie powstanie PDF; oddaj_zadanie() wyśle wtedy wersję HTML.")

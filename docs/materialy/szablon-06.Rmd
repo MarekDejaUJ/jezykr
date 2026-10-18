@@ -84,7 +84,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-6.html>. Kod ze stro
 
 ## Zadanie 6.7. Mini-raport z dziennikiem użycia SI
 
-**Polecenie:** Napisz akapit (do 150 słów) dla kierownika obsługi: czy pilotażowa procedura B skraca czas obsługi i zwiększa odsetek spraw rozwiązanych przy pierwszym kontakcie. Podaj liczby z niepewnością i wielkością efektu z ćwiczeń 5.1, 5.2 i 6.3 oraz jedno ograniczenie. Dołącz tabelę dziennika użycia SI.
+**Polecenie:** Napisz akapit (do 150 słów) dla kierownika obsługi: czy pilotażowa procedura B skraca czas obsługi i zwiększa odsetek spraw rozwiązanych przy pierwszym kontakcie. Liczby oblicz w bloku kodu: różnicę czasu z przedziałem ufności, d Cohena z etykietą według wskazanej konwencji, odsetki spraw rozwiązanych w obu grupach i iloraz szans z przedziałem. Dodaj jedno ograniczenie i tabelę dziennika użycia SI.
 
 ```{r c6-7}
 # Twój kod

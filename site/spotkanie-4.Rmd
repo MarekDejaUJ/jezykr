@@ -2,12 +2,12 @@
 title: "Spotkanie 4: eksploracyjna analiza danych"
 ---
 
-<div class="hero"><h2>Spotkanie 4 z 6 · 90 minut · treść programowa 5</h2><p>Zdiagnozujesz jakość danych pakietem dlookr, opiszesz rozkłady i wartości odstające, przejrzysz zmienne pakietem explore, porównasz grupy wykresami ggstatsplot i wygenerujesz raport automatyczny, którego wyniki sprawdzisz niezależnie w R.</p></div>
+<div class="hero"><h2>Spotkanie 4 z 6 · 90 minut · treść programowa 5</h2><p>Zdiagnozujesz jakość danych pakietem dlookr, opiszesz rozkłady i wartości odstające, przejrzysz zmienne pakietem explore, porównasz grupy i zależności wykresami ggstatsplot i wygenerujesz raport automatyczny, a potem powtórzysz te kroki samodzielnie dla innych zmiennych.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start i pakiety · 12 min ćwiczenie 4.1 · 12 min ćwiczenie 4.2 · 10 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4 · 10 min ćwiczenie 4.5 · 25 min zadania 4.6–4.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 5 min start i pakiety · 10 min ćwiczenie 4.1 · 10 min ćwiczenie 4.2 · 8 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4 · 6 min ćwiczenie 4.5 · 30 min zadania 4.6–4.8 · 5 min oddanie. Zadania używają wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to, czego nie skończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
-**Start:** na tym spotkaniu skrypt startowy ładuje trzy dodatkowe pakiety. Przed jego uruchomieniem wskaż je opcją `jezykr.pakiety`; szablon spotkania 4 robi to w bloku `start`. Na własnym komputerze pierwsza instalacja może potrwać kilka minut, dlatego uruchom skrypt przed zajęciami.
+**Start:** na tym spotkaniu skrypt startowy ładuje trzy dodatkowe pakiety. Przed jego uruchomieniem wskaż je opcją `jezykr.pakiety`; szablon spotkania 4 robi to w bloku `start`. W pracowni pakiety są zainstalowane; na własnym komputerze pierwsza instalacja może potrwać kilka minut, dlatego uruchom skrypt przed zajęciami.
 :::
 
 ~~~{.r .bez-uruchamiania}
@@ -115,21 +115,21 @@ explore::explore(zgloszenia_analiza, kanal, target = rozwiazano)
 
 W wykresie z argumentem `target` odsetki liczone są w obrębie kategorii zmiennej docelowej: słupek „Online” przy „Nie” pokazuje, jaka część nierozwiązanych spraw pochodzi z kanału Online, a nie odsetek nierozwiązanych spraw w tym kanale.
 
-**Sprawdź i zmień.** Porównaj wynik `explore::describe_all()` z `dlookr::diagnose()`: które informacje się powtarzają, a które są tylko w jednym narzędziu? Narysuj `explore::explore(zgloszenia_analiza, koszt, target = kanal)`. Czy wykres gęstości czasu w grupach A i B sugeruje różnicę, którą warto sprawdzić testem w ćwiczeniu 4.4?
+**Sprawdź i zmień.** Porównaj wynik `explore::describe_all()` z `dlookr::diagnose()`: które informacje się powtarzają, a które są tylko w jednym narzędziu? Narysuj `explore::explore(zgloszenia_analiza, koszt, target = kanal)`.
 
 ::: {.criteria}
 **Kryteria sukcesu:** opis czasu podaje 2 braki, zakres 3–75 minut i medianę 35; opis kanału podaje 104, 81 i 55 zgłoszeń; w szablonie zapisujesz jedną hipotezę do sprawdzenia, wynikającą z wykresów.
 :::
 
-### Ćwiczenie 4.4. Porównanie grup z ggstatsplot
+### Ćwiczenie 4.4. Porównania i zależności z ggstatsplot
 
 ::: {.brief}
-**Cel:** Odczytasz wynik testu z podpisu wykresu i sprawdzisz go klasycznym testem w R.
+**Cel:** Odczytasz wynik testu z podpisu wykresu, pobierzesz go funkcją `extract_stats()` i sprawdzisz klasycznym testem w R.
 
-**Polecenie:** Narysuj `ggbetweenstats()` dla czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu statystykę testu, wartość p, wielkość efektu z przedziałem ufności i liczność. Pobierz te same liczby funkcją `extract_stats()` i porównaj je z wynikiem `t.test()`.
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu statystykę testu, wartość p, wielkość efektu z przedziałem ufności i liczność, pobierz te liczby funkcją `extract_stats()` i porównaj z `t.test()`. Następnie narysuj `ggbarstats()` dla rozwiązania sprawy w kanałach i `ggscatterstats()` dla czasu i kosztu.
 :::
 
-`ggbetweenstats()` łączy wykres punktów, pudełek i skrzypiec z testem różnic. W podpisie (ang. *subtitle*) znajdziesz kolejno: statystykę testu z liczbą stopni swobody, wartość p (zaokrągloną do dwóch miejsc), wielkość efektu z 95% przedziałem ufności i liczbę obserwacji. Wariant `"parametric"` dla dwóch grup to test t Welcha, dla trzech i więcej grup — ANOVA Welcha; `"nonparametric"` to test Manna–Whitneya albo Kruskala–Wallisa. Braki w zmiennej `y` usuń przed wykresem, aby liczność była jawna.
+`ggbetweenstats()` łączy wykres punktów, pudełek i skrzypiec z testem różnic; `ggbarstats()` pokazuje udziały w kategoriach z testem chi-kwadrat, a `ggscatterstats()` wykres punktowy z testem korelacji. W podpisie (ang. *subtitle*) znajdziesz kolejno: statystykę testu z liczbą stopni swobody, wartość p (zaokrągloną do dwóch miejsc), wielkość efektu z 95% przedziałem ufności i liczbę obserwacji. Wariant `"parametric"` dla dwóch grup to test t Welcha, dla trzech i więcej grup — ANOVA Welcha; `"nonparametric"` to test Manna–Whitneya albo Kruskala–Wallisa. Braki w zmiennej `y` usuń przed wykresem, aby liczność była jawna. Testy z podpisów poznasz dokładniej na spotkaniu 5; dziś czytasz je jako opis siły i niepewności różnicy.
 
 ~~~r
 dane_test <- zgloszenia_analiza |> filter(!is.na(czas_min))
@@ -142,24 +142,30 @@ wykres_ab
 ggstatsplot::extract_stats(wykres_ab)$subtitle_data |>
   select(statistic, df.error, p.value, effectsize, estimate, conf.low, conf.high)
 t.test(czas_min ~ grupa, data = dane_test)
+wykres_kanal <- ggstatsplot::ggbarstats(data = zgloszenia_analiza,
+                                        x = rozwiazano, y = kanal)
+wykres_kanal
+ggstatsplot::extract_stats(wykres_kanal)$subtitle_data |>
+  select(statistic, df, p.value, effectsize, estimate)
+ggstatsplot::ggscatterstats(data = zgloszenia_analiza, x = czas_min, y = koszt,
+                            type = "parametric", marginal = FALSE,
+                            xlab = "Czas [min]", ylab = "Koszt [zł]")
 ~~~
 
-| Argument `ggbetweenstats()` | Znaczenie |
+| Funkcja lub argument | Znaczenie |
 |:-------------------------|:-------------------------------------------------------|
-| `data`, `x`, `y` | ramka, zmienna grupująca, zmienna liczbowa (nazwy bez cudzysłowów) |
-| `type` | `"parametric"`, `"nonparametric"`, `"robust"` albo `"bayes"` |
-| `pairwise.display` | przy 3+ grupach: `"significant"`, `"non-significant"`, `"all"` albo `"none"` |
-| `p.adjust.method` | poprawka na wielokrotne porównania, np. `"holm"`, `"bonferroni"`, `"none"` |
-| `centrality.plotting`, `centrality.type` | czy i jaką miarę tendencji centralnej zaznaczyć |
-| `var.equal` | `FALSE` (Welch) albo `TRUE` (klasyczny test t) |
-| `xlab`, `ylab`, `title`, `caption` | opisy wykresu |
-| `results.subtitle` | `FALSE` wyłącza podpis z testem |
-| `bf.message` | `FALSE` wyłącza podpis z czynnikiem Bayesa (BF01) pod wykresem |
+| `ggbetweenstats(data, x, y, type)` | grupa `x`, zmienna liczbowa `y`; `type = "parametric"`, `"nonparametric"`, `"robust"` albo `"bayes"` |
+| `pairwise.display`, `p.adjust.method` | przy 3+ grupach: które porównania parami pokazać (`"significant"`, `"all"`, `"none"`) i poprawka, np. `"holm"` |
+| `ggbarstats(data, x, y)` | `x` — zmienna wynikowa, np. `rozwiazano`; `y` — grupy, np. `kanal`; test chi-kwadrat i V Craméra |
+| `ggscatterstats(data, x, y, type, marginal)` | dwie zmienne liczbowe; `type = "nonparametric"` daje korelację Spearmana; `marginal = FALSE` wyłącza histogramy brzegowe |
+| `ggcorrmat(data, cor.vars)` | macierz korelacji wybranych kolumn, np. `cor.vars = c(czas_min, ocena, koszt)` |
+| `extract_stats(wykres)` | lista z tabelami `subtitle_data` i `pairwise_comparisons_data` |
+| `xlab`, `ylab`, `title`, `caption`, `results.subtitle`, `bf.message` | opisy; `FALSE` wyłącza podpis z testem albo czynnik Bayesa |
 
-**Sprawdź i zmień.** Zmień `type` na `"nonparametric"` i porównaj wartość p oraz rodzaj wielkości efektu. Grupy A i B przydzielono losowo: co to zmienia w interpretacji różnicy w porównaniu z różnicą między kanałami, których użytkownicy wybierają sami?
+**Sprawdź i zmień.** Zmień `type` na `"nonparametric"` w `ggbetweenstats()` i porównaj wartość p oraz rodzaj wielkości efektu. Narysuj `ggstatsplot::ggcorrmat(zgloszenia_analiza, cor.vars = c(czas_min, ocena, koszt))`. Grupy A i B przydzielono losowo: co to zmienia w interpretacji różnicy w porównaniu z różnicą między kanałami, których użytkownicy wybierają sami?
 
 ::: {.criteria}
-**Kryteria sukcesu:** grupy liczą 121 i 117 zgłoszeń z czasem (oba braki czasu są w grupie B); test Welcha daje t ≈ 1,98, p ≈ 0,049, a różnica średnich wynosi 3,5 minuty (36,4 wobec 32,9); g Hedgesa ≈ 0,26 z przedziałem od około 0,00 do 0,51; liczby z wykresu, `extract_stats()` i `t.test()` są zgodne. Opis wskazuje, że przedział efektu sięga prawie zera.
+**Kryteria sukcesu:** grupy liczą 121 i 117 zgłoszeń z czasem; test Welcha daje t ≈ 1,98, p ≈ 0,049, a różnica średnich wynosi 3,5 minuty (36,4 wobec 32,9); g Hedgesa ≈ 0,26 z przedziałem od około 0,00 do 0,51; liczby z wykresu, `extract_stats()` i `t.test()` są zgodne; dla kanału i rozwiązania sprawy χ² = 2,81, p = 0,25; korelacja czasu i kosztu to 0,96 (n = 237).
 :::
 
 ### Ćwiczenie 4.5. Raport automatyczny
@@ -170,16 +176,13 @@ t.test(czas_min ~ grupa, data = dane_test)
 **Polecenie:** W konsoli wygeneruj raport `dlookr::eda_web_report()` do pliku `wyniki/eda.html` i otwórz go w przeglądarce. W szablonie pokaż kod w bloku z `eval=FALSE` i wypisz nazwy głównych sekcji raportu.
 :::
 
-Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu (renderowanie dokumentu wewnątrz renderowania innego dokumentu często kończy się błędem). Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną.
+Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu. Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną.
 
 ~~~{.r .bez-uruchamiania}
 dlookr::eda_web_report(zgloszenia_analiza, target = "grupa",
                        output_file = "eda.html",
                        output_dir = normalizePath("wyniki", winslash = "/"),
                        title = "Eksploracja zgłoszeń", browse = FALSE)
-dlookr::diagnose_web_report(zgloszenia, output_file = "diagnoza.html",
-                            output_dir = normalizePath("wyniki", winslash = "/"),
-                            browse = FALSE)
 explore::report(zgloszenia_analiza, output_file = "explore.html",
                 output_dir = normalizePath("wyniki", winslash = "/"))
 ~~~
@@ -190,9 +193,8 @@ explore::report(zgloszenia_analiza, output_file = "explore.html",
 | `output_file`, `output_dir` | nazwa pliku i pełna ścieżka folderu |
 | `browse` | `TRUE` otwiera raport od razu w przeglądarce |
 | `title`, `subtitle`, `author` | opisy strony tytułowej |
-| `sample_percent` | odsetek wierszy użytych w raporcie, przydatny przy bardzo dużych zbiorach |
 
-**Sprawdź i zmień.** Wygeneruj także `diagnose_web_report()` dla danych surowych i porównaj sekcję ostrzeżeń z wynikami ćwiczenia 4.1. Sprawdź rozmiar plików funkcją `file.size()`: dlaczego raporty HTML są tak duże i dlaczego nie oddajesz ich razem z pracą?
+**Sprawdź i zmień.** Sprawdź rozmiar plików funkcją `file.size()`: dlaczego raporty HTML są tak duże i dlaczego nie oddajesz ich razem z pracą?
 
 ::: {.criteria}
 **Kryteria sukcesu:** plik `wyniki/eda.html` powstaje i otwiera się w przeglądarce; szablon zawiera kod generowania w bloku z `eval=FALSE` i listę sekcji raportu.
@@ -200,18 +202,20 @@ explore::report(zgloszenia_analiza, output_file = "explore.html",
 
 ## Challenge — zadania samodzielne
 
-### Zadanie 4.6. Audyt raportu EDA
+W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 4.1–4.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`.
+
+### Zadanie 4.6. Diagnoza kosztu i audyt raportu
 
 ::: {.brief}
-**Cel:** Ocenisz, co raport automatyczny potwierdza, a czego nie wyjaśnia.
+**Cel:** Samodzielnie zdiagnozujesz jedną zmienną liczbową i sprawdzisz dwie liczby z raportu automatycznego.
 
-**Polecenie:** Wybierz z raportu `wyniki/eda.html` dwie liczby lub obserwacje i sprawdź każdą niezależnym kodem R (np. `mean()`, `table()`, `cor()`). Wskaż jedną rzecz, której raport nie wyjaśnia, i jedną decyzję, której nie może podjąć za analityka.
+**Polecenie:** Dla kolumny `koszt` w `zgloszenia_analiza` uruchom `diagnose_outlier()`, `describe()` w podziale na grupy procedury, `normality()` oraz `plot_normality()`; dla `typ_sprawy` uruchom `diagnose_category()`. Następnie wybierz z raportu `wyniki/eda.html` dwie liczby dotyczące kosztu lub typu sprawy i sprawdź je własnym kodem (`mean()`, `median()`, `table()` albo `cor()`). Wskaż jedną rzecz, której raport nie wyjaśnia.
 :::
 
-W szablonie dla każdej sprawdzanej liczby podaj: sekcję raportu, wartość z raportu, kod kontrolny i jego wynik. Przykładem rzeczy, której raport nie wyjaśnia, jest pochodzenie wartości odstających albo przyczyna różnic między grupami. Nie dołączaj pliku HTML do zadania.
+Funkcje: `dlookr::diagnose_outlier()`, `dlookr::describe()`, `group_by()`, `dlookr::normality()`, `dlookr::plot_normality()`, `dlookr::diagnose_category()`, `mean()`, `median()`, `table()`, `cor()`. Dla każdej sprawdzanej liczby podaj sekcję raportu, wartość z raportu, kod kontrolny i jego wynik.
 
 ::: {.criteria}
-**Kryteria sukcesu:** dwie liczby z raportu są zgodne z Twoimi obliczeniami, a kod kontrolny działa w PDF; komentarz trafnie wskazuje ograniczenie raportu i decyzję należącą do analityka.
+**Kryteria sukcesu:** koszt nie ma wartości odstających według `diagnose_outlier()`; średni koszt to 74,3 zł w grupie A (n = 120, 1 brak) i 68,7 zł w grupie B (n = 119); test Shapiro–Wilka nie odrzuca normalności kosztu (p = 0,26); typy spraw mają udziały 55,4%, 29,2% i 15,4%; dwie liczby z raportu zgadzają się z Twoimi obliczeniami, a komentarz wskazuje ograniczenie raportu.
 :::
 
 ### Zadanie 4.7. Porównanie trzech kanałów
@@ -219,33 +223,27 @@ W szablonie dla każdej sprawdzanej liczby podaj: sekcję raportu, wartość z r
 ::: {.brief}
 **Cel:** Samodzielnie przeprowadzisz porównanie więcej niż dwóch grup i odczytasz porównania parami.
 
-**Polecenie:** Narysuj `ggbetweenstats()` dla czasu według kanału w wariancie nieparametrycznym z porównaniami parami (`pairwise.display = "significant"`, `p.adjust.method = "holm"`). Sprawdź mediany i liczności w `group_by()` i `summarise()`, a następnie opisz, które pary kanałów się różnią.
+**Polecenie:** Narysuj `ggbetweenstats()` dla czasu według kanału w wariancie nieparametrycznym z porównaniami parami (`pairwise.display = "significant"`, `p.adjust.method = "holm"`). Pobierz tabelę porównań funkcją `extract_stats()`, sprawdź mediany i liczności kanałów przez `group_by()` i `summarise()`, a następnie opisz, które pary kanałów się różnią.
 :::
 
-Pobierz tabelę porównań parami funkcją `ggstatsplot::extract_stats(wykres)$pairwise_comparisons_data`. Wyjaśnij, po co stosuje się poprawkę Holma przy trzech porównaniach i dlaczego różnica między kanałami nie musi wynikać z samego kanału.
+Funkcje: `filter()`, `ggstatsplot::ggbetweenstats()`, `ggstatsplot::extract_stats()` z elementem `pairwise_comparisons_data`, `group_by()`, `summarise()` z `median()` i `n()`. Wyjaśnij, po co stosuje się poprawkę Holma przy trzech porównaniach i dlaczego różnica między kanałami nie musi wynikać z samego kanału.
 
 ::: {.criteria}
 **Kryteria sukcesu:** test Kruskala–Wallisa wskazuje różnicę między kanałami (p < 0,001); istotne są porównania Telefonu z pozostałymi kanałami, a Online i Na miejscu nie różnią się (p ≈ 0,71); mediany z własnego zestawienia (32, 43 i 29 minut) zgadzają się z wykresem.
 :::
 
-### Zadanie 4.8. Zależności między zmiennymi
+### Zadanie 4.8. Zależności dla typu sprawy i oceny
 
 ::: {.brief}
-**Cel:** Zbadasz zależności liczbowe i kategorialne narzędziami automatycznymi i ocenisz siłę dowodu.
+**Cel:** Samodzielnie zbadasz zależność kategorialną i liczbową narzędziami automatycznymi i ocenisz siłę dowodu.
 
-**Polecenie:** Narysuj macierz korelacji czasu, oceny i kosztu (`ggcorrmat()`), wykres punktowy czasu i oceny z testem Spearmana (`ggscatterstats()`) oraz wykres rozwiązania sprawy w kanałach (`ggbarstats()`). Dla każdego wykresu zapisz jedną liczbę i jedno zdanie interpretacji.
+**Polecenie:** Narysuj `ggbarstats()` dla rozwiązania sprawy według typu sprawy oraz `ggscatterstats()` dla czasu i oceny z korelacją Spearmana. Z obu wykresów pobierz statystyki funkcją `extract_stats()` i sprawdź je niezależnie: odsetki rozwiązanych spraw przez `prop.table(table(...))`, a korelację przez `cor(..., method = "spearman")`. Dla każdego wykresu zapisz jedną liczbę i jedno zdanie interpretacji.
 :::
 
-| Funkcja | Najważniejsze argumenty |
-|:----------------------------|:----------------------------------------------------|
-| `ggcorrmat(data, cor.vars, type)` | `cor.vars = c(czas_min, ocena, koszt)`; `type = "parametric"` lub `"nonparametric"` |
-| `ggscatterstats(data, x, y, type, marginal)` | `marginal = FALSE` wyłącza histogramy brzegowe |
-| `ggbarstats(data, x, y)` | `x` — zmienna wynikowa, np. `rozwiazano`; `y` — grupy, np. `kanal` |
-
-W wykresie `ggbarstats()` porównaj wynik testu z różnicami odsetków z ćwiczenia 3.4. Wyjaśnij, dlaczego różnica 77,9% wobec 87,3% może być zgodna z brakiem istotnej zależności.
+Funkcje: `ggstatsplot::ggbarstats()`, `ggstatsplot::ggscatterstats()`, `ggstatsplot::extract_stats()`, `table()`, `prop.table()`, `round()`, `cor()`. Wyjaśnij, dlaczego różnica odsetków 77,1% wobec 91,9% może być zgodna z brakiem istotnej zależności.
 
 ::: {.criteria}
-**Kryteria sukcesu:** korelacja Spearmana czasu i oceny wynosi około −0,51 (n = 235); test chi-kwadrat dla kanału i rozwiązania sprawy nie wskazuje istotnej zależności (p ≈ 0,25; skorygowane V Craméra ≈ 0,06); interpretacja odróżnia siłę związku od jego istotności i nie przypisuje przyczyn.
+**Kryteria sukcesu:** dla typu sprawy i rozwiązania χ² = 3,66, df = 2, p = 0,16, a odsetki rozwiązanych wynoszą 82,7%, 77,1% i 91,9%; korelacja Spearmana czasu i oceny wynosi −0,51 (n = 235) w obu obliczeniach; interpretacja odróżnia siłę związku od jego istotności i nie przypisuje przyczyn.
 :::
 
 ## Oddanie

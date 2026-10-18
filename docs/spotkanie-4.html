@@ -13,7 +13,7 @@
 
 <title>Spotkanie 4: eksploracyjna analiza danych</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -395,23 +395,25 @@ Spotkanie 4 z 6 · 90 minut · treść programowa 5
 <p>
 Zdiagnozujesz jakość danych pakietem dlookr, opiszesz rozkłady i
 wartości odstające, przejrzysz zmienne pakietem explore, porównasz grupy
-wykresami ggstatsplot i wygenerujesz raport automatyczny, którego wyniki
-sprawdzisz niezależnie w R.
+i zależności wykresami ggstatsplot i wygenerujesz raport automatyczny, a
+potem powtórzysz te kroki samodzielnie dla innych zmiennych.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 5 min start i pakiety · 12 min ćwiczenie
-4.1 · 12 min ćwiczenie 4.2 · 10 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4
-· 10 min ćwiczenie 4.5 · 25 min zadania 4.6–4.8 · 2 min oddanie.
-Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed
-terminem podanym przez prowadzącego.
+<strong>Plan 90 minut:</strong> 5 min start i pakiety · 10 min ćwiczenie
+4.1 · 10 min ćwiczenie 4.2 · 8 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4
+· 6 min ćwiczenie 4.5 · 30 min zadania 4.6–4.8 · 5 min oddanie. Zadania
+używają wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to,
+czego nie skończysz na zajęciach, dokończ i oddaj przed terminem podanym
+przez prowadzącego.
 </div>
 <div class="start">
 <p><strong>Start:</strong> na tym spotkaniu skrypt startowy ładuje trzy
 dodatkowe pakiety. Przed jego uruchomieniem wskaż je opcją
 <code>jezykr.pakiety</code>; szablon spotkania 4 robi to w bloku
-<code>start</code>. Na własnym komputerze pierwsza instalacja może
-potrwać kilka minut, dlatego uruchom skrypt przed zajęciami.</p>
+<code>start</code>. W pracowni pakiety są zainstalowane; na własnym
+komputerze pierwsza instalacja może potrwać kilka minut, dlatego uruchom
+skrypt przed zajęciami.</p>
 </div>
 <pre class="r bez-uruchamiania"><code>options(jezykr.pakiety = c(&quot;dlookr&quot;, &quot;explore&quot;, &quot;ggstatsplot&quot;))
 source(&quot;https://marekdejauj.github.io/jezykr/materialy/init-v2.R&quot;)
@@ -673,9 +675,7 @@ nie odsetek nierozwiązanych spraw w tym kanale.</p>
 <code>explore::describe_all()</code> z <code>dlookr::diagnose()</code>:
 które informacje się powtarzają, a które są tylko w jednym narzędziu?
 Narysuj
-<code>explore::explore(zgloszenia_analiza, koszt, target = kanal)</code>.
-Czy wykres gęstości czasu w grupach A i B sugeruje różnicę, którą warto
-sprawdzić testem w ćwiczeniu 4.4?</p>
+<code>explore::explore(zgloszenia_analiza, koszt, target = kanal)</code>.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> opis czasu podaje 2 braki, zakres
 3–75 minut i medianę 35; opis kanału podaje 104, 81 i 55 zgłoszeń; w
@@ -683,27 +683,33 @@ szablonie zapisujesz jedną hipotezę do sprawdzenia, wynikającą z
 wykresów.</p>
 </div>
 </div>
-<div id="ćwiczenie-4.4.-porównanie-grup-z-ggstatsplot"
+<div id="ćwiczenie-4.4.-porównania-i-zależności-z-ggstatsplot"
 class="section level3">
-<h3>Ćwiczenie 4.4. Porównanie grup z ggstatsplot</h3>
+<h3>Ćwiczenie 4.4. Porównania i zależności z ggstatsplot</h3>
 <div class="brief">
-<p><strong>Cel:</strong> Odczytasz wynik testu z podpisu wykresu i
-sprawdzisz go klasycznym testem w R.</p>
+<p><strong>Cel:</strong> Odczytasz wynik testu z podpisu wykresu,
+pobierzesz go funkcją <code>extract_stats()</code> i sprawdzisz
+klasycznym testem w R.</p>
 <p><strong>Polecenie:</strong> Narysuj <code>ggbetweenstats()</code> dla
 czasu w grupach A i B w wariancie parametrycznym, odczytaj z podpisu
 statystykę testu, wartość p, wielkość efektu z przedziałem ufności i
-liczność. Pobierz te same liczby funkcją <code>extract_stats()</code> i
-porównaj je z wynikiem <code>t.test()</code>.</p>
+liczność, pobierz te liczby funkcją <code>extract_stats()</code> i
+porównaj z <code>t.test()</code>. Następnie narysuj
+<code>ggbarstats()</code> dla rozwiązania sprawy w kanałach i
+<code>ggscatterstats()</code> dla czasu i kosztu.</p>
 </div>
 <p><code>ggbetweenstats()</code> łączy wykres punktów, pudełek i
-skrzypiec z testem różnic. W podpisie (ang. <em>subtitle</em>)
+skrzypiec z testem różnic; <code>ggbarstats()</code> pokazuje udziały w
+kategoriach z testem chi-kwadrat, a <code>ggscatterstats()</code> wykres
+punktowy z testem korelacji. W podpisie (ang. <em>subtitle</em>)
 znajdziesz kolejno: statystykę testu z liczbą stopni swobody, wartość p
 (zaokrągloną do dwóch miejsc), wielkość efektu z 95% przedziałem ufności
 i liczbę obserwacji. Wariant <code>"parametric"</code> dla dwóch grup to
 test t Welcha, dla trzech i więcej grup — ANOVA Welcha;
 <code>"nonparametric"</code> to test Manna–Whitneya albo
 Kruskala–Wallisa. Braki w zmiennej <code>y</code> usuń przed wykresem,
-aby liczność była jawna.</p>
+aby liczność była jawna. Testy z podpisów poznasz dokładniej na
+spotkaniu 5; dziś czytasz je jako opis siły i niepewności różnicy.</p>
 <pre class="r"><code>dane_test &lt;- zgloszenia_analiza |&gt; filter(!is.na(czas_min))
 table(dane_test$grupa)
 wykres_ab &lt;- ggstatsplot::ggbetweenstats(
@@ -713,7 +719,15 @@ wykres_ab &lt;- ggstatsplot::ggbetweenstats(
 wykres_ab
 ggstatsplot::extract_stats(wykres_ab)$subtitle_data |&gt;
   select(statistic, df.error, p.value, effectsize, estimate, conf.low, conf.high)
-t.test(czas_min ~ grupa, data = dane_test)</code></pre>
+t.test(czas_min ~ grupa, data = dane_test)
+wykres_kanal &lt;- ggstatsplot::ggbarstats(data = zgloszenia_analiza,
+                                        x = rozwiazano, y = kanal)
+wykres_kanal
+ggstatsplot::extract_stats(wykres_kanal)$subtitle_data |&gt;
+  select(statistic, df, p.value, effectsize, estimate)
+ggstatsplot::ggscatterstats(data = zgloszenia_analiza, x = czas_min, y = koszt,
+                            type = &quot;parametric&quot;, marginal = FALSE,
+                            xlab = &quot;Czas [min]&quot;, ylab = &quot;Koszt [zł]&quot;)</code></pre>
 <table>
 <colgroup>
 <col width="31%" />
@@ -721,71 +735,70 @@ t.test(czas_min ~ grupa, data = dane_test)</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Argument <code>ggbetweenstats()</code></th>
+<th align="left">Funkcja lub argument</th>
 <th align="left">Znaczenie</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>data</code>, <code>x</code>, <code>y</code></td>
-<td align="left">ramka, zmienna grupująca, zmienna liczbowa (nazwy bez
-cudzysłowów)</td>
+<td align="left"><code>ggbetweenstats(data, x, y, type)</code></td>
+<td align="left">grupa <code>x</code>, zmienna liczbowa <code>y</code>;
+<code>type = "parametric"</code>, <code>"nonparametric"</code>,
+<code>"robust"</code> albo <code>"bayes"</code></td>
 </tr>
 <tr class="even">
-<td align="left"><code>type</code></td>
-<td align="left"><code>"parametric"</code>,
-<code>"nonparametric"</code>, <code>"robust"</code> albo
-<code>"bayes"</code></td>
+<td align="left"><code>pairwise.display</code>,
+<code>p.adjust.method</code></td>
+<td align="left">przy 3+ grupach: które porównania parami pokazać
+(<code>"significant"</code>, <code>"all"</code>, <code>"none"</code>) i
+poprawka, np. <code>"holm"</code></td>
 </tr>
 <tr class="odd">
-<td align="left"><code>pairwise.display</code></td>
-<td align="left">przy 3+ grupach: <code>"significant"</code>,
-<code>"non-significant"</code>, <code>"all"</code> albo
-<code>"none"</code></td>
+<td align="left"><code>ggbarstats(data, x, y)</code></td>
+<td align="left"><code>x</code> — zmienna wynikowa, np.
+<code>rozwiazano</code>; <code>y</code> — grupy, np. <code>kanal</code>;
+test chi-kwadrat i V Craméra</td>
 </tr>
 <tr class="even">
-<td align="left"><code>p.adjust.method</code></td>
-<td align="left">poprawka na wielokrotne porównania, np.
-<code>"holm"</code>, <code>"bonferroni"</code>, <code>"none"</code></td>
+<td
+align="left"><code>ggscatterstats(data, x, y, type, marginal)</code></td>
+<td align="left">dwie zmienne liczbowe;
+<code>type = "nonparametric"</code> daje korelację Spearmana;
+<code>marginal = FALSE</code> wyłącza histogramy brzegowe</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>centrality.plotting</code>,
-<code>centrality.type</code></td>
-<td align="left">czy i jaką miarę tendencji centralnej zaznaczyć</td>
+<td align="left"><code>ggcorrmat(data, cor.vars)</code></td>
+<td align="left">macierz korelacji wybranych kolumn, np.
+<code>cor.vars = c(czas_min, ocena, koszt)</code></td>
 </tr>
 <tr class="even">
-<td align="left"><code>var.equal</code></td>
-<td align="left"><code>FALSE</code> (Welch) albo <code>TRUE</code>
-(klasyczny test t)</td>
+<td align="left"><code>extract_stats(wykres)</code></td>
+<td align="left">lista z tabelami <code>subtitle_data</code> i
+<code>pairwise_comparisons_data</code></td>
 </tr>
 <tr class="odd">
 <td align="left"><code>xlab</code>, <code>ylab</code>,
-<code>title</code>, <code>caption</code></td>
-<td align="left">opisy wykresu</td>
-</tr>
-<tr class="even">
-<td align="left"><code>results.subtitle</code></td>
-<td align="left"><code>FALSE</code> wyłącza podpis z testem</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>bf.message</code></td>
-<td align="left"><code>FALSE</code> wyłącza podpis z czynnikiem Bayesa
-(BF01) pod wykresem</td>
+<code>title</code>, <code>caption</code>, <code>results.subtitle</code>,
+<code>bf.message</code></td>
+<td align="left">opisy; <code>FALSE</code> wyłącza podpis z testem albo
+czynnik Bayesa</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Sprawdź i zmień.</strong> Zmień <code>type</code> na
-<code>"nonparametric"</code> i porównaj wartość p oraz rodzaj wielkości
-efektu. Grupy A i B przydzielono losowo: co to zmienia w interpretacji
-różnicy w porównaniu z różnicą między kanałami, których użytkownicy
-wybierają sami?</p>
+<code>"nonparametric"</code> w <code>ggbetweenstats()</code> i porównaj
+wartość p oraz rodzaj wielkości efektu. Narysuj
+<code>ggstatsplot::ggcorrmat(zgloszenia_analiza, cor.vars = c(czas_min, ocena, koszt))</code>.
+Grupy A i B przydzielono losowo: co to zmienia w interpretacji różnicy w
+porównaniu z różnicą między kanałami, których użytkownicy wybierają
+sami?</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> grupy liczą 121 i 117 zgłoszeń z
-czasem (oba braki czasu są w grupie B); test Welcha daje t ≈ 1,98, p ≈
-0,049, a różnica średnich wynosi 3,5 minuty (36,4 wobec 32,9); g Hedgesa
-≈ 0,26 z przedziałem od około 0,00 do 0,51; liczby z wykresu,
-<code>extract_stats()</code> i <code>t.test()</code> są zgodne. Opis
-wskazuje, że przedział efektu sięga prawie zera.</p>
+czasem; test Welcha daje t ≈ 1,98, p ≈ 0,049, a różnica średnich wynosi
+3,5 minuty (36,4 wobec 32,9); g Hedgesa ≈ 0,26 z przedziałem od około
+0,00 do 0,51; liczby z wykresu, <code>extract_stats()</code> i
+<code>t.test()</code> są zgodne; dla kanału i rozwiązania sprawy χ² =
+2,81, p = 0,25; korelacja czasu i kosztu to 0,96 (n = 237).</p>
 </div>
 </div>
 <div id="ćwiczenie-4.5.-raport-automatyczny" class="section level3">
@@ -800,18 +813,14 @@ pokaż kod w bloku z <code>eval=FALSE</code> i wypisz nazwy głównych
 sekcji raportu.</p>
 </div>
 <p>Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego
-generuj go w konsoli, a nie podczas renderowania szablonu (renderowanie
-dokumentu wewnątrz renderowania innego dokumentu często kończy się
-błędem). Argument <code>output_dir</code> wymaga pełnej ścieżki;
+generuj go w konsoli, a nie podczas renderowania szablonu. Argument
+<code>output_dir</code> wymaga pełnej ścieżki;
 <code>normalizePath("wyniki")</code> zamienia ścieżkę względną na
 pełną.</p>
 <pre class="r bez-uruchamiania"><code>dlookr::eda_web_report(zgloszenia_analiza, target = &quot;grupa&quot;,
                        output_file = &quot;eda.html&quot;,
                        output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;),
                        title = &quot;Eksploracja zgłoszeń&quot;, browse = FALSE)
-dlookr::diagnose_web_report(zgloszenia, output_file = &quot;diagnoza.html&quot;,
-                            output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;),
-                            browse = FALSE)
 explore::report(zgloszenia_analiza, output_file = &quot;explore.html&quot;,
                 output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;))</code></pre>
 <table>
@@ -845,16 +854,9 @@ przeglądarce</td>
 <code>author</code></td>
 <td align="left">opisy strony tytułowej</td>
 </tr>
-<tr class="odd">
-<td align="left"><code>sample_percent</code></td>
-<td align="left">odsetek wierszy użytych w raporcie, przydatny przy
-bardzo dużych zbiorach</td>
-</tr>
 </tbody>
 </table>
-<p><strong>Sprawdź i zmień.</strong> Wygeneruj także
-<code>diagnose_web_report()</code> dla danych surowych i porównaj sekcję
-ostrzeżeń z wynikami ćwiczenia 4.1. Sprawdź rozmiar plików funkcją
+<p><strong>Sprawdź i zmień.</strong> Sprawdź rozmiar plików funkcją
 <code>file.size()</code>: dlaczego raporty HTML są tak duże i dlaczego
 nie oddajesz ich razem z pracą?</p>
 <div class="criteria">
@@ -866,25 +868,39 @@ bloku z <code>eval=FALSE</code> i listę sekcji raportu.</p>
 </div>
 <div id="challenge-zadania-samodzielne" class="section level2">
 <h2>Challenge — zadania samodzielne</h2>
-<div id="zadanie-4.6.-audyt-raportu-eda" class="section level3">
-<h3>Zadanie 4.6. Audyt raportu EDA</h3>
+<p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 4.1–4.5 i
+poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w
+którym się pojawiła, albo do jej pomocy <code>?funkcja</code>.</p>
+<div id="zadanie-4.6.-diagnoza-kosztu-i-audyt-raportu"
+class="section level3">
+<h3>Zadanie 4.6. Diagnoza kosztu i audyt raportu</h3>
 <div class="brief">
-<p><strong>Cel:</strong> Ocenisz, co raport automatyczny potwierdza, a
-czego nie wyjaśnia.</p>
-<p><strong>Polecenie:</strong> Wybierz z raportu
-<code>wyniki/eda.html</code> dwie liczby lub obserwacje i sprawdź każdą
-niezależnym kodem R (np. <code>mean()</code>, <code>table()</code>,
-<code>cor()</code>). Wskaż jedną rzecz, której raport nie wyjaśnia, i
-jedną decyzję, której nie może podjąć za analityka.</p>
+<p><strong>Cel:</strong> Samodzielnie zdiagnozujesz jedną zmienną
+liczbową i sprawdzisz dwie liczby z raportu automatycznego.</p>
+<p><strong>Polecenie:</strong> Dla kolumny <code>koszt</code> w
+<code>zgloszenia_analiza</code> uruchom <code>diagnose_outlier()</code>,
+<code>describe()</code> w podziale na grupy procedury,
+<code>normality()</code> oraz <code>plot_normality()</code>; dla
+<code>typ_sprawy</code> uruchom <code>diagnose_category()</code>.
+Następnie wybierz z raportu <code>wyniki/eda.html</code> dwie liczby
+dotyczące kosztu lub typu sprawy i sprawdź je własnym kodem
+(<code>mean()</code>, <code>median()</code>, <code>table()</code> albo
+<code>cor()</code>). Wskaż jedną rzecz, której raport nie wyjaśnia.</p>
 </div>
-<p>W szablonie dla każdej sprawdzanej liczby podaj: sekcję raportu,
-wartość z raportu, kod kontrolny i jego wynik. Przykładem rzeczy, której
-raport nie wyjaśnia, jest pochodzenie wartości odstających albo
-przyczyna różnic między grupami. Nie dołączaj pliku HTML do zadania.</p>
+<p>Funkcje: <code>dlookr::diagnose_outlier()</code>,
+<code>dlookr::describe()</code>, <code>group_by()</code>,
+<code>dlookr::normality()</code>, <code>dlookr::plot_normality()</code>,
+<code>dlookr::diagnose_category()</code>, <code>mean()</code>,
+<code>median()</code>, <code>table()</code>, <code>cor()</code>. Dla
+każdej sprawdzanej liczby podaj sekcję raportu, wartość z raportu, kod
+kontrolny i jego wynik.</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> dwie liczby z raportu są zgodne z
-Twoimi obliczeniami, a kod kontrolny działa w PDF; komentarz trafnie
-wskazuje ograniczenie raportu i decyzję należącą do analityka.</p>
+<p><strong>Kryteria sukcesu:</strong> koszt nie ma wartości odstających
+według <code>diagnose_outlier()</code>; średni koszt to 74,3 zł w grupie
+A (n = 120, 1 brak) i 68,7 zł w grupie B (n = 119); test Shapiro–Wilka
+nie odrzuca normalności kosztu (p = 0,26); typy spraw mają udziały
+55,4%, 29,2% i 15,4%; dwie liczby z raportu zgadzają się z Twoimi
+obliczeniami, a komentarz wskazuje ograniczenie raportu.</p>
 </div>
 </div>
 <div id="zadanie-4.7.-porównanie-trzech-kanałów" class="section level3">
@@ -895,12 +911,16 @@ niż dwóch grup i odczytasz porównania parami.</p>
 <p><strong>Polecenie:</strong> Narysuj <code>ggbetweenstats()</code> dla
 czasu według kanału w wariancie nieparametrycznym z porównaniami parami
 (<code>pairwise.display = "significant"</code>,
-<code>p.adjust.method = "holm"</code>). Sprawdź mediany i liczności w
+<code>p.adjust.method = "holm"</code>). Pobierz tabelę porównań funkcją
+<code>extract_stats()</code>, sprawdź mediany i liczności kanałów przez
 <code>group_by()</code> i <code>summarise()</code>, a następnie opisz,
 które pary kanałów się różnią.</p>
 </div>
-<p>Pobierz tabelę porównań parami funkcją
-<code>ggstatsplot::extract_stats(wykres)$pairwise_comparisons_data</code>.
+<p>Funkcje: <code>filter()</code>,
+<code>ggstatsplot::ggbetweenstats()</code>,
+<code>ggstatsplot::extract_stats()</code> z elementem
+<code>pairwise_comparisons_data</code>, <code>group_by()</code>,
+<code>summarise()</code> z <code>median()</code> i <code>n()</code>.
 Wyjaśnij, po co stosuje się poprawkę Holma przy trzech porównaniach i
 dlaczego różnica między kanałami nie musi wynikać z samego kanału.</p>
 <div class="criteria">
@@ -911,58 +931,33 @@ mediany z własnego zestawienia (32, 43 i 29 minut) zgadzają się z
 wykresem.</p>
 </div>
 </div>
-<div id="zadanie-4.8.-zależności-między-zmiennymi"
+<div id="zadanie-4.8.-zależności-dla-typu-sprawy-i-oceny"
 class="section level3">
-<h3>Zadanie 4.8. Zależności między zmiennymi</h3>
+<h3>Zadanie 4.8. Zależności dla typu sprawy i oceny</h3>
 <div class="brief">
-<p><strong>Cel:</strong> Zbadasz zależności liczbowe i kategorialne
-narzędziami automatycznymi i ocenisz siłę dowodu.</p>
-<p><strong>Polecenie:</strong> Narysuj macierz korelacji czasu, oceny i
-kosztu (<code>ggcorrmat()</code>), wykres punktowy czasu i oceny z
-testem Spearmana (<code>ggscatterstats()</code>) oraz wykres rozwiązania
-sprawy w kanałach (<code>ggbarstats()</code>). Dla każdego wykresu
-zapisz jedną liczbę i jedno zdanie interpretacji.</p>
+<p><strong>Cel:</strong> Samodzielnie zbadasz zależność kategorialną i
+liczbową narzędziami automatycznymi i ocenisz siłę dowodu.</p>
+<p><strong>Polecenie:</strong> Narysuj <code>ggbarstats()</code> dla
+rozwiązania sprawy według typu sprawy oraz <code>ggscatterstats()</code>
+dla czasu i oceny z korelacją Spearmana. Z obu wykresów pobierz
+statystyki funkcją <code>extract_stats()</code> i sprawdź je
+niezależnie: odsetki rozwiązanych spraw przez
+<code>prop.table(table(...))</code>, a korelację przez
+<code>cor(..., method = "spearman")</code>. Dla każdego wykresu zapisz
+jedną liczbę i jedno zdanie interpretacji.</p>
 </div>
-<table>
-<colgroup>
-<col width="35%" />
-<col width="64%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Funkcja</th>
-<th align="left">Najważniejsze argumenty</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><code>ggcorrmat(data, cor.vars, type)</code></td>
-<td align="left"><code>cor.vars = c(czas_min, ocena, koszt)</code>;
-<code>type = "parametric"</code> lub <code>"nonparametric"</code></td>
-</tr>
-<tr class="even">
-<td
-align="left"><code>ggscatterstats(data, x, y, type, marginal)</code></td>
-<td align="left"><code>marginal = FALSE</code> wyłącza histogramy
-brzegowe</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>ggbarstats(data, x, y)</code></td>
-<td align="left"><code>x</code> — zmienna wynikowa, np.
-<code>rozwiazano</code>; <code>y</code> — grupy, np.
-<code>kanal</code></td>
-</tr>
-</tbody>
-</table>
-<p>W wykresie <code>ggbarstats()</code> porównaj wynik testu z różnicami
-odsetków z ćwiczenia 3.4. Wyjaśnij, dlaczego różnica 77,9% wobec 87,3%
-może być zgodna z brakiem istotnej zależności.</p>
+<p>Funkcje: <code>ggstatsplot::ggbarstats()</code>,
+<code>ggstatsplot::ggscatterstats()</code>,
+<code>ggstatsplot::extract_stats()</code>, <code>table()</code>,
+<code>prop.table()</code>, <code>round()</code>, <code>cor()</code>.
+Wyjaśnij, dlaczego różnica odsetków 77,1% wobec 91,9% może być zgodna z
+brakiem istotnej zależności.</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> korelacja Spearmana czasu i oceny
-wynosi około −0,51 (n = 235); test chi-kwadrat dla kanału i rozwiązania
-sprawy nie wskazuje istotnej zależności (p ≈ 0,25; skorygowane V Craméra
-≈ 0,06); interpretacja odróżnia siłę związku od jego istotności i nie
-przypisuje przyczyn.</p>
+<p><strong>Kryteria sukcesu:</strong> dla typu sprawy i rozwiązania χ² =
+3,66, df = 2, p = 0,16, a odsetki rozwiązanych wynoszą 82,7%, 77,1% i
+91,9%; korelacja Spearmana czasu i oceny wynosi −0,51 (n = 235) w obu
+obliczeniach; interpretacja odróżnia siłę związku od jego istotności i
+nie przypisuje przyczyn.</p>
 </div>
 </div>
 </div>

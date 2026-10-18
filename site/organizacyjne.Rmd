@@ -24,7 +24,9 @@ Kurs realizuje kartę przedmiotu UJ.WZZINS.24.17358.26. Najważniejsze zasady ze
 
 ## Jak wygląda każde spotkanie {#kazde-spotkanie}
 
-Komputery w pracowni mają zainstalowane na stałe R, RStudio, Positron, pakiety kursu i TinyTeX, ale po wyłączeniu usuwają pliki użytkownika. Dlatego każde spotkanie zaczyna się tak samo i nie zależy od plików z poprzednich zajęć: skrypt startowy za każdym razem odtwarza identyczne dane.
+Komputery w pracowni mają zainstalowane na stałe R, RStudio, pakiety kursu i TinyTeX, ale po wyłączeniu usuwają pliki użytkownika. Dlatego każde spotkanie zaczyna się tak samo i nie zależy od plików z poprzednich zajęć: skrypt startowy za każdym razem odtwarza identyczne dane. Na własnym komputerze ten sam skrypt przygotowuje środowisko do końca: przy pierwszym uruchomieniu instaluje brakujące pakiety R, a gdy nie ma LaTeX-a — także TinyTeX; trwa to łącznie kilka minut i wykonuje się raz.
+
+Każde spotkanie robocze ma pięć ćwiczeń z prowadzącym i trzy zadania samodzielne. W zadaniach używasz wyłącznie funkcji, które pojawiły się w ćwiczeniach tego lub wcześniejszych spotkań; zadanie polega na tym, by samodzielnie złożyć z nich rozwiązanie nowego pytania.
 
 ::: {.start}
 1. Utwórz projekt `jezykr` (ćwiczenie 0.1). W domu możesz używać jednego projektu przez cały semestr.
@@ -38,7 +40,7 @@ source("https://marekdejauj.github.io/jezykr/materialy/init-v2.R")
 pobierz_szablon(0)
 ~~~
 
-Pierwsza linia pobiera i wykonuje [skrypt startowy](materialy/init-v2.R): ładuje pakiety (a na własnym komputerze doinstalowuje brakujące), tworzy foldery `dane/` i `wyniki/`, zapisuje trzy pliki z fikcyjnymi danymi i tworzy w pamięci obiekty `zgloszenia` oraz `zgloszenia_analiza`. Druga linia pobiera szablon spotkania do pliku `szablon-00.Rmd` i otwiera go w edytorze; istniejącego pliku nie nadpisze. Szablon zawiera ten sam skrypt w bloku `start`, więc renderowanie zawsze zaczyna się od świeżych danych.
+Pierwsza linia pobiera i wykonuje [skrypt startowy](materialy/init-v2.R): ładuje pakiety (a na własnym komputerze doinstalowuje brakujące pakiety R i TinyTeX), tworzy foldery `dane/` i `wyniki/`, zapisuje trzy pliki z fikcyjnymi danymi i tworzy w pamięci obiekty `zgloszenia` oraz `zgloszenia_analiza`. Polecenie `sprawdz_srodowisko()` wypisuje listę kontrolną (R, Pandoc, pakiety, LaTeX); pokaż ją prowadzącemu, gdy coś nie działa. Druga linia pobiera szablon spotkania do pliku `szablon-00.Rmd` i otwiera go w edytorze; istniejącego pliku nie nadpisze. Szablon zawiera ten sam skrypt w bloku `start`, więc renderowanie zawsze zaczyna się od świeżych danych.
 
 | Plik | Zawartość | Oddajesz? |
 |:---------|:--------------------------------------------------|:---------------------|
@@ -154,7 +156,7 @@ mean(c(12, 18, 30))
 | Renderuj dokument | Ctrl+Shift+K / Cmd+Shift+K (**Knit**) | **R: Render Document With R Markdown** albo `rmarkdown::render("plik.Rmd")` |
 | Operator przypisania `<-` | Alt+- / Option+- | Alt+- / Option+- |
 
-W pracowni TinyTeX jest zainstalowany. Na własnym komputerze zainstaluj go jeden raz; `rmarkdown` użyje go automatycznie, a brakujące pakiety LaTeX doinstaluje przy pierwszym renderowaniu.
+W pracowni TinyTeX jest zainstalowany. Na własnym komputerze instaluje go skrypt startowy przy pierwszym uruchomieniu w konsoli, razem z pakietami LaTeX dla polskich dokumentów; możesz też zrobić to ręcznie:
 
 ~~~{.r .bez-uruchamiania}
 install.packages("tinytex")

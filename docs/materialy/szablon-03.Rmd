@@ -37,7 +37,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-3.html>. Kod ze stro
 
 ## Ćwiczenie 3.2. Gramatyka ggplot2: histogram, panele i etykiety
 
-**Polecenie:** Zbuduj histogram czasu obsługi warstwa po warstwie: dane i estetyki, geometria, etykiety, motyw. Porównaj trzy szerokości przedziałów, dodaj linię mediany i podziel wykres na panele według kanału.
+**Polecenie:** Zbuduj histogram czasu obsługi warstwa po warstwie: dane i estetyki, geometria, linia mediany, etykiety, motyw. Porównaj trzy szerokości przedziałów i podziel wykres na panele według kanału.
 
 ```{r c3-2}
 # Twój kod
@@ -55,9 +55,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-3.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 3.4. Kategorie: wykresy słupkowe i pudełkowe
+## Ćwiczenie 3.4. Kategorie: słupki, pudełka i słupki błędów
 
-**Polecenie:** Narysuj liczbę zgłoszeń w kanałach dwiema geometriami, porównaj udział spraw rozwiązanych w kanałach trzema ustawieniami `position` i zbuduj wykres pudełkowy czasu według kanału z zaznaczoną średnią.
+**Polecenie:** Narysuj liczbę zgłoszeń według typu sprawy posortowanymi słupkami, udział spraw rozwiązanych w kanałach słupkami do 100%, wykres pudełkowy czasu według kanału z zaznaczoną średnią, a na koniec średnią ocenę w kanałach jako punkty ze słupkami błędów na pełnej skali 1–5.
 
 ```{r c3-4}
 # Twój kod
@@ -65,9 +65,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-3.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 3.5. Linia w czasie i mapa cieplna
+## Ćwiczenie 3.5. Linia w czasie, mapa cieplna i zapis wykresu
 
-**Polecenie:** Policz zgłoszenia według miesiąca i kanału i narysuj je jako linie z datami na osi. Policz zgłoszenia w kombinacjach kanału i działu i pokaż je na mapie cieplnej z liczbami w komórkach.
+**Polecenie:** Policz zgłoszenia według miesiąca i kanału i narysuj je jako linie z datami na osi. Policz zgłoszenia w kombinacjach kanału i działu, pokaż je na mapie cieplnej z etykietami, przesuń legendę pod wykres i zapisz mapę do `wyniki/mapa_zgloszen.png` (16 × 10 cm, 300 dpi).
 
 ```{r c3-5}
 # Twój kod
@@ -75,9 +75,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-3.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 3.6. Wykres gotowy do raportu: theme(), opcje bloku i ggsave()
+## Zadanie 3.6. Rozkład kosztu w grupach procedury
 
-**Polecenie:** Wybierz jeden wykres z ćwiczeń 3.2–3.5, zapisz go w obiekcie `p`, dopracuj motyw funkcją `theme()` i zapisz do `wyniki/wykres_3_6.png` o wymiarach 16 × 10 cm i rozdzielczości 300 dpi. W nagłówku bloku ustaw rozmiar wykresu i podpis, a na koniec sprawdź, czy plik istnieje.
+**Polecenie:** Narysuj histogram kosztu obsługi (przedziały po 10 zł) w dwóch panelach według grupy procedury, z pionową linią mediany kosztu całego zbioru, tytułem, podpisanymi osiami z jednostką i podpisem źródła. Zapisz wykres w obiekcie, wyeksportuj do `wyniki/koszt_grupy.png` (16 × 10 cm, 300 dpi) i ustaw w nagłówku bloku `fig.cap`. Policz medianę kosztu w każdej grupie, aby skomentować wykres.
 
 ```{r c3-6}
 # Twój kod
@@ -97,7 +97,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-3.html>. Kod ze stro
 
 ## Zadanie 3.8. Krytyka i poprawa wykresu wprowadzającego w błąd
 
-**Polecenie:** Uruchom poniższy kod i wskaż co najmniej trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję, która pokazuje średnią ocenę w kanałach wraz z niepewnością i licznością oraz ma neutralny tytuł.
+**Polecenie:** Uruchom poniższy kod i wskaż co najmniej trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję: średni czas według typu sprawy jako punkty ze słupkami ± 2 błędy standardowe, z licznościami w etykietach, osią zaczynającą się od zera i neutralnym tytułem.
 
 ```{r c3-8}
 # Twój kod

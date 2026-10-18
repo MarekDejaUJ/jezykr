@@ -2,9 +2,9 @@
 title: "Spotkanie 5: testy statystyczne i modele liniowe"
 ---
 
-<div class="hero"><h2>Spotkanie 5 z 6 · 90 minut · treść programowa 6</h2><p>Przeanalizujesz dane jakościowe w tabelach kontyngencji, porównasz grupy testami t i Wilcoxona, zbadasz korelację, zbudujesz i zinterpretujesz modele lm() i glm(), a na koniec dobierzesz metodę do pytania i porównasz modele.</p></div>
+<div class="hero"><h2>Spotkanie 5 z 6 · 90 minut · treść programowa 6</h2><p>Przeanalizujesz dane jakościowe w tabelach kontyngencji, porównasz grupy testami t i Wilcoxona, zbadasz korelację, zbudujesz, porównasz i zinterpretujesz modele lm() i glm(), a potem powtórzysz te metody samodzielnie dla nowych pytań.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 14 min ćwiczenie 5.1 · 12 min ćwiczenie 5.2 · 6 min ćwiczenie 5.3 · 15 min ćwiczenie 5.4 · 13 min ćwiczenie 5.5 · 25 min zadania 5.6–5.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 12 min ćwiczenie 5.1 · 10 min ćwiczenie 5.2 · 5 min ćwiczenie 5.3 · 13 min ćwiczenie 5.4 · 10 min ćwiczenie 5.5 · 30 min zadania 5.6–5.8 · 5 min oddanie. Zadania używają wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to, czego nie skończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** otwórz projekt `jezykr`, uruchom skrypt startowy i pobierz szablon spotkania 5. Dane są fikcyjne i wygenerowane według jawnej reguły; wyniki służą nauce metod i nie opisują rzeczywistej instytucji.
@@ -58,11 +58,11 @@ fisher.test(tab_ab)
 | Funkcja | Najważniejsze argumenty | Wynik |
 |:-----------------|:----------------------------------------|:------------------------|
 | `xtabs(~ a + b, data)` | formuła z dwiema zmiennymi; ramka | tabela kontyngencji z nazwanymi wymiarami |
-| `chisq.test(x, correct, simulate.p.value, B)` | tabela; `correct = TRUE` — poprawka Yatesa dla 2 × 2; `simulate.p.value = TRUE` — p z symulacji przy małych licznościach; `B` — liczba symulacji | `$statistic`, `$parameter` (df), `$p.value`, `$expected`, `$stdres` |
+| `chisq.test(x, correct, simulate.p.value, B)` | tabela; `correct = TRUE` — poprawka Yatesa dla 2 × 2; `simulate.p.value = TRUE` — p z symulacji przy małych licznościach | `$statistic`, `$parameter` (df), `$p.value`, `$expected`, `$stdres` |
 | `fisher.test(x, alternative, conf.level)` | tabela; kierunek hipotezy; poziom ufności | dokładne p, iloraz szans z przedziałem ufności |
 | `prop.test(x, n)` | liczby sukcesów; liczebności grup | porównanie odsetków z przedziałem dla różnicy |
 
-**Sprawdź i zmień.** Przeprowadź `chisq.test(tab_ab)` i porównaj p z testem Fishera. Zbuduj tabelę `typ_sprawy` i `rozwiazano`: czy spełnione jest założenie liczności oczekiwanych? Uruchom test z `simulate.p.value = TRUE, B = 10000` i porównaj wynik. Sprawdź `prop.test(tab_ab[, "Tak"], rowSums(tab_ab))` i odczytaj przedział dla różnicy odsetków.
+**Sprawdź i zmień.** Przeprowadź `chisq.test(tab_ab)` i porównaj p z testem Fishera. Uruchom test dla kanałów z `simulate.p.value = TRUE, B = 10000` i porównaj wynik. Sprawdź `prop.test(tab_ab[, "Tak"], rowSums(tab_ab))` i odczytaj przedział dla różnicy odsetków.
 
 ::: {.criteria}
 **Kryteria sukcesu:** wszystkie liczności oczekiwane w tabeli kanałów przekraczają 5; test nie wskazuje związku kanału z rozwiązaniem sprawy (χ² = 2,81, df = 2, p = 0,25, V ≈ 0,11); w grupie B rozwiązano 89,1% spraw wobec 76,0% w grupie A, test Fishera daje p ≈ 0,010 i iloraz szans około 2,56. Wniosek o grupach odwołuje się do losowego przydziału.
@@ -100,10 +100,11 @@ wilcox.test(czas_min ~ grupa, data = dane_czas, exact = FALSE)
 | `alternative` | `"two.sided"` | `"less"` albo `"greater"` dla hipotezy kierunkowej (A − B) |
 | `var.equal` | `FALSE` | `TRUE` — klasyczny test t przy równych wariancjach |
 | `conf.level` | `0.95` | poziom ufności przedziału |
-| `mu` | `0` | wartość różnicy w hipotezie zerowej |
 | `paired` | `FALSE` | `TRUE` dla pomiarów powiązanych (np. przed i po) |
 
-**Sprawdź i zmień.** Zmień `conf.level` na 0,99 i wyjaśnij, dlaczego przedział się poszerzył i obejmuje zero. Porównaj wartości p testu t (0,049) i Wilcoxona (0,061): co ta różnica mówi o sztywnym progu 0,05? Na wzór R4DS zapisz wynik w jednym zdaniu z liczbami, np. „Średni czas w grupie B był krótszy o … minuty (95% CI: … do …; t = …, p = …)”.
+`wilcox.test()` przyjmuje te same argumenty `formula`, `data` i `alternative`; `exact = FALSE` wyłącza dokładne obliczenia, które nie działają przy powtarzających się wartościach.
+
+**Sprawdź i zmień.** Zmień `conf.level` na 0,99 i wyjaśnij, dlaczego przedział się poszerzył i obejmuje zero. Porównaj wartości p testu t (0,049) i Wilcoxona (0,061): co ta różnica mówi o sztywnym progu 0,05? Zapisz wynik w jednym zdaniu z liczbami, np. „Średni czas w grupie B był krótszy o … minuty (95% CI: … do …; t = …, p = …)”.
 
 ::: {.criteria}
 **Kryteria sukcesu:** średni czas wynosi 36,4 minuty w grupie A (n = 121) i 32,9 minuty w grupie B (n = 117); różnica 3,5 minuty ma 95% przedział od 0,02 do 7,08 minuty (p = 0,049); zdanie wynikowe podaje różnicę, przedział i p, a komentarz zauważa, że test Wilcoxona daje p = 0,061.
@@ -129,22 +130,22 @@ cor.test(~ czas_min + ocena, data = zgloszenia_analiza, method = "spearman",
 |:-----------|:---------------------------------------------------------------------|
 | `method` | `"pearson"` (liniowa, liczby), `"spearman"` (rangi, zmienne porządkowe), `"kendall"` |
 | `alternative` | `"two.sided"`, `"less"`, `"greater"` |
-| `exact` | dla Spearmana: `FALSE` przy powtarzających się wartościach (rangach wiązanych) |
+| `exact` | dla Spearmana: `FALSE` przy powtarzających się wartościach |
 | `conf.level` | poziom ufności (tylko Pearson) |
 
 ::: {.criteria}
 **Kryteria sukcesu:** korelacja czasu i kosztu wynosi 0,955 (95% CI 0,942–0,965, df = 235, czyli 237 par); korelacja Spearmana czasu i oceny wynosi −0,51; opis rozróżnia siłę związku od wartości p i nie przypisuje przyczyny.
 :::
 
-### Ćwiczenie 5.4. Model liniowy: lm()
+### Ćwiczenie 5.4. Model liniowy: lm(), predict() i porównanie modeli
 
 ::: {.brief}
-**Cel:** Zbudujesz model regresji liniowej, zinterpretujesz współczynniki w jednostkach zmiennej zależnej i sprawdzisz założenia modelu.
+**Cel:** Zbudujesz model regresji liniowej, zinterpretujesz współczynniki w jednostkach zmiennej zależnej, obliczysz przewidywanie i sprawdzisz, czy rozbudowa modelu poprawia jego dopasowanie.
 
-**Polecenie:** Dopasuj model kosztu od czasu, a potem model czasu od kanału i grupy. Odczytaj współczynniki z przedziałami ufności, zmień kategorię odniesienia kanału, oblicz przewidywany czas dla profilu zgłoszenia i obejrzyj wykresy diagnostyczne.
+**Polecenie:** Dopasuj model kosztu od czasu, a potem model czasu od kanału i grupy. Odczytaj współczynniki z przedziałami ufności, zmień kategorię odniesienia kanału, oblicz przewidywany czas dla profilu zgłoszenia, obejrzyj wykresy diagnostyczne i porównaj model z wersją rozszerzoną o typ sprawy.
 :::
 
-Model `y ~ x1 + x2` opisuje średnią wartość `y` jako sumę wyrazu wolnego i wpływów zmiennych. Współczynnik zmiennej liczbowej to zmiana średniej `y` przy wzroście `x` o 1, przy pozostałych zmiennych stałych. Zmienna kategorialna jest kodowana względem **kategorii odniesienia** — domyślnie pierwszej alfabetycznie; współczynnik to różnica względem niej. R² mówi, jaką część zmienności `y` wyjaśnia model. Wiersze z brakami w którejkolwiek zmiennej modelu są pomijane — sprawdzaj `nobs()`.
+Model `y ~ x1 + x2` opisuje średnią wartość `y` jako sumę wyrazu wolnego i wpływów zmiennych. Współczynnik zmiennej liczbowej to zmiana średniej `y` przy wzroście `x` o 1, przy pozostałych zmiennych stałych. Zmienna kategorialna jest kodowana względem **kategorii odniesienia** — domyślnie pierwszej alfabetycznie; współczynnik to różnica względem niej. R² mówi, jaką część zmienności `y` wyjaśnia model. Wiersze z brakami są pomijane — sprawdzaj `nobs()`. Dwa modele, z których jeden zawiera wszystkie składniki drugiego, porównasz testem `anova()`; kryterium AIC (im niższe, tym lepiej) łączy dopasowanie z karą za złożoność.
 
 ~~~r
 model_koszt <- lm(koszt ~ czas_min, data = zgloszenia_analiza)
@@ -163,33 +164,39 @@ predict(model_lm, newdata = data.frame(kanal = "Telefon", grupa = "B"),
 par(mfrow = c(1, 2))
 plot(model_lm, which = 1:2)
 par(mfrow = c(1, 1))
+model_typ <- lm(czas_min ~ kanal + grupa + typ_sprawy, data = zgloszenia_analiza)
+anova(model_lm, model_typ)
+AIC(model_lm, model_typ)
+c(summary(model_lm)$adj.r.squared, summary(model_typ)$adj.r.squared)
 ~~~
 
 | Funkcja lub zapis | Znaczenie |
 |:----------------------|:----------------------------------------------------------|
-| `y ~ x1 + x2` | model addytywny; `x1 * x2` — z interakcją; `x1:x2` — tylko interakcja; `- 1` — bez wyrazu wolnego |
-| `lm(formula, data, subset, na.action)` | dopasowanie; `subset` — wybór wierszy; `na.action = na.omit` — domyślne pomijanie braków |
-| `summary(model)` | współczynniki z błędami standardowymi i p, R², test F całego modelu |
+| `y ~ x1 + x2` | model addytywny; `x1 * x2` — z interakcją; `x1:x2` — tylko interakcja |
+| `lm(formula, data)` | dopasowanie modelu; braki pomijane |
+| `summary(model)` | współczynniki z błędami standardowymi i p, R², test F; `summary(model)$adj.r.squared` — skorygowane R² |
 | `coef()`, `confint(model, level)` | współczynniki; przedziały ufności |
 | `predict(model, newdata, interval)` | przewidywania; `interval = "confidence"` — dla średniej, `"prediction"` — dla pojedynczego zgłoszenia |
 | `relevel(factor(x), ref)` | zmiana kategorii odniesienia |
 | `plot(model, which = 1:2)` | reszty względem wartości dopasowanych; wykres Q–Q reszt |
+| `anova(model1, model2)` | test, czy dodatkowe składniki modelu 2 istotnie zmniejszają błąd; modele zagnieżdżone na tych samych obserwacjach |
+| `AIC(model1, model2)` | kryterium informacyjne; niższe = lepszy kompromis dopasowania i złożoności |
 
 **Sprawdź i zmień.** W modelu kosztu zinterpretuj nachylenie: o ile złotych rośnie przeciętny koszt na każdą minutę obsługi? Porównaj współczynnik `grupaB` (−5,1 minuty) z prostą różnicą średnich z ćwiczenia 5.2 (−3,5 minuty) i sprawdź `table(zgloszenia_analiza$grupa, zgloszenia_analiza$kanal)`: dlaczego uwzględnienie kanału zmienia oszacowanie? Zmień `interval` na `"prediction"` i porównaj szerokość przedziałów.
 
 ::: {.criteria}
-**Kryteria sukcesu:** koszt rośnie o 1,75 zł na minutę (95% CI 1,68–1,82; R² = 0,91); w modelu czasu, względem kanału Na miejscu, Telefon wydłuża średni czas o 12,9 minuty, a grupa B skraca go o 5,1 minuty (95% CI od −8,3 do −1,9); model obejmuje 238 zgłoszeń, a przewidywany średni czas dla profilu Telefon + B to 40,7 minuty (37,6–43,7). Opis wymienia kategorię odniesienia i jedno ograniczenie widoczne na wykresach reszt lub w R².
+**Kryteria sukcesu:** koszt rośnie o 1,75 zł na minutę (95% CI 1,68–1,82; R² = 0,91); w modelu czasu, względem kanału Na miejscu, Telefon wydłuża średni czas o 12,9 minuty, a grupa B skraca go o 5,1 minuty (95% CI od −8,3 do −1,9); model obejmuje 238 zgłoszeń, a przewidywany średni czas dla profilu Telefon + B to 40,7 minuty (37,6–43,7); dodanie typu sprawy nie poprawia modelu (F = 1,36, p = 0,26; AIC 1882,4 wobec 1881,2). Opis wymienia kategorię odniesienia i jedno ograniczenie widoczne na wykresach reszt lub w R².
 :::
 
-### Ćwiczenie 5.5. Model logistyczny: glm()
+### Ćwiczenie 5.5. Model logistyczny: glm() i profile
 
 ::: {.brief}
 **Cel:** Zinterpretujesz ilorazy szans i przewidywane prawdopodobieństwa bez mylenia tych miar.
 
-**Polecenie:** Utwórz zmienną zero-jedynkową rozwiązania sprawy i dopasuj model logistyczny od czasu, grupy i typu sprawy. Przelicz współczynniki na ilorazy szans z przedziałami ufności, sprawdź liczbę obserwacji i oblicz prawdopodobieństwo rozwiązania dla dwóch profili.
+**Polecenie:** Utwórz zmienną zero-jedynkową rozwiązania sprawy i dopasuj model logistyczny od czasu, grupy i typu sprawy. Przelicz współczynniki na ilorazy szans z przedziałami ufności, sprawdź liczbę obserwacji i oblicz prawdopodobieństwo rozwiązania dla siatki profili utworzonej funkcją `expand.grid()`.
 :::
 
-Model logistyczny opisuje logarytm szans zdarzenia, gdzie szansa to p / (1 − p). Po przekształceniu `exp()` współczynnik staje się **ilorazem szans**: wartość 2 oznacza dwukrotnie większą szansę, a nie dwukrotnie większe prawdopodobieństwo. Wartość poniżej 1 oznacza spadek szans. Prawdopodobieństwo dla konkretnego profilu obliczysz funkcją `predict(..., type = "response")`. Kategoria odniesienia typu sprawy to „Dostęp” (pierwsza alfabetycznie).
+Model logistyczny opisuje logarytm szans zdarzenia, gdzie szansa to p / (1 − p). Po przekształceniu `exp()` współczynnik staje się **ilorazem szans**: wartość 2 oznacza dwukrotnie większą szansę, a nie dwukrotnie większe prawdopodobieństwo. Wartość poniżej 1 oznacza spadek szans. Prawdopodobieństwo dla konkretnego profilu obliczysz funkcją `predict(..., type = "response")`; `expand.grid()` tworzy ramkę ze wszystkimi kombinacjami podanych wartości. Kategoria odniesienia typu sprawy to „Dostęp” (pierwsza alfabetycznie).
 
 ~~~r
 dane_model <- zgloszenia_analiza |>
@@ -200,9 +207,11 @@ summary(model_glm)
 round(exp(coef(model_glm)), 3)                  # ilorazy szans
 round(exp(confint.default(model_glm)), 3)       # przedziały ufności (Walda)
 nobs(model_glm)
-profile <- data.frame(czas_min = c(20, 60), grupa = "A",
-                      typ_sprawy = "Wyszukiwanie")
-predict(model_glm, newdata = profile, type = "response")
+AIC(model_glm)
+profile <- expand.grid(czas_min = c(20, 60), grupa = c("A", "B"),
+                       typ_sprawy = "Wyszukiwanie")
+profile$p <- round(predict(model_glm, newdata = profile, type = "response"), 3)
+profile
 ~~~
 
 | Funkcja lub argument | Znaczenie |
@@ -211,61 +220,59 @@ predict(model_glm, newdata = profile, type = "response")
 | `exp(coef(model))` | ilorazy szans |
 | `confint.default(model)` | przedziały Walda dla współczynników; `confint(model)` — przedziały profilowe, dokładniejsze, ale wolniejsze |
 | `predict(model, newdata, type)` | `type = "link"` — logarytm szans; `"response"` — prawdopodobieństwo |
-| `AIC(model)` | kryterium informacyjne; niższe = lepszy kompromis dopasowania i złożoności |
+| `expand.grid(a = ..., b = ...)` | ramka ze wszystkimi kombinacjami podanych wartości |
+| `AIC(model)` | kryterium informacyjne; pozwala porównać modele logistyczne na tych samych danych |
 
-**Sprawdź i zmień.** Zinterpretuj iloraz szans dla `czas_min` w przeliczeniu na 10 minut: `exp(10 * coef(model_glm)["czas_min"])`. Porównaj iloraz szans grupy B z modelu (2,68) z wynikiem testu Fishera (2,56): dlaczego wartości są podobne, lecz nie identyczne? Oblicz `predict()` z `type = "link"` i zamień wynik na prawdopodobieństwo funkcją `plogis()`.
+**Sprawdź i zmień.** Zinterpretuj iloraz szans dla `czas_min` w przeliczeniu na 10 minut: `exp(10 * coef(model_glm)["czas_min"])`. Porównaj iloraz szans grupy B z modelu (2,68) z wynikiem testu Fishera (2,56): dlaczego wartości są podobne, lecz nie identyczne? Rozszerz siatkę o `czas_min = 3:75` i narysuj `geom_line(aes(colour = grupa))`.
 
 ::: {.criteria}
-**Kryteria sukcesu:** model obejmuje 238 zgłoszeń; iloraz szans grupy B wynosi 2,68 (95% CI 1,28–5,61), a czasu 0,987 na minutę bez istotności; przewidywane prawdopodobieństwo rozwiązania wynosi 0,81 dla 20 minut i 0,71 dla 60 minut w profilu A + Wyszukiwanie. Opis nie przedstawia ilorazu szans jako zmiany prawdopodobieństwa.
+**Kryteria sukcesu:** model obejmuje 238 zgłoszeń; iloraz szans grupy B wynosi 2,68 (95% CI 1,28–5,61), a czasu 0,987 na minutę bez istotności; siatka ma cztery profile z prawdopodobieństwami 0,81 i 0,71 w grupie A oraz 0,92 i 0,87 w grupie B. Opis nie przedstawia ilorazu szans jako zmiany prawdopodobieństwa.
 :::
 
 ## Challenge — zadania samodzielne
 
-### Zadanie 5.6. Profile zgłoszeń i krzywa prawdopodobieństwa
+W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 5.1–5.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`.
+
+### Zadanie 5.6. Trzy pytania, trzy testy
 
 ::: {.brief}
-**Cel:** Samodzielnie przygotujesz przewidywania modelu, które można sprawdzić i wyjaśnić.
+**Cel:** Samodzielnie dobierzesz test do pytania i zapiszesz wynik zdaniem z liczbami.
 
-**Polecenie:** Zdefiniuj trzy profile zgłoszeń typu Dostęp: 20 minut w grupie A, 60 minut w grupie A i 60 minut w grupie B. Oblicz dla nich prawdopodobieństwo rozwiązania i pokaż je w tabeli. Następnie narysuj przewidywane prawdopodobieństwo w funkcji czasu (3–75 minut) dla obu grup.
+**Polecenie:** Odpowiedz na trzy pytania: (1) czy koszt obsługi różni się między grupami A i B — testem t i testem Wilcoxona; (2) czy typ sprawy jest związany z rozwiązaniem sprawy — tabelą z odsetkami w wierszach, testem chi-kwadrat i kontrolą liczności oczekiwanych; (3) czy ocena satysfakcji jest związana z kosztem — testem korelacji Spearmana. Każdy wynik zapisz jednym zdaniem z liczbami: różnicą lub współczynnikiem, przedziałem ufności, wartością p i liczebnością.
 :::
 
-Siatkę profili utworzysz funkcją `expand.grid(czas_min = 3:75, grupa = c("A", "B"), typ_sprawy = "Dostęp")`, dopiszesz przewidywania przez `mutate(p = predict(model_glm, newdata = siatka, type = "response"))` i narysujesz je `geom_line(aes(colour = grupa))`. Użyj zakresu czasów występującego w danych po czyszczeniu. Wyjaśnij, dlaczego różnica przewidywań między profilami A i B może mieć interpretację przyczynową w tym fikcyjnym badaniu, a różnica między profilami 20 i 60 minut — nie.
+Funkcje: `t.test()`, `wilcox.test()`, `xtabs()`, `prop.table()`, `chisq.test()` z elementem `$expected`, `cor.test()`. Zmienną `grupa` przydzielono losowo, a typu sprawy i kosztu — nie; uwzględnij to w zdaniach wynikowych.
 
 ::: {.criteria}
-**Kryteria sukcesu:** prawdopodobieństwa wynoszą około 0,73, 0,61 i 0,81 i mieszczą się w przedziale 0–1; wykres ma opis osi i legendę grup; interpretacja rozróżnia losowy przydział grupy od obserwowanego czasu obsługi.
+**Kryteria sukcesu:** koszt w grupie A jest wyższy średnio o 5,5 zł (74,3 wobec 68,7 zł; 95% CI od −0,9 do 12,0; p = 0,09), a test Wilcoxona daje p = 0,085; typ sprawy nie jest istotnie związany z rozwiązaniem (χ² = 3,66, df = 2, p = 0,16), a najmniejsza liczność oczekiwana wynosi 6,5; korelacja Spearmana oceny i kosztu wynosi −0,51 (p < 0,001); zdania nie przypisują związkom przyczyny tam, gdzie nie było losowego przydziału.
 :::
 
-### Zadanie 5.7. Od pytania do metody
+### Zadanie 5.7. Model liniowy czasu od typu sprawy i grupy
 
 ::: {.brief}
-**Cel:** Dobierzesz metodę do pytania badawczego i zapiszesz wynik w formie gotowej do raportu.
+**Cel:** Samodzielnie zbudujesz i zinterpretujesz model liniowy oraz porównasz go z modelem z interakcją.
 
-**Polecenie:** Dla każdego z czterech pytań wskaż zmienne, ich typy i metodę z tabeli „Jak czytać wynik testu”. Dwa wybrane pytania rozwiąż w R i zapisz wynik jednym zdaniem z liczbami: wielkością efektu, przedziałem ufności lub statystyką testu, wartością p i liczebnością.
+**Polecenie:** Dopasuj model `czas_min ~ typ_sprawy + grupa`. Odczytaj współczynniki z przedziałami ufności i wskaż kategorię odniesienia, podaj liczbę obserwacji i R², oblicz przewidywany średni czas dla sprawy typu Opis metadanych w grupie B z przedziałem ufności. Następnie porównaj model `czas_min ~ kanal + grupa` z ćwiczenia 5.4 z modelem z interakcją `kanal * grupa` testem `anova()` i kryterium AIC.
 :::
 
-1. Czy typ sprawy jest związany z rozwiązaniem sprawy przy pierwszym kontakcie?
-2. Czy koszt obsługi różni się między grupami A i B?
-3. Czy ocena satysfakcji jest związana z kosztem obsługi?
-4. Jak czas obsługi zależy jednocześnie od typu sprawy i grupy?
-
-Przy pytaniu 1 sprawdź liczności oczekiwane, zanim zinterpretujesz test. Jeżeli korzystasz z asystenta SI, zapisz jego propozycję metody i to, jak ją zweryfikowałeś.
+Funkcje: `lm()`, `summary()`, `confint()`, `nobs()`, `predict()` z `interval = "confidence"`, `anova()`, `AIC()`. W dwóch zdaniach wyjaśnij, co oznacza współczynnik grupy B w tym modelu i czy interakcja kanału i grupy jest potrzebna.
 
 ::: {.criteria}
-**Kryteria sukcesu:** cztery pytania mają trafnie dobrane metody z uzasadnieniem typu zmiennych; dwa wyniki są obliczone i zapisane zdaniem z liczbami; wnioski nie wykraczają poza to, co pozwala stwierdzić schemat danych.
+**Kryteria sukcesu:** kategorią odniesienia jest Dostęp; grupa B skraca czas o 3,7 minuty (95% CI od −7,3 do −0,2), a typy spraw różnią się od odniesienia o mniej niż 2 minuty z przedziałami obejmującymi zero; model obejmuje 238 zgłoszeń, R² ≈ 0,03; przewidywany czas dla Opisu metadanych w grupie B to 35,2 minuty (30,4–40,0); interakcja kanału i grupy nie poprawia modelu istotnie (p = 0,13), a AIC obu modeli różni się o mniej niż 1.
 :::
 
-### Zadanie 5.8. Porównanie modeli liniowych
+### Zadanie 5.8. Model logistyczny z kanałem
 
 ::: {.brief}
-**Cel:** Sprawdzisz, czy rozbudowa modelu poprawia opis danych.
+**Cel:** Samodzielnie rozszerzysz model logistyczny, porównasz go z prostszym i policzysz prawdopodobieństwa dla profili.
 
-**Polecenie:** Porównaj model `czas_min ~ kanal + grupa` z modelem rozszerzonym o `typ_sprawy` oraz z modelem z interakcją `kanal * grupa`. Użyj `anova()` dla modeli zagnieżdżonych, `AIC()` i skorygowanego R². Wybierz model i uzasadnij wybór.
+**Polecenie:** Dopasuj model logistyczny rozwiązania sprawy od czasu, grupy i kanału. Podaj ilorazy szans z przedziałami ufności i liczbę obserwacji, porównaj AIC tego modelu z modelem z ćwiczenia 5.5 i oblicz prawdopodobieństwo rozwiązania dla siatki profili: czas 30 minut, obie grupy, trzy kanały.
 :::
 
-`anova(model1, model2)` testuje, czy dodatkowe składniki modelu 2 istotnie zmniejszają błąd; modele muszą być dopasowane do tych samych obserwacji. Skorygowane R² odczytasz jako `summary(model)$adj.r.squared`. Interakcja `kanal * grupa` pozwala, by efekt procedury B był inny w każdym kanale.
+Funkcje: `mutate()`, `glm()`, `summary()`, `exp()`, `coef()`, `confint.default()`, `nobs()`, `AIC()`, `expand.grid()`, `predict()` z `type = "response"`. W dwóch zdaniach napisz, czy kanał wnosi coś do modelu i dlaczego iloraz szans grupy B jest podobny w obu modelach.
 
 ::: {.criteria}
-**Kryteria sukcesu:** dodanie typu sprawy nie poprawia modelu (F = 1,36, p = 0,26; AIC 1882,4 wobec 1881,2), podobnie interakcja (p = 0,13); wybierasz model prostszy i wyjaśniasz, dlaczego większe R² modelu rozszerzonego nie przesądza o wyborze.
+**Kryteria sukcesu:** iloraz szans grupy B wynosi 2,50 (95% CI 1,18–5,31), a ilorazy dla kanałów Online (0,53) i Telefon (0,91) mają przedziały obejmujące 1; model obejmuje 238 zgłoszeń, a jego AIC (217,3) jest wyższe niż modelu z typem sprawy (215,8); siatka ma sześć profili z prawdopodobieństwami od 0,73 (Online, A) do 0,93 (Na miejscu, B).
 :::
 
 ## Oddanie

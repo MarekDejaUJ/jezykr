@@ -2,9 +2,9 @@
 title: "Spotkanie 3: wizualizacja danych"
 ---
 
-<div class="hero"><h2>Spotkanie 3 z 6 · 90 minut · treść programowa 4</h2><p>Porównasz szybkie wykresy bazowe z gramatyką ggplot2, zbudujesz histogram, wykres punktowy, słupkowy, pudełkowy, liniowy i mapę cieplną, przygotujesz wykres do raportu i poprawisz wykres, który wprowadza w błąd.</p></div>
+<div class="hero"><h2>Spotkanie 3 z 6 · 90 minut · treść programowa 4</h2><p>Porównasz szybkie wykresy bazowe z gramatyką ggplot2, zbudujesz histogram, wykres punktowy, słupkowy, pudełkowy, słupki błędów, linię w czasie i mapę cieplną, zapiszesz wykres do pliku, a potem samodzielnie przygotujesz trzy wykresy do raportu.</p></div>
 
-<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 8 min ćwiczenie 3.1 · 14 min ćwiczenie 3.2 · 12 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min ćwiczenie 3.5 · 27 min zadania 3.6–3.8 · 2 min oddanie. Zadania, których nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
+<div class="timebox"><strong>Plan 90 minut:</strong> 3 min start · 7 min ćwiczenie 3.1 · 10 min ćwiczenie 3.2 · 9 min ćwiczenie 3.3 · 12 min ćwiczenie 3.4 · 12 min ćwiczenie 3.5 · 30 min zadania 3.6–3.8 · 5 min oddanie. Zadania używają wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to, czego nie skończysz na zajęciach, dokończ i oddaj przed terminem podanym przez prowadzącego.</div>
 
 ::: {.start}
 **Start:** otwórz projekt `jezykr`, uruchom skrypt startowy i pobierz szablon spotkania 3. Do wykresów używaj `zgloszenia_analiza`: dwa niemożliwe czasy są w nim oznaczone jako brak. Każdy wykres w raporcie ma odpowiadać na pytanie, mieć tytuł, opisane osie z jednostkami i jedno–dwa zdania komentarza.
@@ -21,7 +21,7 @@ pobierz_szablon(3)
 |:-----------------------------|:---------------|:----------------|:-------------------|
 | Jak rozkładają się wartości? | jedna liczbowa | histogram, wykres gęstości | `geom_histogram()`, `geom_density()` |
 | Jak liczne są kategorie? | jedna kategorialna | słupkowy | `geom_bar()`, `geom_col()` |
-| Czy wartości różnią się między grupami? | liczbowa i kategorialna | pudełkowy, punkty z rozrzutem | `geom_boxplot()`, `geom_jitter()` |
+| Czy wartości różnią się między grupami? | liczbowa i kategorialna | pudełkowy, średnie ze słupkami błędów | `geom_boxplot()`, `geom_errorbar()` |
 | Czy dwie zmienne liczbowe współzmieniają się? | dwie liczbowe | punktowy z linią trendu | `geom_point()`, `geom_smooth()` |
 | Jak zmienia się wartość w czasie? | data i liczba | liniowy | `geom_line()` |
 | Jak wygląda natężenie w kombinacjach kategorii? | dwie kategorialne i liczba | mapa cieplna | `geom_tile()` |
@@ -52,12 +52,12 @@ plot(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
 
 | Funkcja | Najważniejsze argumenty | Uwagi |
 |:-------------|:-------------------------------------|:------------------------------|
-| `hist(x, breaks, ...)` | `breaks` — liczba lub granice przedziałów; `main`, `xlab`, `col`, `border` | liczba przedziałów jest tylko sugestią dla R |
-| `boxplot(formula, data, ...)` | `y ~ grupa`; `horizontal = TRUE`; `varwidth = TRUE` — szerokość zależna od liczności | punkty poza „wąsami” to wartości odstające według reguły 1,5 IQR |
-| `barplot(height, ...)` | tabela liczności; `horiz = TRUE`; `las = 1` — poziome etykiety osi | wymaga gotowych liczności z `table()` |
-| `plot(x, y, ...)` | `pch` — kształt punktu; `cex` — wielkość; `col` | ogólna funkcja: dla dwóch wektorów liczb daje wykres punktowy |
+| `hist(x, breaks, ...)` | `breaks` — liczba lub granice przedziałów; `main`, `xlab`, `col` | liczba przedziałów jest tylko sugestią dla R |
+| `boxplot(formula, data, ...)` | `y ~ grupa`; `horizontal = TRUE`; `varwidth = TRUE` | punkty poza „wąsami” to wartości odstające według reguły 1,5 IQR |
+| `barplot(height, ...)` | tabela liczności; `horiz = TRUE`; `las = 1` | wymaga gotowych liczności z `table()` |
+| `plot(x, y, ...)` | `pch` — kształt punktu; `cex` — wielkość; `col` | dla dwóch wektorów liczb daje wykres punktowy |
 
-**Sprawdź i zmień.** Porównaj histogram dla `breaks = 5` i `breaks = 40`. Dodaj do wykresu pudełkowego `varwidth = TRUE` i wyjaśnij, co oznacza szerokość pudełka. Na wykresie punktowym narysuj linię trendu: `abline(lm(koszt ~ czas_min, data = zgloszenia_analiza), lwd = 2)`.
+**Sprawdź i zmień.** Porównaj histogram dla `breaks = 5` i `breaks = 40`. Dodaj do wykresu pudełkowego `varwidth = TRUE` i wyjaśnij, co oznacza szerokość pudełka.
 
 ::: {.criteria}
 **Kryteria sukcesu:** cztery wykresy mają tytuły i opisane osie; w szablonie zapisujesz trzy obserwacje, np. który kanał ma najdłuższy czas, jaki typ sprawy dominuje i czy koszt rośnie z czasem.
@@ -68,7 +68,7 @@ plot(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt,
 ::: {.brief}
 **Cel:** Poznasz budowę wykresu ggplot2 z warstw i dobierzesz szerokość przedziałów histogramu.
 
-**Polecenie:** Zbuduj histogram czasu obsługi warstwa po warstwie: dane i estetyki, geometria, etykiety, motyw. Porównaj trzy szerokości przedziałów, dodaj linię mediany i podziel wykres na panele według kanału.
+**Polecenie:** Zbuduj histogram czasu obsługi warstwa po warstwie: dane i estetyki, geometria, linia mediany, etykiety, motyw. Porównaj trzy szerokości przedziałów i podziel wykres na panele według kanału.
 :::
 
 Wykres ggplot2 składa się z warstw łączonych znakiem `+`. `ggplot(dane, aes(...))` wskazuje dane i **estetyki** — przypisanie zmiennych do cech wykresu, np. osi `x`, koloru `fill`. **Geometria** (`geom_*`) decyduje, jak dane zostaną narysowane. `labs()` opisuje wykres, `facet_wrap()` dzieli go na panele, a `theme_*()` ustala wygląd. Stałe ustawienia, np. kolor wszystkich słupków, podajesz poza `aes()`; wewnątrz `aes()` umieszczasz tylko zmienne.
@@ -96,13 +96,13 @@ ggplot(zgloszenia_analiza, aes(x = czas_min)) +
 | Element | Najważniejsze argumenty | Działanie |
 |:-------------|:----------------------------------------------|:---------------------|
 | `ggplot(data, aes(...))` | ramka; estetyki `x`, `y`, `colour`, `fill`, `shape`, `size` | dane i przypisanie zmiennych |
-| `geom_histogram()` | `binwidth` — szerokość przedziału albo `bins` — ich liczba; `boundary` — punkt początkowy; `fill`, `colour`; `na.rm` | histogram |
+| `geom_histogram()` | `binwidth` — szerokość przedziału albo `bins` — ich liczba; `boundary`; `fill`, `colour`; `na.rm` | histogram |
 | `geom_vline()`, `geom_hline()` | `xintercept`, `yintercept`; `linetype`, `linewidth` | linia pionowa lub pozioma |
 | `labs()` | `title`, `subtitle`, `x`, `y`, `colour`, `fill`, `caption` | tytuły i opisy |
 | `facet_wrap(~ zmienna)` | `ncol`, `nrow`; `scales = "free_y"` — osobne skale | panele dla kategorii |
 | `theme_minimal(base_size)` | wielkość tekstu bazowego | gotowy motyw; inne: `theme_bw()`, `theme_classic()` |
 
-**Sprawdź i zmień.** Zmień `binwidth` na 2 i na 20: dane się nie zmieniają, zmienia się sposób ich grupowania. Na wzór pytania z R4DS wyjaśnij, dlaczego kod `ggplot(zgloszenia_analiza, aes(x = czas_min, fill = "blue")) + geom_histogram()` nie daje niebieskich słupków. Zastąp histogram warstwą `geom_density(aes(colour = kanal), na.rm = TRUE)` i porównaj kształty rozkładów kanałów.
+**Sprawdź i zmień.** Zmień `binwidth` na 2 i na 20: dane się nie zmieniają, zmienia się sposób ich grupowania. Wyjaśnij, dlaczego kod `ggplot(zgloszenia_analiza, aes(x = czas_min, fill = "blue")) + geom_histogram()` nie daje niebieskich słupków. Zastąp histogram warstwą `geom_density(aes(colour = kanal), na.rm = TRUE)`.
 
 ::: {.criteria}
 **Kryteria sukcesu:** histogram ma tytuł, osie z jednostką i linię mediany (35 minut); w opisie porównujesz trzy szerokości przedziałów i wskazujesz kanał z przesuniętym rozkładem (Telefon); wyjaśniasz różnicę między ustawieniem koloru wewnątrz i poza `aes()`.
@@ -127,8 +127,6 @@ ggplot(zgloszenia_analiza, aes(x = czas_min, y = koszt)) +
   labs(title = "Czas a koszt obsługi", x = "Czas [min]", y = "Koszt [zł]",
        colour = "Kanał") +
   theme_minimal()
-pary <- complete.cases(zgloszenia_analiza[, c("czas_min", "koszt")])
-sum(pary)
 cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt, use = "complete.obs")
 cor(zgloszenia_analiza$czas_min, zgloszenia_analiza$koszt, use = "complete.obs",
     method = "spearman")
@@ -146,27 +144,23 @@ ggplot(zgloszenia_analiza, aes(x = ocena, y = czas_min)) +
 | `scale_colour_brewer()` | `palette`, np. `"Dark2"`, `"Set2"` | paleta kolorów dla kategorii |
 | `cor(x, y, use, method)` | `use = "complete.obs"` — tylko pełne pary; `method = "pearson"` albo `"spearman"` | współczynnik korelacji |
 
-**Sprawdź i zmień.** Przenieś `colour = kanal` z `geom_point()` do `aes()` w `ggplot()` i sprawdź, ile linii trendu powstało. Zmień `method = "lm"` na `"loess"`. Wyjaśnij, dlaczego silna korelacja czasu i kosztu nie oznacza, że skrócenie rozmowy samo obniży koszt, i czego potrzebowałbyś, aby to sprawdzić.
+**Sprawdź i zmień.** Przenieś `colour = kanal` z `geom_point()` do `aes()` w `ggplot()` i sprawdź, ile linii trendu powstało. Zmień `method = "lm"` na `"loess"`. Wyjaśnij, dlaczego silna korelacja czasu i kosztu nie oznacza, że skrócenie rozmowy samo obniży koszt.
 
 ::: {.criteria}
-**Kryteria sukcesu:** wykres ma jednostki obu osi i legendę kanału; korelacja czasu i kosztu wynosi 0,96 (Pearson) i 0,95 (Spearman) dla 237 pełnych par; korelacja czasu i oceny jest ujemna (około −0,51); komentarz nie myli współzmienności z przyczyną.
+**Kryteria sukcesu:** wykres ma jednostki obu osi i legendę kanału; korelacja czasu i kosztu wynosi 0,96 (Pearson) i 0,95 (Spearman); komentarz nie myli współzmienności z przyczyną.
 :::
 
-### Ćwiczenie 3.4. Kategorie: wykresy słupkowe i pudełkowe
+### Ćwiczenie 3.4. Kategorie: słupki, pudełka i słupki błędów
 
 ::: {.brief}
-**Cel:** Porównasz liczności i rozkłady w kategoriach oraz dobierzesz układ słupków do pytania.
+**Cel:** Porównasz liczności, udziały i rozkłady w kategoriach oraz pokażesz średnie z niepewnością.
 
-**Polecenie:** Narysuj liczbę zgłoszeń w kanałach dwiema geometriami, porównaj udział spraw rozwiązanych w kanałach trzema ustawieniami `position` i zbuduj wykres pudełkowy czasu według kanału z zaznaczoną średnią.
+**Polecenie:** Narysuj liczbę zgłoszeń według typu sprawy posortowanymi słupkami, udział spraw rozwiązanych w kanałach słupkami do 100%, wykres pudełkowy czasu według kanału z zaznaczoną średnią, a na koniec średnią ocenę w kanałach jako punkty ze słupkami błędów na pełnej skali 1–5.
 :::
 
-`geom_bar()` sam liczy wiersze w każdej kategorii, a `geom_col()` rysuje gotowe wartości z kolumny `y`. Gdy kolor słupka oznacza drugą zmienną, argument `position` decyduje o układzie: `"stack"` — słupki na sobie, `"dodge"` — obok siebie, `"fill"` — udziały do 100%. Wykres pudełkowy pokazuje medianę (kreska), kwartyle (pudełko), zakres typowych wartości (wąsy) i wartości odstające (punkty).
+`geom_bar()` sam liczy wiersze w każdej kategorii, a `geom_col()` rysuje gotowe wartości z kolumny `y`. Gdy kolor słupka oznacza drugą zmienną, argument `position` decyduje o układzie: `"stack"` — słupki na sobie, `"dodge"` — obok siebie, `"fill"` — udziały do 100%. Wykres pudełkowy pokazuje medianę (kreska), kwartyle (pudełko), zakres typowych wartości (wąsy) i wartości odstające (punkty). Średnią z grupy pokazuj z niepewnością: błąd standardowy to odchylenie standardowe podzielone przez pierwiastek z liczności, a słupek ± 2 błędy to przybliżony 95-procentowy przedział ufności. `coord_cartesian()` ustala zakres osi bez usuwania danych — tu służy do pokazania pełnej skali ocen.
 
 ~~~r
-ggplot(zgloszenia_analiza, aes(x = kanal)) +
-  geom_bar(fill = "#2b6d73") +
-  labs(x = "Kanał", y = "Liczba zgłoszeń") +
-  theme_minimal()
 zgloszenia_analiza |>
   count(typ_sprawy) |>
   ggplot(aes(x = reorder(typ_sprawy, n), y = n)) +
@@ -184,6 +178,20 @@ ggplot(zgloszenia_analiza, aes(x = kanal, y = czas_min)) +
   stat_summary(fun = mean, geom = "point", shape = 4, size = 3, na.rm = TRUE) +
   labs(x = "Kanał", y = "Czas [min]", caption = "Krzyżyk: średnia") +
   theme_minimal()
+srednie_oceny <- zgloszenia_analiza |>
+  group_by(kanal) |>
+  summarise(n = sum(!is.na(ocena)),
+            se = sd(ocena, na.rm = TRUE) / sqrt(n),
+            ocena = mean(ocena, na.rm = TRUE))
+srednie_oceny
+ggplot(srednie_oceny, aes(x = kanal, y = ocena)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = ocena - 2 * se, ymax = ocena + 2 * se), width = 0.1) +
+  geom_text(aes(label = paste0("n = ", n)), vjust = -2.5, size = 3) +
+  coord_cartesian(ylim = c(1, 5)) +
+  labs(x = "Kanał", y = "Średnia ocena [1–5]",
+       caption = "Słupki: ± 2 błędy standardowe") +
+  theme_minimal()
 ~~~
 
 | Funkcja | Najważniejsze argumenty | Działanie |
@@ -193,24 +201,27 @@ ggplot(zgloszenia_analiza, aes(x = kanal, y = czas_min)) +
 | `reorder(x, X)` | kategoria; wartość sortująca | kolejność kategorii według wartości |
 | `coord_flip()` | brak | zamienia osie; długie etykiety stają się czytelne |
 | `scale_y_continuous()` | `labels = scales::percent`; `limits`; `breaks` | opis i zakres osi liczbowej |
-| `geom_boxplot()` | `outlier.colour`, `outlier.shape`; `varwidth`; `notch` | wykres pudełkowy |
+| `geom_boxplot()` | `outlier.colour`; `varwidth`; `notch` | wykres pudełkowy |
 | `stat_summary(fun, geom)` | funkcja podsumowania; geometria wyniku | dodaje np. średnią do wykresu |
+| `geom_errorbar()` | `aes(ymin, ymax)`; `width` | słupki błędów lub przedziały |
+| `geom_text()` | `aes(label)`; `vjust`, `hjust`, `size` | tekst w miejscu danych; `paste0()` skleja napisy |
+| `coord_cartesian(ylim)` | zakres osi | przycina widok bez usuwania danych; dla słupków zawsze zaczynaj od zera |
 
-**Sprawdź i zmień.** Zmień `position = "fill"` na `"dodge"` i na `"stack"`: który wariant najlepiej odpowiada na pytanie o udział rozwiązanych spraw, a który o ich liczbę? Usuń `reorder()` i porównaj czytelność. Porównaj medianę i średnią w wykresie pudełkowym Online: co oznacza ich różnica?
+**Sprawdź i zmień.** Zmień `position = "fill"` na `"dodge"`: który wariant odpowiada na pytanie o udział, a który o liczbę? W ostatnim wykresie zmień `ylim = c(1, 5)` na `c(3, 3.8)` i opisz, jak zmienia się wrażenie różnicy między kanałami, choć dane są te same. Dlaczego w `summarise()` liczysz `n` i `se`, zanim nadpiszesz kolumnę `ocena` średnią?
 
 ::: {.criteria}
-**Kryteria sukcesu:** wykresy liczności pokazują 104, 81 i 55 zgłoszeń w kanałach; wykres udziałów ma oś w procentach i pokazuje najniższy udział rozwiązanych spraw w kanale Online (77,9%); wykres pudełkowy ma opis znaczenia krzyżyka; w komentarzu wskazujesz, który wariant `position` odpowiada na które pytanie.
+**Kryteria sukcesu:** wykres udziałów ma oś w procentach i pokazuje najniższy udział rozwiązanych spraw w kanale Online (77,9%); wykres pudełkowy ma opis znaczenia krzyżyka; średnie oceny wynoszą 3,73 (Na miejscu, n = 55), 3,48 (Online, n = 101) i 3,12 (Telefon, n = 81), a słupki błędów Telefonu i kanału Na miejscu nie nakładają się.
 :::
 
-### Ćwiczenie 3.5. Linia w czasie i mapa cieplna
+### Ćwiczenie 3.5. Linia w czasie, mapa cieplna i zapis wykresu
 
 ::: {.brief}
-**Cel:** Przygotujesz dane zagregowane do wykresu liniowego i mapy cieplnej.
+**Cel:** Przygotujesz dane zagregowane do wykresu liniowego i mapy cieplnej, dopracujesz motyw i zapiszesz wykres do pliku o zadanych wymiarach.
 
-**Polecenie:** Policz zgłoszenia według miesiąca i kanału i narysuj je jako linie z datami na osi. Policz zgłoszenia w kombinacjach kanału i działu i pokaż je na mapie cieplnej z liczbami w komórkach.
+**Polecenie:** Policz zgłoszenia według miesiąca i kanału i narysuj je jako linie z datami na osi. Policz zgłoszenia w kombinacjach kanału i działu, pokaż je na mapie cieplnej z etykietami, przesuń legendę pod wykres i zapisz mapę do `wyniki/mapa_zgloszen.png` (16 × 10 cm, 300 dpi).
 :::
 
-Wykres liniowy łączy punkty w kolejności osi `x`, dlatego rysuje się go z agregatów (np. liczby zgłoszeń w miesiącu), a nie z pojedynczych rekordów. Datę miesiąca najlepiej zapisać jako typ `Date` (np. pierwszy dzień miesiąca): oś będzie wtedy uporządkowana chronologicznie, a etykiety ustawisz funkcją `scale_x_date()`. Mapa cieplna koduje wartość kolorem komórki; dopisanie liczb ułatwia dokładny odczyt.
+Wykres liniowy łączy punkty w kolejności osi `x`, dlatego rysuje się go z agregatów, a nie z pojedynczych rekordów. Datę miesiąca zapisz jako typ `Date` (pierwszy dzień miesiąca): oś będzie uporządkowana chronologicznie, a etykiety ustawisz funkcją `scale_x_date()`. Mapa cieplna koduje wartość kolorem komórki; dopisanie liczb ułatwia odczyt. Wykres zapisany w obiekcie można modyfikować dalszymi warstwami i zapisać funkcją `ggsave()`; w szablonie wygląd wykresu w PDF ustalasz opcjami bloku `fig.width`, `fig.height` (w calach) i `fig.cap` (podpis), np. `{r c3-5, fig.width=7, fig.height=4, fig.cap="Zgłoszenia w miesiącach"}`.
 
 ~~~r
 miesiace <- zgloszenia_analiza |>
@@ -226,51 +237,51 @@ ggplot(miesiace, aes(x = miesiac, y = n, colour = kanal)) +
 komorki <- zgloszenia_analiza |>
   mutate(dzial = replace_na(dzial, "brak danych")) |>
   count(kanal, dzial)
-ggplot(komorki, aes(x = kanal, y = dzial, fill = n)) +
+mapa <- ggplot(komorki, aes(x = kanal, y = dzial, fill = n)) +
   geom_tile(colour = "white") +
-  geom_text(aes(label = n)) +
-  scale_fill_gradient(low = "#f1ece2", high = "#2b6d73") +
-  labs(title = "Natężenie zgłoszeń", x = "Kanał", y = "Dział",
-       fill = "Liczba") +
-  theme_minimal()
+  geom_text(aes(label = paste0(n, " zgł."))) +
+  scale_fill_gradient(low = "#f1ece2", high = "#2b6d73", limits = c(0, 50)) +
+  labs(title = "Natężenie zgłoszeń", x = "Kanał", y = "Dział", fill = "Liczba") +
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.title = element_text(face = "bold"))
+mapa
 sum(komorki$n)
+ggsave("wyniki/mapa_zgloszen.png", mapa, width = 16, height = 10, units = "cm",
+       dpi = 300)
+file.exists("wyniki/mapa_zgloszen.png")
 ~~~
 
 | Funkcja | Najważniejsze argumenty | Działanie |
 |:-------------|:-----------------------------------|:--------------------------------|
-| `geom_line()` | `linewidth`; `linetype`; estetyka `group` | linia łącząca punkty; każda grupa lub kolor to osobna linia |
-| `scale_x_date()` | `date_breaks = "1 month"`; `date_labels = "%m.%Y"`; `limits` | podziałka i opis osi dat |
+| `geom_line()` | `linewidth`; `linetype`; estetyka `group` | linia łącząca punkty; każdy kolor to osobna linia |
+| `scale_x_date()` | `date_breaks = "1 month"`; `date_labels = "%m.%Y"` | podziałka i opis osi dat |
 | `geom_tile()` | `fill`; `colour` — obramowanie komórki | prostokątne komórki |
-| `geom_text()` | `aes(label = ...)`; `size`; `colour` | tekst w miejscu danych |
-| `scale_fill_gradient()` | `low`, `high` — kolory końców skali; `limits` | ciągła skala koloru |
+| `scale_fill_gradient()` | `low`, `high` — kolory końców skali; `limits` — zakres skali | ciągła skala koloru |
+| `theme()` | `legend.position = "bottom"`; `plot.title = element_text(face = "bold")`; `axis.text.x = element_text(angle = 45, hjust = 1)`; `panel.grid.minor = element_blank()` | szczegóły wyglądu |
+| `ggsave(filename, plot, width, height, units, dpi)` | nazwa pliku (`.png`, `.pdf`); obiekt wykresu; wymiary; `units = "cm"`; `dpi = 300` | zapis wykresu do pliku |
 
-**Sprawdź i zmień.** Zamień `miesiac` na tekst `format(data, "%m")` i sprawdź, dlaczego `geom_line()` wymaga wtedy `aes(group = kanal)`. Usuń `replace_na()` i zobacz, jak mapa przedstawia brak działu. Zastąp `scale_fill_gradient()` paletą `scale_fill_viridis_c()` i oceń czytelność.
+**Sprawdź i zmień.** Zamień `miesiac` na tekst `format(data, "%m")` i sprawdź, dlaczego `geom_line()` wymaga wtedy `aes(group = kanal)`. Usuń `limits = c(0, 50)` ze skali i porównaj kolory. Zmień `legend.position` na `"none"` i oceń, czy mapa pozostaje czytelna dzięki etykietom.
 
 ::: {.criteria}
-**Kryteria sukcesu:** wykres liniowy ma sześć miesięcy w kolejności chronologicznej i pokazuje szczyt zgłoszeń Online w maju (29); mapa ma liczby w komórkach, osobny wiersz „brak danych”, a suma komórek wynosi 240.
+**Kryteria sukcesu:** wykres liniowy ma sześć miesięcy w kolejności chronologicznej i pokazuje szczyt zgłoszeń Online w maju (29); mapa ma etykiety w komórkach, osobny wiersz „brak danych” i legendę pod wykresem, suma komórek wynosi 240, a plik `wyniki/mapa_zgloszen.png` istnieje.
 :::
 
 ## Challenge — zadania samodzielne
 
-### Zadanie 3.6. Wykres gotowy do raportu: theme(), opcje bloku i ggsave()
+W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 3.1–3.5 i poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w którym się pojawiła, albo do jej pomocy `?funkcja`.
+
+### Zadanie 3.6. Rozkład kosztu w grupach procedury
 
 ::: {.brief}
-**Cel:** Przygotujesz jeden wykres w wersji do raportu i zapiszesz go do pliku o zadanych wymiarach.
+**Cel:** Samodzielnie zbudujesz histogram z panelami, linią odniesienia i opisem oraz zapiszesz go do pliku.
 
-**Polecenie:** Wybierz jeden wykres z ćwiczeń 3.2–3.5, zapisz go w obiekcie `p`, dopracuj motyw funkcją `theme()` i zapisz do `wyniki/wykres_3_6.png` o wymiarach 16 × 10 cm i rozdzielczości 300 dpi. W nagłówku bloku ustaw rozmiar wykresu i podpis, a na koniec sprawdź, czy plik istnieje.
+**Polecenie:** Narysuj histogram kosztu obsługi (przedziały po 10 zł) w dwóch panelach według grupy procedury, z pionową linią mediany kosztu całego zbioru, tytułem, podpisanymi osiami z jednostką i podpisem źródła. Zapisz wykres w obiekcie, wyeksportuj do `wyniki/koszt_grupy.png` (16 × 10 cm, 300 dpi) i ustaw w nagłówku bloku `fig.cap`. Policz medianę kosztu w każdej grupie, aby skomentować wykres.
 :::
 
-Wykres zapisany w obiekcie (`p <- ggplot(...)`) można modyfikować dalszymi warstwami, np. `p + theme(...)`, i zapisać do pliku. Wygląd w PDF ustalasz opcjami bloku: `fig.width` i `fig.height` (w calach) oraz `fig.cap` (podpis pod wykresem). Nagłówek bloku w szablonie może wyglądać tak: `{r c3-6, fig.width=7, fig.height=4, fig.cap="Czas obsługi według kanału"}`.
-
-| Funkcja | Najważniejsze argumenty | Działanie |
-|:--------------------|:-------------------------------------------|:------------------|
-| `theme()` | `legend.position = "bottom"`; `plot.title = element_text(face = "bold")`; `panel.grid.minor = element_blank()`; `axis.text.x = element_text(angle = 45, hjust = 1)` | szczegóły wyglądu |
-| `element_text()`, `element_blank()` | `size`, `face`, `colour`, `angle`, `hjust` | opis elementu tekstowego; usunięcie elementu |
-| `ggsave(filename, plot, width, height, units, dpi)` | nazwa pliku z rozszerzeniem (`.png`, `.pdf`); obiekt wykresu; wymiary; `units = "cm"`; `dpi = 300` | zapis wykresu do pliku |
-| `file.exists()`, `file.size()` | ścieżka | kontrola zapisu |
+Funkcje: `median()`, `ggplot()`, `aes()`, `geom_histogram()`, `geom_vline()`, `facet_wrap()`, `labs()`, `theme_minimal()`, `ggsave()`, `file.exists()`, `group_by()`, `summarise()`.
 
 ::: {.criteria}
-**Kryteria sukcesu:** plik `wyniki/wykres_3_6.png` powstaje przy renderowaniu; wykres w PDF ma podpis i zadany rozmiar; zmiany w `theme()` służą czytelności, a opis wyjaśnia każdą z nich.
+**Kryteria sukcesu:** mediana kosztu całego zbioru to 69,7 zł, a w grupach 72,7 zł (A, n = 120) i 67,8 zł (B, n = 119); wykres ma dwa panele, linię mediany, jednostkę na osi i podpis `fig.cap` w PDF; plik `wyniki/koszt_grupy.png` istnieje.
 :::
 
 ### Zadanie 3.7. Mapa odsetka rozwiązanych spraw
@@ -281,7 +292,7 @@ Wykres zapisany w obiekcie (`p <- ggplot(...)`) można modyfikować dalszymi war
 **Polecenie:** Policz odsetek spraw rozwiązanych w każdej kombinacji kanału i działu i pokaż go na mapie cieplnej ze skalą 0–100%. W komórkach wpisz odsetek i liczność, np. „85% (n = 20)”. Zdecyduj, jak potraktujesz zgłoszenie bez działu, i zapisz tę decyzję.
 :::
 
-Użyj `group_by(kanal, dzial)`, `summarise(n = n(), proc = 100 * mean(rozwiazano == "Tak"))` oraz `scale_fill_gradient(limits = c(0, 100))`. Etykietę złożysz funkcją `paste0(round(proc), "% (n = ", n, ")")`. Dodaj jedno zdanie o tym, dlaczego różnica kilku punktów procentowych w grupie 15–20 zgłoszeń może być przypadkowa.
+Funkcje: `group_by()`, `summarise()` z `n()` i `mean()`, `replace_na()` albo `filter()`, `geom_tile()`, `geom_text()` z `paste0()` i `round()`, `scale_fill_gradient(limits = c(0, 100))`, `labs()`. Dodaj jedno zdanie o tym, dlaczego różnica kilku punktów procentowych w grupie 15–20 zgłoszeń może być przypadkowa.
 
 ::: {.criteria}
 **Kryteria sukcesu:** kolor oznacza odsetek, a nie liczbę zgłoszeń; skala obejmuje 0–100%; odsetki mieszczą się między 67,7% (Online, Wsparcie) a 90,3% (Telefon, Repozytorium); każda komórka pokazuje liczność, a decyzja o braku działu jest opisana.
@@ -292,23 +303,23 @@ Użyj `group_by(kanal, dzial)`, `summarise(n = n(), proc = 100 * mean(rozwiazano
 ::: {.brief}
 **Cel:** Rozpoznasz zabiegi, które zniekształcają odbiór wykresu, i przygotujesz rzetelną wersję (efekt K1).
 
-**Polecenie:** Uruchom poniższy kod i wskaż co najmniej trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję, która pokazuje średnią ocenę w kanałach wraz z niepewnością i licznością oraz ma neutralny tytuł.
+**Polecenie:** Uruchom poniższy kod i wskaż co najmniej trzy problemy tego wykresu. Następnie przygotuj poprawioną wersję: średni czas według typu sprawy jako punkty ze słupkami ± 2 błędy standardowe, z licznościami w etykietach, osią zaczynającą się od zera i neutralnym tytułem.
 :::
 
 ~~~r
-srednie_oceny <- zgloszenia_analiza |>
-  group_by(kanal) |>
-  summarise(ocena = mean(ocena, na.rm = TRUE))
-ggplot(srednie_oceny, aes(x = kanal, y = ocena, fill = kanal)) +
+srednie_czasy <- zgloszenia_analiza |>
+  group_by(typ_sprawy) |>
+  summarise(czas = mean(czas_min, na.rm = TRUE))
+ggplot(srednie_czasy, aes(x = typ_sprawy, y = czas, fill = typ_sprawy)) +
   geom_col() +
-  coord_cartesian(ylim = c(3, 3.8)) +
-  labs(title = "Kanał Na miejscu zdecydowanie najlepszy!")
+  coord_cartesian(ylim = c(33, 37.5)) +
+  labs(title = "Opis metadanych trwa zdecydowanie najdłużej!")
 ~~~
 
-Zwróć uwagę na punkt początkowy osi słupków, skalę ocen (1–5), brak liczności i rozrzutu, zbędną legendę oraz tytuł, który przesądza o przyczynie. W poprawionej wersji policz w `summarise()` także `n = sum(!is.na(ocena))` i błąd standardowy `se = sd(ocena, na.rm = TRUE) / sqrt(n)`, zanim nadpiszesz kolumnę `ocena` średnią — kolejność wyrażeń w `summarise()` ma znaczenie. Pokaż średnie punktami z `geom_errorbar(aes(ymin = ocena - 2 * se, ymax = ocena + 2 * se), width = 0.1)` na osi obejmującej skalę 1–5.
+Zwróć uwagę na punkt początkowy osi słupków, brak liczności i niepewności, zbędną legendę oraz tytuł, który przesądza o wniosku. Funkcje do wersji poprawionej: `group_by()`, `summarise()` z `sum(!is.na())`, `sd()`, `sqrt()` i `mean()`, `geom_point()`, `geom_errorbar()`, `geom_text()` z `paste0()`, `coord_cartesian(ylim = c(0, ...))`, `labs()`, `theme_minimal()`.
 
 ::: {.criteria}
-**Kryteria sukcesu:** wskazujesz co najmniej trzy problemy; poprawiony wykres ma pełną skalę ocen, pokazuje średnie 3,73 (Na miejscu), 3,48 (Online) i 3,12 (Telefon) z niepewnością oraz liczności 55, 101 i 81; tytuł opisuje wynik bez przesądzania o przyczynie.
+**Kryteria sukcesu:** wskazujesz co najmniej trzy problemy; poprawiony wykres pokazuje średnie 35,3 (Dostęp, n = 70), 36,9 (Opis metadanych, n = 36) i 33,8 minuty (Wyszukiwanie, n = 132) ze słupkami błędów, które się nakładają; oś zaczyna się od zera, a tytuł opisuje wynik bez przesądzania o różnicy.
 :::
 
 ## Oddanie

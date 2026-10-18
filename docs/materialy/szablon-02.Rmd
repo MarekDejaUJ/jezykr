@@ -37,7 +37,7 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>. Kod ze stro
 
 ## Ćwiczenie 2.2. Nowe zmienne: mutate(), if_else(), case_when() i cut()
 
-**Polecenie:** Dodaj do danych czas w godzinach, koszt minuty, pełne godziny i resztę minut, miesiąc, kwartał, znacznik długiej obsługi, kategorię czasu oraz opis oceny. Sprawdź nowe zmienne funkcją `count()`.
+**Polecenie:** Dodaj do danych czas w godzinach, koszt minuty, miesiąc, kwartał, znacznik długiej obsługi, kategorię czasu oraz opis oceny. Sprawdź nowe zmienne funkcją `count()`.
 
 ```{r c2-2}
 # Twój kod
@@ -45,9 +45,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 2.3. Grupowanie i podsumowania: group_by(), summarise(), count() i across()
+## Ćwiczenie 2.3. Grupowanie i podsumowania: group_by(), summarise(), across()
 
-**Polecenie:** Dla każdego kanału policz liczbę zgłoszeń, braki czasu, średnią, medianę i odchylenie standardowe czasu oraz odsetek spraw rozwiązanych. Policz kombinacje kanału i działu, średnie kilku zmiennych naraz według grupy procedury oraz różnicę czasu każdego zgłoszenia od średniej jego kanału.
+**Polecenie:** Dla każdego kanału policz liczbę zgłoszeń, braki czasu, średnią, medianę i odchylenie standardowe czasu oraz odsetek spraw rozwiązanych i posortuj wynik malejąco według średniej. Policz średnie kilku zmiennych naraz według grupy procedury oraz różnicę czasu każdego zgłoszenia od średniej jego kanału.
 
 ```{r c2-3}
 # Twój kod
@@ -55,9 +55,9 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 2.4. Dane uporządkowane, tidyr i łączenie tabel
+## Ćwiczenie 2.4. Układ tabeli, braki i łączenie tabel: tidyr i joins
 
-**Polecenie:** Zamień zestawienie kanału i grupy na tabelę szeroką i z powrotem na długą, zbuduj tabelę działów według miesięcy, porównaj `drop_na()` z `replace_na()`, a następnie połącz zgłoszenia z arkuszem `dzialy` i znajdź dział, który nie ma zgłoszeń.
+**Polecenie:** Zamień zestawienie kanału i grupy na tabelę szeroką i z powrotem na długą, zastąp brak działu etykietą „nieznany”, połącz zgłoszenia z arkuszem `dzialy`, policz zgłoszenia na etat w każdym dziale i znajdź dział bez zgłoszeń.
 
 ```{r c2-4}
 # Twój kod
@@ -65,41 +65,41 @@ Instrukcja: <https://marekdejauj.github.io/jezykr/spotkanie-2.html>. Kod ze stro
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Ćwiczenie 2.5. Próby losowe i symulacja
+## Ćwiczenie 2.5. Funkcja z warunkiem, pętla i próba losowa
 
-**Polecenie:** Po `set.seed()` wylosuj wartości funkcją `sample()`, pobierz próbę 24 zgłoszeń i próbę warstwową 10% z każdego kanału, wygeneruj dane z rozkładu normalnego i sprawdź na 500 próbach, jak bardzo średnia z próby różni się od średniej całego zbioru.
+**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i zatrzymuje się przy progu spoza 0–100. Zastosuj ją pętlą `for` i funkcją `vapply()` do czterech kolumn. Potem po `set.seed()` wylosuj identyfikatory, próbę 24 zgłoszeń i 500 średnich z prób.
 
-```{r c2-5}
+```{r c2-5, error=TRUE}
 # Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 2.6. Funkcja z walidacją i debugowanie
+## Zadanie 2.6. Potok na nowym pytaniu
 
-**Polecenie:** Napisz funkcję `opisz(x, cyfry = 1)`, która dla wektora liczbowego zwraca nazwany wektor: liczbę elementów, liczbę braków, średnią, medianę i odchylenie standardowe. Funkcja ma zatrzymać się z czytelnym komunikatem, gdy `x` nie jest liczbowy. Następnie znajdź i popraw błąd w funkcji `srednia_bez_skrajnych()`.
+**Polecenie:** Ze zbioru `zgloszenia_analiza` wybierz sprawy typu Dostęp z niebrakującą oceną. Dodaj kolumnę `ocena_opis` (zadowolony dla oceny 4–5, neutralny dla 3, niezadowolony dla 1–2) i kolumnę `koszt_kat` z przedziałami do 50, 51–100 i ponad 100 zł. Policz liczności obu nowych zmiennych i wypisz trzy najdroższe sprawy (`id`, `koszt`, `ocena_opis`). Na koniec policz zgłoszenia grupy B trwające od 20 do 40 minut.
 
-```{r c2-6, error=TRUE}
+```{r c2-6}
 # Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 2.7. Pętla i warunek: program kontroli jakości
+## Zadanie 2.7. Zestawienie dla kierownika
 
-**Polecenie:** Napisz funkcję `ocen_kolumne(x, prog_brakow = 1)`, która zwraca „sprawdź”, gdy odsetek braków przekracza próg, a „OK” w przeciwnym razie, i odrzuca próg spoza 0–100. Pętlą `for` oceń kolumny `dzial`, `czas_min`, `ocena`, `koszt` i `rozwiazano`, zapisując wynik w ramce z nazwą kolumny, procentem braków i oceną. Porównaj wynik z wersją bez pętli.
+**Polecenie:** Przygotuj tabelę: dla każdego działu liczba zgłoszeń, liczba etatów, liczba zgłoszeń na etat, odsetek spraw rozwiązanych i mediana czasu, posortowaną malejąco według obciążenia etatu; zgłoszenie bez działu oznacz jako „nieznany”. Dodaj drugą tabelę w układzie szerokim: działy w wierszach, kanały w kolumnach, liczności w komórkach.
 
-```{r c2-7, error=TRUE}
+```{r c2-7}
 # Twój kod
 ```
 
 **Wynik i interpretacja:** uzupełnij własnymi słowami.
 
-## Zadanie 2.8. Zestawienie dla kierownika z pomocą dokumentacji
+## Zadanie 2.8. Własna funkcja w pętli i próba losowa
 
-**Polecenie:** Przygotuj tabelę dla kierownika: dla każdego działu liczba zgłoszeń, liczba etatów, liczba zgłoszeń na etat, odsetek spraw rozwiązanych i mediana czasu, posortowana malejąco według obciążenia etatu. Zgłoszenie bez działu oznacz jako „nieznany”. Dodaj drugą tabelę w układzie szerokim: działy w wierszach, kanały w kolumnach. Zapisz, z których stron pomocy korzystałeś i jaki argument tam sprawdziłeś.
+**Polecenie:** Napisz funkcję `udzial_powyzej(x, prog = 45)`, która zwraca odsetek wartości większych niż próg (z pominięciem braków, zaokrąglony do jednego miejsca) i zatrzymuje się z komunikatem, gdy `x` nie jest liczbowy. Pętlą `for` policz odsetek zgłoszeń dłuższych niż 45 minut w każdym kanale, a funkcją `vapply()` odsetek wartości powyżej 60 dla kolumn `czas_min` i `koszt`. Po `set.seed(17358)` wylosuj 30 zgłoszeń, policz w nich średni czas i liczności kanałów, a potem 200 średnich z prób po 30 zgłoszeń.
 
-```{r c2-8}
+```{r c2-8, error=TRUE}
 # Twój kod
 ```
 

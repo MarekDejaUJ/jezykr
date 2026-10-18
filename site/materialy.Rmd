@@ -7,7 +7,7 @@ title: "Materiały do pobrania"
 | Materiał | Zastosowanie |
 |:------------|:--------------------------------------------------------------------|
 | [Sylabus PDF](materialy/jezyk-r-uj-wzzins-24-17358-26.pdf) | Treści, efekty uczenia się i formalne warunki zaliczenia |
-| [`init-v2.R`](materialy/init-v2.R) | Skrypt startowy: pakiety, fikcyjne dane CSV i XLSX, obiekty `zgloszenia` i `zgloszenia_analiza`, funkcje `pobierz_szablon()` i `oddaj_zadanie()` |
+| [`init-v2.R`](materialy/init-v2.R) | Skrypt startowy: pakiety R i TinyTeX, fikcyjne dane CSV i XLSX, obiekty `zgloszenia` i `zgloszenia_analiza`, funkcje `pobierz_szablon()`, `oddaj_zadanie()` i `sprawdz_srodowisko()` |
 | [Szablon projektu](materialy/szablon-projekt.Rmd) | Grupowy raport zaliczeniowy |
 | [Cztery prompty](prompty.html) | Instrukcje agenta Microsoft 365 Copilot |
 
@@ -31,7 +31,7 @@ title: "Materiały do pobrania"
 3. Kod ze strony wpisuj lub kopiuj do bloków pod poleceniami, a interpretacje zapisuj w polach **Wynik i interpretacja**.
 4. W trakcie pracy renderuj dokument przyciskiem **Knit**. Na koniec oddaj pracę w konsoli, np. `oddaj_zadanie(3)`: funkcja sprawdzi szablon, wyrenderuje go do PDF w nowej sesji R i po potwierdzeniu wyśle plik prowadzącemu ([opis](organizacyjne.html#oddanie)). Plik `.Rmd` zapisz w OneDrive.
 
-W pracowni R, RStudio, Positron, pakiety kursu i TinyTeX są zainstalowane na stałe, a pliki użytkownika znikają po wyłączeniu komputera. Skrypt startowy przy każdym uruchomieniu odtwarza identyczne dane w folderze `dane/`, więc żadne spotkanie nie wymaga plików z poprzednich zajęć. Na własnym komputerze skrypt doinstaluje brakujące pakiety, a TinyTeX zainstalujesz raz według [ćwiczenia 0.2](organizacyjne.html#ćwiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf). Jeżeli PDF nie powstaje z powodu LaTeX-a, `oddaj_zadanie()` przygotuje i wyśle wersję HTML.
+W pracowni R, RStudio, Positron, pakiety kursu i TinyTeX są zainstalowane na stałe, a pliki użytkownika znikają po wyłączeniu komputera. Skrypt startowy przy każdym uruchomieniu odtwarza identyczne dane w folderze `dane/`, więc żadne spotkanie nie wymaga plików z poprzednich zajęć. Na własnym komputerze skrypt przy pierwszym uruchomieniu w konsoli doinstaluje brakujące pakiety R, a gdy nie ma LaTeX-a — TinyTeX z pakietami dla polskich dokumentów ([ćwiczenie 0.2](organizacyjne.html#ćwiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf)). Polecenie `sprawdz_srodowisko()` pokazuje listę kontrolną środowiska. Jeżeli PDF mimo to nie powstaje, `oddaj_zadanie()` przygotuje i wyśle wersję HTML.
 
 | Plik w folderze `dane/` | Zawartość |
 |:---------------|:-----------------------------------------------------------------|

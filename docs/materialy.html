@@ -13,7 +13,7 @@
 
 <title>Materiały do pobrania</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -410,10 +410,10 @@ zaliczenia</td>
 <tr class="even">
 <td align="left"><a
 href="materialy/init-v2.R"><code>init-v2.R</code></a></td>
-<td align="left">Skrypt startowy: pakiety, fikcyjne dane CSV i XLSX,
-obiekty <code>zgloszenia</code> i <code>zgloszenia_analiza</code>,
-funkcje <code>pobierz_szablon()</code> i
-<code>oddaj_zadanie()</code></td>
+<td align="left">Skrypt startowy: pakiety R i TinyTeX, fikcyjne dane CSV
+i XLSX, obiekty <code>zgloszenia</code> i
+<code>zgloszenia_analiza</code>, funkcje <code>pobierz_szablon()</code>,
+<code>oddaj_zadanie()</code> i <code>sprawdz_srodowisko()</code></td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="materialy/szablon-projekt.Rmd">Szablon
@@ -531,10 +531,12 @@ zapisz w OneDrive.</li>
 zainstalowane na stałe, a pliki użytkownika znikają po wyłączeniu
 komputera. Skrypt startowy przy każdym uruchomieniu odtwarza identyczne
 dane w folderze <code>dane/</code>, więc żadne spotkanie nie wymaga
-plików z poprzednich zajęć. Na własnym komputerze skrypt doinstaluje
-brakujące pakiety, a TinyTeX zainstalujesz raz według <a
-href="organizacyjne.html#%C4%87wiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf">ćwiczenia
-0.2</a>. Jeżeli PDF nie powstaje z powodu LaTeX-a,
+plików z poprzednich zajęć. Na własnym komputerze skrypt przy pierwszym
+uruchomieniu w konsoli doinstaluje brakujące pakiety R, a gdy nie ma
+LaTeX-a — TinyTeX z pakietami dla polskich dokumentów (<a
+href="organizacyjne.html#%C4%87wiczenie-0.2.-szablon-r-markdown-blok-startowy-i-pierwszy-pdf">ćwiczenie
+0.2</a>). Polecenie <code>sprawdz_srodowisko()</code> pokazuje listę
+kontrolną środowiska. Jeżeli PDF mimo to nie powstaje,
 <code>oddaj_zadanie()</code> przygotuje i wyśle wersję HTML.</p>
 <table>
 <colgroup>

@@ -13,7 +13,7 @@
 
 <title>Spotkanie 6: biblioteki R i generatywna SI</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -400,10 +400,11 @@ pomocą asystenta, zawsze sprawdzając wynik w R.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 3 min start · 15 min ćwiczenie 6.1 · 10
-min ćwiczenie 6.2 · 14 min ćwiczenie 6.3 · 10 min ćwiczenie 6.4 · 10 min
-ćwiczenie 6.5 · 26 min zadania 6.6–6.8 · 2 min oddanie. Zadania, których
-nie ukończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
+<strong>Plan 90 minut:</strong> 3 min start · 14 min ćwiczenie 6.1 · 9
+min ćwiczenie 6.2 · 12 min ćwiczenie 6.3 · 9 min ćwiczenie 6.4 · 8 min
+ćwiczenie 6.5 · 30 min zadania 6.6–6.8 · 5 min oddanie. Zadania używają
+wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to, czego nie
+skończysz na zajęciach, dokończ i oddaj przed terminem podanym przez
 prowadzącego.
 </div>
 <div class="start">
@@ -817,6 +818,9 @@ podpowiedzią z komunikatu.</p>
 </div>
 <div id="challenge-zadania-samodzielne" class="section level2">
 <h2>Challenge — zadania samodzielne</h2>
+<p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 6.1–6.5 i
+poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w
+którym się pojawiła, albo do jej pomocy <code>?funkcja</code>.</p>
 <div id="zadanie-6.6.-napraw-kod-i-audytuj-sugestię"
 class="section level3">
 <h3>Zadanie 6.6. Napraw kod i audytuj sugestię</h3>
@@ -835,12 +839,15 @@ obliczeniem.</p>
   group_by(grupa) |&gt;
   summarise(srednia = mean(czas_minn),
             odsetek = 100 * mean(rozwiazano == &quot;tak&quot;)</code></pre>
-<p>W szablonie zapisz: listę znalezionych błędów, krótką diagnozę CLI,
-poprawiony kod z wynikiem i jedną sugestię asystenta, której nie
-przyjąłeś albo którą dodatkowo sprawdziłeś. Błąd ukryty jest groźniejszy
-od jawnego: kod działa, ale zwraca np. 0% rozwiązanych spraw. Jeżeli
-limit planu Free się wyczerpie, wykonaj diagnozę samodzielnie i opisz,
-jak ją sprawdziłeś.</p>
+<p>Funkcje: <code>filter()</code>, <code>group_by()</code>,
+<code>summarise()</code>, <code>mean()</code>, <code>n()</code>; do
+niezależnej kontroli <code>table()</code> i <code>prop.table()</code>
+albo <code>tapply()</code>. W szablonie zapisz: listę znalezionych
+błędów, krótką diagnozę CLI, poprawiony kod z wynikiem i jedną sugestię
+asystenta, której nie przyjąłeś albo którą dodatkowo sprawdziłeś. Błąd
+ukryty jest groźniejszy od jawnego: kod działa, ale zwraca np. 0%
+rozwiązanych spraw. Jeżeli limit planu Free się wyczerpie, wykonaj
+diagnozę samodzielnie i opisz, jak ją sprawdziłeś.</p>
 <div class="criteria">
 <p><strong>Kryteria sukcesu:</strong> poprawiony kod zwraca średni czas
 34,4 minuty i 70,2% rozwiązanych spraw w grupie A (n = 57) oraz 25,6
@@ -857,9 +864,11 @@ interpretację w krótki raport dla decydenta i udokumentujesz użycie
 SI.</p>
 <p><strong>Polecenie:</strong> Napisz akapit (do 150 słów) dla
 kierownika obsługi: czy pilotażowa procedura B skraca czas obsługi i
-zwiększa odsetek spraw rozwiązanych przy pierwszym kontakcie. Podaj
-liczby z niepewnością i wielkością efektu z ćwiczeń 5.1, 5.2 i 6.3 oraz
-jedno ograniczenie. Dołącz tabelę dziennika użycia SI.</p>
+zwiększa odsetek spraw rozwiązanych przy pierwszym kontakcie. Liczby
+oblicz w bloku kodu: różnicę czasu z przedziałem ufności, d Cohena z
+etykietą według wskazanej konwencji, odsetki spraw rozwiązanych w obu
+grupach i iloraz szans z przedziałem. Dodaj jedno ograniczenie i tabelę
+dziennika użycia SI.</p>
 </div>
 <table style="width:100%;">
 <colgroup>
@@ -889,14 +898,19 @@ konwencjami</td>
 </tr>
 </tbody>
 </table>
-<p>Tabelę w R Markdown zapiszesz tak samo jak powyżej: wiersz nagłówka,
-wiersz z <code>|:---|</code> i kolejne wiersze. Każda liczba w akapicie
-musi pochodzić z bloku kodu w tym samym dokumencie.</p>
+<p>Funkcje: <code>filter()</code>, <code>t.test()</code>,
+<code>effectsize::cohens_d()</code>,
+<code>effectsize::interpret_cohens_d()</code>, <code>xtabs()</code>,
+<code>prop.table()</code>, <code>effectsize::oddsratio()</code>. Tabelę
+w R Markdown zapiszesz tak samo jak powyżej: wiersz nagłówka, wiersz z
+<code>|:---|</code> i kolejne wiersze. Każda liczba w akapicie musi
+pochodzić z bloku kodu w tym samym dokumencie.</p>
 <div class="criteria">
-<p><strong>Kryteria sukcesu:</strong> akapit ma najwyżej 150 słów,
-zawiera różnicę czasu z przedziałem ufności, odsetki rozwiązanych spraw
-w obu grupach, wielkość efektu z konwencją i ograniczenie; dziennik ma
-co najmniej dwa wpisy z opisem weryfikacji.</p>
+<p><strong>Kryteria sukcesu:</strong> akapit ma najwyżej 150 słów i
+podaje różnicę 3,5 minuty (95% CI 0,02–7,08), d Cohena 0,26 z nazwą
+konwencji, odsetki 76,0% i 89,1% oraz iloraz szans 2,57 (1,26–5,23) wraz
+z ograniczeniem; dziennik ma co najmniej dwa wpisy z opisem
+weryfikacji.</p>
 </div>
 </div>
 <div id="zadanie-6.8.-szkic-projektu-grupowego" class="section level3">
