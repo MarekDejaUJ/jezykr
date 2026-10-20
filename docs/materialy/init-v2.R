@@ -20,7 +20,9 @@ adres_kursu <- "https://marekdejauj.github.io/jezykr/materialy/"
 pakiety_podstawowe <- c("dplyr", "tidyr", "ggplot2", "readxl", "writexl", "rmarkdown", "knitr")
 pakiety_spotkan <- c("dlookr", "explore", "ggstatsplot", "effectsize", "report", "parameters")
 pakiety_narzedzia <- c("tinytex", "curl", "rstudioapi")
-pakiety_latex <- c("babel-polish", "hyphen-polish", "fvextra", "xurl")
+pakiety_latex <- c("fontspec", "unicode-math", "lm", "lm-math", "babel-polish", "hyphen-polish", "geometry",
+                   "hyperref", "bookmark", "booktabs", "fancyvrb", "float", "framed", "xcolor", "upquote",
+                   "microtype", "parskip", "xurl", "fvextra", "lineno", "etoolbox")
 
 # Gdy biblioteka systemowa R jest tylko do odczytu (typowe w pracowni i na Windows),
 # pakiety trafiają do biblioteki użytkownika; tworzymy ją, zanim R zapyta o to w okienku.
@@ -62,29 +64,66 @@ pakiety_kursu <- function(nazwy) {
   invisible(nazwy)
 }
 
-# LaTeX jest potrzebny do PDF. Instalacja TinyTeX wykonuje się tylko w konsoli (nie podczas
-# renderowania), raz na komputerze; pakiety LaTeX dla polskich dokumentów są dodawane od razu.
+# LaTeX jest potrzebny do PDF. Instalacja TinyTeX wykonuje się w konsoli przy pierwszym uruchomieniu
+# skryptu na komputerze (nie podczas renderowania), a oddaj_zadanie() ponawia ją, gdy PDF nie powstaje;
+# pakiety LaTeX dla polskich dokumentów są dodawane od razu.
+
+# Katalog instalacji TinyTeX: domyślny (%APPDATA%\TinyTeX). Gdy ścieżka profilu zawiera spację albo znak
+# spoza ASCII (np. polskie litery w nazwie konta), TeX Live nie działa, więc instalacja trafia
+# do C:\Users\Public\TinyTeX.
+katalog_tinytex <- function() {
+  if (.Platform$OS.type != "windows") return("auto")
+  profil <- normalizePath(Sys.getenv("APPDATA"), winslash = "/", mustWork = FALSE)
+  if (grepl("[^!-~]", profil)) file.path(Sys.getenv("SystemDrive", "C:"), "Users/Public/TinyTeX") else "auto"
+}
+
+# TinyTeX zainstalowany w trakcie sesji R nie jest jeszcze na PATH tej sesji; dopisujemy jego katalog bin.
+sciezka_tinytex <- function() {
+  if (nzchar(Sys.which("xelatex"))) return(TRUE)
+  kandydaci <- tryCatch(tinytex::tinytex_root(error = FALSE), error = function(e) "")
+  if (.Platform$OS.type == "windows") {
+    kandydaci <- c(kandydaci, file.path(Sys.getenv("APPDATA"), "TinyTeX"),
+                   file.path(Sys.getenv("SystemDrive", "C:"), "Users/Public/TinyTeX"))
+  }
+  for (korzen in kandydaci[nzchar(kandydaci)]) {
+    bin <- list.dirs(file.path(korzen, "bin"), recursive = FALSE)
+    if (length(bin) == 0L) next
+    Sys.setenv(PATH = paste(bin[1], Sys.getenv("PATH"), sep = .Platform$path.sep))
+    if (nzchar(Sys.which("xelatex"))) return(TRUE)
+  }
+  FALSE
+}
+
 latex_dostepny <- function() {
-  nzchar(Sys.which("xelatex")) || nzchar(tinytex::tinytex_root(error = FALSE))
+  nzchar(Sys.which("xelatex")) || sciezka_tinytex()
+}
+
+# Instaluje TinyTeX z pakietami LaTeX kursu; TRUE, gdy xelatex jest dostępny po zakończeniu.
+zainstaluj_latex <- function() {
+  if (latex_dostepny()) return(invisible(TRUE))
+  katalog <- katalog_tinytex()
+  # Niepełna instalacja (katalog bez xelatex) wymaga nadpisania.
+  cel <- if (katalog == "auto") file.path(Sys.getenv("APPDATA"), "TinyTeX") else katalog
+  message("Nie znalazłem LaTeX-a do tworzenia PDF. Instaluję TinyTeX (ok. 150 MB) z pakietami dla polskich ",
+          "dokumentów; to jednorazowe i trwa zwykle 2-5 minut. Nie zamykaj sesji R...")
+  argumenty <- list(force = .Platform$OS.type == "windows" && dir.exists(cel), extra_packages = pakiety_latex)
+  if (katalog != "auto") argumenty$dir <- katalog
+  wynik <- tryCatch({
+    do.call(tinytex::install_tinytex, argumenty)
+    TRUE
+  }, error = function(e) {
+    message("Instalacja TinyTeX nie powiodła się: ", conditionMessage(e),
+            "\nSpróbuj ponownie z dostępem do internetu albo uruchom w konsoli: ",
+            "tinytex::install_tinytex()")
+    FALSE
+  })
+  if (wynik && latex_dostepny()) message("TinyTeX zainstalowany.")
+  invisible(wynik && latex_dostepny())
 }
 
 przygotuj_latex <- function() {
   if (!interactive()) return(invisible(latex_dostepny()))
-  if (!latex_dostepny()) {
-    message("Nie znalazłem LaTeX-a do tworzenia PDF. Instaluję TinyTeX (ok. 150 MB); ",
-            "to jednorazowe i trwa zwykle 2-5 minut...")
-    wynik <- tryCatch({
-      tinytex::install_tinytex(extra_packages = pakiety_latex)
-      TRUE
-    }, error = function(e) {
-      message("Instalacja TinyTeX nie powiodła się: ", conditionMessage(e),
-              "\nSpróbuj ponownie z dostępem do internetu albo uruchom w konsoli: ",
-              "tinytex::install_tinytex()")
-      FALSE
-    })
-    if (!wynik) return(invisible(FALSE))
-    message("TinyTeX zainstalowany. Jeżeli pierwsze renderowanie PDF nie zadziała, zrestartuj RStudio.")
-  }
+  if (!zainstaluj_latex()) return(invisible(FALSE))
   if (tinytex::is_tinytex()) {
     brak <- tryCatch(pakiety_latex[!tinytex::check_installed(pakiety_latex)],
                      error = function(e) character())
@@ -437,6 +476,13 @@ oddaj_zadanie <- local({
     nazwa <- paste(do_nazwy_pliku(autor$nazwisko), do_nazwy_pliku(autor$imie), klucz, sep = "_")
     message("Renderuję ", basename(plik), " do PDF w nowej sesji R. To może potrwać około minuty...")
     wynik <- renderuj(plik, paste0(nazwa, ".pdf"), "pdf_document")
+    if (!wynik$ok && !wynik$blad_kodu && !latex_dostepny()) {
+      message("Nie powstał PDF, bo na tym komputerze brakuje LaTeX-a.")
+      if (zainstaluj_latex()) {
+        message("Renderuję do PDF ponownie...")
+        wynik <- renderuj(plik, paste0(nazwa, ".pdf"), "pdf_document")
+      }
+    }
     if (!wynik$ok && wynik$blad_kodu) {
       stop("Dokument nie renderuje się w nowej sesji R:\n\n", fragment_logu(wynik$log), "\n\n",
            "Popraw wskazany blok (Knit pokaże ten sam błąd) i uruchom oddaj_zadanie(", nr, ") ponownie.",
@@ -444,8 +490,8 @@ oddaj_zadanie <- local({
     }
     if (!wynik$ok) {
       message("Nie powstał PDF, prawdopodobnie z powodu LaTeX-a:\n\n", fragment_logu(wynik$log), "\n\n",
-              "Sprawdź środowisko poleceniem sprawdz_srodowisko(). Jeśli brakuje LaTeX-a, uruchom ponownie ",
-              "skrypt startowy w konsoli (zainstaluje TinyTeX) i zrestartuj RStudio.\n",
+              "Sprawdź środowisko poleceniem sprawdz_srodowisko(). Jeśli brakuje pakietu LaTeX, uruchom ponownie ",
+              "skrypt startowy w konsoli (doinstaluje TinyTeX i pakiety LaTeX).\n",
               "Teraz przygotowuję wersję HTML, aby praca mogła zostać oddana.")
       wynik_pdf <- wynik
       wynik <- renderuj(plik, paste0(nazwa, ".html"), "html_document")

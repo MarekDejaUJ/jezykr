@@ -12,6 +12,8 @@ site/.Rproj.user/
 # Pliki prywatne i tymczasowe
 przygotowanie-kursu.md
 .work/
+zadania/
+.audyt/
 *.tmp
 *.bak
 ~$*
