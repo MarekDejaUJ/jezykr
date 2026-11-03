@@ -911,19 +911,24 @@ sekcji raportu.</p>
 generuj go w konsoli, a nie podczas renderowania szablonu. Argument
 <code>output_dir</code> wymaga pełnej ścieżki;
 <code>normalizePath("wyniki")</code> zamienia ścieżkę względną na pełną.
-Zmienna docelowa musi być czynnikiem: kolumna <code>grupa</code> jest
-tekstem, a <code>dlookr</code> (wersja 0.6.5) przy tekstowej zmiennej
-docelowej przerywa raport w sekcji „Target Variable and Numeric
-Variables” błędem <code>object 'tabs' not found</code>, dlatego pierwszy
-wiersz zamienia <code>grupa</code> na czynnik funkcją
-<code>factor()</code>.</p>
+Obie funkcje zapisują plik HTML w folderze <code>wyniki/</code> i same
+nic nie wyświetlają; raport otwierasz poleceniem
+<code>browseURL()</code> albo z panelu Files w RStudio (kliknięcie
+pliku, View in Web Browser). Zmienna docelowa musi być czynnikiem:
+kolumna <code>grupa</code> jest tekstem, a <code>dlookr</code> (wersja
+0.6.5) przy tekstowej zmiennej docelowej przerywa raport w sekcji
+„Target Variable and Numeric Variables” błędem
+<code>object 'tabs' not found</code>, dlatego pierwszy wiersz zamienia
+<code>grupa</code> na czynnik funkcją <code>factor()</code>.</p>
 <pre class="r bez-uruchamiania"><code>zgloszenia_analiza$grupa &lt;- factor(zgloszenia_analiza$grupa)
 dlookr::eda_web_report(zgloszenia_analiza, target = &quot;grupa&quot;,
                        output_file = &quot;eda.html&quot;,
                        output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;),
                        title = &quot;Eksploracja zgłoszeń&quot;, browse = FALSE)
+browseURL(&quot;wyniki/eda.html&quot;)
 explore::report(zgloszenia_analiza, output_file = &quot;explore.html&quot;,
-                output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;))</code></pre>
+                output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;))
+browseURL(&quot;wyniki/explore.html&quot;)</code></pre>
 <table>
 <colgroup>
 <col width="23%" />
@@ -949,7 +954,9 @@ niej</td>
 <tr class="odd">
 <td align="left"><code>browse</code></td>
 <td align="left"><code>TRUE</code> otwiera raport od razu w
-przeglądarce</td>
+przeglądarce; przy <code>FALSE</code> plik otwiera
+<code>browseURL()</code> albo kliknięcie pliku w panelu Files (View in
+Web Browser)</td>
 </tr>
 <tr class="even">
 <td align="left"><code>title</code>, <code>subtitle</code>,

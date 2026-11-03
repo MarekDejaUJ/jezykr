@@ -211,7 +211,7 @@ ggstatsplot::ggscatterstats(data = zgloszenia_analiza, x = czas_min, y = koszt,
 **Polecenie:** W konsoli wygeneruj raport `dlookr::eda_web_report()` do pliku `wyniki/eda.html` i otwórz go w przeglądarce. W szablonie pokaż kod w bloku z `eval=FALSE` i wypisz nazwy głównych sekcji raportu.
 :::
 
-Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu. Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną. Zmienna docelowa musi być czynnikiem: kolumna `grupa` jest tekstem, a `dlookr` (wersja 0.6.5) przy tekstowej zmiennej docelowej przerywa raport w sekcji „Target Variable and Numeric Variables” błędem `object 'tabs' not found`, dlatego pierwszy wiersz zamienia `grupa` na czynnik funkcją `factor()`.
+Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu. Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną. Obie funkcje zapisują plik HTML w folderze `wyniki/` i same nic nie wyświetlają; raport otwierasz poleceniem `browseURL()` albo z panelu Files w RStudio (kliknięcie pliku, View in Web Browser). Zmienna docelowa musi być czynnikiem: kolumna `grupa` jest tekstem, a `dlookr` (wersja 0.6.5) przy tekstowej zmiennej docelowej przerywa raport w sekcji „Target Variable and Numeric Variables” błędem `object 'tabs' not found`, dlatego pierwszy wiersz zamienia `grupa` na czynnik funkcją `factor()`.
 
 ~~~{.r .bez-uruchamiania}
 zgloszenia_analiza$grupa <- factor(zgloszenia_analiza$grupa)
@@ -219,15 +219,17 @@ dlookr::eda_web_report(zgloszenia_analiza, target = "grupa",
                        output_file = "eda.html",
                        output_dir = normalizePath("wyniki", winslash = "/"),
                        title = "Eksploracja zgłoszeń", browse = FALSE)
+browseURL("wyniki/eda.html")
 explore::report(zgloszenia_analiza, output_file = "explore.html",
                 output_dir = normalizePath("wyniki", winslash = "/"))
+browseURL("wyniki/explore.html")
 ~~~
 
 | Argument | Znaczenie |
 |:------------------|:--------------------------------------------------------------|
 | `target` | nazwa zmiennej docelowej (w `dlookr` jako tekst); kolumna musi być czynnikiem; raport dodaje porównania względem niej |
 | `output_file`, `output_dir` | nazwa pliku i pełna ścieżka folderu |
-| `browse` | `TRUE` otwiera raport od razu w przeglądarce |
+| `browse` | `TRUE` otwiera raport od razu w przeglądarce; przy `FALSE` plik otwiera `browseURL()` albo kliknięcie pliku w panelu Files (View in Web Browser) |
 | `title`, `subtitle`, `author` | opisy strony tytułowej |
 
 **Sprawdź i zmień.** Sprawdź rozmiar plików funkcją `file.size()`: dlaczego raporty HTML są tak duże i dlaczego nie oddajesz ich razem z pracą?
