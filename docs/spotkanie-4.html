@@ -400,12 +400,12 @@ potem powtórzysz te kroki samodzielnie dla innych zmiennych.
 </p>
 </div>
 <div class="timebox">
-<strong>Plan 90 minut:</strong> 5 min start i pakiety · 10 min ćwiczenie
-4.1 · 10 min ćwiczenie 4.2 · 8 min ćwiczenie 4.3 · 14 min ćwiczenie 4.4
-· 6 min ćwiczenie 4.5 · 30 min zadania 4.6–4.8 · 5 min oddanie. Zadania
-używają wyłącznie funkcji z ćwiczeń tego i poprzednich spotkań; to,
-czego nie skończysz na zajęciach, dokończ i oddaj przed terminem podanym
-przez prowadzącego.
+<strong>Plan 90 minut:</strong> 5 min start i pakiety · 8 min ćwiczenie
+4.1 · 8 min ćwiczenie 4.2 · 8 min ćwiczenie 4.3 · 7 min ćwiczenie 4.4 ·
+12 min ćwiczenie 4.5 · 5 min ćwiczenie 4.6 · 32 min zadania 4.7–4.9 · 5
+min oddanie. Zadania używają wyłącznie funkcji z ćwiczeń tego i
+poprzednich spotkań; to, czego nie skończysz na zajęciach, dokończ i
+oddaj przed terminem podanym przez prowadzącego.
 </div>
 <div class="start">
 <p><strong>Start:</strong> na tym spotkaniu skrypt startowy ładuje trzy
@@ -599,9 +599,104 @@ Shapiro–Wilka nie odrzuca normalności czasu (p = 0,66), ale odrzuca ją
 dla oceny (p &lt; 0,001); w opisie łączysz wynik testu z wykresem.</p>
 </div>
 </div>
-<div id="ćwiczenie-4.3.-szybki-przegląd-zmiennych-z-explore"
+<div id="ćwiczenie-4.3.-wartości-odstające-wykrycie-obejrzenie-decyzja"
 class="section level3">
-<h3>Ćwiczenie 4.3. Szybki przegląd zmiennych z explore</h3>
+<h3>Ćwiczenie 4.3. Wartości odstające: wykrycie, obejrzenie,
+decyzja</h3>
+<div class="brief">
+<p><strong>Cel:</strong> Wskażesz zmienne i wiersze z wartościami
+odstającymi, obejrzysz je w kontekście pozostałych kolumn i porównasz
+skutki decyzji: zostawić, przyciąć albo zastąpić.</p>
+<p><strong>Polecenie:</strong> Wskaż zmienne z wartościami odstającymi
+funkcją <code>find_outliers()</code>, wyznacz granice reguły 1,5 IQR dla
+czasu i wypisz wiersze poza granicami. Następnie uruchom
+<code>imputate_outlier()</code> dla czasu metodą <code>"capping"</code>,
+obejrzyj <code>summary()</code> i <code>plot()</code> wyniku i porównaj
+średnią przed i po. Zapisz decyzję: która wartość zostaje w danych,
+która się zmienia i dlaczego.</p>
+</div>
+<p><code>dlookr</code> uznaje za odstającą wartość leżącą poza wąsami
+wykresu pudełkowego, czyli poniżej Q1 − 1,5 · IQR albo powyżej Q3 + 1,5
+· IQR; tę samą regułę stosują <code>diagnose_numeric()</code> i
+<code>diagnose_outlier()</code> z ćwiczenia 4.1.
+<code>find_outliers()</code> zwraca nazwy (albo numery) zmiennych, w
+których taka wartość występuje; wiersze wyszukujesz samodzielnie filtrem
+z granicami. <code>imputate_outlier()</code> tworzy kopię zmiennej z
+podmienionymi wartościami odstającymi: metoda <code>"capping"</code>
+przycina je do 5. i 95. percentyla, a metody <code>"mean"</code>,
+<code>"median"</code> i <code>"mode"</code> zastępują je jedną miarą
+położenia. Wynik ma klasę <code>imputation</code>, więc
+<code>summary()</code> zestawia statystyki przed i po, a
+<code>plot()</code> rysuje oba rozkłady. Oryginalna kolumna pozostaje
+bez zmian; decyzja o danych należy do Ciebie, a reguła tylko wskazuje
+kandydatów.</p>
+<pre class="r"><code>dlookr::find_outliers(zgloszenia_analiza, index = FALSE)
+granice &lt;- quantile(zgloszenia_analiza$czas_min, c(0.25, 0.75), na.rm = TRUE) +
+  c(-1.5, 1.5) * IQR(zgloszenia_analiza$czas_min, na.rm = TRUE)
+granice
+zgloszenia_analiza |&gt;
+  filter(czas_min &lt; granice[1] | czas_min &gt; granice[2])
+czas_cap &lt;- dlookr::imputate_outlier(zgloszenia_analiza, czas_min, method = &quot;capping&quot;)
+summary(czas_cap)
+plot(czas_cap)
+c(przed = mean(zgloszenia_analiza$czas_min, na.rm = TRUE), po = mean(czas_cap, na.rm = TRUE))</code></pre>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="42%" />
+<col width="35%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Funkcja</th>
+<th align="left">Najważniejsze argumenty</th>
+<th align="left">Wynik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>find_outliers(.data, index, rate)</code></td>
+<td align="left">ramka; <code>index = FALSE</code> zwraca nazwy;
+<code>rate = TRUE</code> dodaje udział wartości odstających</td>
+<td align="left">zmienne z wartościami odstającymi</td>
+</tr>
+<tr class="even">
+<td align="left"><code>imputate_outlier(.data, xvar, method)</code></td>
+<td align="left">ramka; zmienna; <code>method</code>:
+<code>"capping"</code>, <code>"mean"</code>, <code>"median"</code>,
+<code>"mode"</code>; <code>cap_ntiles</code> — percentyle
+przycięcia</td>
+<td align="left">kopia zmiennej klasy <code>imputation</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>summary(imputation)</code>,
+<code>plot(imputation)</code></td>
+<td align="left">wynik <code>imputate_outlier()</code></td>
+<td align="left">statystyki i wykresy rozkładu przed i po podmianie</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sprawdź i zmień.</strong> Uruchom
+<code>find_outliers()</code> dla danych surowych
+<code>zgloszenia</code>: dlaczego czasy −5 i 190 minut z diagnozy w
+ćwiczeniu 4.1 już nie pojawiają się w <code>zgloszenia_analiza</code>?
+Zmień metodę na <code>"median"</code> i porównaj <code>summary()</code>:
+która metoda mocniej zmienia odchylenie standardowe? Wyznacz granice
+reguły dla <code>ocena</code>: dlaczego oceny równe 1 wypadają poza
+dolną granicę, choć leżą na skali?</p>
+<div class="criteria">
+<p><strong>Kryteria sukcesu:</strong> <code>find_outliers()</code>
+wskazuje wyłącznie <code>czas_min</code>; granice wynoszą −3,5 i 72,5
+minuty, a poza nimi leży jeden wiersz (zgłoszenie Z0173, Telefon, 75
+minut); przycięcie zamienia 75 na 57,15 minuty (95. percentyl), a
+średnia spada z 34,70 do 34,63 minuty; w decyzji piszesz, że 75 minut
+jest wartością możliwą i zostaje w danych, a kopia z przycięciem służy
+do sprawdzenia, czy wynik analizy od niej zależy.</p>
+</div>
+</div>
+<div id="ćwiczenie-4.4.-szybki-przegląd-zmiennych-z-explore"
+class="section level3">
+<h3>Ćwiczenie 4.4. Szybki przegląd zmiennych z explore</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Przejrzysz wszystkie zmienne i ich związek ze
 zmienną wynikową jednym poleceniem na zmienną.</p>
@@ -683,9 +778,9 @@ szablonie zapisujesz jedną hipotezę do sprawdzenia, wynikającą z
 wykresów.</p>
 </div>
 </div>
-<div id="ćwiczenie-4.4.-porównania-i-zależności-z-ggstatsplot"
+<div id="ćwiczenie-4.5.-porównania-i-zależności-z-ggstatsplot"
 class="section level3">
-<h3>Ćwiczenie 4.4. Porównania i zależności z ggstatsplot</h3>
+<h3>Ćwiczenie 4.5. Porównania i zależności z ggstatsplot</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Odczytasz wynik testu z podpisu wykresu,
 pobierzesz go funkcją <code>extract_stats()</code> i sprawdzisz
@@ -801,11 +896,11 @@ czasem; test Welcha daje t ≈ 1,98, p ≈ 0,049, a różnica średnich wynosi
 2,81, p = 0,25; korelacja czasu i kosztu to 0,96 (n = 237).</p>
 </div>
 </div>
-<div id="ćwiczenie-4.5.-raport-automatyczny" class="section level3">
-<h3>Ćwiczenie 4.5. Raport automatyczny</h3>
+<div id="ćwiczenie-4.6.-raport-automatyczny" class="section level3">
+<h3>Ćwiczenie 4.6. Raport automatyczny</h3>
 <div class="brief" szablon="eval=FALSE">
 <p><strong>Cel:</strong> Wygenerujesz raport EDA w HTML i poznasz jego
-strukturę, zanim ocenisz jego wartość w zadaniu 4.6.</p>
+strukturę, zanim ocenisz jego wartość w zadaniu 4.7.</p>
 <p><strong>Polecenie:</strong> W konsoli wygeneruj raport
 <code>dlookr::eda_web_report()</code> do pliku
 <code>wyniki/eda.html</code> i otwórz go w przeglądarce. W szablonie
@@ -875,12 +970,12 @@ bloku z <code>eval=FALSE</code> i listę sekcji raportu.</p>
 </div>
 <div id="challenge-zadania-samodzielne" class="section level2">
 <h2>Challenge — zadania samodzielne</h2>
-<p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 4.1–4.5 i
+<p>W zadaniach korzystasz wyłącznie z funkcji z ćwiczeń 4.1–4.6 i
 poprzednich spotkań. Przy każdej funkcji możesz zajrzeć do ćwiczenia, w
 którym się pojawiła, albo do jej pomocy <code>?funkcja</code>.</p>
-<div id="zadanie-4.6.-diagnoza-kosztu-i-audyt-raportu"
+<div id="zadanie-4.7.-diagnoza-kosztu-i-audyt-raportu"
 class="section level3">
-<h3>Zadanie 4.6. Diagnoza kosztu i audyt raportu</h3>
+<h3>Zadanie 4.7. Diagnoza kosztu i audyt raportu</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Samodzielnie zdiagnozujesz jedną zmienną
 liczbową i sprawdzisz dwie liczby z raportu automatycznego.</p>
@@ -910,8 +1005,8 @@ nie odrzuca normalności kosztu (p = 0,26); typy spraw mają udziały
 obliczeniami, a komentarz wskazuje ograniczenie raportu.</p>
 </div>
 </div>
-<div id="zadanie-4.7.-porównanie-trzech-kanałów" class="section level3">
-<h3>Zadanie 4.7. Porównanie trzech kanałów</h3>
+<div id="zadanie-4.8.-porównanie-trzech-kanałów" class="section level3">
+<h3>Zadanie 4.8. Porównanie trzech kanałów</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Samodzielnie przeprowadzisz porównanie więcej
 niż dwóch grup i odczytasz porównania parami.</p>
@@ -938,9 +1033,9 @@ mediany z własnego zestawienia (32, 43 i 29 minut) zgadzają się z
 wykresem.</p>
 </div>
 </div>
-<div id="zadanie-4.8.-zależności-dla-typu-sprawy-i-oceny"
+<div id="zadanie-4.9.-zależności-dla-typu-sprawy-i-oceny"
 class="section level3">
-<h3>Zadanie 4.8. Zależności dla typu sprawy i oceny</h3>
+<h3>Zadanie 4.9. Zależności dla typu sprawy i oceny</h3>
 <div class="brief">
 <p><strong>Cel:</strong> Samodzielnie zbadasz zależność kategorialną i
 liczbową narzędziami automatycznymi i ocenisz siłę dowodu.</p>
