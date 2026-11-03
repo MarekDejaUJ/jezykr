@@ -176,9 +176,10 @@ ggstatsplot::ggscatterstats(data = zgloszenia_analiza, x = czas_min, y = koszt,
 **Polecenie:** W konsoli wygeneruj raport `dlookr::eda_web_report()` do pliku `wyniki/eda.html` i otwórz go w przeglądarce. W szablonie pokaż kod w bloku z `eval=FALSE` i wypisz nazwy głównych sekcji raportu.
 :::
 
-Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu. Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną.
+Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego generuj go w konsoli, a nie podczas renderowania szablonu. Argument `output_dir` wymaga pełnej ścieżki; `normalizePath("wyniki")` zamienia ścieżkę względną na pełną. Zmienna docelowa musi być czynnikiem: kolumna `grupa` jest tekstem, a `dlookr` (wersja 0.6.5) przy tekstowej zmiennej docelowej przerywa raport w sekcji „Target Variable and Numeric Variables” błędem `object 'tabs' not found`, dlatego pierwszy wiersz zamienia `grupa` na czynnik funkcją `factor()`.
 
 ~~~{.r .bez-uruchamiania}
+zgloszenia_analiza$grupa <- factor(zgloszenia_analiza$grupa)
 dlookr::eda_web_report(zgloszenia_analiza, target = "grupa",
                        output_file = "eda.html",
                        output_dir = normalizePath("wyniki", winslash = "/"),
@@ -189,7 +190,7 @@ explore::report(zgloszenia_analiza, output_file = "explore.html",
 
 | Argument | Znaczenie |
 |:------------------|:--------------------------------------------------------------|
-| `target` | zmienna docelowa (w `dlookr` jako tekst); raport dodaje porównania względem niej |
+| `target` | nazwa zmiennej docelowej (w `dlookr` jako tekst); kolumna musi być czynnikiem; raport dodaje porównania względem niej |
 | `output_file`, `output_dir` | nazwa pliku i pełna ścieżka folderu |
 | `browse` | `TRUE` otwiera raport od razu w przeglądarce |
 | `title`, `subtitle`, `author` | opisy strony tytułowej |

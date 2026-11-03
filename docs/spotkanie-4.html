@@ -13,7 +13,7 @@
 
 <title>Spotkanie 4: eksploracyjna analiza danych</title>
 
-<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -815,9 +815,15 @@ sekcji raportu.</p>
 <p>Raport automatyczny powstaje z osobnego dokumentu R Markdown, dlatego
 generuj go w konsoli, a nie podczas renderowania szablonu. Argument
 <code>output_dir</code> wymaga pełnej ścieżki;
-<code>normalizePath("wyniki")</code> zamienia ścieżkę względną na
-pełną.</p>
-<pre class="r bez-uruchamiania"><code>dlookr::eda_web_report(zgloszenia_analiza, target = &quot;grupa&quot;,
+<code>normalizePath("wyniki")</code> zamienia ścieżkę względną na pełną.
+Zmienna docelowa musi być czynnikiem: kolumna <code>grupa</code> jest
+tekstem, a <code>dlookr</code> (wersja 0.6.5) przy tekstowej zmiennej
+docelowej przerywa raport w sekcji „Target Variable and Numeric
+Variables” błędem <code>object 'tabs' not found</code>, dlatego pierwszy
+wiersz zamienia <code>grupa</code> na czynnik funkcją
+<code>factor()</code>.</p>
+<pre class="r bez-uruchamiania"><code>zgloszenia_analiza$grupa &lt;- factor(zgloszenia_analiza$grupa)
+dlookr::eda_web_report(zgloszenia_analiza, target = &quot;grupa&quot;,
                        output_file = &quot;eda.html&quot;,
                        output_dir = normalizePath(&quot;wyniki&quot;, winslash = &quot;/&quot;),
                        title = &quot;Eksploracja zgłoszeń&quot;, browse = FALSE)
@@ -837,8 +843,9 @@ explore::report(zgloszenia_analiza, output_file = &quot;explore.html&quot;,
 <tbody>
 <tr class="odd">
 <td align="left"><code>target</code></td>
-<td align="left">zmienna docelowa (w <code>dlookr</code> jako tekst);
-raport dodaje porównania względem niej</td>
+<td align="left">nazwa zmiennej docelowej (w <code>dlookr</code> jako
+tekst); kolumna musi być czynnikiem; raport dodaje porównania względem
+niej</td>
 </tr>
 <tr class="even">
 <td align="left"><code>output_file</code>, <code>output_dir</code></td>
